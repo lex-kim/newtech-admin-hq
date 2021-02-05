@@ -1,0 +1,9 @@
+<?php
+  require $_SERVER['DOCUMENT_ROOT']."/include/headerShop.html";
+  require $_SERVER['DOCUMENT_ROOT']."/common/indicator.php";
+
+  require "controller/NotReceivedStatusController.php";
+ 
+  $cNotReceivedStatusController = new NotReceivedStatusController(['CONTRACT_TYPE']);
+  $cNotReceivedStatusController->index();
+?>

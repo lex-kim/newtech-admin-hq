@@ -1,0 +1,54 @@
+<?php
+  require $_SERVER['DOCUMENT_ROOT']."/include/headerpopup.html";
+  $addText = 'add';
+  $type = $_REQUEST['type'];
+  if($type != $addText){
+    $mgg = $_REQUEST['MGG_ID'];
+    $nm = $_REQUEST['MGG_NM'];
+    if($type == 'update'){
+      $rst = $_REQUEST['RST_ID'];
+      $nih = $_REQUEST['NIH_DT'];
+    }
+  }
+?>
+
+<div class="popup-dialog">
+<form method="post" name="enrollForm" id="enrollForm">
+<input type="hidden" class="form-control" id="REQ_MODE" name="REQ_MODE">
+  <div class="popup-header">
+      <h3 class="popup-title">입출고 등록</h3>
+  </div>
+
+  <input type="hidden" id="type" value="<?php echo $type?>"/>
+  <?php if($type !== $addText) : ?>
+    <!-- 수정사항일 경우 해당 아이디 -->
+    <input type="hidden" id="mgg" value="<?php echo $mgg?>"/>
+    <input type="hidden" id="nm" value="<?php echo $nm?>"/>
+    <?php if($type !== 'trans') : ?>
+      <input type="hidden" id="rst" value="<?php echo $rst?>"/>
+      <input type="hidden" id="nih" value="<?php echo $nih?>"/>
+    <?php endif; ?>
+  <?php endif; ?>
+  <!-- 입출고등록 컨텐츠  -->
+  <?php	require "./receiptContent.html"; ?>
+
+  <!-- modal 하단 -->
+  <div class="modal-footer">
+    <!-- <div class="text-left">
+        <button type="button" class="btn btn-danger" id="btnDelete" data-toggle="modal" data-target="#delet-modal">삭제</button>
+    </div> -->
+    <div class="text-right">
+        <!-- 등록btn -->
+        <?php if($AUTH_CREATE == YN_Y) :?>
+        <button type="submit" class="btn btn-primary" id="submitBtn">등록</button>
+        <?php endif; ?>
+        <!-- 취소btn -->
+        <button type="button" class="btn btn-default" onclick="window.close();">취소</button>
+    </div>
+  </div>
+</form>
+</div>
+
+<?php
+  require $_SERVER['DOCUMENT_ROOT']."/include/footerpopup.html";
+?>

@@ -1,0 +1,80 @@
+<?php
+
+    header("Content-Type: application/vnd.ms-excel");
+    date_default_timezone_set('Asia/Seoul');
+
+    header("Content-Disposition: attachment; filename=".date("YmdH", time())."_일괄입금확인.xls");
+    header("Content-Description: NewtechSystem");
+
+    require $_SERVER['DOCUMENT_ROOT']."/common/common.php";	
+    require "class/clsConfirmBundle.php";
+
+    $data =  $cBundle->getDetailList($_REQUEST);
+
+    $result = $data[0];
+    $excelHtml = "
+        <table border='1'>
+            <thead>
+                <tr >
+                    <th class='text-center' colspan='9'>청구정보</th>
+                    <th class='text-center' colspan='5'>업로드 상세정보</th>
+                  </tr>
+                  <tr class='active'>
+                      <th class='text-center'>청구일</th>
+                      <th class='text-center'>보험사</th>
+                      <th class='text-center'>접수번호</th>
+                      <th class='text-center'>담보</th>
+                      <th class='text-center'>차량번호</th>
+                      <th class='text-center'>청구금액</th>
+                      <th class='text-center'>입금여부</th>
+                      <th class='text-center'>입금여부상세</th>
+                      <th class='text-center'>매칭갯수</th>
+                      <th class='text-center'>보험사</th>
+                      <th class='text-center'>접수번호</th>
+                      <th class='text-center'>차량번호</th>
+                      <th class='text-center'>입금일</th>
+                      <th class='text-center'>입금금액</th>
+                  </tr>
+            </thead>
+    ";
+
+    foreach($result as $item) { 
+       
+        if($item['NB_ID'] != null){
+            $nbData =  explode("|",$item['DEPOSIT_NB']);
+        }else if($item['NB_INFO'] != null){
+
+            if($item['NB_CNT'] == 1){
+                $nbData =  explode("|",$item['NB_INFO']);
+            }else {
+                $nb = explode(",",$item['NB_INFO']);
+                $nbData = explode("|",$nb[0]);
+            }
+
+        }else{
+            $nbData = null;
+        }       
+        $excelHtml .= "<tr>
+           <td style='text-align:center;'>".($nbData != null ? $nbData[1]: "-")."</td>
+           <td style='text-align:left;'>".($nbData != null ? $nbData[3]: "-")."</td>
+           <td style='text-align:center;mso-number-format:\@;'>".($nbData != null ? $nbData[4]: "-")."</td>
+           <td style='text-align:center;'>".($nbData != null ? $nbData[6]: "-")."</td>
+           <td style='text-align:center;mso-number-format:\@;'>".($nbData != null ? $nbData[7]: "-")."</td>
+           <td style='text-align:right;mso-number-format:\#\,\#\#0\;'>".($nbData != null ? $nbData[8]: "-")."</td>
+           <td style='text-align:center;mso-number-format:\@;'>".($nbData != null ? $nbData[9] == YN_Y? "입금" :"미입금": "-")."</td>
+           <td style='text-align:center;mso-number-format:\@;'>".($nbData != null ? $nbData[11]: "-")."</td>
+           <td style='text-align:center;mso-number-format:\@;'>".($item['NB_ID'] != null? "처리완료":$item['NB_CNT'])."</td>
+           <td style='text-align:left;'>".$item['NHD_INSU_NM']."</td>
+           <td style='text-align:center;mso-number-format:\@;'>".$item['NHD_REGI_NUM']."</td>
+           <td style='text-align:center;mso-number-format:\@;'>".$item['NHD_CAR_NUM']."</td>
+           <td style='text-align:center;'>".$item['NHD_DEPOSIT_DT']."</td>
+           <td style='text-align:right;mso-number-format:\#\,\#\#0\;'>".$item['NHD_DEPOSIT_PRICE']."</td>
+          </tr>  
+        ";
+    }
+    $excelHtml .= "</table>";
+
+    echo "<meta content=\"application/vnd.ms-excel;charset=UTF-8;\" name=\"Content-type\">";
+    echo $excelHtml ;
+
+?>

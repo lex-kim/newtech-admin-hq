@@ -1,0 +1,165 @@
+<!-- header.html -->
+<?php
+  require $_SERVER['DOCUMENT_ROOT']."/include/header.html";
+  $idx = $_REQUEST['idx'];
+?>
+
+
+  <!-- 페이지 카테고리 -->
+  <div class="container-fluid mb20px">
+    <h3 class="nwt-category"><small>입금관리&nbsp;&nbsp;></small>일괄 입금 확인</h3>
+  </div>
+
+
+  <!-- 검색바(폼) 시작 -->
+  <div class="container-fluid nwt-search-form">
+      <div class="panel panel-default">
+          <div class="panel-body">
+            <form class="form-inline" id="searchForm">
+              <input type="hidden" id="NH_DTHMS_ID" name ="NH_DTHMS_ID" value="<?php echo $idx ?>" >
+                  <fieldset>
+                      <legend>조건검색</legend>
+
+                      <!-- 검색버튼 제외한 폼 wrap -->
+                      <div class="frm-wrap">
+                        <!-- 1st row -->
+                        <div class="row">
+                            
+                            <!-- 기간 -->
+                            <div class="col-md-2 frmGroup2">
+                                <!-- 날짜선택 -->
+                                <input type="text" class="form-control" name="START_DT_SEARCH" id="START_DT_SEARCH" autocomplete="off" placeholder="청구일입력">
+                                <span class="glyphicon glyphicon-calendar search-glypicon"></span>
+                                <label for="END_DT" class="nwt-form-label">~</label>                            
+                                <input type="text" class="form-control" name="END_DT_SEARCH" id="END_DT_SEARCH" autocomplete="off"  placeholder="청구일입력">
+                                <span class="glyphicon glyphicon-calendar search-glypicon"></span>                  
+                            </div>
+
+                            <!-- 접수번호 -->
+                            <div class="col-md-1">
+                              <label for="NBI_REGI_NUM_SEARCH" class="sr-only">접수번호</label>
+                              <input type="text" class="form-control" name="NBI_REGI_NUM_SEARCH" id="NBI_REGI_NUM_SEARCH" placeholder="접수번호 입력">                            
+                            </div>
+
+                            <!-- 차량번호 -->
+                            <div class="col-md-1">
+                              <label for="NB_CAR_NUM_SEARCH" class="sr-only">차량번호</label>
+                              <input type="text" class="form-control" name="NB_CAR_NUM_SEARCH" id="NB_CAR_NUM_SEARCH" placeholder="차량번호 입력">                            
+                            </div>
+
+                            <!-- 입금여부 -->
+                            <div class="col-md-1">
+                                <label for="DEPOSIT_YN_SEARCH" class="sr-only">입금여부</label>
+                                <select class="form-control" id="DEPOSIT_YN_SEARCH" name="DEPOSIT_YN_SEARCH">
+                                    <option value="">=입금여부=</option>
+                                    <option value="Y">입금</option>
+                                    <option value="N">미입금</option>
+                                </select>                            
+                            </div>
+
+                            <!-- 입금여부상세 -->
+                            <div class="col-md-1">
+                              <label for="DEPOSIT_DETAIL_YN_SEARCH" class="sr-only">입금여부상세</label>
+                              <select id="DEPOSIT_DETAIL_YN_SEARCH" name="DEPOSIT_DETAIL_YN_SEARCH[]"
+                                      data-style="btn-default" title="=입금여부상세="
+                                      class="form-control selectpicker" multiple
+                                      data-live-search="true" data-live-search-placeholder="Search">
+                              </select>   
+                            </div>
+                        
+                        </div>
+                      </div> 
+
+                      <!-- 검색버튼 wrap -->
+                      <div class="frm-search-wrap">
+                        <!-- 검색btn -->
+                        <div class="row">
+                            <div class="col-md-12 text-right">
+                              <button type="button" class="btn btn-primary" id="frmSearch" style="margin-top: -10px" onclick="getList()"><span class="glyphicon glyphicon-search"></span>&nbsp;검색</button>
+                            </div>
+                        </div> 
+                      </div>
+
+                  </fieldset>
+              </form>
+          </div>
+      </div>
+  </div>
+  <!-- 검색바(폼) 끝 -->
+
+
+  <!-- 테이블 상단 #perPage, btn 영역 -->
+  <div class="container-fluid nwt-table-top mb20r">
+    <div class="row">
+      
+      <!-- 리스트개수 -->
+      <?php	require $_SERVER['DOCUMENT_ROOT']."/include/listCnt.html"; ?>
+      
+      <!-- 테이블 우측 상단 btn -->
+      <div class="col-lg-6 clearfix">
+        <div class="form-inline f-right">
+
+          <!-- 일괄복원 버튼 -->
+          <button type="button" class="btn btn-default" onclick="setDepositData()">일괄입금</button>
+          <!-- 엑셀 다운로드 -->
+          <?php if($AUTH_EXCEL == YN_Y) :?>
+          <button type="button" class="btn btn-success" onclick="excelDownload()"><span class="glyphicon glyphicon-download-alt"></span>&nbsp;엑셀 다운로드</button>
+          <?php endif; ?>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+
+  <!-- 테이블 -->
+  <div class="container-fluid nwt-table" style="width: 100%;">
+    <table class="table table-bordered table-striped">
+      <thead>
+        <tr class="active">
+          <th class="text-center" rowspan="2">선택<br><input type="checkbox" id="allcheck" class="listcheck"></th>
+          <th class="text-center" colspan="9">청구정보</th>
+          <th class="text-center" colspan="5">업로드 상세정보</th>
+        </tr>
+        <tr class="active">
+            <th class="text-center">청구일</th>
+            <th class="text-center">보험사</th>
+            <th class="text-center">접수번호</th>
+            <th class="text-center">담보</th>
+            <th class="text-center">차량번호</th>
+            <th class="text-center">청구금액</th>
+            <th class="text-center">입금여부</th>
+            <th class="text-center">입금여부상세</th>
+            <th class="text-center">매칭갯수</th>
+            <th class="text-center">보험사</th>
+            <th class="text-center">접수번호</th>
+            <th class="text-center">차량번호</th>
+            <th class="text-center">입금일</th>
+            <th class="text-center">입금금액</th>
+        </tr>
+      </thead>
+      <tbody id="dataTable">
+      </tbody>
+    </table>
+  </div>
+  <input type="hidden" id="PIE_CUR_DECREMENT_RATIO" name="PIE_CUR_DECREMENT_RATIO">
+  <form id="sendDepositForm">
+  </form>
+  <!-- indicator -->
+  <?php	require $_SERVER['DOCUMENT_ROOT']."/include/indicator.html"; ?>
+  
+  <!-- pagination -->
+  <div class="container-fluid">
+    <div class="text-center">
+      <ul class="pagination">
+      </ul>
+    </div>
+  </div>
+
+  <!-- 청구정보 모달  -->
+  <?php	require "./confirmBundleDetailModal.html"; ?>
+   
+<!-- footer.html -->
+<?php
+  require $_SERVER['DOCUMENT_ROOT']."/include/footer.html";
+?>

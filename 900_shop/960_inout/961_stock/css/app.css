@@ -1,0 +1,52 @@
+/* 업로드파일 CSS */
+.excel-down-btn{
+    display: inline-block;
+    margin-right: 10px;
+}
+.table-top-uplode{
+    overflow: hidden;
+}
+.table-top-uplode > div{
+    float: left;
+}
+
+#BANK_FILE_NM{
+    height: 34px;
+    padding-top: 5px;
+    margin-right: 3px;
+}
+
+
+/* modal CSS */
+
+.modal-table{
+    width: 100%;
+}
+.modal-table .text-right > div{
+    float: left;
+}
+.optionInput{
+    width: 71%;
+    margin-right: 3px;
+}
+
+
+.modal-body .row .col-md-3{
+    position: relative;
+}
+.modal-body .row .col-md-3 .search-glypicon{
+    position: absolute;
+    top: 10px;
+    right: 25px;
+    cursor: pointer;
+}
+
+
+/* option_add_btn */
+.option_add_btn{
+    margin-bottom: 10px;
+}
+
+select.selectpicker{
+    display: block !important;
+}

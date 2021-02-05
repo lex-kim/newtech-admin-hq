@@ -1,0 +1,36 @@
+<?php
+  require $_SERVER['DOCUMENT_ROOT']."/include/headerpopup.html";
+
+  $IMG = $_POST['POPUP_IMG'];
+?>
+
+<div class="container-fluid main-popup-dialog">
+  <div class="main-popup-header">
+    <button type="button" class="close" onclick="window.close();">&times;</button> 
+    <h3 class="img-popup-title">영업사원 촬영 사진</h3>
+  </div>
+  <form method="post" name="img_form" id="img_form">
+  <input type="hidden" class="form-control" id="REQ_MODE" name="REQ_MODE">
+      
+    <div class="main-popup-content">
+        <!-- 청구서 오른쪽 영역 -->
+        <div class="popup-content">
+          <div>
+            <div>
+                <img class="popup-img-zoom" src="<?php echo $IMG?>"/>
+            </div>
+          </div>
+        </div>
+
+     
+    </div>
+
+  </form>
+</div>
+
+
+
+
+<?php
+  require $_SERVER['DOCUMENT_ROOT']."/include/footerpopup.html";
+?>

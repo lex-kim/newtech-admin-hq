@@ -1,0 +1,112 @@
+<?php
+  require $_SERVER['DOCUMENT_ROOT']."/include/headerpopup.html";
+?>
+
+
+<div class="popup-dialog">
+  <div class="popup-content">
+
+    <!-- popup 상단 -->
+    <div class="popup-header">
+      <button type="button" class="close" data-dismiss="popup">&times;</button> 
+      <h4 class="popup-title">사내게시판</h4>  
+    </div>
+
+
+    <!-- popup 내용 -->
+    <div class="popup-body">         
+        <form action="#">
+
+            <!-- 제목 -->
+            <div class="row">
+                <div class="col-md-2"><label for="TITLE">제목</label></div>
+                <div class="col-md-7">[관리] 대표 지시 및 처리 대장(181214, 물결실런트 직원 프로모션)</div>
+            </div>
+
+            <hr>
+
+            <div class="margin-bottom">
+              <!-- 글권한 -->
+              <div class="row">
+                  <div class="col-md-2"><label for="READ_AUTHORITY">글권한</label></div>
+                  <div class="col-md-7 div-bottom">영업사원</div>
+              </div>
+
+              <!-- 보험사 -->
+              <div class="row">
+                  <div class="col-md-2"><label for="INSU">보험사</label></div>
+                  <div class="col-md-3 div-bottom">
+                          <select class="form-control" name="INSU" id="INSU">
+                              <option value="">화물공제</option>
+                          </select>
+                  </div>
+                  <div class="col-md-4 div-bottom"></div>
+              </div>
+
+              <!-- 공업사 -->
+              <div class="row">
+                  <div class="col-md-2"><label for="BIZ">공업사</label></div>
+                  <div class="col-md-3 div-bottom">
+                          <select class="form-control" name="BIZ" id="BIZ">
+                              <option value="">시흥 기아시화서비스-ST</option>
+                          </select>
+                  </div>
+                  <div class="col-md-4 div-bottom"></div>
+              </div>
+
+              <!-- 게시글고정 -->
+              <div class="row">
+                  <div class="col-md-2"><label for="NOTICE_FIX">게시글고정</label></div>
+                  <div class="col-md-1 div-bottom"><input type="checkbox" value="exception" name="fix" id="fix"></div>
+                  <div class="col-md-2"><label for="READ_AUTHORITY">출력순서</label></div>
+                  <div class="col-md-2 div-bottom"></div>
+              </div>
+
+            </div>
+           
+            <hr>
+
+            <!-- 내용입력 -->
+            <div class="row">
+                <label class="col-md-2" for="CR_TITLE_TXT">내용입력</label>
+                <div class="col-md-8">
+                       <pre style="background-color: white;">  첨부물 첨부순서 
+1.)!@*
+2.
+3.
+                       </pre>
+
+                </div>
+            </div>
+
+            <!-- 첨부파일 -->
+            <div class="row">
+                <label class="col-md-2" for="CR_FILE_FN">첨부파일</label>
+                <div class="col-md-7">
+                </div>
+            </div>
+    
+    
+            
+
+        </form>
+    </div>
+
+    <!-- popup 하단 -->
+    <div class="popup-footer">
+      <div class="text-right">
+        <!-- 수정btn  -->
+        <a href="#">
+            <button type="submit" class="btn btn-default">수정</button>
+        </a>
+        <!-- 취소btn -->
+        <button type="button" class="btn btn-default" onclick="window.close();">취소</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<?php
+  require $_SERVER['DOCUMENT_ROOT']."/include/footerpopup.html";
+?>

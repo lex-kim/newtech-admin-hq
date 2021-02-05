@@ -1,0 +1,72 @@
+<?php
+
+    header("Content-Type: application/vnd.ms-excel");
+    date_default_timezone_set('Asia/Seoul');
+
+    header("Content-Disposition: attachment; filename=".date("YmdH", time())."_보험사관리.xls");
+    header("Content-Description: Newtech System");
+
+    require $_SERVER['DOCUMENT_ROOT']."/common/common.php";	
+    require "class/clsIwmngt.php";
+
+    $data =  $cIwmngt->getList($_REQUEST);
+
+    $result = $data[0];
+
+    $excelHtml = "
+        <table border='1'>
+            <thead>
+                <tr>
+                    <th style='text-align:center;' rowspan='2'>순번</th>
+                    <th style='text-align:center;' rowspan='2'>출력순서</th>
+                    <th style='text-align:center;' rowspan='2'>보험사분류</th>
+                    <th style='text-align:center;' rowspan='2'>보험사</th>
+                    <th style='text-align:center;' rowspan='2'>주소</th>
+                    <th style='text-align:center;' rowspan='2'>부품할인율</th>
+                    <th style='text-align:center;' rowspan='2'>등록일자</th>
+                    <th style='text-align:center;' colspan='6'>보상지원담당정보</th>
+                    <th style='text-align:center;' colspan='3'>보상지원부서장</th>
+                    <th style='text-align:center;' rowspan='2'>메모</th>
+                </tr>
+                <tr>
+                    <th style='text-align:center;'>부서</th>
+                    <th style='text-align:center;'>직책</th>
+                    <th style='text-align:center;'>성명</th>
+                    <th style='text-align:center;'>사무실전화</th>
+                    <th style='text-align:center;'>휴대폰</th>
+                    <th style='text-align:center;'>이메일</th>
+                    <th style='text-align:center;'>직책</th>
+                    <th style='text-align:center;'>성명</th>
+                    <th style='text-align:center;'>휴대폰</th>
+                </tr>
+            </thead>
+    ";
+
+    foreach($result as $item) { 
+        $excelHtml .= "<tr>
+                <td style='text-align:center;'>".$item['IDX']."</td>
+                <td style='text-align:center;'>".$item['MII_ORDER_NUM']."</td>
+                <td style='text-align:center;'>".$item['RIT_NM']."</td>
+                <td style='text-align:left;'>".$item['MII_NM']."</td>
+                <td style='text-align:left;'>".$item['MII_NEW_ADDRESS1']." ".$item['MII_NEW_ADDRESS2']."</td>
+                <td style='text-align:right;'>".$item['MII_DISCOUNT_RATE']."%</td>
+                <td style='text-align:center;'>".$item['MII_ENROLL_DT']."</td>
+                <td style='text-align:center;'>".$item['MII_CHG_DEPT_NM']."</td>
+                <td style='text-align:center;'>".$item['MII_CHG_LVL_NM']."</td>
+                <td style='text-align:center;'>".$item['MII_CHG_NM']."</td>
+                <td style='text-align:center;mso-number-format:\@;'>".cUtil::biz_format($item['MII_CHG_TEL1'])."</td>
+                <td style='text-align:center;mso-number-format:\@;'>".cUtil::biz_format($item['MII_CHG_TEL2'])."</td>
+                <td style='text-align:left;'>".$item['MII_CHG_EMAIL']."</td>
+                <td style='text-align:center;'>".$item['MII_BOSS_LVL_NM']."</td>
+                <td style='text-align:center;'>".$item['MII_BOSS_NM']."</td>
+                <td style='text-align:center;mso-number-format:\@;'>".cUtil::biz_format($item['MII_BOSS_TEL'])."</td>
+                <td style='text-align:left;'>".$item['MII_MEMO']."</td>
+            </tr>
+        ";
+    }
+    $excelHtml .= "</table>";
+
+    echo "<meta content=\"application/vnd.ms-excel;charset=UTF-8;\" name=\"Content-type\">";
+    echo $excelHtml ;
+
+?>

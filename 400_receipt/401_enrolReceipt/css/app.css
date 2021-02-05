@@ -1,0 +1,142 @@
+input, label, select{
+    cursor: pointer;
+}
+
+.glyphicon-search{
+    color: #fff;
+}
+.popup-dialog{
+    min-width: 1200px;
+}
+.popup-content{
+    width: 100%;
+    margin: 0 auto;    
+    overflow: hidden;
+    border-top: 1px solid #ddd;
+}
+.popup-content > div{
+    float: left;
+}
+.popup-content .popup-right{
+    width: 75%;
+}
+.popup-content .popup-left{
+    width: calc(25% - 15px);
+    margin-right: 15px;
+    margin-top: 85px;
+}
+.popup-header{
+    margin-top: 20px;
+    margin-left: 15px;
+    margin-right: 15px;
+    text-align: left;
+}
+.popup-content .popup-right{
+    margin-top: 20px;
+    text-align: left;
+}
+
+/* 공용 CSS  */
+
+.form-control{
+    height: 25px;
+    font-size: 12px;
+}
+
+.area-table{
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.area-biz{
+    margin-left: 5px;
+    padding: 15px;
+}
+
+.popup-body .row-table{
+    width: 100%;
+    /* float: right; */
+    height: 25px;
+}
+.popup-body .row-table thead tr:nth-child(1) td.borderR{
+    border: 1px solid #ddd;
+}
+
+
+.table tbody tr{
+    height: 20px;
+}
+
+/* 5.작업항목선택 */
+.table tr .greentd{
+    background-color: #EEF5E6;
+}
+.table tr .bluetd{
+    background-color: #E4F4FA;
+}
+
+
+/* popup-footer */
+.popup-footer{
+    width: 95%;
+    margin: 0 auto; 
+    padding: 20px 0px;
+    border-top: 1px solid #ddd;
+}
+
+
+
+
+/* 지역검색 */
+.search-area .search-top{
+    overflow: hidden;
+    padding: 10px;
+    border:1px solid #ddd;
+    border-bottom: 0px;
+}
+.search-area .search-top > div{
+    float: left;
+}
+.search-area .search-top .search-top-left{
+    width: 70%;
+}
+.search-area .search-top .search-top-left input{
+    margin-top: 5px;
+}
+.search-area .search-top .search-top-right{
+    width: 30%;
+}
+.search-area .search-top .search-top-right button{
+    margin-top: 30px;
+    height: 25px;
+    padding: 4px 12px !important;
+}
+.search-area .search-bottom {
+    overflow: scroll;
+}
+.search-area .search-bottom ul li{
+    padding: 3.7px 0px;
+    cursor: pointer;
+}
+
+
+
+
+.search-area .search-bottom{
+    padding: 10px;
+    border:1px solid #ddd;
+    height: 300px;
+}
+
+/* 공업사메모 */
+.memo-area .memo-title{
+    padding: 10px;
+    border:1px solid #ddd;
+    border-bottom: 0px;
+    margin-top: 10px;
+    background-color: #f5f5f5;
+}
+.memo-area .memo-content{
+    padding: 10px;
+    border:1px solid #ddd;
+}

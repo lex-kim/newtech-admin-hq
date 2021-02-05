@@ -1,0 +1,91 @@
+<!-- header.html -->
+<?php
+  require $_SERVER['DOCUMENT_ROOT']."/include/header.html";
+?>
+
+   <!-- 페이지 카테고리 -->
+   <div class="container-fluid mb20px">
+    <h3 class="nwt-category"><small>코드관리&nbsp;&nbsp;></small>고객문의 구분관리</h3>
+  </div>
+
+  <input type="hidden" id="qnaType" value="main"/>
+
+  <!-- 출력순서가 존재한다면 업데이트를 진행할지.. 업데이트 여부 -->
+  <input type="hidden" value='' id="IS_EXIST_ORDER_NUM"/>
+
+  <!-- 출력순서 업데이트 시 변동사항이 있는지.. -->
+  <input type="hidden" value='' id="ORI_MVC_ORDER_NUM"/>
+
+
+  <!-- 테이블 상단 #perPage, btn 영역 -->
+  <div class="container-fluid nwt-table-top mb20r">
+    <div class="row">
+      
+      <!-- 리스트개수 -->
+      <?php	require $_SERVER['DOCUMENT_ROOT']."/include/listCnt.html"; ?>
+      
+      <!-- 테이블 우측 상단 btn -->
+      <div class="col-lg-6 clearfix">
+        <div class="form-inline f-right">
+
+          <!-- 등록btn / modal handler -->
+          <?php if($AUTH_CREATE == YN_Y) :?>
+          <button type="button" class="btn btn-primary" id="add-new-btn" data-toggle="modal" onclick="showAddModal()">등록</button>
+          <?php endif; ?>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+
+  <!-- 테이블 -->
+  <div class="container-fluid nwt-table" style="width: 100%;"> <!--overflow-x: scroll;-->
+    <table class="table table-bordered table-striped">
+      <colgroup>
+        <col width="5%"/>
+        <col width="10%"/>
+        <col width="25%"/>
+        <col width="25%"/>
+        <col width="10%"/>
+        <col width="10%"/>
+        <?php if($AUTH_UPDATE == YN_Y) :?>
+        <col width="5%"/>
+        <?php endif; ?>
+      </colgroup>
+      <thead>
+        <tr class="active">
+            <th class="text-center">순번</th>
+            <th class="text-center">출력순서</th>
+            <th class="text-center">구분코드</th>
+            <th class="text-center">질문 구분</th>
+            <th class="text-center">등록일시</th>
+            <th class="text-center">등록자</th>
+            <?php if($AUTH_UPDATE == YN_Y) :?>
+            <th class="text-center" id="UPDATE_TABLE">수정</th>
+            <?php endif; ?>
+        </tr>
+      </thead>
+      <tbody id="qna_list_contents">
+                                                                  
+      </tbody>
+    </table>
+  </div>
+
+  <?php	require $_SERVER['DOCUMENT_ROOT']."/include/indicator.html"; ?>
+
+  <!-- pagination -->
+  <div class="container-fluid">
+    <div class="text-center">
+      <ul class="pagination">
+      
+      </ul>
+    </div>
+  </div>
+  <?php	require "qnaCateogoryModal.html"; ?>
+
+
+<!-- footer.html -->
+<?php
+  require $_SERVER['DOCUMENT_ROOT']."/include/footer.html";
+?>

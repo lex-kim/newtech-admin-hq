@@ -1,0 +1,477 @@
+
+input, label, select{
+    cursor: pointer;
+}
+
+
+.popup-content{
+    width: 98%;
+    min-width: 1462px;
+    margin: 0 auto;    
+    overflow: hidden;
+}
+.popup-content > div{
+    float: left;
+}
+.popup-content .popup-left{
+    width: 70%;
+}
+.popup-content .popup-right{
+    width: calc(30% - 30px);
+    margin-left: 30px;
+    margin-top: 20px;
+    position: relative;
+    top: 1215px;
+}
+
+
+
+.popup-content .popup-left .popup-header{
+    margin-top: 20px;
+    text-align: center;
+    
+}
+
+/* 공용 CSS  */
+
+.bill-list .form-control{
+    height: 25px;
+    font-size: 12px;
+}
+
+
+/* bill-info */
+
+.bill-info{
+    overflow: hidden;
+    padding-top: 20px;
+    margin-bottom:10px;
+    border-bottom: 1px solid #ddd
+
+}
+.bill-info > div{
+    float: left;
+    width: 25%;
+}
+.bill-info input{
+    height: 28px;
+    margin-left: 5px;
+}
+
+.bill-info .search-glypicon{
+	color: #777;
+	cursor: pointer;
+}
+
+.bill-info .search-glypicon{
+    position: relative;
+    top: 2px; 
+    left: -30px;
+    width: 0;
+}
+
+.bill-info .bill-biznm{
+    width: 50%;
+    padding-left: 15px;
+} 
+.bill-info .bill-biznm input{
+    width: 80%;
+}
+.bill-info .bill-bizcall{
+    text-align: right;
+    line-height: 28px;
+    font-weight: bold;
+}
+
+
+/* bill-list 안의 테이블 */
+.bill-list .bill-list-table{
+    margin-bottom: 20px;
+}
+.popup-left .bill-list .bill-list-table > table > tbody,
+.popup-left .bill-list .bill-list-table > .table > table > tbody,
+.popup-left .bill-list .bill-list-top table tbody{
+    border:2px solid #aaa
+}
+.bill-list .bill-list-table table tbody tr td{
+    padding: 5px;
+}
+
+/* bill-list */
+.bill-list{
+    overflow: hidden;
+}
+.bill-list .bill-list-top > *{
+    float: left;
+}
+.bill-list .bill-list-top .top-title h4{
+    color: #3881FF;
+    margin: 7px 0;
+}
+.accident .bill-list-top span{
+    line-height: 40px;
+    float: right;
+}
+
+.bill-list .bill-list-top .table{
+    width: 550px;
+    /* margin-left: 20px; */
+}
+.bill-list .bill-list-top .top-btn{
+    float: right;
+}
+
+.bill-list .bill-list-top .top-info p{
+    margin-left: 100px;
+    margin-top: 5px;
+    font-size: 13px;
+}
+.bill-list .bill-list-top .top-info p span{
+    font-size: 13px;
+}
+
+span.red{
+    color: #F7553E;
+}
+
+button{
+    height: 28px;
+    padding: 4px 12px !important;
+}
+
+
+/* 1. 과실여부 */
+.accident table.claim-agent{
+    margin: 0 auto;
+}
+.accident .bill-list-table tbody tr td label.label-left{
+    padding: 0;
+}
+.accident .bill-list-table tbody tr td label.label-left input{
+    margin-left: 10px;
+}
+
+.accident #NB_NSRSN_TABLE{
+    /* background-color: red; */
+    border:3px solid white;
+    border-spacing: 0px;
+}
+
+/* 2.보험사선택 */
+.insu-select .bill-list-top .insu-info-table{
+    margin: 0;
+}
+
+
+.insu-select .top-btn .btn{
+    font-size: 12px;
+    padding: 4px 5px !important;
+}
+
+.insu-myowncar{
+    display: block;
+}
+.insu-both{
+    display: none;
+}
+.insu-part{
+    display: none;
+}
+
+.chkFax{
+    background-color: #ffed71;
+}
+
+
+/* 3.수리차량정보 */
+.repaircar .bill-list-top{
+    overflow: hidden;
+}
+.repaircar .bill-list-top .top-btn{
+    float: left;
+    margin-left: 20px;
+}
+
+.repaircar .bill-list-table > .table{
+    float: left;
+    width: 49.5%;
+    margin-right: 1%;
+}
+.repaircar .bill-list-table > .table:nth-child(2){
+    margin-right: 0;
+}
+
+.repaircar .table:nth-child(1){
+    height: 171px;
+}
+    /* 3.수리차량정보 - 왼쪽 테이블 1,3(접수번호, 차량명)너비조절 */
+.repaircar .table:nth-child(1) tbody tr:nth-child(2) td:nth-child(2n-1){
+    width: 15%;
+}
+    /* 3.수리차량정보 - 기타사향 안내문구 */
+.repaircar .table:nth-child(2) tbody tr:nth-child(1) td .etcfont{
+    font-size: 11px;
+    margin: 0;
+}
+.repaircar .table:nth-child(2) tbody tr:nth-child(1) td P{
+    margin: 0;
+}
+    /* 3.수리차량정보 - 한글 300자제한 높이설정 */
+.repaircar .table:nth-child(2) tbody tr:nth-child(2) td{
+    height: 70px;
+}
+#NB_MEMO_TXT{
+    height: 79px;
+}
+
+
+
+/* 4-1 사용부품항목 */
+
+.useitem .bill-list-top{
+    overflow: hidden;
+}
+
+
+.useitem .bill-list-table > .table{
+    float: left;
+    width: 49.5%;
+    margin-right: 1%;
+}
+.useitem .bill-list-table > .table:nth-child(2){
+    margin-right: 0;
+}
+
+/* .useitem .bill-list-table table tbody tr td:nth-child(1){
+    width: 23%;
+}
+.useitem .bill-list-table table tbody tr td:nth-child(3){
+    width: 13%;
+}
+.useitem .bill-list-table table tbody tr td:nth-child(4){
+    width: 20%;
+} */
+
+
+/* 4-2. 기타부품 */
+.etcitem .bill-list-top .top-table{
+    float: right;
+}
+.etcitem .bill-list-top .top-table table{
+    width: 400px;
+}
+
+
+
+/* billtotal */
+.billtotal .bill-list-table .table tbody tr{
+    height: 44px;
+}
+.billtotal .bill-list-table .table tbody tr td:nth-child(2n){
+    width: 20%;
+}
+
+    /* 팩스전송대상선택 체크 영역 가로너비 */
+.billtotal .bill-list-table .table:nth-child(2) tbody tr td:nth-child(2){
+    width: 26%;
+}
+.billtotal .bill-list-table .table:nth-child(2) tbody tr td:nth-child(2) label:first-child{
+    margin-left: 10px;
+}
+
+    /* 청구서전부전송여부 */
+    .billtotal .bill-list-table .table:nth-child(2) tbody tr td:nth-child(4) label{
+        margin-left: 5px;
+    }
+.billtotal .bill-list-table .carown20-text{
+    font-size: 10px;
+}
+
+
+    /* 하단 버튼 */
+.billtotal .bill-list-btn{
+    overflow: hidden;
+    margin-bottom: 20px;
+}
+.billtotal .bill-list-btn > div {
+    float: left;
+}
+.billtotal .bill-list-btn .btnright{
+    float: right;
+}
+.billtotal .bill-list-btn .btnright .btnexcept{
+    height: 28px;
+    padding: 4px 12px;
+}
+.billtotal .bill-list-btn .btnright .btnexcept label{
+    margin-right: 5px;
+}
+.billtotal .bill-list-btn .btnright .btnexcept:hover{
+    background-color: #fff;
+    border-color: #ccc;
+}
+.billtotal .bill-list-btn .btnright .btnexcept:active{
+    background-color: #fff;
+    box-shadow: none;
+    border-color: #ccc;
+}
+
+
+.billtotal .bill-list-btn .btnright .btn-cancel{
+    background-color: #bbb;
+    color: #fff;
+}
+.billtotal .bill-list-btn .btnright .btn-cancel:hover{
+    background-color: #aaa;
+}
+.billtotal .bill-list-btn .btnright .btn-cancel:active{
+    background-color: #999;
+}
+
+
+/* 5.작업항목선택 */
+.table tr .greentd{
+    background-color: #EEF5E6;
+}
+.table tr .bluetd{
+    background-color: #E4F4FA;
+}
+
+
+.workselect table thead tr th > button{
+    padding: 2px 5px !important;
+    height: 24px;
+}
+.workselect table tbody tr:hover{
+    background-color: #f0f0f0;
+}
+.workselect table tbody tr td label{
+    margin-right: 5px;
+}
+
+    /* 표 선색에 관한 CSS */
+.workselect .table,
+.workselect .table thead{
+    border:2px solid #aaa !important;
+}
+
+.workselect .table thead tr.borderAll th,
+.workselect .table thead tr.borderB th:first-child,
+.workselect .table thead tr.borderB th:nth-child(2),
+.workselect .table tbody tr.borderAll,
+.workselect .table tbody tr.borderB td:first-child{
+    border-bottom:2px solid #aaa !important;
+}
+.workselect .table thead tr.borderB th:nth-child(2),
+.workselect .table thead tr th.borderR,
+.workselect .table tbody tr td:nth-child(2),
+.workselect .table tbody tr td:nth-child(6),
+.workselect .table tbody tr.borderB td:nth-child(3),
+.workselect .table tbody tr.borderB td:nth-child(5),
+.workselect .table tbody tr td.borderR{
+    /* border-right:2px solid #aaa */
+}
+.workselect .table tbody tr.borderB td:nth-child(2),
+.workselect .table tbody tr.borderB td:nth-child(6){
+    border-right:none;
+}
+
+.workselect .table tbody tr.borderB td.borderRno,
+.workselect .table tbody tr td.borderRno{
+    border-right:none;
+}
+
+
+
+
+
+/* 오른쪽영역 */
+.popup-right .bill-list-table table thead tr th.active,
+.popup-right .bill-list-table table tbody tr td
+{
+    font-size: 12px;
+}
+.contraststock .bill-list-table table thead tr th p{
+    font-size: 11px;
+    color: #3881FF;
+    margin: 0;
+}
+
+
+/* popup-footer */
+.popup-footer{
+    width: 98%;
+    min-width: 1462px;
+    margin: 0 auto; 
+    padding: 20px 0px;
+    border-top: 1px solid #ddd;
+}
+
+.borderTable {
+    font-weight: bolder;
+}
+.table tr .greentd_{
+    background-color: #b2dbb3;
+}
+.table tr .bluetd_{
+    background-color: #CCE9FF;
+}
+.tableLeftBorder {
+    border-left: 2px solid #aaa !important;
+}
+.tableRightBorder {
+    border-right: 2px solid #aaa !important;
+}
+
+
+/* modal */
+#overlapcheck .modal-dialog .modal-content{
+    width: 800px;
+}
+
+
+
+@media all and (min-width:768px){
+    .frmDtGroup .form-control {
+
+    }
+}
+
+* 인디케이터 css */
+.lds-ring1 {
+	display: inline-block;
+	position: relative;
+	width: 35px;
+	height: 35px;
+  }
+  .lds-ring1 div {
+	box-sizing: border-box;
+	display: block;
+	position: absolute;
+	width: 35px;
+	height: 35px;
+	margin: 6px;
+	border: 6px solid red;
+	border-radius: 50%;
+	animation: lds-ring1 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+	border-color: rgb(70, 69, 71) transparent transparent transparent;
+	/* border-color: #fff transparent transparent transparent; */
+  }
+  .lds-ring1 div:nth-child(1) {
+	animation-delay: -0.45s;
+  }
+  .lds-ring1 div:nth-child(2) {
+	animation-delay: -0.3s;
+  }
+  .lds-ring1 div:nth-child(3) {
+	animation-delay: -0.15s;
+  }
+  @keyframes lds-ring1 {
+	0% {
+	  transform: rotate(0deg);
+	}
+	100% {
+	  transform: rotate(360deg);
+	}
+  }
+

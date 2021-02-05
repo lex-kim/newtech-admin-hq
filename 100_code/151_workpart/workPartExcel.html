@@ -1,0 +1,161 @@
+<?php
+    header("Content-Type: application/vnd.ms-excel");
+    date_default_timezone_set('Asia/Seoul');
+
+    header("Content-Disposition: attachment; filename=".date("YmdH", time())."_작업항목관리.xls");
+    header("Content-Description:Newtech System");
+
+    require $_SERVER['DOCUMENT_ROOT']."/common/common.php";	
+    require "class/clsWorkpart.php";
+
+    $data =  $clsWorkpart->getList($_REQUEST);
+    $_REQUEST['REQ_MODE'] = "51120";
+    $reckonArray = $clsWorkpart->getRefInfo($_REQUEST);
+
+    $_REQUEST['REQ_MODE'] = "51130";
+    $rwppIdArray = $clsWorkpart->getRefInfo($_REQUEST);
+
+    $RWP_ID_1 = "30111";                   
+    $RWP_ID_BOTH = "30112";                
+    $RWP_ID_DOWN = "30113";                
+
+    $excelHtml = "
+    <table border='1' width='100%' style='border-collapse: collapse;overflow:wrap;'>
+            <thead>
+                <tr>
+                    <th rowspan='3'>파트</th>
+                    <th rowspan='3'>작업항목</th>
+                    <th colspan='4'>수리부위</th>
+                </tr>
+                <tr>
+                    <th colspan='2' style='white-space: nowrap'>교환</th>
+                    <th colspan='2'>판금</th>
+                </tr>
+                <tr>
+                    <th style='white-space: nowrap'><span>좌측(실내)</span></th>
+                    <th style='white-space: nowrap'><span>우측(하체)</span></th>
+                    <th><span>좌측(실내)</span></th>
+                    <th><span>우측(하체)</span></th>
+                </tr>
+            </thead>
+    ";
+
+
+    $rwppIdType = ""; 
+    $beforeRWP_NM2 = "";   
+    foreach($data as $index => $item) { 
+        $excelHtml .= "<tr>";
+
+        if($beforeRWP_NM2  != $item['RWP_NM2'] ){
+            $rowspanCount = 0;
+            foreach($data as $subItem) { 
+                if($item['RWP_NM2'] == $subItem['RWP_NM2']){
+                    $rowspanCount++;
+                }
+            }
+            $excelHtml .= "<td  rowspan='".$rowspanCount."'>".$item['RWP_NM2']."</td>";
+        }
+        $excelHtml .= "<td>".$item['RWP_NM1']."</td>";   
+
+       foreach($reckonArray as $index => $reckon){
+            if($item['RWT_ID'] == $RWP_ID_1){                 
+                $colspan = 2;
+                $limitCount = 1;
+                $rwppIdType = $rwppIdArray[0]['ID'];
+            }else if($item['RWT_ID'] == $RWP_ID_DOWN){         
+                $rwppIdType = $rwppIdArray[3]['ID'];
+                $limitCount = 2;
+                $colspan = 0;
+            }else{            
+                $colspan = 0;     
+                $limitCount = 2;       
+                $rwppIdType = "";
+            }
+            
+            for($i=0; $i<$limitCount ; ++$i){
+                $excelHtml .= "<td colspan='".$colspan."'>";  
+                if($colspan == 0){
+                    if($i == 0){    
+                        $rwppIdType = $rwppIdArray[1]['ID'];
+                    }else{      
+                        $rwppIdType = $rwppIdArray[2]['ID'];
+                    }
+                }
+                $_REQUEST['NWP_ID'] = $item['NWP_ID'];
+                $_REQUEST['RRT_ID'] = $reckon['ID'];
+                $_REQUEST['RWPP_ID'] = $rwppIdType;
+                $_REQUEST['TYPE'] = "PRIORITY";
+                $priorityData = $clsWorkpart->getData($_REQUEST);
+               
+                if(!empty($priorityData)){
+                    $excelHtml .= "우선 : ";
+                    foreach($priorityData as $prioIndex => $priority){
+                        if($prioIndex > 0){
+                            $excelHtml .= ", ";
+                        }
+                        $excelHtml .= $priority['CPP_NM_SHORT'];
+                    }
+                   
+                }
+                $excelHtml .= "<br>";
+                
+                $_REQUEST['TYPE'] = "REPLACE";
+                $replaceData = $clsWorkpart->getData($_REQUEST);
+               
+                if(!empty($replaceData)){
+                    $fromCPPCount = 0;
+                    $excelHtml .= "대체/체화 : ";
+                    $beforeReplaceId = '';
+                    foreach($replaceData as $replaceIndex => $replace){
+                        if($beforeReplaceId != $replace['FROM_CPP_ID']){
+                            $fromCPPCount = 0;
+                            if($replaceIndex > 0){
+                                $excelHtml .= "], ";
+                            }
+                            $excelHtml .= $replace['FROM_CPP_NM_SHORT']."[";
+                        }else{
+                            if($fromCPPCount > 0){
+                                $excelHtml .= ", ";
+                            }
+                        }
+                        $fromCPPCount++;
+                        $excelHtml .= $replace['TO_CPP_NM_SHORT']."(".$replace['NWE_RATIO'].")";
+                        $beforeReplaceId = $replace['FROM_CPP_ID'];
+                       
+                    }
+                    $excelHtml .= "]";
+                    
+                }
+                $excelHtml .= "<br>";
+
+                if($item['RWT_ID'] == $RWP_ID_DOWN){
+                    if($colspan == 0){
+                        if($i ==0){    
+                            $rwppIdType = $rwppIdArray[3]['ID'];
+                        }else{      
+                            $rwppIdType = $rwppIdArray[4]['ID'];
+                        }
+                    
+                    }else{
+                        $rwppIdType = '';
+                        
+                    }
+                    $_REQUEST['TYPE'] = "FLOOR";
+                    $floorData = $clsWorkpart->getData($_REQUEST);
+                    $excelHtml .= "바닥 : ";
+                    $excelHtml .= $floorData[0]['NM'];
+                }
+                $excelHtml .= "</td>";   
+            }
+       }
+    
+        $excelHtml .= "</tr>";
+        $beforeRWP_NM2 = $item['RWP_NM2'];
+        
+    }
+        
+    $excelHtml .= "</table>";
+    
+    echo "<meta content=\"application/vnd.ms-excel;charset=UTF-8;\" name=\"Content-type\">";
+    echo $excelHtml ;
+?>

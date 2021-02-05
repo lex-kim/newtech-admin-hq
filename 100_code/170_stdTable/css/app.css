@@ -1,0 +1,32 @@
+/* 파트 구분 선 */
+.nwt-table table tbody tr.borderTh th:nth-child(1),
+.nwt-table table tbody tr:nth-child(13) th:nth-child(1),
+.nwt-table table tbody tr:nth-child(14) td,
+.nwt-table table tbody tr:nth-child(25) th:nth-child(1),
+.nwt-table table tbody tr:nth-child(26) td,
+.nwt-table table tbody tr:nth-child(31) th:nth-child(1),
+.nwt-table table tbody tr:nth-child(32) td,
+.nwt-table table tbody tr:nth-child(47) th:nth-child(1),
+.nwt-table table tbody tr:nth-child(48) td{
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+    border-bottom-color: #999;
+}
+
+.nwt-table table thead tr th select:nth-child(2){
+    margin-right: 40px;
+}
+
+
+.nwt-table table tbody tr td input{
+    height: 13px;
+    font-size: 12px;
+    padding: 2px 8px;
+}
+
+table > thead > tr > th:first-child{
+    width:5%;
+}
+table > thead > tr > th.part-nm:nth-child(2){
+    width:10%;
+}

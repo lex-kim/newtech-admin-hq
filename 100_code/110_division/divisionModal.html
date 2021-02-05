@@ -1,0 +1,62 @@
+
+<!-- modal #add-new -->  
+<div class="modal fade" id="add-new" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+        <form class="form-horizontal" name="division_form" id="division_form" method="post">
+            <input type="hidden" name="REQ_MODE" id="REQ_MODE"/>
+            <!-- modal 상단 -->
+            <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button> 
+            <h4 class="modal-title">구분관리</h4>  
+            </div>
+
+
+            <!-- modal 내용 -->
+            <div class="modal-body">         
+
+                
+                <!-- 출력순서 -->
+                <div class="row">
+                <div class="col-md-3"><label for="CSD_ORDER_NUM">출력순서</label></div>
+                <div class="col-md-7"><input type="text" class="form-control" id="CSD_ORDER_NUM" name="CSD_ORDER_NUM" placeholder="출력순서 입력 (오름차순)"></div>
+                </div>
+
+
+                <!-- 구분코드 -->
+                <div class="row">
+                <div class="col-md-3"><label for="CSD_ID">구분코드</label></div>
+                <div class="col-md-7"><input type="text" class="form-control" id="CSD_ID" name="CSD_ID" placeholder="3자리 숫자, 예)001"></div>
+                </div>
+
+                <!-- 구분 -->
+                <div class="row">
+                <div class="col-md-3"><label for="CSD_NM">구분</label></div>
+                <div class="col-md-7"><input type="text" class="form-control" id="CSD_NM" name="CSD_NM" placeholder="구분명 입력"></div>
+                </div>
+                
+
+            </div>
+
+
+            <!-- modal 하단 -->
+            <div class="modal-footer">
+                <div class="text-left">
+                    <?php if($AUTH_DELETE == YN_Y) :?>
+                    <button type="button" class="btn btn-danger" id="btnDelete" onclick="confirmDelSwal()" >삭제</button>
+                    <?php endif; ?>
+                </div>
+                <div class="text-right">
+                    <!-- 등록btn -->
+                    <button type="button" class="btn btn-primary" id="submitBtn">등록</button>
+                    <!-- 취소btn -->
+                    <button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
+                </div>
+            </div>
+
+        </form>
+
+        </div>
+    </div>
+</div>
+

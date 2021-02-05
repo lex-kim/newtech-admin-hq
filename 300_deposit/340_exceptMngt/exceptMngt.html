@@ -1,0 +1,306 @@
+<!-- header.html -->
+<?php
+  require $_SERVER['DOCUMENT_ROOT']."/include/header.html";
+?>
+
+  <script src="js/setExceptOption.js"></script>
+  <!-- 페이지 카테고리 -->
+  <div class="container-fluid mb20px">
+    <h3 class="nwt-category"><small>입금관리&nbsp;&nbsp;></small>지급제외 관리</h3>
+  </div>
+
+
+  <!-- 검색바(폼) 시작 -->
+  <div class="container-fluid nwt-search-form">
+      <div class="panel panel-default">
+          <div class="panel-body">
+              <form class="form-inline" id="searchForm">
+                  <fieldset>
+                      <legend>조건검색</legend>
+
+                      <!-- 검색버튼 제외한 폼 wrap -->
+                      <div class="frm-wrap">
+                        <!-- 1st row -->
+                        <div class="row">
+                            
+                            <!-- 기간 -->
+                            <div class="col-md-2 frmGroup3">
+                              <label for="DT_KEY_SEARCH" class="sr-only">기간</label>
+                              <!-- 기간선택 -->
+                              <select class="form-control" id="DT_KEY_SEARCH" name="DT_KEY_SEARCH">
+                                <option value="">=기간=</option>                            
+                                <option value="NBI_REASON_DT">사유입력일</option>
+                                <option value="NBI_PROC_REASON_DT">사유입력처리일</option>
+                                <option value="NB_CLAIM_DT">청구일</option>
+                              </select>
+                              <!-- 날짜선택 -->
+                              <input type="text" class="form-control" name="START_DT_SEARCH" id="START_DT_SEARCH" autocomplete="off" placeholder="입력">
+                              <span class="glyphicon glyphicon-calendar search-glypicon"></span>
+                              <label for="END_DT_SEARCH" class="nwt-form-label">~</label>                            
+                              <input type="text" class="form-control" name="END_DT_SEARCH" id="END_DT_SEARCH" autocomplete="off" placeholder="입력">
+                              <span class="glyphicon glyphicon-calendar search-glypicon"></span>                            
+                            </div>
+
+                            <!-- 보험사-->
+                            <div class="col-md-1">
+                              <label for="SEARCH_INSU_NM" class="sr-only">보험사</label>
+                              <select id="SEARCH_INSU_NM" name="SEARCH_INSU_NM"
+                                      data-style="btn-default" title="=보험사="
+                                      class="form-control selectpicker" 
+                                      data-live-search="true" data-live-search-placeholder="Search">
+                              </select>                                     
+                            </div>
+
+                            <!-- 보상담당-->
+                            <div class="col-md-1">
+                              <label for="INSU_FAO_SEARCH" class="sr-only">보상담당</label>
+                              <input type="text" class="form-control" name="INSU_FAO_SEARCH" id="INSU_FAO_SEARCH" placeholder="보상담당 입력"> 
+                            </div>
+
+                            <!-- 구분 -->
+                            <div class="col-md-1">
+                              <label for="CSD_ID_SEARCH" class="sr-only">구분</label>
+                              <select id="CSD_ID_SEARCH"  name="CSD_ID_SEARCH[]" 
+                                      data-style="btn-default" title="=구분="
+                                      class="form-control selectpicker" multiple
+                                      data-live-search="true" data-live-search-placeholder="Search" >
+                                
+                            </select>                             
+                            </div>
+
+                            <!-- 지역 -->
+                            <div class="col-md-2">
+                                <label for="CRR_ID_SEARCH" class="sr-only mr10r">지역검색</label>
+                                <select id="CRR_ID_SEARCH"  name="CRR_ID_SEARCH[]" 
+                                          data-style="btn-default" title="지역검색(띄어쓰기로 시/도, 시/군/구 구분)"
+                                          class="form-control selectpicker" multiple
+                                          data-live-search="true" data-live-search-placeholder="Search" >
+                                </select>                          
+                            </div>
+                            
+                            <!-- 공업사 -->
+                            <div class="col-md-2">
+                              <label for="SEARCH_BIZ_NM" class="sr-only">공업사명</label>
+                              <select  name="SEARCH_BIZ_NM" id="SEARCH_BIZ_NM" 
+                                      data-style="btn-default" title="=공업사명="
+                                      class="form-control selectpicker" 
+                                      data-live-search="true" data-live-search-placeholder="Search">   
+                              </select>                         
+                            </div>
+
+                            <!-- 청구식 -->
+                            <div class="col-md-1">
+                                <label for="RET_ID_SEARCH" class="sr-only">청구식</label>
+                                <select id="RET_ID_SEARCH"  name="RET_ID_SEARCH[]" 
+                                        data-style="btn-default" title="=청구식="
+                                        class="form-control selectpicker" multiple
+                                        data-live-search="true" data-live-search-placeholder="Search" >
+                                </select>                            
+                            </div>
+
+
+                            <!-- 접수번호 -->
+                            <div class="col-md-1">
+                              <label for="NBI_REGI_NUM_SEARCH" class="sr-only">접수번호</label>
+                              <input type="text" class="form-control" name="NBI_REGI_NUM_SEARCH" id="NBI_REGI_NUM_SEARCH" placeholder="접수번호 입력">                            
+                            </div>
+
+                            <!-- 차량번호 -->
+                            <div class="col-md-1">
+                              <label for="NB_CAR_NUM_SEARCH" class="sr-only">차량번호</label>
+                              <input type="text" class="form-control" name="NB_CAR_NUM_SEARCH" id="NB_CAR_NUM_SEARCH" placeholder="차량번호 입력">                            
+                            </div>
+
+                        </div>
+
+                        <!-- 2nd row -->
+                        <div class="row frm-last-row">
+
+                            <!-- 차량명 -->
+                            <div class="col-md-1">
+                              <label for="CCC_NM_SEARCH" class="sr-only">차량명</label>
+                              <input type="text" class="form-control" name="CCC_NM_SEARCH" id="CCC_NM_SEARCH" placeholder="차량명 입력">                            
+                            </div>
+
+                            <!-- 담보 -->
+                            <div class="col-md-1">
+                              <label for="RLT_ID_SEARCH" class="sr-only">담보</label>
+                              <select class="form-control" id="RLT_ID_SEARCH" name="RLT_ID_SEARCH">
+                                <option value="">=담보=</option>
+                              </select>                            
+                            </div>
+
+                            <!-- 청구금액 -->
+                            <div class="col-md-2 frmGroup2">
+                              <label for="PRICE_START_SEARCH" class="sr-only">청구금액</label>                              
+                              <input type="text" class="form-control" name="PRICE_START_SEARCH" id="PRICE_START_SEARCH" onkeyup="isNumber(event)"  placeholder="청구금액" >
+                              <label for="PRICE_END_SEARCH" class="nwt-form-label">~</label>                            
+                              <input type="text" class="form-control" name="PRICE_END_SEARCH" id="PRICE_END_SEARCH" placeholder="청구금액">
+                            </div>
+
+                            <!-- 지급제외 사유상세  > MULTISELECT 입력 -->
+                            <div class="col-md-2">
+                              <label for="NBI_REASON_DTL_ID_SEARCH" class="sr-only">사유상세</label>
+                              <select id="NBI_REASON_DTL_ID_SEARCH" name="NBI_REASON_DTL_ID_SEARCH[]"
+                                      data-style="btn-default" title="=지급제외사유="
+                                      class="form-control selectpicker" multiple
+                                      data-show-subtext="true" data-live-search="true">
+                              </select>           
+                            </div>
+
+                            <!-- 전송여부 -->
+                            <div class="col-md-1">
+                              <label for="NBI_SEND_FAX_YN_SEARCH" class="sr-only">전송여부</label>
+                              <select class="form-control" id="NBI_SEND_FAX_YN_SEARCH" name="NBI_SEND_FAX_YN_SEARCH">
+                                <option value="">=전송여부=</option>
+                              </select>                            
+                            </div>
+
+                            <!-- 종결여부 -->
+                            <div class="col-md-1">
+                              <label for="NBI_INSU_DONE_YN_SEARCH" class="sr-only">종결여부</label>
+                              <select class="form-control" id="NBI_INSU_DONE_YN_SEARCH" name="NBI_INSU_DONE_YN_SEARCH">
+                                <option value="">=종결여부=</option>
+                                <option value="Y">종결</option>
+                                <option value="N">미결</option>
+                              </select>                            
+                            </div>
+
+                            <!-- 사유입력 본(아이디),보 -->
+                            <div class="col-md-1">
+                              <label for="NBI_REASON_USER_NM_SEARCH" class="sr-only">사유입력자</label>
+                              <input type="text" class="form-control" name="NBI_REASON_USER_NM_SEARCH" id="NBI_REASON_USER_NM_SEARCH" placeholder="사유입력자 입력">                       
+                            </div>
+
+
+                            <!-- 사유처리 본(아이디),보-->
+                            <div class="col-md-1">
+                              <label for="NBI_PROC_USER_NM_SEARCH" class="sr-only">사유처리자</label>
+                              <input type="text" class="form-control" name="NBI_PROC_USER_NM_SEARCH" id="NBI_PROC_USER_NM_SEARCH" placeholder="사유처리자 입력">                       
+                            </div>
+
+                            <!-- 사유처리여부> PROC 값 유무로 확인-->
+                            <div class="col-md-1">
+                              <label for="NBI_PROC_YN_SEARCH" class="sr-only">사유처리여부</label>
+                              <select class="form-control" id="NBI_PROC_YN_SEARCH" name="NBI_PROC_YN_SEARCH">
+                                <option value="">=사유처리여부=</option>
+                                <option value="Y">처리</option>
+                                <option value="N">미처리</option>
+                              </select>                            
+                            </div>
+
+                        
+                         
+
+                        </div>
+
+                      </div> 
+
+                      <!-- 검색버튼 wrap -->
+                      <div class="frm-search-wrap">
+                        <!-- 검색btn -->
+                        <div class="row">
+                            <div class="col-md-12 text-right">
+                              <button type="submit" class="btn btn-primary" id="frmSearch" style="margin-top: -10px"><span class="glyphicon glyphicon-search"></span>&nbsp;검색</button>
+                            </div>
+                        </div> 
+                      </div>
+
+                  </fieldset>
+              </form>
+          </div>
+      </div>
+  </div>
+  <!-- 검색바(폼) 끝 -->
+
+  
+  <!-- 테이블 상단 #perPage, btn 영역 -->
+  <div class="container-fluid nwt-table-top mb20r">
+    <div class="row">
+      
+      <!-- 리스트개수 -->
+      <?php	require $_SERVER['DOCUMENT_ROOT']."/include/listCnt.html"; ?>
+      
+      <!-- 테이블 우측 상단 btn -->
+      <div class="col-lg-6 clearfix">
+        <div class="form-inline f-right">
+          <!-- 엑셀 다운로드 -->
+          <?php if($AUTH_EXCEL == YN_Y) :?>
+          <button type="button" class="btn btn-success" onclick="excelDownload()"><span class="glyphicon glyphicon-download-alt"></span>&nbsp;엑셀 다운로드</button>
+          <?php endif; ?>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- 테이블 -->
+  <div class="container-fluid nwt-table" style="width: 100%;">
+    <table class="table table-bordered table-striped">
+      <thead>
+        <tr class="active">
+          <th class="text-center list-num">선택<br><input type="checkbox" value="all_check"></th>
+          <th class="text-center">순번</th>
+          <th class="text-center">공업사<br>고유코드</th>
+          <th class="text-center">청구일자</th>
+          <th class="text-center">보험사</th>
+          <th class="text-center">보험사팀</th>
+          <th class="text-center">보상담당</th>
+          <th class="text-center">휴대폰번호</th>
+          <th class="text-center">SMS</th>
+          <th class="text-center">구분</th>
+          <th class="text-center">지역</th>
+          <th class="text-center">공업사</th>
+          <th class="text-center">사업자번호</th>
+          <th class="text-center">청구식</th>
+          <th class="text-center">접수번호</th>
+          <th class="text-center">담보</th>
+          <th class="text-center">차량번호</th>
+          <th class="text-center">차량명</th>
+          <th class="text-center">청구금액</th>
+          <th class="text-center">사유입력일</th>
+          <!-- <th class="text-center table-array">사유입력일
+            <div class="arrayicon">
+              <span class="glyphicon glyphicon-chevron-up"></span>
+              <span class="glyphicon glyphicon-chevron-down"></span>
+            </div>
+          </th> -->
+          <th class="text-center">사유입력(주체)</th>
+          <th class="text-center">지급제외<br>사유상세</th>
+          <th class="text-center">사유처리일</th>
+          <th class="text-center">사유처리자<br>(주체)</th>
+          <th class="text-center">본사<br>기타메모</th>
+          <th class="text-center">보험사<br>기타메모</th>
+          <th class="text-center">전송여부</th>
+          <th class="text-center">입금처리</th>
+          <th class="text-center">입금일</th>
+          <th class="text-center">입금여부</th>
+        </tr>
+      </thead>
+      <tbody id="dataTable">
+      </tbody>
+    </table>
+  </div>
+
+  <form methode="POST" id="sendForm" action="popupSMS.html" target="smswindow">
+    <input type="hidden" id="NUM" name="NUM">
+  </form>
+  
+  <!-- indicator -->
+  <?php	require $_SERVER['DOCUMENT_ROOT']."/include/indicator.html"; ?>
+   
+  <!-- pagination -->
+  <div class="container-fluid">
+    <div class="text-center">
+      <ul class="pagination">
+      </ul>
+    </div>
+  </div>
+ 
+  <!-- 입금처리 모달  -->
+  <?php	require "../310_depositMngt/depositMngtDepositModal.html"; ?>
+
+<!-- footer.html -->
+<?php
+  require $_SERVER['DOCUMENT_ROOT']."/include/footer.html";
+?>

@@ -1,0 +1,304 @@
+<?php include $_SERVER['DOCUMENT_ROOT']."/common/common.php"; ?>
+<?php
+  $USER_AUTH_INFO = array();
+  $AUTH_CREATE = "";
+  $AUTH_READ = "";
+  $AUTH_UPDATE = "";
+  $AUTH_DELETE = "";
+  $AUTH_EXCEL = "";
+
+  if(!$_SESSION['USERID'] || $_SESSION['USERID']=="") {
+      echo "<HTML><SCRIPT>alert('로그인 하십시오'); location.href='/';</SCRIPT></HTML>";
+  }else{
+      include $_SERVER['DOCUMENT_ROOT']."/common/class/clsCommon.php"; 
+      $_REQUEST['ALLS_URI'] = $_SERVER["PHP_SELF"];
+      $USER_AUTH_INFO = $clsCommon->getUserAuthLevel($_REQUEST);
+
+      if(empty($USER_AUTH_INFO)){
+        header("Location: /000_login/error.html");
+      }else{
+        $AUTH_CREATE  = $USER_AUTH_INFO[0]['ALLS_CREATE_YN'];
+        $AUTH_READ  = $USER_AUTH_INFO[0]['ALLS_READ_YN'];
+        $AUTH_UPDATE  = $USER_AUTH_INFO[0]['ALLS_UPDATE_YN'];
+        $AUTH_DELETE  = $USER_AUTH_INFO[0]['ALLS_DELETE_YN'];
+        $AUTH_EXCEL  = $USER_AUTH_INFO[0]['ALLS_EXCEL_YN']; 
+        $params1 = "NUI_1ST=".iconv('utf-8','euc-kr',  $USER_AUTH_INFO[0]['NUI_1ST']);
+        $params2 = "&NUI_2ND=".iconv('utf-8','euc-kr', $USER_AUTH_INFO[0]['NUI_2ND']);
+        $params3 = "&NUI_3RD=".iconv('utf-8','euc-kr', $USER_AUTH_INFO[0]['NUI_3RD']);
+        $params4 = "&NUI_4TH=".iconv('utf-8','euc-kr', $USER_AUTH_INFO[0]['NUI_4TH']);
+        $params5 = "&TYPE=";
+        if($AUTH_READ  == 'N'){
+          header("Location: /000_login/notRead.html?".$params1.$params2.$params3.$params4.$params5);
+        }
+      }      
+  }
+?>
+
+<!DOCTYPE html>
+  <html lang="ko">
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="cache-control" content="no-cache">
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv='Content-type' content='text/html; charset=utf-8'>
+    <meta http-equiv="cache-control" content="no-cache, must-revalidate">
+    <meta http-equiv="pragma" content="no-cache">
+    <title>NEWTECH - 관리자시스템</title>
+
+    
+    <!-- favicon -->
+    <link rel="icon" href="/images/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon">
+
+
+    <!-- Bootstrap v3.3.7 스타일 -->
+    <link rel="stylesheet" href="/bootstrap/css/bootstrap-theme.css">
+    <link rel="stylesheet" href="/bootstrap/css/bootstrap.css">
+
+    <!-- multiselect.css -->
+    <link rel="stylesheet" href="/bootstrap/css/bootstrap-select.min.css">
+
+    <!-- 캘린더CSS -->
+    <link rel="stylesheet" href="/css/jquery-ui.css">
+    
+    <!-- editor CSS -->
+    <link rel="stylesheet" href="/summernote/summernote.css"> 
+
+    
+    <!-- 공통 스타일 -->
+    <link rel="stylesheet" href="/css/common.css">
+    <!-- 페이지별 스타일 -->
+    <link rel="stylesheet" href="css/app.css">
+
+  </head>
+
+  <body>
+    <header>
+    <!-- 헤더 상단 탭메뉴 -->
+    <div class="navTop">
+      <div class="container-fluid">
+        <ul>
+          <li><a href="/001_guide/systemGuide.html">시스템 설정 및 이용안내</a></li>
+          <li><a href="/001_guide/billGuide.html">부품대금 청구서 작성방법</a></li>
+          <li><a href="/001_guide/printGuide.html">시스템 인쇄 설정 안내</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- navbar 시작 -->
+    <div class="navbar">
+      <div class="container-fluid">
+        
+        <!-- logo -->
+        <div class="navbar-header">
+          <a class="navbar-brand" href="#">NEWTECH</a>
+        </div>
+
+        
+        <!-- 메인메뉴 -->
+        <ul class="nav navbar-nav">         
+
+          <!-- 청구서작성btn -->
+          <li class="claimbtn">
+            <a href="/200_billMngt/210_writeBill/writeBill.html"
+                onclick="window.open('/200_billMngt/210_writeBill/writeBill.html', 
+                'newwindow', 
+                'width=1500,height=1000'); 
+                return false;" 
+            >
+              <button type="button" class="btn btn-default navbar-btn">청구서작성</button>
+            </a>
+          </li>
+
+          <!-- 청구서관리 -->
+          <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">청구서관리<span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <li><a href="/200_billMngt/220_sendList/sendList.html">청구서 전송 내역</a></li>
+              <li><a href="/200_billMngt/230_writeStatus/writeStatus.html">청구서 작성 현황</a></li>
+              <li><a href="/200_billMngt/240_carCompList/carCompList.html">차량부품 견적서 내역</a></li>
+              <li><a href="/200_billMngt/250_gwBillNum/gwBillNum.html">공업사 월별 청구건수 현황</a></li>
+              <li><a href="/200_billMngt/260_iwList/iwList.html">보험사 청구건수 현황</a></li>
+              <li><a href="/200_billMngt/270_gwWorks/gwWorks.html">공업사 작업항목 현황</a></li>
+              <li><a href="/200_billMngt/280_billBin/billBin.html">청구서 휴지통</a></li>
+            </ul>
+          </li>
+
+          <!-- 입금관리 -->
+          <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">입금관리<span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <li><a href="/300_deposit/310_depositMngt/depositMngt.html">입금관리</a></li>
+              <li><a href="/300_deposit/320_confirmBundle/confirmBundle.html">일괄 입금 확인</a></li>
+              <li><a href="/300_deposit/330_transmit/transmit.html">이첩관리</a></li>
+              <li><a href="/300_deposit/340_exceptMngt/exceptMngt.html">지급제외 관리</a></li>
+              <li><a href="/300_deposit/350_statistics/351_statisticsMain/statistics.html">미지급 및 감액건 통계</a></li>
+              <li><a href="/300_deposit/361_depositGw/depositGw.html">공업사 입금 현황</a></li>
+              <li><a href="/300_deposit/362_depositCar/depositCar.html">공업사 차주입금 현황</a></li>
+              <li><a href="/300_deposit/363_depositIw/depositIw.html">보험사 청구 및 입금 현황</a></li>
+              <li><a href="/300_deposit/370_claimGw/claimGw.html">공업사 월별 청구현황</a></li>
+            </ul>
+          </li>          
+        
+          <!-- 입출고관리 -->
+          <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">입출고관리<span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <li>
+                <a href="/400_receipt/401_enrolReceipt/enrolReceipt.html?type=add" 
+                  onclick="window.open('/400_receipt/401_enrolReceipt/enrolReceipt.html?type=add', 
+                  'enrolReceipt', 
+                  'width=1500,height=920'); 
+                  return false;" 
+                  target="_blank">입출고 등록
+                </a>
+              </li>
+              <li><a href="/400_receipt/410_specification/specification.html">거래명세서 조회</a></li>
+              <li><a href="/400_receipt/420_attachedInfo/attachedInfo.html">첨부정보 조회</a></li>
+              <li><a href="/400_receipt/430_gwInventory/gwInventory.html">공업사 재고 현황</a></li>
+              <li><a href="/400_receipt/440_billInventory/billInventory.html">청구 대비 재고 현황</a></li>
+              <li><a href="/400_receipt/450_mngtReceipt/mngtReceipt.html">공업사 입출고 관리</a></li>
+            </ul>
+          </li> 
+
+          <!-- 공업사관리 -->
+          <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">공업사관리<span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <li>
+                <a href="/500_gw/510_gwMngt/gwMngt.html">공업사관리</a>
+                <a href="/500_gw/520_gwState/gwState.html">공업사현황</a>
+                <a href="/500_gw/531_gwFao/gwFao.html">공업사 담당자관리</a>
+                <a href="/500_gw/532_gwCpst/gwCpst.html">공업사 보상담당관리</a>
+                <a href="/500_gw/540_cpstState/cpstState.html">보상담당 현황판</a>
+                <a href="/500_gw/550_useComp/useComp.html">사용부품관리</a>
+                <a href="/500_gw/570_visitingDay/visitingDay.html">임원방문일 일괄등록</a>
+              </li>
+            </ul>
+          </li>  
+
+          <!-- 보험사관리 -->
+          <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">보험사관리<span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <li><a href="/600_iw/610_iwMngt/iwMngt.html">보험사 관리</a></li>
+              <li><a href="/600_iw/620_iwTeam/iwTeam.html">보험사 팀관리</a></li>
+              <li><a href="/600_iw/630_iwFaoMngt/iwFaoMngt.html">보험사 보상담당관리</a></li>
+            </ul>
+          </li>           
+ 
+          <!-- 영업관리 -->
+          <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">영업관리<span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <li><a href="/700_sa/710_saState/saState.html">영업관리 현황</a></li>
+              <li><a href="/700_sa/720_visitingGw/visitingGw.html">공업사 방문 내역</a></li>
+              <li><a href="/700_sa/730_flucState/flucState.html">거래처 변동 현황</a></li>
+              <!-- <li><a href="/700_sa/741_compMngt/compMngt.html">부품관리</a></li> -->
+              <!-- <li><a href="/700_sa/742_storeMngt/storeMngt.html">판매처관리</a></li> -->
+              <!-- <li><a href="/700_sa/743_saMngt/saMngt.html">일반판매관리</a></li> -->
+              <!-- <li><a href="/700_sa/744_consiMngt/consiMngt.html">위탁장비 관리</a></li> -->
+              <li class="divider"></li>
+              <li class="dropdown-header">위탁장비관리</li>
+              <li><a href="/700_sa/740_consign/741_category/category.html">-위탁장비 구분관리</a></li>
+              <li><a href="/700_sa/740_consign/742_purchase/purchase.html">-위탁장비 매입관리</a></li>
+              <li><a href="/700_sa/740_consign/743_receipt/receipt.html">-위탁장비 입출고관리</a></li>
+              <li><a href="/700_sa/740_consign/744_state/state.html">-위탁장비 현황</a></li>
+            </ul>
+          </li>    
+
+          <!-- 게시판관리 -->
+          <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">게시판관리<span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <li><a href="/800_board/810_notice/notice.html">공지사항</a></li>
+              <li><a href="/800_board/820_operation/operation.html">사내게시판</a></li>
+              <li><a href="/800_board/830_qna/qna.html">문의답변</a></li>
+              <li><a href="/800_board/840_loginpopup/loginpopup.html">로그인화면 팝업 관리</a></li>
+            </ul>
+          </li>     
+          
+          <!-- 쇼핑몰관리 -->
+          <!-- <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">쇼핑몰관리<span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <li class="dropdown-header">쇼핑몰관리</li>
+              <li><a href="/900_shop/910_mngt/911_buyMngt/buyMngt.html">-매입처관리</a></li>
+              <li><a href="/900_shop/910_mngt/912_productCategory/productCategory.html">-상품카테고리 관리</a></li>
+              <li><a href="/900_shop/910_mngt/913_product/product.html">-상품관리</a></li>
+              <li><a href="/900_shop/910_mngt/914_deposit/deposit.html">-입출고관리</a></li>
+              <li><a href="/900_shop/910_mngt/915_gradeMngt/gradeMngt.html">-등급관리</a></li>
+              <li class="divider"></li>
+              <li class="dropdown-header">현황통계</li>
+              <li><a href="/900_shop/920_statistics/921_purchase/purchase.html">-매입처별 제품거래 통계</a></li>
+              <li><a href="/900_shop/920_statistics/922_sales/sales.html">-매출처별 제품거래 통계</a></li>
+              <li><a href="/900_shop/920_statistics/923_product/product.html">-제품별 매입/매출 통계</a></li>
+              <li><a href="/900_shop/920_statistics/924_total/total.html">-매출처별 결재수단 통계</a></li>
+              <li class="divider"></li>
+              <li class="dropdown-header">포인트관리</li>
+              <li><a href="/900_shop/930_point/931_pointMngt/pointMngt.html">-포인트관리</a></li>
+              <li><a href="/900_shop/930_point/932_calculate/calculate.html">-포인트정산</a></li>
+              <li><a href="/900_shop/930_point/935_pointState/pointState.html">-포인트현황</a></li>
+              <li><a href="/900_shop/930_point/933_extinction/extinction.html">-소멸예정포인트</a></li>
+              <li><a href="/900_shop/930_point/934_policy/policy.html">-포인트적립정책</a></li>
+              <li class="divider"></li>
+              <li><a href="/900_shop/910_mngt/916_info/info.html">정보관리</a></li>
+              <li><a href="/900_shop/910_mngt/917_join/join.html">가입관리</a></li>
+              <li class="divider"></li>
+              <li><a href="/900_shop/940_orderMngt/942_estimate/estimate.html">견적서 관리</a></li>
+              <li><a href="/900_shop/940_orderMngt/941_orderMngt/orderMngt.html">주문관리</a></li>
+              <li><a href="/900_shop/940_orderMngt/943_purchase/purchase.html">발주서 관리</a></li>
+            </ul>
+          </li>   -->
+          
+          
+        </ul>
+        <!-- 메인메뉴 끝 -->
+
+      
+        <!-- navbar 우측 코드관리, 유저, 로그인&로그아웃 -->
+        <ul class="nav navbar-nav navbar-right">
+          <li class="claimbtn">
+            <a href="/900_shop/940_orderMngt/941_orderList/orderList.php" target="_blank"
+                onclick="location.href('/900_shop/940_orderMngt/941_orderList/orderList.php');" 
+            >
+              <button type="button" class="btn btn-default navbar-btn">쇼핑몰관리</button>
+            </a>
+          </li>
+          <!-- 주소록 -->
+          <li><a href="/100_code/190_autoaddress/autoaddress.html"><span class="glyphicon glyphicon-earphone"></span>&nbsp;주소록</a></li>
+
+          <!-- 코드관리 -->
+          <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-tasks"></span>&nbsp;코드관리</a>
+            <ul class="dropdown-menu">
+              <li><a href="/100_code/110_division/division.html">구분관리</a></li>
+              <li><a href="/100_code/120_bbscategory/bbscategory.html">사내게시판 구분관리</a></li>
+              <li><a href="/100_code/121_qnacategory/qnacategory.html">고객문의 구분관리</a></li>
+              <li><a href="/100_code/130_region/region.html">지역관리</a></li>
+              <li class="divider"></li>
+              <li><a href="/100_code/140_admin/admin.html">시스템관리자</a></li>
+              <li><a href="/100_code/141_authority/authority.html">권한관리</a></li>
+              <li><a href="/100_code/142_account/account.html">계정관리</a></li>
+              <li><a href="/100_code/150_stdcomp/stdcomp.html">기준부품관리</a></li>
+              <li><a href="/100_code/151_workpart/workpart.html">작업항목관리</a></li>
+              <li><a href="/100_code/152_handlecomp/handlecomp.html">취급부품관리</a></li>
+              <li><a href="/100_code/160_carmngt/carmngt.html">차량관리</a></li>
+              <li class="divider"></li>
+              <li><a href="/100_code/170_stdTable/stdTable.html">기준부품조견표관리</a></li>
+              <li><a href="/100_code/171_exchTable/exchTable.html">환산부품조견표관리</a></li>
+              <li class="divider"></li>
+              <li class="dropdown-header">정책설정</li>
+              <li><a href="/100_code/180_policy/181_standard/standard.html">- 보상담당분류기준</a></li>
+              <li><a href="/100_code/180_policy/182_limit/limit.html">- 청구금액한도설정</a></li> 
+              <li><a href="/100_code/180_policy/183_reduce/reduce.html">- 감액사유 자동요청 설정</a></li>  
+              <li><a href="/100_code/180_policy/184_sales/sales.html">- 영업관리정책설정</a></li>           
+            </ul>
+          </li>
+          
+          <!-- user -->
+          <li><a href="#"><span class="glyphicon glyphicon-user"></span>&nbsp;<?php echo $_SESSION['AUTH_LEVEL']." ".$_SESSION['USER_NAME']."(".$_SESSION['USERID'].")" ?> </a></li>
+
+          <!-- login&logout -->
+          <li class="nwt-navbar-btn-list"><button type="button" class="btn btn-primary navbar-btn" onclick="confirmLogout()">로그아웃</button></li>
+
+        </ul>
+      </div>
+    </div>
+    <!-- navbar 끝 -->
+    </header>
+    <div class="h-height"></div>

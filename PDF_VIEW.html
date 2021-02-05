@@ -1,0 +1,840 @@
+<?php
+    require $_SERVER['DOCUMENT_ROOT']."/common/common.php";	
+	require $_SERVER['DOCUMENT_ROOT']."/common/class/clsCommon.php";				
+    require $_SERVER['DOCUMENT_ROOT']."/common/class/clsBillInfo.php";				
+    $NB_ID = $_REQUEST['NB_ID'];
+    $TYPE = $_REQUEST['TYPE'];
+    $SIGN_IMG_PATH = ($_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https' ? 'https' : 'http') . '://'.$_SERVER['HTTP_HOST']."/images/sign.png";
+    $INC_CHECK_IMG_PATH = ($_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https' ? 'https' : 'http') . '://'.$_SERVER['HTTP_HOST']."/images/checkbox_checked.png";
+    $WORK_COLSPAN = 0;  
+    
+    $BILL_INFO = $clsBillInfo->getList($_REQUEST);   
+   
+    $BILL = $BILL_INFO[0];
+    $BILL_WORK = $BILL_INFO[1];
+    $BILL_PARTS = $BILL_INFO[2];
+	$BILL_WORK_DETAIL = $BILL_WORK ;
+
+    $AtypePartsArray= [];
+    $BtypePartsArray= [];
+	$EtcTypePartsArray= [];
+	$EtcTrLength = 0;
+	foreach($BILL_PARTS as $index => $value){      
+        if($value['CPP_PART_TYPE'] == 'A'){
+            array_push($AtypePartsArray, $value);
+        }else if($value['CPP_PART_TYPE'] == 'B'){
+            array_push($BtypePartsArray, $value);
+        }else{
+			array_push($EtcTypePartsArray, $value);
+		}
+	}
+	if(count($EtcTypePartsArray) == 1 || count($EtcTypePartsArray) == 2){
+		$EtcTrLength = 1;
+	}else if(count($EtcTypePartsArray) == 3 || count($EtcTypePartsArray) == 4){
+		$EtcTrLength = 3;
+	}else{
+		$EtcTrLength = 0;
+	}
+
+
+
+	usort($BILL_WORK_DETAIL, function($a, $b){
+		if($a['CPP_ORDER_NUM'] == $b['CPP_ORDER_NUM']){
+			return 0;
+		}
+		if($a['CPP_ORDER_NUM'] < $b['CPP_ORDER_NUM']){
+			return -1;
+		}
+		if($a['CPP_ORDER_NUM'] > $b['CPP_ORDER_NUM']){
+			return 1;
+		}
+	});
+
+
+    function getOwerClaimTotalPrice($claimPrice, $ratio){     
+        $price = floor($claimPrice*($ratio/100));
+        $price = $price - ($price%10);      
+        echo $price;
+	}
+	
+    function setShrotNM($dataArray){           
+        $text = "";
+        foreach($dataArray as $index => $type){
+            if($index > 0){
+                $text .= ",&nbsp;";
+            }
+            $text .= $type['CPP_NM_SHORT'];
+
+        }
+        return $text;
+    }
+
+   
+
+    $AtypeShortString = setShrotNM($AtypePartsArray);
+    $BtypeShortString = setShrotNM($BtypePartsArray);
+
+    function getTypeWorkParts($dataArray, $type, $rrtID){    
+		$text = "";
+		$count = 0;
+		$array = array();
+
+        foreach($dataArray as $index => $work){
+			if($work['RRT_ID'] == $rrtID && $work['CPP_PART_TYPE'] == $type){
+				if(count($array) == 0){
+					array_push($array, $work);
+				}else{
+					$IS_EXIST = false;
+					foreach($array as $index=> $item){
+						if($item['NWP_ID'] == $work['NWP_ID'] && $item['RRT_ID'] == $work['RRT_ID'] && $item['RWPP_ID'] == $work['RWPP_ID']){
+							$IS_EXIST = true;
+						}
+					}
+					if(!$IS_EXIST){
+						array_push($array, $work);
+					}
+	
+				}
+			}
+			
+		}
+		
+		if(count($array)== 0){
+			$text = "없음.";
+		}else{
+			foreach($array as $index => $work){
+				if($index > 0){
+					$text .= "&nbsp;,&nbsp;&nbsp;&nbsp;";
+				}
+				$text .= $work['RWP_NM'];
+				if($work['RWPP_ID'] !== '30310' ){
+					$text .= "-".$work['RWPP_NM'];
+				}
+			}
+		}
+		
+        echo $text;
+	}
+
+	function getRowSpan($LIST, $CPP_ID){
+		$count  = 0;
+		foreach($LIST as $index => $item){
+			if($item['CPP_ID'] == $CPP_ID && !empty($item['NRT_TIME_M'])){
+				$count++;
+			}
+		}
+		return $count;
+	}
+	if((int)$BILL[0]['NBW_TIME'] > 0 ){
+		$reckonTime = (int)$BILL[0]['NBW_TIME'] ;
+		if(sprintf('%d',$reckonTime/60) >= 1){
+			$reckonText = sprintf('%d',$reckonTime/60)."시간 ".($reckonTime%60)."분";
+		}else{
+			$reckonText = $reckonTime."분";
+		}
+	}else{
+		$reckonText = "0분";
+    }
+?>
+<html>
+<head>
+		<meta http-equiv="content-type" content="text/html;charset=utf-8">
+		<style type="text/css">
+			ul {padding: 0px;}
+			li {list-style:none;}
+			.ft11imp {font-size:11px !important;}
+			.ft10 {font-size:10px;}
+			.ft12 {font-size:12px;}
+			.ft12imp {font-size:12px !important;}
+			.ft13 {font-size:13px;}
+			.ft13imp {font-size:13px !important;}
+			.ft14 {font-size:14px;}
+			.ft14imp {font-size:14px !important;}
+			.ft16 {font-size:16px;}
+			.ft18 {font-size:18px;}
+			.ftred {color:red;}
+			.ftblu {color:#206fc9 !important;}
+			.ftgry {color:#666;}
+			.ftblk {color:#000;}
+			.ftbold{font-weight:bold;}
+			.fl {float:left;}
+			.fr {float:right;}
+			.wd100 {width:100px;} 
+			.wd150 {width:150px;} 
+			.wd200 {width:200px;} 
+			.wd100per {width:100%;} 
+			.wd98perimp {width:98% !important;}
+			.wd95per {width:95%; }
+			.wd95perimp {width:95% !important;}
+			.wd90per {width:90%; }
+			.wd90perimp {width:90% !important;}
+			.wd10per {width:10% !important;}
+			.wd12per {width:12% !important;}
+			.wd13per {width:13% !important;}
+			.hei2e {height: 4em;}
+			.hi1 {height: 0px; margin:0px;}
+			.cb {clear:both;}
+			.ta {text-align:center;}
+			.tl {text-align:left !important;}
+			.vt {vertical-align:top;}
+			.mgt10 {margin-top:10px;}
+			.mgb20 {margin-bottom:20px;}
+			.nobo {border:none;}
+			.pd05 {padding: 0 5px;}
+			.pd04 {padding:4px;}
+			.pd03 {padding:3px;}
+			.pd53 {padding: 5px 3px;}
+			
+			/*body {margin: 0px; padding: 0px;}
+			*+html body .iemargin {height:10px;}*/
+			.iemargin {height:0px;}
+			
+			table td,table th{border:1px solid #111; text-align:center; padding: 4px;vertical-align: middle;}
+			table {width:100%; border:none; }
+			table th {background:#E9FCFF;color:#111; font-size: 12px;}
+			
+			#rRenewal {width:700px;letter-spacing:0px;font-size:12px; margin: 0px auto; padding:20px;;}
+			#RATIO_PAGE {width:700px;letter-spacing:0px;font-size:12px; margin: 0px auto; padding:20px;;}
+			.r_title  {padding-top:5px;padding-bottom:5px;text-align:center;width:100%;}
+			.r_title h1 {color:#0066DD;margin-bottom:5px;font-size:200%;}
+			.r_title .r_date {height:7px;margin-top:5px; margin-bottom:0px; font-size:14px;}
+			.r_date input {font-size: 14px;}
+			
+			.r_cont02 table th {background:#E9FCFF; font-size:10px;} 
+			
+			.r_cont02 {padding-top:0px;}
+			.r_cont02 table {margin-top:5px;}
+			.r_cont02 table td {padding: 2px 2px;}
+			
+			.r_cont02 .input_r02 {width:80px; height:24px;}
+			.r_cont02 .cb {text-align:center;padding-top:10px;font-weight:bold;}
+			.r_carinfo {margin: 0px; padding:0px;}
+			*+html body .r_carinfo {margin:0px;}
+			.r_carinfo li{width:49%; padding: 0px; margin: 0px;}
+			.r_carinfo li table {margin-top:5px;}
+			.r_carinfo .fl table {height:180px;}
+			.r_carinfo .fr table {height:180px;}
+			
+			.r_cont03 {padding-top:0px;}
+			.r_cont03 ul {margin: 0px; padding:0px;}
+			 *+html body .r_cont03 ul {margin:0px;}
+			.r_cont03 span {margin-top:1px;margin-bottom:0px;text-align:center;}
+			.r_cont03 li{width:49%;}
+			.r_cont03 li table {margin-top:5px;}
+			.r_cont03 td {padding:2px; height:16px;}
+			.r_cont03 th {padding:2px;  height:16px;;font-size:12px;}
+			.r_cont03 td input {height: 24px; font-size: 12px;}
+			*+html body .r_cont03 td input {padding-top: 8px;}
+			.r_cont03 .bottom_btn {height:30px;margin-top:15px;}
+			.r_cont03 .bottom_btn input {vertical-align:middle;}
+			
+			.r_cont04 {margin-top:0px; padding-top:5px; position:relative;}
+			.r_cont04 li{width:100%;}
+			.r_cont04 table td {font-weight:normal;letter-spacing:-1px;color:#111;padding: 5px 2px;}
+			/* .r_cont04 table {border-right:3px solid #111;} */
+			
+			/*.bggr {background:#c5dc94;font-weight:bold;color:#111;}*/
+			.bggr {background:#A2E6FF;font-weight:bold;color:#111;}
+			/*.bggreen {background:#22DD22;font-weight:bold;}*/
+			.bggreen {background:#84BC01;font-weight:bold;}
+			.bgyellow {background:#FFDD44;font-weight:bold;}
+			.bgblu {background:#b0e0e6;}
+			.bgblu2 {background:#A2E6FF;}
+			.bgpt1 {background:#E9FCFF;}
+			.bgpt2 {background:#FFEDFC;}
+			.bgpt1_select {background:#64D6FF;}
+			.bgpt2_select {background:#FF7E9D;}
+			.bgwt {background: #FFFFFF;}
+			
+			.table_guide {font-size:11px;position:absolute;left:900px;top:1120px;width:400px}
+			.table_guide td,.table_guide th{padding:1px;}
+			
+			.bo2 {border: 2px solid #111;}
+			.bo1 {border: 1px solid #111;}
+		
+			.bontop {border-top: none !important;}
+			.bonleft {border-left: none !important;}
+			.bonright {border-right: none !important;}
+			.bonbottom {border-bottom: none !important;}
+			.bobottom {border-bottom: 1px solid #111 !important;}
+			.bobottom3 {border-bottom: 3px solid #111 !important;}
+			.borbottom3 {border-bottom: 3px solid #111 !important; border-right: 3px solid #111 !important;}
+			.boright {border-right: 1px solid #111 !important;}
+			.borbottom {border-bottom: 1px solid #111 !important;border-right: 1px solid #111 !important;}
+			.boonright {border-right: 1px solid #111 !important;border-top: none !important; border-left: none !important;}
+			.boonleft {border-left: 3px solid #111 !important;border-top: none !important; border-right: none !important;}
+			
+			.nb {border: none !important; padding: 0px !important;}
+			.nb th{border: none !important; padding: 0px !important;}
+			.nb td{border: none !important; padding: 0px !important;}
+			.bdside {border-left:1px solid #111; border-right:1px solid #111; border-top:none; border-bottom:none;}
+			
+			.disblock {display:block;}
+		
+			
+			#MEMO_TABLE th { background : #E9FCFF !important;}
+			#print_table th { background : #E9FCFF !important;}
+			#r_carinfo_div {margin-bottom: 10px;}
+			#Memo_table_div {margin-top : 5px;}
+			.npd {padding:0px !important;}
+			@page a4sheet { size:  21.0cm 29.7cm } 
+			.a4 { page: a4sheet;}  
+			
+			.ft10 {font-size:10px;}
+			.ft14 {font-size:14px;}
+			table{width:100%;}
+			.bobr{border-bottom:solid 3px black !important;border-right:solid 3px black !important;margin-top:6px;margin-bottom:3px;}
+			.textarea01{
+				width:360px;
+				border:none;
+				background:none;
+				font-size:12px;
+				vertical-align:top;
+				height:95px;
+				text-align:left;
+				overflow:hidden;
+			}
+    </style>	
+     <link rel="icon" href="/images/favicon.ico" type="image/x-icon">
+     <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon">
+ 
+ 
+     <!-- Bootstrap v3.3.7 스타일 -->
+     <link rel="stylesheet" href="/bootstrap/css/bootstrap-theme.css">
+     <link rel="stylesheet" href="/bootstrap/css/bootstrap.css">
+ 
+     <!-- 캘린더CSS -->
+     <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+     <!-- editor CSS -->
+     <link rel="stylesheet" href="/summernote/summernote.css"> 
+ 
+     <!-- multiselect.css -->
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/css/bootstrap-select.min.css">
+</head>
+<body id="PDF_PAGE">
+    <input type="hidden" id="INPUT_NB_ID" value = "<?php echo $NB_ID; ?>"/>
+	<div id="rRenewal">
+		<div class="r_title" style="margin-bottom: 5px;page-break-before:always">
+			<h1>자동차부품 납품 및 대금청구서</h1>
+
+		   <span>(뉴텍시스템에서 "<strong class="ftred">자동차 수리 명세서</strong>"<strong class="ftred">를 작성</strong>하면 "뉴텍시스템 및 담당자 팩스"에서 <strong class="ftred">청구서 출력 가능</strong>)</span>
+		   <div class="r_date">
+			 <span class="fl">청구일자 : <input type="text" name="PURC_DATE" style="border:none;" value="<?php echo $BILL[0]['NB_CLAIM_DT']; ?>" /></span>
+		   <span class="ftred ft11 fr">(누락이나 잘못된 청구가 있을 경우 뉴텍상사로 연락바랍니다.)</span>
+			</div>
+		</div>
+	   <div id="r_cont02">
+		   <table cellpadding="0" cellspacing="0" border="0" >
+				<tbody>
+				   <?php foreach($BILL as $index=>$value): ?>
+					   <tr>
+						   <th class="r02_th01"><?php echo $value['NBI_RMT_NM']; ?></th>
+						   <th >접수<br />번호</th>
+						   <td class="ft14"><?php echo $value['NBI_REGI_NUM']; ?></td>
+						   <th>보험사</th>
+						   <td class="ft14 MII_TABLE"><?php echo $value['MII_NM']; ?></td>
+						   <th>담당</th>
+						   <td class="ft14"><?php echo $value['NBI_CHG_NM']; ?></td>
+						   <th>팩스</th>
+						   <td class="ft14"><?php echo $value['NBI_FAX_NUM']; ?></td>
+						   <th class="ftblu">과실률</th>
+						   <td class="ft14" style="width: 65px;">
+							<?php if($value['NBI_RATIO'] != "") : 
+								echo $value['NBI_RATIO'];?>%
+							<?php endif; ?>
+						   </td>
+					   </tr>
+				   <?php endforeach; ?> 			
+				</tbody>
+			</table>
+		   
+			<!-- 하단 -->
+		   <div id="r_carinfo_div" style="margin: 0 0 5px 0;">
+				<ul class="r_carinfo">
+				<li class="fl">
+					<table cellpadding="0" cellspacing="0" border="0" style="height:180px;">
+						<tbody>
+							<tr>
+								<th colspan="4" class="r02_th01">수리차량 정보</th>
+							</tr>
+							<tr>
+								<th>접수번호</th>
+								<td id="IL_BCODE" colspan="3" class="ft14">
+									   <?php foreach($BILL as $index=>$value): ?>
+										   <?php echo $value['NBI_RMT_NM'];?> : <?php echo $value['NBI_REGI_NUM'];?>
+										   <?php if($index == 0) : ?>
+											 <br>
+										   <?php endif; ?>
+									   <?php endforeach; ?>
+							   </td>
+							</tr>
+							
+							<?php if($BILL[0]['NB_VAT_DEDUCTION_YN'] == "N") : ?>
+							<tr>
+								<th>차량번호</th>
+								<td  style="width: 77%;"><?php echo $BILL[0]['NB_CAR_NUM'] ;?></td>
+							</tr>
+							<?php else : ?>
+							<tr>
+								<th>차량번호</th>
+								<td><?php echo $BILL[0]['NB_CAR_NUM'] ;?></td>
+								<th class="ft11 ftblu" style="padding-top:8px;">부가세 공제대상 <br/>차량체크</th>
+								<td>
+									<img src="<?php echo $INC_CHECK_IMG_PATH?>" align="absmiddle" border="0" style="width:12px;height:12px;"/>
+								</td>
+							</tr>
+							<?php endif; ?>
+							
+							<tr>
+								<th>차 량 명</th>
+								<td colspan="3" class="ft14" id="CAR_TABLE"><?php echo $BILL[0]['CCC_NM'] ;?></td>
+							</tr>
+							<tr>
+								<th>수리공장</th>
+								<td colspan="3" class="ft14"><?php echo $BILL[0]['MGG_NM']?></td>
+							</tr>
+						</tbody>
+					</table>
+				</li>
+				<li class="fr">
+					<table cellpadding="0" cellspacing="0" border="0" style="height:180px;">
+						<tbody>
+							<tr>
+								<th colspan="3" class="r02_th01">공급자정보</th>
+							</tr>
+							<tr>
+								<th width="70">등록 번호</th> 
+								<td style="width:200px;">379-87-00095</td>
+							   <td rowspan="3"  style="padding:3px; width:70px;" >
+								   <img src="<?php echo $SIGN_IMG_PATH?>" align="absmiddle" border="0" style="width:64px; height:64px;"/>
+							   </td>
+							</tr>
+							<tr>
+								<th width="70">상&nbsp;&nbsp;&nbsp;&nbsp;호</th>
+								<td>주식회사 뉴텍상사</td> 
+							</tr>
+							<tr>
+								   <th width="70">대 표 자</th>
+								   <td>조 명 찬</td>
+							   </tr>  
+							<tr>
+								   <th width="70">주&nbsp;&nbsp;&nbsp;&nbsp;소</th>
+								   <td class="ft14" colspan="2">경기도 과천시 향나무1로 18(과천동)</td>
+						   </tr>
+						   
+							<tr>
+								<th width="70">전화 / 팩스</th>
+								<td class="ft14"  colspan="2">전화:02-521-8688/팩스:02-587-8488</td>
+							</tr>
+						</tbody>
+					</table>
+				</li>
+				</ul>
+			</div>
+	   </div>
+
+	   <div class="cb wd100per npd">
+	   <span class="disblock ftblu ta" style="font-size: 11px;padding-top: 15px;padding-bottom: 8px;">상기 차량의 정비부품으로 귀사(정비공장)에서 주문한 아래 부품을 표준 적정 소요량에 의거하여 대금을 청구합니다.<br/>(<span class="ftred">대금지급시 유의</span>: 아래 <span class = "ftred">“사용부품의 수량”</span>은 기준부품의 용량과 다를 경우 환산비율 때문에 <span class = "ftred">“기준부품의 표준 소요량”과 다를 수 있음</span>)</span>
+	   <div class="r_cont03">
+			<ul>
+				<li class="fl">
+					<table cellpadding="0" cellspacing="0" border="0" style="height: 100px;word-break: break-all;" class="ft12">
+						
+							<col width="15%" />
+							<col width="15%" />
+							<col width="4%" />
+							<col width="7%" />
+							<col width="7%" />
+						
+						<tbody>
+						   
+							<tr>
+								<th colspan="5" class="r02_th01 ft12">
+									<span class="ftred"style="vertical-align:middle">사용부품 A</span>&nbsp;<span class="ft12" >( <?php echo $AtypeShortString ;?> )</span></th>
+							</tr>
+							<tr>
+								<th>기준부품<br/>(용량/길이)</th>
+								<th>사용부품선택</th>
+								<th>수량</th>
+								<th>단가</th>
+								<th>금액</th>
+						   </tr>
+						   <?php foreach($AtypePartsArray as $index=>$aType): ?>
+						   <tr>
+							   <td style="font-size: 11px;"><?php echo $aType['CPP_NM'] ;?><br>(<?php echo $aType['CPP_UNIT'] ;?>)</td>
+							   <td style="font-size: 11px;"><?php echo $aType['CPPS_NM'] ;?></td>
+							   <td style="font-size: 11px;"><?php echo $aType['NBP_USE_CNT'] ;?></td>
+							   <td style="font-size: 11px;"><?php echo $aType['NBP_UNIT_PRICE'] ;?></td>
+							   <td style="font-size: 11px;"><?php echo $aType['NBP_TOTAL_PRICE'] ;?></td>
+						   </tr>
+						   <?php endforeach; ?>
+						</tbody>
+					</table>
+				</li>
+				<li class="fr">
+					<table cellpadding="0" cellspacing="0" border="0" style="height: 100px;word-break: break-all;" class="ft12">
+						
+							<col width="15%" />
+							<col width="15%" />
+							<col width="4%" />
+							<col width="7%" />
+							<col width="7%" />
+						
+						<tbody>
+							<tr> 
+								<th colspan="5" class="r02_th01 ft12"><span class="ftred"style="vertical-align:middle">사용부품 B</span>&nbsp;<span class="ft12">( <?php echo $BtypeShortString ;?> )</span></th>
+							</tr>
+							<tr>
+								<th>기준부품<br/>(용량/길이)</th>
+								<th>사용부품선택</th>
+								<th>수량</th>
+								<th>단가</th>
+								<th>금액</th>
+							</tr>
+							<?php foreach($BtypePartsArray as $index=>$aType): ?>
+						   <tr>
+							   <td style="font-size: 11px;"><?php echo $aType['CPP_NM'] ;?><br>(<?php echo $aType['CPP_UNIT'] ;?>)</td>
+							   <td style="font-size: 11px;"><?php echo $aType['CPPS_NM'] ;?></td>
+							   <td style="font-size: 11px;"><?php echo $aType['NBP_USE_CNT'] ;?></td>
+							   <td style="font-size: 11px;"><?php echo $aType['NBP_UNIT_PRICE'] ;?></td>
+							   <td style="font-size: 11px;"><?php echo $aType['NBP_TOTAL_PRICE'] ;?></td>
+						   </tr>
+						   <?php endforeach; ?>
+						</tbody>
+					</table>
+					<table ccellpadding="0" cellspacing="0" border="0" style="height: 54px;margin-top: 10px;" class="ft12">
+						<col width="20%" />
+						<col width="30%" />
+						<tbody>
+						  <tr>
+							<th style="font-size: 16px;">방청작업 총 시간</th>
+							<td style="font-size: 16px;"><?php echo $reckonText?></td>
+						  </tr>
+						</tbody>
+					</table>
+				</li>
+			</ul>
+			<div id = "etcPartContainer" class="cb r_cont03" style="padding-top:10px;font-size:14px">
+			   <?php if(!empty($EtcTypePartsArray)) : ?>
+				   <table cellpadding="0" cellspacing="0" border="0" class="ft12" style="word-break: break-all;">
+					   
+						   <col width="15%" />
+						   <col width="4%" />
+						   <col width="4%" />
+						   <col width="4%" />
+						   <col width="15%" />
+						   <col width="4%" />
+						   <col width="4%" />
+						   <col width="4%" />
+					   
+					   <tbody>
+						   <tr>
+							   <th>기타부품</th>
+							   <th>수량</th>
+							   <th>단가</th>
+							   <th>금액</th>
+							   <th>기타부품</th>
+							   <th>수량</th>
+							   <th>단가</th>
+							   <th>금액</th>
+						  </tr>
+						  <?php for($i = 0 ; $i <= $EtcTrLength ; $i++) :?>
+								  <?php if($i%2==0) : ?>
+								   <tr>
+							   <?php endif; ?>	
+							   <?php if($i < count($EtcTypePartsArray)) : ?>
+								   <td><?php echo $EtcTypePartsArray[$i]['CPPS_NM'];?></td>
+								   <td><?php echo $EtcTypePartsArray[$i]['NBP_USE_CNT'] ;?></td>
+								   <td><?php echo $EtcTypePartsArray[$i]['NBP_UNIT_PRICE'] ;?></td>
+								   <td><?php echo $EtcTypePartsArray[$i]['NBP_TOTAL_PRICE'] ;?></td>
+							   <?php else : ?>
+								   <td></td>
+								   <td></td>
+								   <td></td>
+								   <td></td>
+							   <?php endif; ?>	
+							   
+
+							   <?php if($i%2==1) : ?>
+								   </tr>
+							   <?php endif; ?>	
+						  <?php endfor; ?>
+					   </tbody>
+				   </table>
+			   <?php endif; ?>	
+			</div>			 	
+			<div class="cb" style="padding-top:3px; padding-bottom: 6px;">
+				<table cellpadding="0" cellspacing="0" border="0">
+					
+						<col width="9%" />
+						<col width="5%" />
+						<col width="11%" />
+						<col width="5%" />
+						<col width="16%" />
+						<col width="5%" />
+					
+					<tbody>
+						<tr>
+						   
+						   <th>부품금액 계</th>
+							<td class="ta" id="PARTS_TOTAL_PRICE" style="background:#fff;color:#111;font-weight:bold;"><?php echo $BILL[0]['NB_CLAIM_PRICE'] ;?></td>
+						   
+							<th>부가가치세</th>
+							<td class="ta" id="PARTS_TOTAL_TAX" style="background:#fff;color:#111;font-weight:bold;"><?php echo $BILL[0]['NB_VAT_PRICE'] ;?></td>
+						   
+						   <th class="ft16">청구금액(부가세 포함)</th>
+						   
+							<td class="ta ft18" id="TOTAL_SUM" style="font-weight:bold;color:#000;"><?php echo $BILL[0]['NB_TOTAL_PRICE'] ;?></td>
+						</tr>
+						<tr> 
+							<th>차주 부담금액(20%)</th>
+							<td class="ta" id="BL_PRICE_SLF" style="color:#000;"><?php echo $BILL[0]['OWNER_CLAIM_FORMAT'] ;?></td>
+							<th>쌍방과실 자차비율(%)</th>
+							<td class="ta" id="BL_BOTH_RAITO" style="color:#000;">
+							   <?php if($BILL[0]['OWNER_CLAIM_PRICE']  > 0) : ?>
+									<?php echo $BILL[0]['NBI_RATIO'] ;?>%
+							   <?php endif; ?>
+						   </td>
+							<th class="ft11">쌍방과실 차주부담금액<br />(차주부담금액20%+자차비율)</th>
+							<td class="ta" id="BL_PRICE_BOTH" style="color:#000;">
+								   <?php if($BILL[0]['OWNER_CLAIM_PRICE']  > 0) : ?>
+									  <?php getOwerClaimTotalPrice($BILL[0]['OWNER_CLAIM_PRICE'], $BILL[0]['NBI_RATIO']) ;?>
+								   <?php endif; ?>
+						   </td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+		<!-- 사용부품 종료 -->
+		<!-- 부품 사용 수리 -->
+	   <div class="r_cont04">		
+		   <table width="100%" cellpadding="0" cellspacing="0" class="fl" style="width:49.5%;font-size:14px;word-break: break-all;">
+			   <tr>
+				   <td colspan="6" style="text-align:center;" class="ft_strong01">
+					   <b>사용부품 A <span class="ft10">(약어 : <?php echo $AtypeShortString ;?>)</span></b>
+				   </td>
+			   </tr>
+			   <tr>
+				   <td colspan="6" style="text-align:left;padding:10px;line-height:1.2em;font-size:11px">
+					   <b>교환부위 :</b> <?php getTypeWorkParts($BILL_WORK ,'A', RACON_CHANGE_CD) ;?><br/>
+					   <b>판금부위 :</b> <?php getTypeWorkParts($BILL_WORK ,'A', RACON_METAL_CD) ;?><br/>
+				   </td>
+			   </tr>
+		   </table>
+		   <table width="100%" cellpadding="0" cellspacing="0" class="fr" style="width:49.5%;font-size:14px;">
+			   <tr>
+				   <td colspan="6" style="text-align:center;" class="ft_strong01">
+					   <b>사용부품 B <span class="ft10">(약어 : <?php echo $BtypeShortString ;?>)</span></b>
+				   </td>
+			   </tr>
+			   <tr>
+				   <td colspan="6" style="text-align:left;padding:10px;line-height:1.2em;font-size:11px">
+					   <b>교환부위 :</b> <?php getTypeWorkParts($BILL_WORK ,'B', RACON_CHANGE_CD) ;?><br/>
+					   <b>판금부위 :</b> <?php getTypeWorkParts($BILL_WORK ,'B', RACON_METAL_CD) ;?><br/>
+				   </td>
+			   </tr>
+		   </table>
+
+
+	   </div>
+
+   <div class="cb" id="Memo_table_div" style="padding-top: 7px;">
+	   <table cellpadding="0" cellspacing="0" border="0" id="MEMO_TABLE" style="word-break: break-all;">
+		   <tbody>
+			   <tr>
+				   <th style="width:10%;">
+					   기타사항<br />메모 
+				   </th>
+                   <td style="height:95px; vertical-align:top; padding: 5px;font-size:12px;text-align: left;word-break:break-all;" >
+						<?php echo $BILL[0]['NB_MEMO_TXT'] ;?>
+				   </td>
+			   </tr>
+			   <tr>
+				   <!-- <td colspan="2" class="ft10" style="height:20px;padding:0px;">
+					   승합차(25인승 이상) 및 화물차(4.5톤 이상)는 수리부위별 지정부품 이외 다른부품 사용 경우 작업부위와 사용 수량 직접 입력 / 기타사항 입력
+				   </td> -->
+			   </tr>
+		   </tbody>
+	   </table>
+	</div>
+   </div>
+</div>
+
+<!-- 방청세부내역서 -->
+<?php if($BILL[0]['NB_INC_DTL_YN'] == 'Y') : ?>
+<div style="height: 100%;" id="RATIO_PAGE">
+	<div class="r_title" style="margin-bottom: 5px;">
+		<h1>방청작업 세부내역서</h1>
+		<span class="ft14">
+			상기 방청작업시간은 "작업 전후 준비시간"과 "방청작업시간"을 합하여 산출한 것으로서 <br/>
+			작업자에 따라 서로 다를 수 있으므로 참고용으로 활용하시기 바랍니다.
+		</span>
+	</div>
+	<table cellpadding="0" cellspacing="0" border="0" id="WORK_TABLE">
+		<tbody>
+			<tr>
+				<th>기준부품</th>
+				<th>사용부품</th>
+				<th>용량</th>
+				<th>작업항목</th>
+				<th>작업구분</th>
+				<th>작업시간(분)</th>
+				<th>소요량</th>
+				<th>단가(원)</th>
+				<th>금액(원)</th>
+		   </tr>
+		   <?php if(!empty($BILL_WORK_DETAIL)) : ?>
+				<?php $beforeCPP_ID = ""; foreach($BILL_WORK_DETAIL as $index=>$work): ?>
+					<?php if(!empty($work['NRT_TIME_M'])) : ?>
+						<?php $IS_START = true; 
+								$ROW_SPAN = getRowSpan($BILL_WORK_DETAIL, $work['CPP_ID']);
+								if($beforeCPP_ID  != $work['CPP_ID'] ) : ?>
+						<?php $IS_START = false;?>
+						<tr>
+								<td style="font-size: 11px;" rowspan="<?php echo $ROW_SPAN ;?>"><?php echo $work['CPP_NM'] ;?></td>
+								<td style="font-size: 11px;" rowspan="<?php echo $ROW_SPAN ;?>"><?php echo $work['CPPS_NM'] ;?></td>
+								<td style="font-size: 11px;" rowspan="<?php echo $ROW_SPAN ;?>"><?php echo $work['CPPS_UNIT'] ;?></td>
+						<?php endif;  ?>
+
+						<?php if($IS_START) : ?>
+						<tr>
+							<?php endif;  ?>
+								<td style="font-size: 11px;"><?php echo $work['RWP_NM'] ;?></td>
+								<td style="font-size: 11px;"><?php echo $work['RRT_NM'] ;?></td>
+								<td style="font-size: 11px;"><?php echo $work['NRT_TIME_M'] ;?></td>
+								<td style="font-size: 11px;"><?php echo $work['NRPS_RATIO'] ;?></td>
+								<td style="font-size: 11px;"><?php echo $work['NBP_UNIT_PRICE'] ;?></td>
+								<td style="font-size: 11px;"><?php echo number_format($work['NRPS_RATIO']*str_replace(",","",$work['NBP_UNIT_PRICE']));?></td>
+						</tr>
+					<?php $beforeCPP_ID = $work['CPP_ID']; endif;  ?>
+				<?php endforeach; ?>
+		   <?php else : ?>
+					<tr>
+						<td colspan="9">방청시간 내역이 존재하지 않습니다.</td>
+					</tr>
+
+		   <?php endif;  ?>
+
+		   
+
+		   
+		</tbody>
+	</table>
+</div>
+<?php endif; ?>
+
+<!-- 보상담당지정 modal #add-new -->  
+<div class="modal fade modal-add" id="sendFaxModal" role="dialog" >
+    <div class="modal-dialog">
+        <div class="modal-content">
+             <!-- modal 내용 -->
+            <div class="modal-body" style="height: 100px;display: flex; padding-left: 45%;"> 
+                <div style="align-items: center; justify-content: center; ">
+                    <!-- <div class="lds-ring1">
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                    </div>  -->
+                </div> 
+                <span style="justify-items: flex-end; justify-self: center; align-items: flex-end; align-self: flex-end;">다운로드중 입니다..</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+<?php
+require $_SERVER['DOCUMENT_ROOT']."/include/footer.html";
+?>
+<script> 
+    function getFileName(){
+        const date = new Date();
+        const year = date.getFullYear();
+        const month = date.getMonth()+1;
+        const day = date.getDate();
+        const hour = date.getHours();
+		let MII_MN_TXT = "";
+		$('.MII_TABLE').each(function(index){
+			if(index > 0){
+				MII_MN_TXT += "/";
+			}
+			MII_MN_TXT += $(this).html();
+		});
+        return year+"/"+month+"/"+day+"/"+hour+"/"+MII_MN_TXT+"/"+$('#CAR_TABLE').html();
+    }
+</script>
+<?php if( $TYPE  == "JPEG") : ?>
+    <script>
+        $('#sendFaxModal').modal('show');
+        html2canvas(document.getElementById("rRenewal")).then(canvas => { 
+			try{
+				var doc = new jsPDF('p', 'mm', 'a4'); // html2canvas의 canvas를 png로 바꿔준다. 
+				var imgData = canvas.toDataURL('image/png'); //Image 코드로 뽑아내기 // image 추가 
+				var width = doc.internal.pageSize.getWidth();
+				var height = doc.internal.pageSize.getHeight();     
+
+				if($('#RATIO_PAGE').is(':visible')){
+					html2canvas(document.getElementById("RATIO_PAGE")).then(canvas_2 => { 
+						$('#sendFaxModal').modal('hide');
+						self.close();
+						var a = opener.document.createElement('a');
+						a.href = canvas.toDataURL('image/jpeg').replace('image/jpeg', 'image/octet-stream');
+						a.download= getFileName()+'.jpg';
+						a.click();
+
+						var a_2 = opener.document.createElement('a');
+						a_2.href = canvas_2.toDataURL('image/jpeg').replace('image/jpeg', 'image/octet-stream');
+						a_2.download= getFileName()+'.jpg';
+						a_2.click();
+						
+					
+					});
+				}else{
+					$('#sendFaxModal').modal('hide');
+					self.close();
+					var a = opener.document.createElement('a');
+					a.href = canvas.toDataURL('image/jpeg').replace('image/jpeg', 'image/octet-stream');
+					a.download= getFileName()+'.jpg';
+					a.click();
+				}
+			}catch{
+				history.back();
+			}
+            
+           
+         });
+    </script>
+<?php else : ?>
+    <script>
+		 $('#sendFaxModal').modal('show');
+		 html2canvas(document.getElementById("rRenewal")).then(canvas => { 
+			try{
+				if($('#RATIO_PAGE').is(':visible')){
+					opener.pdfDownload(canvas);
+					html2canvas(document.getElementById("RATIO_PAGE")).then(canvas_2 => { 
+						opener.pdfDownload(canvas_2, getFileName(), true);
+						$('#sendFaxModal').modal('hide');
+						opener.pdfPopupClose();
+					
+					});
+				}else{
+					opener.pdfDownload(canvas, getFileName(), false);
+					$('#sendFaxModal').modal('hide');
+					opener.pdfPopupClose();
+				}
+			}catch{
+				history.back();
+			}
+			
+            
+        });
+    </script>
+<?php endif;  ?>
+
+
+</html>
+
+
+

@@ -1,0 +1,98 @@
+<!-- header.html -->
+<?php
+   $CPP_ID =  "";
+   $CPPS_ID =  "";
+   $P_RRT_ID = "";
+   if(empty($_REQUEST['CPP_ID'])){
+        require $_SERVER['DOCUMENT_ROOT']."/include/header.html";
+   } else{
+        require $_SERVER['DOCUMENT_ROOT']."/include/headerpopup.html";
+        $CPP_ID =  $_REQUEST['CPP_ID'];
+        $CPPS_ID =  $_REQUEST['CPPS_ID'];
+        $P_RRT_ID = "11210";
+   }
+  
+?>
+
+
+  <!-- 페이지 카테고리 -->
+  <div class="container-fluid mb20px">
+    <h3 class="nwt-category"><small>코드관리&nbsp;&nbsp;></small>환산부품조견표관리</h3>
+  </div>
+
+  <input type="hidden" id="P_CPP_ID" value="<?php echo $CPP_ID ;?>"/>
+  <input type="hidden" id="P_CPPS_ID" value="<?php echo $CPPS_ID ;?>"/>
+  <input type="hidden" id="P_RRT_ID" value="<?php echo $P_RRT_ID ;?>"/>
+
+  <!-- 테이블 상단 #perPage, btn 영역 -->
+  <div class="container-fluid nwt-table-top mb20r">
+        <div class="row">
+          
+          <!-- 왼쪽영역 -->
+          <div class="col-lg-6">
+            <div class="form-inline">
+            </div>
+          </div>
+          
+          <!-- 테이블 우측 상단 btn -->
+          <div class="col-lg-6 clearfix">
+            <div class="form-inline f-right">
+    
+              <!-- 엑셀 다운로드 -->
+              <?php if($AUTH_EXCEL == YN_Y) :?>
+              <button type="button" class="btn btn-success" onclick="excelDownload()"><span class="glyphicon glyphicon-download-alt"></span>&nbsp;엑셀 다운로드</button>
+              <?php endif; ?>	
+
+              <!-- 등록btn / modal handler -->
+              <?php if($AUTH_UPDATE== YN_Y) :?>
+              <button type="button" class="btn btn-default" id="submitBtn" onclick="setUpdateTable()">수정</button>
+              <?php endif; ?>	
+            </div>
+          </div>
+    
+        </div>
+      </div>
+
+
+  <!-- 테이블 -->
+  <div class="container-fluid nwt-table" style="width: 100%;"> <!--overflow-x: scroll;-->
+    <form id="partForm" >
+            <table class="table table-bordered table-striped">
+                <thead>
+                    <tr class="active">
+                        <th class="text-center" rowspan="2">수리부위</th>
+                        <th class="text-center part-nm" rowspan="2">작업항목</th>
+                        <th class="text-center" colspan="18" id="td_part_header">
+                            <div class="form-inline">
+                                <!-- 기준부품 -->
+                                <label for="CPP_ID" class="mr10r">기준부품</label>
+                                <select name="CPP_ID" class="wd200px form-control" id="CPP_ID"></select>
+                                <!-- 환산부품의 option 항목은 기준부품이 카드리지실런트 일 때의 항목을 임시로 넣어두었습니다. -->
+                                <label for="CPPS_ID" class="mr10r">환산부품</label>
+                                <select name="CPPS_ID" class="wd200px form-control" id="CPPS_ID">
+                                    <option value="">=선택=</option>
+                                </select>
+                                <!-- 작업 -->
+                                <label for="RRT_ID" class="mr10r">작업</label>
+                                <select name="RRT_ID" class="form-control wd100px" id="RRT_ID"></select>
+                                <div class="f-right">
+                                    <button type="button" class="btn btn-default" id="resetBtn"><span class="glyphicon glyphicon-plus"></span>&nbsp;환산 소요량 계산</button>
+                                </div>
+                            </div>
+                            
+                        </th>
+                    </tr>
+                    <tr class="active"  id="tr_car">
+                    </tr>
+                </thead>
+                <tbody  id="table_body"></tbody>
+            </table>
+    </form>
+  </div>
+
+
+
+<!-- footer.html -->
+<?php
+  require $_SERVER['DOCUMENT_ROOT']."/include/footer.html";
+?>

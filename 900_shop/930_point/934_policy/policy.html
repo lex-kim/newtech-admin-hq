@@ -1,0 +1,97 @@
+<!-- header.html -->
+<?php
+  require $_SERVER['DOCUMENT_ROOT']."/include/headerShop.html";
+?>
+
+
+  <!-- 페이지 카테고리 -->
+  <div class="container-fluid mb20px">
+    <div class="nwt-policy-top">
+      <div>
+        <h3 class="nwt-category"><small>쇼핑몰관리&nbsp;&nbsp;>&nbsp;&nbsp;포인트관리&nbsp;&nbsp;></small>포인트적립정책</h3>
+      </div>  
+      <div>
+        <!-- <ul class="nav nav-tabs f-right">
+          <li class="active"><a href="/100_code/180_compensationstd/181_compensationstd.html">보상담당분류기준</a></li>
+          <li><a href="/100_code/180_compensationstd/182_setlimit.html">청구금액한도설정</a></li>
+          <li><a href="/100_code/180_compensationstd/183_setreduce.html">감액사유 자동요청 설정</a></li>
+          <li><a href="/100_code/180_compensationstd/184_setsale.html">영업관리정책설정</a></li>
+        </ul> -->
+      </div>
+    </div>
+  </div>
+    
+
+  <!-- 보상담당분류기준 -->
+  <div class="container-fluid policy-body mb20px">
+      <div class="policy-title">
+        <p>청구기준금액</p>
+      </div>
+      <div class="policy-body-content">
+        <div class="row">
+          <div class="col-md-4"><label for="PPE_BILL_PRICE">포인트적립을 위한 청구기준금액</label></div>
+          <div class="col-md-4">
+            <input type="text" class="form-control text-right" id="PPE_BILL_PRICE" name="PPE_BILL_PRICE" onkeyup="isNumber(event)" placeholder="입력" readonly>
+          </div>
+          <div class="col-md-2"><p>원</p></div>
+        </div>
+      </div>
+
+      <div class="policy-title">
+        <p>포인트소멸조건</p>
+      </div>
+      <div class="policy-body-content">
+        <div class="row">
+          <div class="col-md-4"><label for="PPE_POINT_EXPIRE">취득일로부터</label></div>
+          <div class="col-md-4">
+            <input type="text" class="form-control text-right" id="PPE_POINT_EXPIRE" name="PPE_POINT_EXPIRE" onkeyup="isNumber(event)" placeholder="입력" readonly>
+          </div>
+          <div class="col-md-2"><p>일</p></div>
+        </div>
+      </div>
+
+      <div class="policy-title">
+        <p>포인트 소멸예정</p>
+      </div>
+      <div class="policy-body-content">
+        <div class="row">
+          <div class="col-md-4"><label for="PPE_NOTICE_EXPIRE">소멸예정 등록일수</label></div>
+          <div class="col-md-4">
+            <input type="text" class="form-control text-right" id="PPE_NOTICE_EXPIRE" name="PPE_NOTICE_EXPIRE" onkeyup="isNumber(event)" placeholder="입력" readonly>
+          </div>
+          <div class="col-md-2"><p>일</p></div>
+        </div>
+      </div>
+
+  </div>
+
+
+
+  <!-- 테이블 상단 #perPage, btn 영역 -->
+  <div class="container-fluid mb20r">
+    <div class="row">
+      <!-- 리스트개수 -->
+      <div class="col-lg-6">
+        <div class="form-inline">
+          
+        </div>
+      </div>
+      <!-- 테이블 우측 상단 btn -->
+      <div class="col-lg-6 clearfix">
+        <div class="form-inline f-right">
+          <!-- 수정 btn -->
+          <button type="button" class="btn btn-primary btn-update">수정</button>
+          <!-- 등록btn / modal handler -->
+          <button type="button" class="btn btn-primary btn-save">저장</button>
+          <button type="button" class="btn btn-default btn-back" onclick="getData()">취소</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+
+<!-- footer.html -->
+<?php
+  require $_SERVER['DOCUMENT_ROOT']."/include/footerShop.html";
+?>

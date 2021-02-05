@@ -1,0 +1,168 @@
+<!-- header.html -->
+<?php
+  require $_SERVER['DOCUMENT_ROOT']."/include/header.html";
+?>
+  <script src="../510_gwMngt/js/setSelectOption.js"></script>
+  <script src="js/setTable.js"></script>
+  <script src="js/setData.js"></script>
+
+  <!-- 페이지 카테고리 -->
+  <div class="container-fluid mb20px">
+    <h3 class="nwt-category"><small>공업사관리&nbsp;&nbsp;></small>보상담당 현황판</h3>
+  </div>
+
+
+  <!-- 검색바(폼) 시작 -->
+  <div class="container-fluid nwt-search-form">
+      <div class="panel panel-default">
+          <div class="panel-body">
+              <form class="form-inline" id="searchForm" name="searchForm">
+                  <fieldset>
+                      <legend>조건검색</legend>
+
+                      <!-- 검색버튼 제외한 폼 wrap -->
+                      <div class="frm-wrap">
+                        <!-- 1st row -->
+                        <div class="row">
+                          
+                          <!-- 구분 -->
+                          <div class="col-md-1">
+                            <label for="CSD_ID_SEARCH" class="sr-only">구분</label>
+                            <select id="CSD_ID_SEARCH"  name="CSD_ID_SEARCH[]" 
+                                    data-style="btn-default" title="=구분="
+                                    class="form-control selectpicker" multiple
+                                    data-live-search="true" data-live-search-placeholder="Search" >
+                              
+                           </select>                             
+                          </div>
+
+                          <!-- 지역 -->
+                          <div class="col-md-2">
+                              <label for="CRR_ID_SEARCH" class="sr-only mr10r">지역검색</label>
+                              <select id="CRR_ID_SEARCH"  name="CRR_ID_SEARCH[]" 
+                                        data-style="btn-default" title="지역검색(띄어쓰기로 시/도, 시/군/구 구분)"
+                                        class="form-control selectpicker" multiple
+                                        data-live-search="true" data-live-search-placeholder="Search" >
+                                  
+                              </select> 
+                          </div>
+
+                          <!-- 공업사명 -->
+                          <div class="col-md-1">
+                            <label for="MGG_NM_SEARCH" class="sr-only">공업사</label>
+                            <select  name="MGG_NM_SEARCH" id="MGG_NM_SEARCH" 
+                                    data-style="btn-default" title="=공업사="
+                                    class="form-control selectpicker"
+                                    data-live-search="true" data-live-search-placeholder="Search">   
+                            </select>                         
+                          </div>
+                          
+                          <!-- 거래여부 -->
+                          <div class="col-md-1">
+                            <label for="RCT_ID_SEARCH" class="sr-only">거래여부</label>
+                            <select class="form-control" id="RCT_ID_SEARCH" name="RCT_ID_SEARCH">
+                              <option value="">=거래여부=</option>
+                            </select>                            
+                          </div>
+
+                          <!-- 담당구분 -->
+                          <div class="col-md-1">
+                            <label for="RICT_ID_SEARCH" class="sr-only">담당구분</label>
+                            <select class="form-control" id="RICT_ID_SEARCH" name="RICT_ID_SEARCH">
+                              <option value="">=담당구분=</option>
+                            </select>                            
+                          </div>
+
+                        </div>
+                      </div> 
+                      
+                      <!-- 검색버튼 wrap -->
+                      <div class="frm-search-wrap">
+                        <!-- 검색btn -->
+                        <div class="row">
+
+                          <div class="col-md-12 text-right">
+                            <button type="submit" class="btn btn-primary" id="frmSearch"  style="margin-top: -10px"><span class="glyphicon glyphicon-search"></span>&nbsp;검색</button>
+                          </div>
+                        </div> 
+                      </div>
+
+                  </fieldset>
+              </form>
+          </div>
+      </div>
+  </div>
+  <!-- 검색바(폼) 끝 -->
+
+
+ 
+  <!-- 테이블 상단 #perPage, btn 영역 -->
+  <div class="container-fluid nwt-table-top mb20r">
+    <div class="row">
+      
+      <!-- 리스트개수 -->
+      <?php	require $_SERVER['DOCUMENT_ROOT']."/include/listCnt.html"; ?>
+      <!-- 확장하기 -->
+      <div class="table-top-etc">
+        <label for="extend" class="extend">확장하기</label>
+        <input type="checkbox" id="extend" name="extend" >
+      </div>
+      
+      <!-- 테이블 우측 상단 btn -->
+      <div class="col-lg-6 clearfix">
+        <div class="form-inline f-right">
+          <?php if($AUTH_EXCEL == YN_Y) :?>
+          <!-- 등록btn / modal handler -->
+          <button type="button" class="btn btn-success" onclick="excelDownload()"><span class="glyphicon glyphicon-download-alt"></span>&nbsp;엑셀 다운로드</button>
+          <?php endif; ?>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+
+  <!-- 테이블 -->
+  <div class="container-fluid nwt-table" style="width: 100%;"> 
+    <table class="table table-bordered table-striped" id="mainTableCpst">
+      <thead>
+        <tr class="active">
+          <th class="text-center" rowspan="3">순번</th>
+          <th class="text-center" rowspan="3">구분</th>
+          <th class="text-center" rowspan="3">지역</th>
+          <th class="text-center" rowspan="3">공업사</th>
+          <th class="text-center" rowspan="3">사업자번호</th>
+          <th class="text-center" rowspan="3">거래여부</th>
+          <th class="text-center  insu-normal">일반</th>
+          <th class="text-center hidetd insu-cooper">공제</th>
+          <th class="text-center hidetd insu-rent">렌트</th>
+        </tr>
+        <tr class="active" id="insuHeader">
+        </tr>
+        <tr class="active" id="insuSubHeader">
+        </tr>
+      </thead>
+      <tbody id="dataTable">
+      </tbody>
+    </table>
+  </div>
+
+  <form id="updateGarageInsuForm">
+  </form>
+
+  <!-- indicator -->
+  <?php	require $_SERVER['DOCUMENT_ROOT']."/include/indicator.html"; ?>
+  
+  <!-- pagination -->
+  <div class="container-fluid">
+    <div class="text-center">
+      <ul class="pagination">
+      </ul>
+    </div>
+  </div>
+
+
+<!-- footer.html -->
+<?php
+  require $_SERVER['DOCUMENT_ROOT']."/include/footer.html";
+?>

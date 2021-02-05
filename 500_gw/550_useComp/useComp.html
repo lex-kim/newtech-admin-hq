@@ -1,0 +1,191 @@
+<!-- header.html -->
+<?php
+  require $_SERVER['DOCUMENT_ROOT']."/include/header.html";
+?>
+
+  <script src="js/setTable.js"></script>
+
+  <!-- 페이지 카테고리 -->
+  <div class="container-fluid mb20px">
+    <h3 class="nwt-category"><small>공업사관리&nbsp;&nbsp;></small>사용부품관리</h3>
+  </div>
+
+
+  <!-- 검색바(폼) 시작 -->
+  <div class="container-fluid nwt-search-form">
+    <div class="panel panel-default">
+      <div class="panel-body">
+        <form class="form-inline" id="searchForm">
+          <fieldset>
+            <legend>조건검색</legend>
+
+            <!-- 검색버튼 제외한 폼 wrap -->
+            <div class="frm-wrap">
+              <!-- 1st row -->
+              <div class="row">
+                
+                  <div class="col-md-1">
+                      <label for="CSD_ID_SEARCH" class="sr-only">구분</label>
+                      <select id="CSD_ID_SEARCH"  name="CSD_ID_SEARCH[]" 
+                            data-style="btn-default" title="=구분="
+                            class="form-control selectpicker" multiple
+                            data-live-search="true" data-live-search-placeholder="Search" >
+                      
+                   </select>                           
+                  </div>
+
+                  <!-- 지역 -->
+                  <div class="col-md-2">
+                      <label for="CRR_ID_SEARCH" class="sr-only">지역 시/군/구</label>
+                      <select id="CRR_ID_SEARCH"  name="CRR_ID_SEARCH[]" 
+                                data-style="btn-default" title="지역검색(띄어쓰기로 시/도, 시/군/구 구분)"
+                                class="form-control selectpicker" multiple
+                                data-live-search="true" data-live-search-placeholder="Search" >
+                          
+                      </select> 
+                  </div>
+
+                 
+
+                <!-- 공업사 -->
+                <div class="col-md-2 ">
+                  <label for="MGG_NM_SEARCH" class="sr-only">공업사</label>
+                  <input type="text" class="form-control" name="MGG_NM_SEARCH" id="MGG_NM_SEARCH" placeholder="공업사명 입력">                            
+                </div>
+                
+                 <!-- 거래여부 -->
+                 <div class="col-md-1">
+                    <label for="RCT_ID_SERACH" class="sr-only">거래여부</label>
+                    <select class="form-control" id="RCT_ID_SERACH" name="RCT_ID_SERACH">
+                        <option value="">=거래여부=</option>
+                    </select>                            
+                </div>
+
+                <!-- 기준부품명 -->
+                <div class="col-md-1">
+                  <label for="STD_COMP_NM" class="sr-only">기준부품명</label>
+                  <select id="CPP_ID_SEARCH"  name="CPP_ID_SEARCH[]" 
+                                data-style="btn-default" title="=기준부품명="
+                                class="form-control selectpicker" multiple
+                                data-live-search="true" data-live-search-placeholder="Search" >
+                          
+                  </select>                            
+                </div>
+
+                <!-- 취급부품명 -->
+                <div class="col-md-1">
+                  <label for="HANDLE_COMP_NM" class="sr-only">취급부품명</label>
+                  <select id="CPPS_ID_SEARCH"  name="CPPS_ID_SEARCH[]" 
+                                data-style="btn-default" title="=취급부품명="
+                                class="form-control selectpicker" multiple
+                                data-live-search="true" data-live-search-placeholder="Search" >
+                          
+                  </select>                             
+                </div>
+
+                <!-- 배율적용여부 -->
+                <div class="col-md-1">
+                  <label for="RATIO_YN" class="sr-only">배율적용여부</label>
+                  <select class="form-control" id="RATIO_YN" name="RATIO_YN">
+                    <option value="">=배율적용여부=</option>
+                    <option value="Y">적용</option>
+                    <option value="N">미적용</option>
+                  </select>                            
+                </div>
+
+              </div>
+            </div> 
+            
+            <!-- 검색버튼 wrap -->
+            <div class="frm-search-wrap">
+              <!-- 검색btn -->
+              <div class="row">
+
+                <div class="col-md-12 text-right">
+                  <button type="submit" class="btn btn-primary" id="frmSearch" style="margin-top: -10px"><span class="glyphicon glyphicon-search"></span>&nbsp;검색</button>
+                </div>
+              </div> 
+            </div>
+
+          </fieldset>
+        </form>
+      </div>
+    </div>
+  </div>
+  <!-- 검색바(폼) 끝 -->
+
+
+ 
+  <!-- 테이블 상단 #perPage, btn 영역 -->
+  <div class="container-fluid nwt-table-top mb20r">
+    <div class="row">
+      
+      <!-- 리스트개수 -->
+      <?php	require $_SERVER['DOCUMENT_ROOT']."/include/listCnt.html"; ?>
+      
+      <!-- 테이블 우측 상단 btn -->
+      <div class="col-lg-6 clearfix">
+        <div class="form-inline f-right">
+          <?php if($AUTH_EXCEL == YN_Y) :?>
+          <!-- 등록btn / modal handler -->
+          <button type="button" class="btn btn-success" onclick="excelDownload();"><span class="glyphicon glyphicon-download-alt"></span>&nbsp;엑셀 다운로드</button>
+          <?php endif; ?>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+
+  <!-- 테이블 -->
+  <div class="container-fluid nwt-table" style="width: 100%;"> 
+    <table class="table table-bordered table-striped">
+      <colgroup>
+        <col width="3%"/>
+        <col width="3%"/>
+        <col width="5%"/>
+        <col width="6%"/>
+      </colgroup>
+      <thead>
+        <tr class="active">
+          <th class="text-center" rowspan="3">순번</th>
+          <th class="text-center" rowspan="3">구분</th>
+          <th class="text-center" rowspan="3">지역</th>
+          <th class="text-center" rowspan="3">공업사</th>
+          <th class="text-center" rowspan="3">사업자번호</th>
+          <th class="text-center" rowspan="3">개시일</th>
+          <th class="text-center" rowspan="3">종료일</th>
+          <th class="text-center" rowspan="3">당월청구건</th>
+          <th class="text-center" rowspan="3">당월청구금액</th>
+          <th class="text-center" rowspan="3">재고금액</th>
+          <th class="text-center partsHeader" >사용부품 : [ ]는 배율적용 값</th>
+          <th class="text-center partsHeader" >공급부품</th>
+          <th class="text-center" colspan="2" rowspan="2">협력업체</th>
+        </tr>
+        <tr class="active" id="partsHeaderSTD">
+        </tr>
+        <tr class="active" id="partsHeaderUSE">
+        </tr>
+      </thead>
+      <tbody id="dataTable">
+
+      </tbody>
+    </table>
+  </div>
+
+  <!-- indicator -->
+  <?php	require $_SERVER['DOCUMENT_ROOT']."/include/indicator.html"; ?>
+  
+  <!-- pagination -->
+  <div class="container-fluid">
+    <div class="text-center">
+      <ul class="pagination">
+      </ul>
+    </div>
+  </div>
+
+
+<!-- footer.html -->
+<?php
+  require $_SERVER['DOCUMENT_ROOT']."/include/footer.html";
+?>

@@ -1,0 +1,40 @@
+<?php
+    header("Content-Type: application/vnd.ms-excel");
+    date_default_timezone_set('Asia/Seoul');
+
+    header("Content-Disposition: attachment; filename=구분관리_".date("Ymd_His", time()).".xls");
+    header("Content-Description:PHP4 Generated Data");
+
+    require $_SERVER['DOCUMENT_ROOT']."/common/common.php";	
+    require "class/clsDivision.php";
+
+    $result = $cDivision->getList($_REQUEST);
+
+    $excelHtml = "
+        <table border='1'>
+            <tr>
+                    <td>순번</td>
+                    <td>출력순서</td>
+                    <td>구분코드</td>
+                    <td>구분</td>
+                    <td>등록일시</td>
+                    <td>등록자</td>
+            </tr>
+    ";
+
+    foreach($result[0] as $item) { 
+        $excelHtml .= "<tr>
+                <td>".$item['CSD_IDX']."</td>
+                <td>".$item['CSD_ORDER_NUM']."</td>
+                <td>".$item['CSD_ID']."</td>
+                <td>".$item['CSD_NM']."</td>
+                <td>".$item['WRT_DTHMS']."</td>
+                <td>".$item['WRT_USERID']."</td>
+            </tr>
+        ";
+    }
+    $excelHtml .= "</table>";
+
+    echo "<meta content=\"application/vnd.ms-excel;charset=UTF-8;\" name=\"Content-type\">";
+    echo $excelHtml ;
+?>

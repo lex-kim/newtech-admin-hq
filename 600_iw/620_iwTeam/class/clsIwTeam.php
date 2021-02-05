@@ -1,0 +1,1078 @@
+
+<?php
+class cIwTeam extends DBManager {
+	private $DATA_SAVE_PATH;				// 저장경로.
+	private $ALLOW_FILE_EXT;				// 업로드 가능 확장자
+	// Class Object Constructor
+	function cIwTeam($DATA_SAVE_PATH,$ALLOW_FILE_EXT) {
+		$this->DATA_SAVE_PATH = $DATA_SAVE_PATH;
+		$this->ALLOW_FILE_EXT = $ALLOW_FILE_EXT;
+	}
+	/**
+	 * 조회 
+	 * @param {$ARR}
+	 * @param {CURR_PAGE : 현재페이지, PER_PAGE : 몇개를 조회할 것인지, KEYWORD : 검색조건}
+	 */
+	function getList($ARR) {
+		// echo var_dump($ARR);
+		$LimitStart = ($ARR['CURR_PAGE']-1) * $ARR['PER_PAGE'];
+		$LimitEnd   = $ARR['PER_PAGE'];
+		/** 전체리스트가 아닌경우에만 limitSql 적용 */
+		$LIMIT_SQL = "";
+		if($ARR['REQ_MODE'] == CASE_LIST){
+			$LIMIT_SQL = "LIMIT $LimitStart,$LimitEnd";
+		}
+		$tmpKeyword = "";
+		if($ARR['SEARCH_DT_KEY'] != ''){
+			if($ARR['SEARCH_DT_KEY'] == 'MIT_REGION_DT'){//담당지역입력일
+				$tmpKeyword .= "AND DATE_FORMAT( NITR.`LAST_DTHMS`, '%Y-%m-%d') BETWEEN '".$ARR['SEARCH_START_DT']."'  AND '".$ARR['SEARCH_END_DT']."' ";
+			}else if($ARR['SEARCH_DT_KEY'] == 'MIT_ENROLL_DT'){ //팀장등록일
+				$tmpKeyword .= "AND NIT.MIT_ENROLL_DT BETWEEN '".$ARR['SEARCH_START_DT']."' AND '".$ARR['SEARCH_END_DT']."' ";
+			}else if($ARR['SEARCH_DT_KEY'] == 'NITU_LAST_DTHMS'){ //수정일 or 수정요청일
+				$tmpKeyword .= "AND ( DATE_FORMAT(NITU.NITU_REQUEST_DTHMS, '%Y-%m-%d') BETWEEN '".$ARR['SEARCH_START_DT']."'  AND '".$ARR['SEARCH_END_DT']."'
+										OR DATE_FORMAT(NIT.LAST_DTHMS, '%Y-%m-%d') BETWEEN '".$ARR['SEARCH_START_DT']."'  AND '".$ARR['SEARCH_END_DT']."'
+										OR DATE_FORMAT(NITRU.`LAST_DTHMS`, '%Y-%m-%d') BETWEEN '".$ARR['SEARCH_START_DT']."'  AND '".$ARR['SEARCH_END_DT']."' )";
+			}
+		}
+		if($ARR['SEARCH_END_DT'] != ''){
+			$tmpKeyword .= "AND NI.MII_ENROLL_DT <= '".$ARR['SEARCH_END_DT']."' ";
+		}
+		if($ARR['SEARCH_INSU_NM'] != ''){
+			$tmpKeyword .= "AND NI.MII_ID IN (";
+			foreach ($ARR['SEARCH_INSU_NM'] as $index => $MII_ARRAY) {
+				$tmpKeyword .=" '".$MII_ARRAY."',";
+			}
+			$tmpKeyword=substr($tmpKeyword, 0, -1); // 마지막 콤마제거
+			$tmpKeyword .= ") ";
+		}
+		if($ARR['SEARCH_INSU_TEAM'] != ''){
+			$tmpKeyword .= "AND NIT.MIT_ID IN (";
+			foreach ($ARR['SEARCH_INSU_TEAM'] as $index => $MIT_ARRAY) {
+				$tmpKeyword .=" '".$MIT_ARRAY."',";
+			}
+			$tmpKeyword=substr($tmpKeyword, 0, -1); // 마지막 콤마제거
+			$tmpKeyword .= ") ";
+		}
+		if($ARR['SEARCH_BOSS_KEY'] != ''){
+			if($ARR['SEARCH_BOSS_KEY'] == 'MIT_BOSS_NM_AES'){
+				$tmpKeyword .= "AND INSTR(CAST(AES_DECRYPT(NIT.`MIT_BOSS_NM_AES`,UNHEX(SHA2('".AES_SALT_KEY."',256))) AS CHAR),'".addslashes($ARR['SEARCH_BOSS_KEYWORD'])."')>0 ";
+			}else if($ARR['SEARCH_BOSS_KEY'] == 'MIT_BOSS_TEL_AES'){
+				$tmpKeyword .= "AND INSTR(CAST(AES_DECRYPT(NIT.`MIT_BOSS_TEL_AES`,UNHEX(SHA2('".AES_SALT_KEY."',256))) AS CHAR),'".addslashes($ARR['SEARCH_BOSS_KEYWORD'])."')>0  ";
+			}
+		}
+	
+		if($ARR['SEARCH_REGION'] !=  '' || $ARR['SEARCH_REGION'] != null) {
+			
+			$tmpKeyword .= "AND INSTR(NIT.`MIT_REGION_MEMO`,'".addslashes($ARR['SEARCH_REGION'])."')>0 ";
+
+		}
+		
+		if($ARR['SEARCH_KEY'] != ''){
+			if($ARR['SEARCH_KEY'] == 'MIT_BOSS_NM_AES'){
+				$tmpKeyword .= "AND INSTR(CAST(AES_DECRYPT(NIT.`MIT_BOSS_NM_AES`,UNHEX(SHA2('".AES_SALT_KEY."',256))) AS CHAR),'".addslashes($ARR['SEARCH_KEYWORD'])."')>0 ";
+			}else if($ARR['SEARCH_KEY'] == 'MIT_CHG_NM_AES'){
+				$tmpKeyword .= "AND INSTR(CAST(AES_DECRYPT(NIT.`MIT_CHG_NM_AES`,UNHEX(SHA2('".AES_SALT_KEY."',256))) AS CHAR),'".addslashes($ARR['SEARCH_KEYWORD'])."')>0  ";
+			}else if($ARR['SEARCH_KEY'] == 'MIT_TEAM_TEL_AES'){
+				$tmpKeyword .= "AND INSTR(CAST(AES_DECRYPT(NIT.`MIT_TEAM_TEL_AES`,UNHEX(SHA2('".AES_SALT_KEY."',256))) AS CHAR),'".addslashes($ARR['SEARCH_KEYWORD'])."')>0  ";
+			}else if($ARR['SEARCH_KEY'] == 'MIT_FAX_AES'){
+				$tmpKeyword .= "AND ( INSTR(CAST(AES_DECRYPT(NIT.`MIT_TEAM_FAX_AES`,UNHEX(SHA2('".AES_SALT_KEY."',256))) AS CHAR),'".addslashes($ARR['SEARCH_KEYWORD'])."')>0  
+										OR INSTR(CAST(AES_DECRYPT(NIT.`MIT_CHG_FAX_AES`,UNHEX(SHA2('".AES_SALT_KEY."',256))) AS CHAR),'".addslashes($ARR['SEARCH_KEYWORD'])."')>0  )";
+			}else if($ARR['SEARCH_KEY'] == 'MIT_TEL_AES'){
+				$tmpKeyword .= "AND ( INSTR(CAST(AES_DECRYPT(NIT.`MIT_BOSS_TEL_AES`,UNHEX(SHA2('".AES_SALT_KEY."',256))) AS CHAR),'".addslashes($ARR['SEARCH_KEYWORD'])."')>0  
+										OR INSTR(CAST(AES_DECRYPT(NIT.`MIT_CHG_TEL_AES`,UNHEX(SHA2('".AES_SALT_KEY."',256))) AS CHAR),'".addslashes($ARR['SEARCH_KEYWORD'])."')>0  )";			}else if($ARR['SEARCH_KEY'] == 'MIT_BOSS_TEL_AES'){
+			}else if($ARR['SEARCH_KEY'] == 'MIT_REGION_MEMO'){
+				$tmpKeyword .= "AND INSTR(NIT.`MIT_REGION_MEMO`,'".addslashes($ARR['SEARCH_KEYWORD'])."')>0  ";
+			}else if($ARR['SEARCH_KEY'] == 'MIT_MEMO'){
+				$tmpKeyword .= "AND INSTR(NIT.`MIT_MEMO`,'".addslashes($ARR['SEARCH_KEYWORD'])."')>0  ";
+			}else if($ARR['SEARCH_KEY'] == 'MIT_USER_ID'){
+				$tmpKeyword .= "AND INSTR(NIT.`MIT_USER_ID`,'".addslashes($ARR['SEARCH_KEYWORD'])."')>0  ";
+			}
+		}
+		if($ARR['SEARCH_MIT_REQUEST_MODE'] != ''){
+			if($ARR['SEARCH_MIT_REQUEST_MODE'] == MODE_TARGET_ALL){
+				$tmpKeyword .= "AND NIT.`MIT_REQUEST_MODE` IS NULL";
+			}else {
+				$tmpKeyword .= "AND NIT.`MIT_REQUEST_MODE` ='".$ARR['SEARCH_MIT_REQUEST_MODE']."'";
+			}
+		}
+		if($ARR['SEARCH_NITU_APPLY_YN'] != ''){
+			if($ARR['SEARCH_NITU_APPLY_YN'] == YN_Y){
+
+				$tmpKeyword = " AND  ( NITU.`NITU_APPLY_YN` IS NULL OR  NITU.`NITU_APPLY_YN` = 'Y') ";
+			}else {
+				$tmpKeyword .= "AND NITU.`NITU_APPLY_YN` ='".$ARR['SEARCH_NITU_APPLY_YN']."'";
+			}
+		}
+
+
+		// 페이징처리를 위해 전체데이터
+		$iSQL = "SELECT
+					COUNT(*) AS CNT
+				FROM 
+					`NT_MAIN`.`NMI_INSU_TEAM` NIT
+				LEFT OUTER JOIN (SELECT MIT_ID, MIN(LAST_DTHMS) AS LAST_DTHMS ,
+										CRR_1_ID, CRR_2_ID
+								 FROM `NT_MAIN`.`NMI_INSU_TEAM_REGION` 
+								 GROUP BY MIT_ID) NITR
+					ON NITR.MIT_ID = NIT.MIT_ID
+				LEFT OUTER JOIN `NT_MAIN`.`NMI_INSU_TEAM_UPDATE` NITU
+					ON NIT.MIT_ID = NITU.MIT_ID AND NITU.NITU_APPLY_YN='N'
+			 	LEFT OUTER JOIN (SELECT MIT_ID, NITRU_APPLY_YN, NITRU_REQUEST_DTHMS, LAST_DTHMS 
+				 				 FROM `NT_MAIN`.`NMI_INSU_TEAM_REGION_UPDATE` 
+								 GROUP BY MIT_ID) NITRU
+ 					ON NITRU.MIT_ID = NIT.MIT_ID AND NITRU.NITRU_APPLY_YN ='N',
+					 `NT_MAIN`.`NMI_INSU` NI
+				WHERE NIT.`DEL_YN` ='N'
+				AND NI.MII_ID = NIT.MII_ID AND NI.DEL_YN = 'N'
+				$tmpKeyword
+				;
+		";
+		// echo $iSQL."\n";
+		
+		try{
+			$RS_T	= DBManager::getRecordSet($iSQL);
+		} catch (Exception $e){
+			echo "error : ".$e;
+			return ERROR_DB_SELECT_DATA;   //ERROR_DB_SELECT_DATA
+		}
+
+		$TOTAL_LIST_COUNT = $RS_T['CNT'];
+		$IDX = $RS_T['CNT']-$LimitStart;
+		unset($RS_T);
+		// 리스트 가져오기
+		$iSQL = "SELECT 
+					NIT.`MIT_ID`,
+					NIT.`MII_ID`,
+					NI.`MII_NM`,
+                    NT_CODE.GET_CODE_NM(NI.RIT_ID) AS RIT_NM,
+					CASE NIT.`MIT_REQUEST_MODE` 
+						WHEN '10102' THEN '공'
+						WHEN '10103' THEN '보'
+						WHEN '10104' THEN '영'
+					ELSE '본'
+					END MIT_REQUEST_MODE,
+					NIT.`MIT_USER_ID`,
+					CAST(AES_DECRYPT(NIT.`MIT_USER_PASSWD_AES`,UNHEX(SHA2('".AES_SALT_KEY."',256))) AS CHAR) AS MIT_USER_PASSWD_AES,
+					NIT.`MIT_NM`,
+					IFNULL(DATE_FORMAT( NITR.`LAST_DTHMS`, '%Y-%m-%d') , '') MIT_REGION_DT,
+					NIT.`MIT_REGION_MEMO`,
+					CAST(AES_DECRYPT(NIT.`MIT_NEW_ADDRESS1_AES`,UNHEX(SHA2('".AES_SALT_KEY."',256))) AS CHAR) AS MIT_NEW_ADDRESS1_AES,
+					CAST(AES_DECRYPT(NIT.`MIT_NEW_ADDRESS2_AES`,UNHEX(SHA2('".AES_SALT_KEY."',256))) AS CHAR) AS MIT_NEW_ADDRESS2_AES,
+					NIT.`MIT_NEW_ZIP`,
+					CAST(AES_DECRYPT(NIT.`MIT_TEAM_TEL_AES`,UNHEX(SHA2('".AES_SALT_KEY."',256))) AS CHAR) AS MIT_TEAM_TEL_AES,
+					CAST(AES_DECRYPT(NIT.`MIT_TEAM_FAX_AES`,UNHEX(SHA2('".AES_SALT_KEY."',256))) AS CHAR) AS MIT_TEAM_FAX_AES,
+					CAST(AES_DECRYPT(NIT.`MIT_BOSS_NM_AES`,UNHEX(SHA2('".AES_SALT_KEY."',256))) AS CHAR) AS MIT_BOSS_NM_AES,
+					CAST(AES_DECRYPT(NIT.`MIT_BOSS_TEL_AES`,UNHEX(SHA2('".AES_SALT_KEY."',256))) AS CHAR) AS MIT_BOSS_TEL_AES,
+					CAST(AES_DECRYPT(NIT.`MIT_BOSS_EMAIL_AES`,UNHEX(SHA2('".AES_SALT_KEY."',256))) AS CHAR) AS MIT_BOSS_EMAIL_AES,
+					NIT.`MIT_CHG_LVL`,
+					CAST(AES_DECRYPT(NIT.`MIT_CHG_NM_AES`,UNHEX(SHA2('".AES_SALT_KEY."',256))) AS CHAR) AS MIT_CHG_NM_AES,
+					CAST(AES_DECRYPT(NIT.`MIT_CHG_FAX_AES`,UNHEX(SHA2('".AES_SALT_KEY."',256))) AS CHAR) AS MIT_CHG_FAX_AES,
+					CAST(AES_DECRYPT(NIT.`MIT_CHG_TEL_AES`,UNHEX(SHA2('".AES_SALT_KEY."',256))) AS CHAR) AS MIT_CHG_TEL_AES,
+					CAST(AES_DECRYPT(NIT.`MIT_CHG_EMAIL_AES`,UNHEX(SHA2('".AES_SALT_KEY."',256))) AS CHAR) AS MIT_CHG_EMAIL_AES,
+					NIT.`MIT_CHG_MEMO`,
+					NIT.`MIT_MEMO`,
+					NIT.`MIT_ENROLL_DT`,
+					NIT.`WRT_DTHMS`,
+					NIT.`LAST_DTHMS`,
+					NIT.`WRT_USERID`,
+					-- (
+					-- 	SELECT COUNT(NBI.NB_ID) 
+					-- 	FROM NT_BILL.NBB_BILL_INSU NBI,
+					-- 		 NT_BILL.NBB_BILL NB
+					-- 	WHERE 
+					-- 		NB.NB_ID = NBI.NB_ID
+					-- 		AND `NT_MAIN`.`GET_INSU_CHG_TEAM_ID`(NBI.NIC_ID) = NIT.`MIT_ID` 
+					-- 		AND NBI.NBI_INSU_DONE_YN = 'N' 
+					-- 		AND NB.DEL_YN = 'N' 
+					-- ) 
+					0 AS NON_CNT,
+					IFNULL(NITU.`NITU_APPLY_YN` , 'Y') NITU_APPLY_YN,
+					IFNULL(DATE_FORMAT(NITU.`LAST_DTHMS`, '%Y-%m-%d'), '') NITU_LAST_DTHMS,
+                    #### `NT_MAIN`.`NMI_INSU_TEAM_UPDATE` ######
+					NITU.`NITU_ID` AS NITU_NITU_ID,
+					IF(NITU.`MIT_ID`=NIT.MIT_ID, '' ,NITU.`MIT_ID` ) AS NITU_MIT_ID,
+					IF(NITU.`MII_ID`=NIT.MII_ID, '' ,NITU.`MII_ID` ) AS NITU_MII_ID,
+					NITU.`NITU_REQUEST_MODE` AS NITU_NITU_REQUEST_MODE,
+					IF(NITU.`MIT_NM` = NIT.`MIT_NM`, '' , NITU.`MIT_NM`) AS NITU_MIT_NM,
+                    IF(NITU.`MIT_REGION_MEMO` = NIT.`MIT_REGION_MEMO` , '', NITU.`MIT_REGION_MEMO`) AS NITU_MIT_REGION_MEMO,
+                    IF(	CAST(AES_DECRYPT(NITU.`MIT_OLD_ADDRESS1_AES`,UNHEX(SHA2('".AES_SALT_KEY."',256))) AS CHAR)= CAST(AES_DECRYPT(NIT.`MIT_OLD_ADDRESS1_AES`,UNHEX(SHA2('".AES_SALT_KEY."',256))) AS CHAR) , '',	CAST(AES_DECRYPT(NITU.`MIT_OLD_ADDRESS1_AES`,UNHEX(SHA2('".AES_SALT_KEY."',256))) AS CHAR) )AS NITU_MIT_OLD_ADDRESS1_AES,
+					IF(CAST(AES_DECRYPT(NITU.`MIT_OLD_ADDRESS2_AES`,UNHEX(SHA2('".AES_SALT_KEY."',256))) AS CHAR)= CAST(AES_DECRYPT(NIT.`MIT_OLD_ADDRESS2_AES`,UNHEX(SHA2('".AES_SALT_KEY."',256))) AS CHAR) , '',CAST(AES_DECRYPT(NITU.`MIT_OLD_ADDRESS2_AES`,UNHEX(SHA2('".AES_SALT_KEY."',256))) AS CHAR) ) AS NITU_MIT_OLD_ADDRESS2_AES,
+					IF(NITU.`MIT_OLD_ZIP` = NIT.`MIT_OLD_ZIP` ,'', NITU.`MIT_OLD_ZIP` ) AS NITU_MIT_OLD_ZIP,
+					IF(CAST(AES_DECRYPT(NITU.`MIT_NEW_ADDRESS1_AES`,UNHEX(SHA2('".AES_SALT_KEY."',256))) AS CHAR)= CAST(AES_DECRYPT(NIT.`MIT_NEW_ADDRESS1_AES`,UNHEX(SHA2('".AES_SALT_KEY."',256))) AS CHAR), '' ,CAST(AES_DECRYPT(NITU.`MIT_NEW_ADDRESS1_AES`,UNHEX(SHA2('".AES_SALT_KEY."',256))) AS CHAR) ) AS NITU_MIT_NEW_ADDRESS1_AES,
+					IF(CAST(AES_DECRYPT(NITU.`MIT_NEW_ADDRESS2_AES`,UNHEX(SHA2('".AES_SALT_KEY."',256))) AS CHAR)= CAST(AES_DECRYPT(NIT.`MIT_NEW_ADDRESS2_AES`,UNHEX(SHA2('".AES_SALT_KEY."',256))) AS CHAR),'',CAST(AES_DECRYPT(NITU.`MIT_NEW_ADDRESS2_AES`,UNHEX(SHA2('".AES_SALT_KEY."',256))) AS CHAR) ) AS NITU_MIT_NEW_ADDRESS2_AES,
+					IF(NITU.`MIT_NEW_ZIP` = NIT.`MIT_NEW_ZIP`, '', NITU.`MIT_NEW_ZIP` ) AS NITU_MIT_NEW_ZIP,
+					IF(CAST(AES_DECRYPT(NITU.`MIT_TEAM_TEL_AES`,UNHEX(SHA2('".AES_SALT_KEY."',256))) AS CHAR)= CAST(AES_DECRYPT(NIT.`MIT_TEAM_TEL_AES`,UNHEX(SHA2('".AES_SALT_KEY."',256))) AS CHAR), '', CAST(AES_DECRYPT(NITU.`MIT_TEAM_TEL_AES`,UNHEX(SHA2('".AES_SALT_KEY."',256))) AS CHAR) ) AS NITU_MIT_TEAM_TEL_AES,
+					IF(CAST(AES_DECRYPT(NITU.`MIT_TEAM_FAX_AES`,UNHEX(SHA2('".AES_SALT_KEY."',256))) AS CHAR)= CAST(AES_DECRYPT(NIT.`MIT_TEAM_FAX_AES`,UNHEX(SHA2('".AES_SALT_KEY."',256))) AS CHAR), '', CAST(AES_DECRYPT(NITU.`MIT_TEAM_FAX_AES`,UNHEX(SHA2('".AES_SALT_KEY."',256))) AS CHAR) ) AS NITU_MIT_TEAM_FAX_AES,
+					IF(CAST(AES_DECRYPT(NITU.`MIT_BOSS_NM_AES`,UNHEX(SHA2('".AES_SALT_KEY."',256))) AS CHAR)= CAST(AES_DECRYPT(NIT.`MIT_BOSS_NM_AES`,UNHEX(SHA2('".AES_SALT_KEY."',256))) AS CHAR), '', CAST(AES_DECRYPT(NITU.`MIT_BOSS_NM_AES`,UNHEX(SHA2('".AES_SALT_KEY."',256))) AS CHAR) ) AS NITU_MIT_BOSS_NM_AES,
+					IF(CAST(AES_DECRYPT(NITU.`MIT_BOSS_TEL_AES`,UNHEX(SHA2('".AES_SALT_KEY."',256))) AS CHAR)= CAST(AES_DECRYPT(NIT.`MIT_BOSS_TEL_AES`,UNHEX(SHA2('".AES_SALT_KEY."',256))) AS CHAR), '', CAST(AES_DECRYPT(NITU.`MIT_BOSS_TEL_AES`,UNHEX(SHA2('".AES_SALT_KEY."',256))) AS CHAR) ) AS NITU_MIT_BOSS_TEL_AES,
+					IF(CAST(AES_DECRYPT(NITU.`MIT_BOSS_EMAIL_AES`,UNHEX(SHA2('".AES_SALT_KEY."',256))) AS CHAR)= CAST(AES_DECRYPT(NIT.`MIT_BOSS_EMAIL_AES`,UNHEX(SHA2('".AES_SALT_KEY."',256))) AS CHAR), '', CAST(AES_DECRYPT(NITU.`MIT_BOSS_EMAIL_AES`,UNHEX(SHA2('".AES_SALT_KEY."',256))) AS CHAR) ) AS NITU_MIT_BOSS_EMAIL_AES,
+					IF(NITU.`MIT_CHG_LVL`=NIT.`MIT_CHG_LVL`, '', NITU.`MIT_CHG_LVL` ) AS NITU_MIT_CHG_LVL,
+					IF(CAST(AES_DECRYPT(NITU.`MIT_CHG_NM_AES`,UNHEX(SHA2('".AES_SALT_KEY."',256))) AS CHAR)= CAST(AES_DECRYPT(NIT.`MIT_CHG_NM_AES`,UNHEX(SHA2('".AES_SALT_KEY."',256))) AS CHAR), '', CAST(AES_DECRYPT(NITU.`MIT_CHG_NM_AES`,UNHEX(SHA2('".AES_SALT_KEY."',256))) AS CHAR) ) AS NITU_MIT_CHG_NM_AES,
+					IF(CAST(AES_DECRYPT(NITU.`MIT_CHG_FAX_AES`,UNHEX(SHA2('".AES_SALT_KEY."',256))) AS CHAR)= CAST(AES_DECRYPT(NIT.`MIT_CHG_FAX_AES`,UNHEX(SHA2('".AES_SALT_KEY."',256))) AS CHAR), '', CAST(AES_DECRYPT(NITU.`MIT_CHG_FAX_AES`,UNHEX(SHA2('".AES_SALT_KEY."',256))) AS CHAR) ) AS NITU_MIT_CHG_FAX_AES,
+					IF(CAST(AES_DECRYPT(NITU.`MIT_CHG_TEL_AES`,UNHEX(SHA2('".AES_SALT_KEY."',256))) AS CHAR)= CAST(AES_DECRYPT(NIT.`MIT_CHG_TEL_AES`,UNHEX(SHA2('".AES_SALT_KEY."',256))) AS CHAR),'', CAST(AES_DECRYPT(NITU.`MIT_CHG_TEL_AES`,UNHEX(SHA2('".AES_SALT_KEY."',256))) AS CHAR) ) AS NITU_MIT_CHG_TEL_AES,
+					IF(CAST(AES_DECRYPT(NITU.`MIT_CHG_EMAIL_AES`,UNHEX(SHA2('".AES_SALT_KEY."',256))) AS CHAR)= CAST(AES_DECRYPT(NIT.`MIT_CHG_EMAIL_AES`,UNHEX(SHA2('".AES_SALT_KEY."',256))) AS CHAR), '', CAST(AES_DECRYPT(NITU.`MIT_CHG_EMAIL_AES`,UNHEX(SHA2('".AES_SALT_KEY."',256))) AS CHAR)  ) AS NITU_MIT_CHG_EMAIL_AES,
+                    NITU.`MIT_CHG_MEMO` AS NITU_MIT_CHG_MEMO,
+					NITU.`MIT_MEMO` AS NITU_MIT_MEMO,
+					IFNULL(DATE_FORMAT( NITU.`NITU_REQUEST_DTHMS`, '%Y-%m-%d'),'') AS NITU_NITU_REQUEST_DTHMS,
+					NITU.`NITU_REQUEST_USERID` AS NITU_NITU_REQUEST_USERID,
+					NITU.`WRT_DTHMS` AS NITU_WRT_DTHMS,
+					NITU.`LAST_DTHMS` AS NITU_LAST_DTHMS,
+                    
+					IFNULL(NITRU.`NITRU_APPLY_YN` , 'Y') AS NITRU_APPLY_YN,
+					IFNULL(DATE_FORMAT(NITRU.`LAST_DTHMS`, '%Y-%m-%d'), '') AS NITRU_LAST_DTHMS
+
+				FROM 
+					`NT_MAIN`.`NMI_INSU_TEAM` NIT
+				LEFT OUTER JOIN (SELECT MIT_ID, MIN(LAST_DTHMS) AS LAST_DTHMS,
+										CRR_1_ID, CRR_2_ID 
+								 FROM `NT_MAIN`.`NMI_INSU_TEAM_REGION` 
+								 GROUP BY MIT_ID) NITR
+					ON NITR.MIT_ID = NIT.MIT_ID
+				LEFT OUTER JOIN `NT_MAIN`.`NMI_INSU_TEAM_UPDATE` NITU
+					ON NIT.MIT_ID = NITU.MIT_ID AND NITU.NITU_APPLY_YN='N'
+			 	LEFT OUTER JOIN (SELECT MIT_ID, NITRU_APPLY_YN, LAST_DTHMS 
+				 				 FROM `NT_MAIN`.`NMI_INSU_TEAM_REGION_UPDATE` 
+								 WHERE NITRU_APPLY_YN ='N'
+								 GROUP BY MIT_ID) NITRU
+ 					ON NITRU.MIT_ID = NIT.MIT_ID AND NITRU.NITRU_APPLY_YN ='N',
+					`NT_MAIN`.`NMI_INSU` NI
+				WHERE NIT.DEL_YN = 'N'
+				AND NI.MII_ID = NIT.MII_ID AND NI.DEL_YN = 'N'
+					$tmpKeyword 
+				ORDER BY NIT.MIT_ENROLL_DT DESC, NIT.WRT_DTHMS DESC
+				$LIMIT_SQL 
+				;
+		";
+		// echo $iSQL."\n";
+		$Result= DBManager::getResult($iSQL);
+		$rtnArray = array();
+		while($RS = $Result->fetch_array()){
+			array_push($rtnArray,
+				array(
+				"IDX"=>$IDX--,
+				"MIT_ID"=>$RS['MIT_ID'],
+				"MII_ID"=>$RS['MII_ID'],
+				"MII_NM"=>$RS['MII_NM'],
+				"RIT_NM"=>$RS['RIT_NM'],
+				"MIT_REQUEST_MODE"=>$RS['MIT_REQUEST_MODE'],
+				"MIT_USER_ID"=>$RS['MIT_USER_ID'],
+				"MIT_USER_PASSWD_AES"=>$RS['MIT_USER_PASSWD_AES'],
+				"MIT_NM"=>$RS['MIT_NM'],
+				"MIT_REGION_MEMO"=>$RS['MIT_REGION_MEMO'],
+				"MIT_NEW_ADDRESS1_AES"=>$RS['MIT_NEW_ADDRESS1_AES'],
+				"MIT_NEW_ADDRESS2_AES"=>$RS['MIT_NEW_ADDRESS2_AES'],
+				"MIT_NEW_ZIP"=>$RS['MIT_NEW_ZIP'],
+				"MIT_TEAM_TEL_AES"=>$RS['MIT_TEAM_TEL_AES'],
+				"MIT_TEAM_FAX_AES"=>$RS['MIT_TEAM_FAX_AES'],
+				"MIT_BOSS_NM_AES"=>$RS['MIT_BOSS_NM_AES'],
+				"MIT_BOSS_TEL_AES"=>$RS['MIT_BOSS_TEL_AES'],
+				"MIT_BOSS_EMAIL_AES"=>$RS['MIT_BOSS_EMAIL_AES'],
+				"MIT_CHG_LVL"=>$RS['MIT_CHG_LVL'],
+				"MIT_CHG_NM_AES"=>$RS['MIT_CHG_NM_AES'],
+				"MIT_CHG_FAX_AES"=>$RS['MIT_CHG_FAX_AES'],
+				"MIT_CHG_TEL_AES"=>$RS['MIT_CHG_TEL_AES'],
+				"MIT_CHG_EMAIL_AES"=>$RS['MIT_CHG_EMAIL_AES'],
+				"MIT_CHG_MEMO"=>$RS['MIT_CHG_MEMO'],
+				"MIT_MEMO"=>$RS['MIT_MEMO'],
+				"MIT_ENROLL_DT"=>$RS['MIT_ENROLL_DT'],
+				"WRT_DTHMS"=>$RS['WRT_DTHMS'],
+				"LAST_DTHMS"=>$RS['LAST_DTHMS'],
+				"WRT_USERID"=>$RS['WRT_USERID'],
+				"MIT_REGION_DT"=>$RS['MIT_REGION_DT'],
+				"NON_CNT"=>$RS['NON_CNT'],
+				"NITU_APPLY_YN"=>$RS['NITU_APPLY_YN'],
+				"NITU_LAST_DTHMS"=>$RS['NITU_LAST_DTHMS'],
+				"NITRU_APPLY_YN"=>$RS['NITRU_APPLY_YN'],
+				"NITRU_LAST_DTHMS"=>$RS['NITRU_LAST_DTHMS'],
+				// NMI_INSU_TEAM_UPDATE
+				"NITU_NITU_ID"=>$RS['NITU_NITU_ID'],
+				"NITU_MIT_ID"=>$RS['NITU_MIT_ID'],
+				"NITU_MII_ID"=>$RS['NITU_MII_ID'],
+				"NITU_NITU_REQUEST_MODE"=>$RS['NITU_NITU_REQUEST_MODE'],
+				"NITU_MIT_NM"=>$RS['NITU_MIT_NM'],
+				"NITU_MIT_REGION_MEMO"=>$RS['NITU_MIT_REGION_MEMO'],
+				"NITU_MIT_OLD_ADDRESS1_AES"=>$RS['NITU_MIT_OLD_ADDRESS1_AES'],
+				"NITU_MIT_OLD_ADDRESS2_AES"=>$RS['NITU_MIT_OLD_ADDRESS2_AES'],
+				"NITU_MIT_OLD_ZIP"=>$RS['NITU_MIT_OLD_ZIP'],
+				"NITU_MIT_NEW_ADDRESS1_AES"=>$RS['NITU_MIT_NEW_ADDRESS1_AES'],
+				"NITU_MIT_NEW_ADDRESS2_AES"=>$RS['NITU_MIT_NEW_ADDRESS2_AES'],
+				"NITU_MIT_NEW_ZIP"=>$RS['NITU_MIT_NEW_ZIP'],
+				"NITU_MIT_TEAM_TEL_AES"=>$RS['NITU_MIT_TEAM_TEL_AES'],
+				"NITU_MIT_TEAM_FAX_AES"=>$RS['NITU_MIT_TEAM_FAX_AES'],
+				"NITU_MIT_BOSS_NM_AES"=>$RS['NITU_MIT_BOSS_NM_AES'],
+				"NITU_MIT_BOSS_TEL_AES"=>$RS['NITU_MIT_BOSS_TEL_AES'],
+				"NITU_MIT_BOSS_EMAIL_AES"=>$RS['NITU_MIT_BOSS_EMAIL_AES'],
+				"NITU_MIT_CHG_LVL"=>$RS['NITU_MIT_CHG_LVL'],
+				"NITU_MIT_CHG_NM_AES"=>$RS['NITU_MIT_CHG_NM_AES'],
+				"NITU_MIT_CHG_FAX_AES"=>$RS['NITU_MIT_CHG_FAX_AES'],
+				"NITU_MIT_CHG_TEL_AES"=>$RS['NITU_MIT_CHG_TEL_AES'],
+				"NITU_MIT_CHG_EMAIL_AES"=>$RS['NITU_MIT_CHG_EMAIL_AES'],
+				"NITU_MIT_CHG_MEMO"=>$RS['NITU_MIT_CHG_MEMO'],
+				"NITU_MIT_MEMO"=>$RS['NITU_MIT_MEMO'],
+				"NITU_NITU_REQUEST_DTHMS"=>$RS['NITU_NITU_REQUEST_DTHMS'],
+				"NITU_NITU_REQUEST_USERID"=>$RS['NITU_NITU_REQUEST_USERID'],
+				"NITU_NITU_APPLY_YN"=>$RS['NITU_NITU_APPLY_YN'],
+				"NITU_NITU_APPY_DTHMS"=>$RS['NITU_NITU_APPY_DTHMS'],
+				"NITU_NITU_APPLY_USERID"=>$RS['NITU_NITU_APPLY_USERID'],
+				"NITU_WRT_DTHMS"=>$RS['NITU_WRT_DTHMS'],
+				"NITU_LAST_DTHMS"=>$RS['NITU_LAST_DTHMS']
+
+				// NMI_INSU_TEAM_REGION_UPDATE
+			));
+		}
+		
+		$Result->close();  // 자원 반납
+		unset($RS);
+
+
+		if(empty($rtnArray)) {
+			return HAVE_NO_DATA;
+		} else {
+			$jsonArray = array();
+			array_push($jsonArray,$rtnArray);
+			array_push($jsonArray,$TOTAL_LIST_COUNT);
+			return  $jsonArray;
+		}
+		
+	}
+	
+	
+	/**
+	 * 데이터생성
+	 */
+	function setData($ARR) {
+		if($ARR['REQ_MODE'] == CASE_CREATE ) {
+			/* 아이디 존재여부 등록일 경우에는 전체에서 존재하는지 */
+			if(isset($ARR['MIT_USER_ID']) && !empty($ARR['MIT_USER_ID'])){
+				$iSQL = "SELECT 
+							`MIT_USER_ID`
+						FROM `NT_MAIN`.`NMI_INSU_TEAM`
+						WHERE MIT_USER_ID = '".addslashes($ARR['MIT_USER_ID'])."' 
+						;
+				";
+				$RS= DBManager::getRecordSet($iSQL);
+				if(!empty($RS)) {
+					return ERROR;
+				}
+				unset($RS);
+			}
+			
+		}else {
+			if(isset($ARR['MIT_USER_ID']) && !empty($ARR['MIT_USER_ID'])){
+				$iSQL = "SELECT 
+							`MIT_USER_ID`
+						FROM `NT_MAIN`.`NMI_INSU_TEAM`
+						WHERE MIT_USER_ID = '".addslashes($ARR['MIT_USER_ID'])."' 
+						AND `MIT_ID` <> '".addslashes($ARR['MIT_ID'])."'
+						;
+				";
+				$RS= DBManager::getRecordSet($iSQL);
+				if(!empty($RS)) {
+					return ERROR;
+				}
+				unset($RS);
+			}
+		}
+		
+	
+		if($ARR['REQ_MODE'] == CASE_CREATE) {
+			$iSQL = "INSERT INTO `NT_MAIN`.`NMI_INSU_TEAM`
+											(
+											`MII_ID`,		";
+			if(isset($ARR['MIT_USER_ID']) && !empty($ARR['MIT_USER_ID'])){
+				$iSQL .= "					`MIT_USER_ID`, `MIT_USER_PASSWD_AES`,	";
+			}
+			$iSQL .= "						`MIT_NM`,
+											`MIT_REGION_MEMO`,
+											`MIT_OLD_ADDRESS1_AES`,
+											`MIT_OLD_ADDRESS2_AES`,
+											`MIT_OLD_ZIP`,
+											`MIT_NEW_ADDRESS1_AES`,
+											`MIT_NEW_ADDRESS2_AES`,
+											`MIT_NEW_ZIP`,
+											`MIT_TEAM_TEL_AES`,
+											`MIT_TEAM_FAX_AES`,
+											`MIT_BOSS_NM_AES`,
+											`MIT_BOSS_TEL_AES`,
+											`MIT_BOSS_EMAIL_AES`,
+											`MIT_CHG_LVL`,
+											`MIT_CHG_NM_AES`,
+											`MIT_CHG_FAX_AES`,
+											`MIT_CHG_TEL_AES`,
+											`MIT_CHG_EMAIL_AES`,
+											`MIT_CHG_MEMO`,
+											`MIT_MEMO`,
+											`MIT_ENROLL_DT`,
+											`WRT_DTHMS`,
+											`LAST_DTHMS`,
+											`WRT_USERID`,
+											`DEL_YN`)
+											VALUES
+											(
+											'".addslashes($ARR['MII_ID'])."', 
+			";
+			if(isset($ARR['MIT_USER_ID']) && !empty($ARR['MIT_USER_ID'])){
+				$iSQL .= "					'".addslashes($ARR['MIT_USER_ID'])."',
+											(AES_ENCRYPT('".addslashes($ARR['MIT_USER_PASSWD_AES'])."',UNHEX(SHA2('".AES_SALT_KEY."',256))) ),	";
+			}
+			$iSQL .= "						'".addslashes($ARR['MIT_NM'])."',
+											'".addslashes($ARR['MIT_REGION_MEMO'])."',
+											(AES_ENCRYPT('".addslashes($ARR['MIT_OLD_ADDRESS1_AES'])."',UNHEX(SHA2('".AES_SALT_KEY."',256))) ),
+											(AES_ENCRYPT('".addslashes($ARR['MIT_OLD_ADDRESS2_AES'])."',UNHEX(SHA2('".AES_SALT_KEY."',256))) ),
+											'".addslashes($ARR['MIT_OLD_ZIP'])."',
+											(AES_ENCRYPT('".addslashes($ARR['MIT_NEW_ADDRESS1_AES'])."',UNHEX(SHA2('".AES_SALT_KEY."',256))) ),
+											(AES_ENCRYPT('".addslashes($ARR['MIT_NEW_ADDRESS2_AES'])."',UNHEX(SHA2('".AES_SALT_KEY."',256))) ),
+											'".addslashes($ARR['MIT_NEW_ZIP'])."',
+											(AES_ENCRYPT('".addslashes($ARR['MIT_TEAM_TEL_AES'])."',UNHEX(SHA2('".AES_SALT_KEY."',256))) ),
+											(AES_ENCRYPT('".addslashes($ARR['MIT_TEAM_FAX_AES'])."',UNHEX(SHA2('".AES_SALT_KEY."',256))) ),
+											(AES_ENCRYPT('".addslashes($ARR['MIT_BOSS_NM_AES'])."',UNHEX(SHA2('".AES_SALT_KEY."',256))) ),
+											(AES_ENCRYPT('".addslashes($ARR['MIT_BOSS_TEL_AES'])."',UNHEX(SHA2('".AES_SALT_KEY."',256))) ),
+											(AES_ENCRYPT('".addslashes($ARR['MIT_BOSS_EMAIL_AES'])."',UNHEX(SHA2('".AES_SALT_KEY."',256))) ),
+											'".addslashes($ARR['MIT_CHG_LVL'])."',
+											(AES_ENCRYPT('".addslashes($ARR['MIT_CHG_NM_AES'])."',UNHEX(SHA2('".AES_SALT_KEY."',256))) ),
+											(AES_ENCRYPT('".addslashes($ARR['MIT_CHG_FAX_AES'])."',UNHEX(SHA2('".AES_SALT_KEY."',256))) ),
+											(AES_ENCRYPT('".addslashes($ARR['MIT_CHG_TEL_AES'])."',UNHEX(SHA2('".AES_SALT_KEY."',256))) ),
+											(AES_ENCRYPT('".addslashes($ARR['MIT_CHG_EMAIL_AES'])."',UNHEX(SHA2('".AES_SALT_KEY."',256))) ),
+											'".addslashes($ARR['MIT_CHG_MEMO'])."',
+											'".addslashes($ARR['MIT_MEMO'])."',
+											'".addslashes($ARR['MIT_ENROLL_DT'])."',
+											NOW(),
+											NOW(),
+											'".addslashes($_SESSION['USERID'])."',
+											'N'); 	";
+		} else {
+	
+			$iSQL = "UPDATE `NT_MAIN`.`NMI_INSU_TEAM`
+						SET
+						`MIT_REQUEST_MODE` = NULL,		";
+			if(isset($ARR['MIT_USER_ID']) && !empty($ARR['MIT_USER_ID'])){
+				$iSQL .= " 	`MIT_USER_ID` = '".addslashes($ARR['MIT_USER_ID'])."',
+						 	`MIT_USER_PASSWD_AES` = (AES_ENCRYPT('".addslashes($ARR['MIT_USER_PASSWD_AES'])."',UNHEX(SHA2('".AES_SALT_KEY."',256))) ), ";
+			}			
+			$iSQL .= "	`MIT_NM` = '".addslashes($ARR['MIT_NM'])."',
+						`MIT_REGION_MEMO` = '".addslashes($ARR['MIT_REGION_MEMO'])."',
+						`MIT_OLD_ADDRESS1_AES` = (AES_ENCRYPT('".addslashes($ARR['MIT_OLD_ADDRESS1_AES'])."',UNHEX(SHA2('".AES_SALT_KEY."',256))) ),
+						`MIT_OLD_ADDRESS2_AES` = (AES_ENCRYPT('".addslashes($ARR['MIT_OLD_ADDRESS2_AES'])."',UNHEX(SHA2('".AES_SALT_KEY."',256))) ),
+						`MIT_OLD_ZIP` = '".addslashes($ARR['MIT_OLD_ZIP'])."',
+						`MIT_NEW_ADDRESS1_AES` = (AES_ENCRYPT('".addslashes($ARR['MIT_NEW_ADDRESS1_AES'])."',UNHEX(SHA2('".AES_SALT_KEY."',256))) ),
+						`MIT_NEW_ADDRESS2_AES` = (AES_ENCRYPT('".addslashes($ARR['MIT_NEW_ADDRESS2_AES'])."',UNHEX(SHA2('".AES_SALT_KEY."',256))) ),
+						`MIT_NEW_ZIP` = '".addslashes($ARR['MIT_NEW_ZIP'])."',
+						`MIT_TEAM_TEL_AES` = (AES_ENCRYPT('".addslashes($ARR['MIT_TEAM_TEL_AES'])."',UNHEX(SHA2('".AES_SALT_KEY."',256))) ),
+						`MIT_TEAM_FAX_AES` = (AES_ENCRYPT('".addslashes($ARR['MIT_TEAM_FAX_AES'])."',UNHEX(SHA2('".AES_SALT_KEY."',256))) ),
+						`MIT_BOSS_NM_AES` = (AES_ENCRYPT('".addslashes($ARR['MIT_BOSS_NM_AES'])."',UNHEX(SHA2('".AES_SALT_KEY."',256))) ),
+						`MIT_BOSS_TEL_AES` = (AES_ENCRYPT('".addslashes($ARR['MIT_BOSS_TEL_AES'])."',UNHEX(SHA2('".AES_SALT_KEY."',256))) ),
+						`MIT_BOSS_EMAIL_AES` = (AES_ENCRYPT('".addslashes($ARR['MIT_BOSS_EMAIL_AES'])."',UNHEX(SHA2('".AES_SALT_KEY."',256))) ),
+						`MIT_CHG_LVL` = '".addslashes($ARR['MIT_CHG_LVL'])."',
+						`MIT_CHG_NM_AES` = (AES_ENCRYPT('".addslashes($ARR['MIT_CHG_NM_AES'])."',UNHEX(SHA2('".AES_SALT_KEY."',256))) ),
+						`MIT_CHG_FAX_AES` = (AES_ENCRYPT('".addslashes($ARR['MIT_CHG_FAX_AES'])."',UNHEX(SHA2('".AES_SALT_KEY."',256))) ),
+						`MIT_CHG_TEL_AES` = (AES_ENCRYPT('".addslashes($ARR['MIT_CHG_TEL_AES'])."',UNHEX(SHA2('".AES_SALT_KEY."',256))) ),
+						`MIT_CHG_EMAIL_AES` = (AES_ENCRYPT('".addslashes($ARR['MIT_CHG_EMAIL_AES'])."',UNHEX(SHA2('".AES_SALT_KEY."',256))) ),
+						`MIT_CHG_MEMO` = '".addslashes($ARR['MIT_CHG_MEMO'])."',
+						`MIT_MEMO` = '".addslashes($ARR['MIT_MEMO'])."',
+						`LAST_DTHMS` = NOW(),
+						`WRT_USERID` = '".addslashes($_SESSION['USERID'])."'     
+						WHERE 
+							`MIT_ID` = '".addslashes($ARR['MIT_ID'])."' 
+						
+						AND `DEL_YN` = 'N';
+		";		
+		}
+		// echo "459\n".$iSQL."\n";
+		return DBManager::execQuery($iSQL);
+	}
+	
+
+	/* 보험사 팀정보 수정요청 수락 */
+	function setTeam($ARR) {
+		/* 1. 안전업데이트 해제 */
+		$iSQL = "SET SQL_SAFE_UPDATES =0;"; // 안전 업데이트 해제
+
+		/* 2. NMI_INSU_TEAM UPDATE */
+		$iSQL .= "UPDATE `NT_MAIN`.`NMI_INSU_TEAM` NIT , `NT_MAIN`.`NMI_INSU_TEAM_UPDATE` NITU 
+					SET
+					NIT.`MII_ID` = NITU.`MII_ID`,
+					NIT.`MIT_REQUEST_MODE` = NITU.`NITU_REQUEST_MODE`,
+					NIT.`MIT_NM` = NITU.`MIT_NM`,
+					NIT.`MIT_REGION_MEMO` = NITU.`MIT_REGION_MEMO`,
+					NIT.`MIT_OLD_ADDRESS1_AES` = NITU.`MIT_OLD_ADDRESS1_AES`,
+					NIT.`MIT_OLD_ADDRESS2_AES` = NITU.`MIT_OLD_ADDRESS2_AES`,
+					NIT.`MIT_OLD_ZIP` = NITU.`MIT_OLD_ZIP`,
+					NIT.`MIT_NEW_ADDRESS1_AES` = NITU.`MIT_NEW_ADDRESS1_AES`,
+					NIT.`MIT_NEW_ADDRESS2_AES` = NITU.`MIT_NEW_ADDRESS2_AES`,
+					NIT.`MIT_NEW_ZIP` = NITU.`MIT_NEW_ZIP`,
+					NIT.`MIT_TEAM_TEL_AES` = NITU.`MIT_TEAM_TEL_AES`,
+					NIT.`MIT_TEAM_FAX_AES` = NITU.`MIT_TEAM_FAX_AES`,
+					NIT.`MIT_BOSS_NM_AES` = NITU.`MIT_BOSS_NM_AES`,
+					NIT.`MIT_BOSS_TEL_AES` = NITU.`MIT_BOSS_TEL_AES`,
+					NIT.`MIT_BOSS_EMAIL_AES` = NITU.`MIT_BOSS_EMAIL_AES`,
+					NIT.`MIT_CHG_LVL` = NITU.`MIT_CHG_LVL`,
+					NIT.`MIT_CHG_NM_AES` = NITU.`MIT_CHG_NM_AES`,
+					NIT.`MIT_CHG_FAX_AES` = NITU.`MIT_CHG_FAX_AES`,
+					NIT.`MIT_CHG_TEL_AES` = NITU.`MIT_CHG_TEL_AES`,
+					NIT.`MIT_CHG_EMAIL_AES` = NITU.`MIT_CHG_EMAIL_AES`,
+					NIT.`MIT_CHG_MEMO` = NITU.`MIT_CHG_MEMO`,
+					NIT.`MIT_MEMO` = NITU.`MIT_MEMO`,
+					NIT.`LAST_DTHMS` = NITU.`LAST_DTHMS`,
+					NIT.`WRT_USERID` = NITU.`NITU_REQUEST_USERID`
+					WHERE NIT.MIT_ID = NITU.MIT_ID
+					AND NITU.NITU_APPLY_YN ='N'
+					AND NIT.MIT_ID='".addslashes($ARR['MIT_ID'])."'
+					;
+		";
+
+		/* 3. NMI_INSU_TEAM_UPDATE UPDATE*/
+		$iSQL .= "UPDATE `NT_MAIN`.`NMI_INSU_TEAM_UPDATE` 
+					SET
+					`NITU_APPLY_YN` = 'Y',
+					`NITU_APPY_DTHMS` =NOW(),
+					`NITU_APPLY_USERID` = '".addslashes($_SESSION['USERID'])."'
+					WHERE NITU_APPLY_YN ='N'
+					AND NITU_ID = '".addslashes($ARR['NITU_ID'])."' ;
+		";
+
+		/* 4. 안전 업데이트 설정 */
+		$iSQL .= "SET SQL_SAFE_UPDATES =1;"; 
+	
+		
+		// echo $iSQL."\n";
+		return DBManager::execMulti($iSQL);
+	}
+
+
+	/* 보험사 팀 담당지역 등록 및 수정요청 수락 */
+	function setRegion($ARR) {
+		if( !empty($ARR['ARR_REGION']) || $ARR['ARR_REGION'] != null){
+			$iSQL = "DELETE FROM `NT_MAIN`.`NMI_INSU_TEAM_REGION`
+							WHERE MIT_ID = '".addslashes($ARR['MIT_ID'])."' ;
+				";
+			foreach ($ARR['ARR_REGION'] as $index => $MII_ARRAY) {
+				$crrId = explode("-",$MII_ARRAY); // 지역구분별 아이디 분리
+				
+				$iSQL .= "INSERT  INTO `NT_MAIN`.`NMI_INSU_TEAM_REGION`
+								(
+								`MIT_ID`,
+								`CRR_1_ID`,
+								`CRR_2_ID`,
+								`CRR_3_ID`,
+								`WRT_DTHMS`,
+								`LAST_DTHMS`,
+								`WRT_USERID`
+								)
+								VALUES
+								(
+									'".addslashes($ARR['MIT_ID'])."',
+									'".$crrId[0]."',
+									'".$crrId[1]."',
+									'".$crrId[2]."',
+								NOW(),
+								NOW(),
+								'".addslashes($_SESSION['USERID'])."' 
+								);
+				";
+
+				if($crrId[3] >0 ){
+					if($crrId[4] == YN_N){ //기존 아이들 
+						/* 1. 안전업데이트 해제 */
+						$iSQL .= "SET SQL_SAFE_UPDATES =0;"; 
+
+						/* 2. NMI_INSU_TEAM_REGION_UPDATE UPDATE*/
+						$iSQL .= "UPDATE `NT_MAIN`.`NMI_INSU_TEAM_REGION_UPDATE` 
+									SET
+									`NITRU_APPLY_YN` = 'Y',
+									`NITRU_APPY_DTHMS` =NOW(),
+									`NITRU_APPLY_USERID` = '".addslashes($_SESSION['USERID'])."'
+									WHERE NITRU_APPLY_YN ='N'
+									AND NITRU_ID = '".$crrId[3]."' ;
+						";
+
+						/* 3. 안전 업데이트 설정 */
+						$iSQL .= "SET SQL_SAFE_UPDATES =1;"; 
+					}	
+				}
+			}
+
+			$iSQL .= "CALL NT_MAIN.SYNC_REGION_UPDATE('".addslashes($ARR['MIT_ID'])."', '".addslashes($_SESSION['USERID'])."');";
+
+			// echo $iSQL."\n";
+			
+		}else {
+			$iSQL = "DELETE FROM `NT_MAIN`.`NMI_INSU_TEAM_REGION`
+							WHERE MIT_ID = '".addslashes($ARR['MIT_ID'])."' ;
+			";
+		}
+		return DBManager::execMulti($iSQL);
+	}
+	
+	/* 보험사 팀 지역 정보 조회 */
+	function getTeamRegion($ARR){
+		$iSQL = "SELECT 
+					TR.NITR_MIT_ID,
+					VGR.CRR_NM,
+					IFNULL(TR.CRR_1_ID, VGR.CRR_1_ID) AS CRR_1_ID,
+					IFNULL(TR.CRR_2_ID, VGR.CRR_2_ID) AS CRR_2_ID,
+					IFNULL(TR.CRR_3_ID, VGR.CRR_3_ID) AS CRR_3_ID,
+					TR.NITRU_DEL_YN,
+					TR.NITR_CRR_1_ID,
+					TR.NITR_CRR_2_ID,
+					TR.NITR_CRR_3_ID,
+					TR.NITR_WRT_DTHMS,
+					TR.NITR_LAST_DTHMS,
+					TR.NITR_WRT_USERID,
+					TR.NITRU_ID,
+					TR.NITRU_MIT_ID,
+					TR.NITRU_CRR_1_ID,
+					TR.NITRU_CRR_2_ID,
+					TR.NITRU_CRR_3_ID,
+					TR.NITRU_REQUEST_MODE,
+					TR.NITRU_REQUEST_DTHMS,
+					TR.NITRU_REQUEST_USERID,
+					TR.NITRU_APPLY_YN,
+					TR.NITRU_APPY_DTHMS,
+					TR.NITRU_APPLY_USERID,
+					TR.NITRU_WRT_DTHMS,
+					TR.NITRU_LAST_DTHMS,
+					TR.NITRU_WRT_USERID
+				FROM
+					(
+						SELECT 
+							NITR.`MIT_ID` AS `NITR_MIT_ID`,
+							IFNULL(NITR.`CRR_1_ID`, NITRU.`CRR_1_ID`) AS `CRR_1_ID`,
+							IFNULL(NITR.`CRR_2_ID`, NITRU.`CRR_2_ID`) AS `CRR_2_ID`,
+							IFNULL(NITR.`CRR_3_ID`, NITRU.`CRR_3_ID`) AS `CRR_3_ID`,
+							NITR.`CRR_1_ID` AS `NITR_CRR_1_ID`,
+							NITR.`CRR_2_ID` AS `NITR_CRR_2_ID`,
+							NITR.`CRR_3_ID` AS `NITR_CRR_3_ID`,
+							NITR.`WRT_DTHMS` AS `NITR_WRT_DTHMS`,
+							NITR.`LAST_DTHMS` AS `NITR_LAST_DTHMS`,
+							NITR.`WRT_USERID` AS `NITR_WRT_USERID`,
+							NITRU.`NITRU_ID` AS `NITRU_ID`,
+							NITRU.`MIT_ID` AS `NITRU_MIT_ID`,
+							NITRU.`CRR_1_ID` AS `NITRU_CRR_1_ID`,
+							NITRU.`CRR_2_ID` AS `NITRU_CRR_2_ID`,
+							NITRU.`CRR_3_ID` AS `NITRU_CRR_3_ID`,
+							NITRU.`NITRU_DEL_YN` AS `NITRU_DEL_YN`,
+							NITRU.`NITRU_REQUEST_MODE` AS `NITRU_REQUEST_MODE`,
+							NITRU.`NITRU_REQUEST_DTHMS` AS `NITRU_REQUEST_DTHMS`,
+							NITRU.`NITRU_REQUEST_USERID` AS `NITRU_REQUEST_USERID`,
+							NITRU.`NITRU_APPLY_YN` AS `NITRU_APPLY_YN`,
+							NITRU.`NITRU_APPY_DTHMS` AS `NITRU_APPY_DTHMS`,
+							NITRU.`NITRU_APPLY_USERID` AS `NITRU_APPLY_USERID`,
+							NITRU.`WRT_DTHMS` AS `NITRU_WRT_DTHMS`,
+							NITRU.`LAST_DTHMS` AS `NITRU_LAST_DTHMS`,
+							NITRU.`WRT_USERID` AS `NITRU_WRT_USERID`
+						FROM NT_MAIN.NMI_INSU_TEAM_REGION NITR  
+						LEFT JOIN NT_MAIN.NMI_INSU_TEAM_REGION_UPDATE NITRU
+							ON NITRU.MIT_ID = NITR.MIT_ID AND NITRU.NITRU_APPLY_YN ='N'
+							AND NITRU.CRR_1_ID = NITR.CRR_1_ID AND NITRU.CRR_2_ID = NITR.CRR_2_ID AND NITRU.CRR_3_ID = NITR.CRR_3_ID
+						WHERE NITR.MIT_ID='".addslashes($ARR['MIT_ID'])."' 
+						UNION
+						SELECT 
+							NITR.`MIT_ID` AS `NITR_MIT_ID`,
+							IFNULL(NITR.`CRR_1_ID`, NITRU.`CRR_1_ID`) AS `CRR_1_ID`,
+							IFNULL(NITR.`CRR_2_ID`, NITRU.`CRR_2_ID`) AS `CRR_2_ID`,
+							IFNULL(NITR.`CRR_3_ID`, NITRU.`CRR_3_ID`) AS `CRR_3_ID`,
+							NITR.`CRR_1_ID` AS `NITR_CRR_1_ID`,
+							NITR.`CRR_2_ID` AS `NITR_CRR_2_ID`,
+							NITR.`CRR_3_ID` AS `NITR_CRR_3_ID`,
+							NITR.`WRT_DTHMS` AS `NITR_WRT_DTHMS`,
+							NITR.`LAST_DTHMS` AS `NITR_LAST_DTHMS`,
+							NITR.`WRT_USERID` AS `NITR_WRT_USERID`,
+							NITRU.`NITRU_ID` AS `NITRU_ID`,
+							NITRU.`MIT_ID` AS `NITRU_MIT_ID`,
+							NITRU.`CRR_1_ID` AS `NITRU_CRR_1_ID`,
+							NITRU.`CRR_2_ID` AS `NITRU_CRR_2_ID`,
+							NITRU.`CRR_3_ID` AS `NITRU_CRR_3_ID`,
+							NITRU.`NITRU_DEL_YN` AS `NITRU_DEL_YN`,
+							NITRU.`NITRU_REQUEST_MODE` AS `NITRU_REQUEST_MODE`,
+							NITRU.`NITRU_REQUEST_DTHMS` AS `NITRU_REQUEST_DTHMS`,
+							NITRU.`NITRU_REQUEST_USERID` AS `NITRU_REQUEST_USERID`,
+							NITRU.`NITRU_APPLY_YN` AS `NITRU_APPLY_YN`,
+							NITRU.`NITRU_APPY_DTHMS` AS `NITRU_APPY_DTHMS`,
+							NITRU.`NITRU_APPLY_USERID` AS `NITRU_APPLY_USERID`,
+							NITRU.`WRT_DTHMS` AS `NITRU_WRT_DTHMS`,
+							NITRU.`LAST_DTHMS` AS `NITRU_LAST_DTHMS`,
+							NITRU.`WRT_USERID` AS `NITRU_WRT_USERID`
+						FROM NT_MAIN.NMI_INSU_TEAM_REGION_UPDATE NITRU
+						LEFT JOIN NT_MAIN.NMI_INSU_TEAM_REGION NITR  
+							ON NITRU.MIT_ID = NITR.MIT_ID  
+							AND NITRU.CRR_1_ID = NITR.CRR_1_ID AND NITRU.CRR_2_ID = NITR.CRR_2_ID AND NITRU.CRR_3_ID = NITR.CRR_3_ID
+						WHERE NITRU.NITRU_APPLY_YN ='N' AND NITRU.MIT_ID='".addslashes($ARR['MIT_ID'])."' 
+					) TR
+				JOIN `NT_MAIN`.`V_GW_REGION` VGR
+				ON TR.CRR_1_ID = VGR.CRR_1_ID AND  TR.CRR_2_ID = VGR.CRR_2_ID AND  TR.CRR_3_ID = VGR.CRR_3_ID  
+				WHERE VGR.CRR_2_ID <> '000' AND VGR.CRR_3_ID <>'00000'
+				ORDER BY NITRU_ID DESC, TR.NITR_MIT_ID DESC, CRR_1_ID, CRR_2_ID, CRR_3_ID
+		;
+
+		";
+		// echo "getTeamRegion".$iSQL."\n";
+		$Result= DBManager::getResult($iSQL);
+
+		$rtnArray = array();
+		while($RS = $Result->fetch_array()){
+			array_push($rtnArray,
+				array(
+					"NITR_MIT_ID"=>$RS['NITR_MIT_ID'],
+					"CRR_NM"=>$RS['CRR_NM'],
+					"CRR_1_ID"=>$RS['CRR_1_ID'],
+					"CRR_2_ID"=>$RS['CRR_2_ID'],
+					"CRR_3_ID"=>$RS['CRR_3_ID'],
+					"NITRU_DEL_YN"=>$RS['NITRU_DEL_YN'],
+					"NITR_CRR_1_ID"=>$RS['NITR_CRR_1_ID'],
+					"NITR_CRR_2_ID"=>$RS['NITR_CRR_2_ID'],
+					"NITR_CRR_3_ID"=>$RS['NITR_CRR_3_ID'],
+					"NITR_WRT_DTHMS"=>$RS['NITR_WRT_DTHMS'],
+					"NITR_LAST_DTHMS"=>$RS['NITR_LAST_DTHMS'],
+					"NITR_WRT_USERID"=>$RS['NITR_WRT_USERID'],
+					"NITRU_ID"=>$RS['NITRU_ID'],
+					"NITRU_MIT_ID"=>$RS['NITRU_MIT_ID'],
+					"NITRU_CRR_1_ID"=>$RS['NITRU_CRR_1_ID'],
+					"NITRU_CRR_2_ID"=>$RS['NITRU_CRR_2_ID'],
+					"NITRU_CRR_3_ID"=>$RS['NITRU_CRR_3_ID'],
+					"NITRU_REQUEST_MODE"=>$RS['NITRU_REQUEST_MODE'],
+					"NITRU_REQUEST_DTHMS"=>$RS['NITRU_REQUEST_DTHMS'],
+					"NITRU_REQUEST_USERID"=>$RS['NITRU_REQUEST_USERID'],
+					"NITRU_APPLY_YN"=>$RS['NITRU_APPLY_YN'],
+					"NITRU_APPY_DTHMS"=>$RS['NITRU_APPY_DTHMS'],
+					"NITRU_APPLY_USERID"=>$RS['NITRU_APPLY_USERID'],
+					"NITRU_WRT_DTHMS"=>$RS['NITRU_WRT_DTHMS'],
+					"NITRU_LAST_DTHMS"=>$RS['NITRU_LAST_DTHMS'],
+					"NITRU_WRT_USERID"=>$RS['NITRU_WRT_USERID']
+			));
+		}
+		$Result->close();  // 자원 반납
+		unset($RS);
+
+		if(empty($rtnArray)) {
+			return HAVE_NO_DATA;
+		} else {
+			return json_encode($rtnArray);
+		}
+	}
+
+
+
+	/* 보험사 지역 정보 조회 */
+	function getRegion($ARR){
+		if($ARR['SEARCH_AREA_KEYWORD'] != ''){
+			$tmpKeyword = "AND INSTR(VGR.CRR_NM, '".addslashes($ARR['SEARCH_AREA_KEYWORD'])."') > 0 \n";
+		}
+		$iSQL = "SELECT 
+					TR.NITR_MIT_ID,
+					VGR.CRR_NM,
+					IFNULL(TR.CRR_1_ID, VGR.CRR_1_ID) AS CRR_1_ID,
+					IFNULL(TR.CRR_2_ID, VGR.CRR_2_ID) AS CRR_2_ID,
+					IFNULL(TR.CRR_3_ID, VGR.CRR_3_ID) AS CRR_3_ID,
+					TR.NITRU_DEL_YN,
+					TR.NITR_CRR_1_ID,
+					TR.NITR_CRR_2_ID,
+					TR.NITR_CRR_3_ID,
+					TR.NITR_WRT_DTHMS,
+					TR.NITR_LAST_DTHMS,
+					TR.NITR_WRT_USERID,
+					TR.NITRU_ID,
+					TR.NITRU_MIT_ID,
+					TR.NITRU_CRR_1_ID,
+					TR.NITRU_CRR_2_ID,
+					TR.NITRU_CRR_3_ID,
+					TR.NITRU_REQUEST_MODE,
+					TR.NITRU_REQUEST_DTHMS,
+					TR.NITRU_REQUEST_USERID,
+					TR.NITRU_APPLY_YN,
+					TR.NITRU_APPY_DTHMS,
+					TR.NITRU_APPLY_USERID,
+					TR.NITRU_WRT_DTHMS,
+					TR.NITRU_LAST_DTHMS,
+					TR.NITRU_WRT_USERID
+				FROM
+					(
+						SELECT 
+							NITR.`MIT_ID` AS `NITR_MIT_ID`,
+							IFNULL(NITR.`CRR_1_ID`, NITRU.`CRR_1_ID`) AS `CRR_1_ID`,
+							IFNULL(NITR.`CRR_2_ID`, NITRU.`CRR_2_ID`) AS `CRR_2_ID`,
+							IFNULL(NITR.`CRR_3_ID`, NITRU.`CRR_3_ID`) AS `CRR_3_ID`,
+							NITR.`CRR_1_ID` AS `NITR_CRR_1_ID`,
+							NITR.`CRR_2_ID` AS `NITR_CRR_2_ID`,
+							NITR.`CRR_3_ID` AS `NITR_CRR_3_ID`,
+							NITR.`WRT_DTHMS` AS `NITR_WRT_DTHMS`,
+							NITR.`LAST_DTHMS` AS `NITR_LAST_DTHMS`,
+							NITR.`WRT_USERID` AS `NITR_WRT_USERID`,
+							NITRU.`NITRU_ID` AS `NITRU_ID`,
+							NITRU.`MIT_ID` AS `NITRU_MIT_ID`,
+							NITRU.`CRR_1_ID` AS `NITRU_CRR_1_ID`,
+							NITRU.`CRR_2_ID` AS `NITRU_CRR_2_ID`,
+							NITRU.`CRR_3_ID` AS `NITRU_CRR_3_ID`,
+							NITRU.`NITRU_DEL_YN` AS `NITRU_DEL_YN`,
+							NITRU.`NITRU_REQUEST_MODE` AS `NITRU_REQUEST_MODE`,
+							NITRU.`NITRU_REQUEST_DTHMS` AS `NITRU_REQUEST_DTHMS`,
+							NITRU.`NITRU_REQUEST_USERID` AS `NITRU_REQUEST_USERID`,
+							NITRU.`NITRU_APPLY_YN` AS `NITRU_APPLY_YN`,
+							NITRU.`NITRU_APPY_DTHMS` AS `NITRU_APPY_DTHMS`,
+							NITRU.`NITRU_APPLY_USERID` AS `NITRU_APPLY_USERID`,
+							NITRU.`WRT_DTHMS` AS `NITRU_WRT_DTHMS`,
+							NITRU.`LAST_DTHMS` AS `NITRU_LAST_DTHMS`,
+							NITRU.`WRT_USERID` AS `NITRU_WRT_USERID`
+						FROM NT_MAIN.NMI_INSU_TEAM_REGION NITR  
+						LEFT JOIN NT_MAIN.NMI_INSU_TEAM_REGION_UPDATE NITRU
+							ON NITRU.MIT_ID = NITR.MIT_ID AND NITRU.NITRU_APPLY_YN ='N'
+							AND NITRU.CRR_1_ID = NITR.CRR_1_ID AND NITRU.CRR_2_ID = NITR.CRR_2_ID AND NITRU.CRR_3_ID = NITR.CRR_3_ID
+						WHERE NT_MAIN.GET_INSU_ID_BY_MIT(NITR.`MIT_ID`) ='".addslashes($ARR['MII_ID'])."' 
+						UNION
+						SELECT 
+							NITR.`MIT_ID` AS `NITR_MIT_ID`,
+							IFNULL(NITR.`CRR_1_ID`, NITRU.`CRR_1_ID`) AS `CRR_1_ID`,
+							IFNULL(NITR.`CRR_2_ID`, NITRU.`CRR_2_ID`) AS `CRR_2_ID`,
+							IFNULL(NITR.`CRR_3_ID`, NITRU.`CRR_3_ID`) AS `CRR_3_ID`,
+							NITR.`CRR_1_ID` AS `NITR_CRR_1_ID`,
+							NITR.`CRR_2_ID` AS `NITR_CRR_2_ID`,
+							NITR.`CRR_3_ID` AS `NITR_CRR_3_ID`,
+							NITR.`WRT_DTHMS` AS `NITR_WRT_DTHMS`,
+							NITR.`LAST_DTHMS` AS `NITR_LAST_DTHMS`,
+							NITR.`WRT_USERID` AS `NITR_WRT_USERID`,
+							NITRU.`NITRU_ID` AS `NITRU_ID`,
+							NITRU.`MIT_ID` AS `NITRU_MIT_ID`,
+							NITRU.`CRR_1_ID` AS `NITRU_CRR_1_ID`,
+							NITRU.`CRR_2_ID` AS `NITRU_CRR_2_ID`,
+							NITRU.`CRR_3_ID` AS `NITRU_CRR_3_ID`,
+							NITRU.`NITRU_DEL_YN` AS `NITRU_DEL_YN`,
+							NITRU.`NITRU_REQUEST_MODE` AS `NITRU_REQUEST_MODE`,
+							NITRU.`NITRU_REQUEST_DTHMS` AS `NITRU_REQUEST_DTHMS`,
+							NITRU.`NITRU_REQUEST_USERID` AS `NITRU_REQUEST_USERID`,
+							NITRU.`NITRU_APPLY_YN` AS `NITRU_APPLY_YN`,
+							NITRU.`NITRU_APPY_DTHMS` AS `NITRU_APPY_DTHMS`,
+							NITRU.`NITRU_APPLY_USERID` AS `NITRU_APPLY_USERID`,
+							NITRU.`WRT_DTHMS` AS `NITRU_WRT_DTHMS`,
+							NITRU.`LAST_DTHMS` AS `NITRU_LAST_DTHMS`,
+							NITRU.`WRT_USERID` AS `NITRU_WRT_USERID`
+						FROM NT_MAIN.NMI_INSU_TEAM_REGION_UPDATE NITRU
+						LEFT JOIN NT_MAIN.NMI_INSU_TEAM_REGION NITR  
+							ON NITRU.MIT_ID = NITR.MIT_ID  
+							AND NITRU.CRR_1_ID = NITR.CRR_1_ID AND NITRU.CRR_2_ID = NITR.CRR_2_ID AND NITRU.CRR_3_ID = NITR.CRR_3_ID
+						WHERE NITRU.NITRU_APPLY_YN ='N' 
+						AND NT_MAIN.GET_INSU_ID_BY_MIT(NITR.`MIT_ID`) ='".addslashes($ARR['MII_ID'])."' 
+					) TR
+				RIGHT OUTER JOIN `NT_MAIN`.`V_GW_REGION` VGR
+				ON TR.CRR_1_ID = VGR.CRR_1_ID AND  TR.CRR_2_ID = VGR.CRR_2_ID AND  TR.CRR_3_ID = VGR.CRR_3_ID  
+				WHERE VGR.CRR_2_ID <> '000' AND VGR.CRR_3_ID <>'00000'
+				AND NT_MAIN.GET_INSU_ID_BY_MIT(TR.NITR_MIT_ID)  IS NULL
+				AND TR.NITR_MIT_ID IS NULL
+				$tmpKeyword 
+				ORDER BY NITRU_ID DESC, TR.NITR_MIT_ID DESC, CRR_1_ID, CRR_2_ID, CRR_3_ID
+		;
+
+		";
+		// echo "getRegion".$iSQL."\n";
+		$Result= DBManager::getResult($iSQL);
+
+		$rtnArray = array();
+		while($RS = $Result->fetch_array()){
+			array_push($rtnArray,
+				array(
+					"NITR_MIT_ID"=>$RS['NITR_MIT_ID'],
+					"CRR_NM"=>$RS['CRR_NM'],
+					"CRR_1_ID"=>$RS['CRR_1_ID'],
+					"CRR_2_ID"=>$RS['CRR_2_ID'],
+					"CRR_3_ID"=>$RS['CRR_3_ID'],
+					"NITRU_DEL_YN"=>$RS['NITRU_DEL_YN'],
+					"NITR_CRR_1_ID"=>$RS['NITR_CRR_1_ID'],
+					"NITR_CRR_2_ID"=>$RS['NITR_CRR_2_ID'],
+					"NITR_CRR_3_ID"=>$RS['NITR_CRR_3_ID'],
+					"NITR_WRT_DTHMS"=>$RS['NITR_WRT_DTHMS'],
+					"NITR_LAST_DTHMS"=>$RS['NITR_LAST_DTHMS'],
+					"NITR_WRT_USERID"=>$RS['NITR_WRT_USERID'],
+					"NITRU_ID"=>$RS['NITRU_ID'],
+					"NITRU_MIT_ID"=>$RS['NITRU_MIT_ID'],
+					"NITRU_CRR_1_ID"=>$RS['NITRU_CRR_1_ID'],
+					"NITRU_CRR_2_ID"=>$RS['NITRU_CRR_2_ID'],
+					"NITRU_CRR_3_ID"=>$RS['NITRU_CRR_3_ID'],
+					"NITRU_REQUEST_MODE"=>$RS['NITRU_REQUEST_MODE'],
+					"NITRU_REQUEST_DTHMS"=>$RS['NITRU_REQUEST_DTHMS'],
+					"NITRU_REQUEST_USERID"=>$RS['NITRU_REQUEST_USERID'],
+					"NITRU_APPLY_YN"=>$RS['NITRU_APPLY_YN'],
+					"NITRU_APPY_DTHMS"=>$RS['NITRU_APPY_DTHMS'],
+					"NITRU_APPLY_USERID"=>$RS['NITRU_APPLY_USERID'],
+					"NITRU_WRT_DTHMS"=>$RS['NITRU_WRT_DTHMS'],
+					"NITRU_LAST_DTHMS"=>$RS['NITRU_LAST_DTHMS'],
+					"NITRU_WRT_USERID"=>$RS['NITRU_WRT_USERID']
+			));
+		}
+		$Result->close();  // 자원 반납
+		unset($RS);
+
+		if(empty($rtnArray)) {
+			return HAVE_NO_DATA;
+		} else {
+			return json_encode($rtnArray);
+		}
+	}
+
+	/**
+	 * data 삭제
+	 * @param {$ARR}
+	 * @param {ALLM_ID : 삭제할 해당 데이터 ID}
+	 */
+	function delData($ARR) {
+		$iSQL = "UPDATE `NT_MAIN`.`NMI_INSU_TEAM`
+					SET  
+						`LAST_DTHMS`= NOW(), 
+						`WRT_USERID` = '".addslashes($_SESSION['USERID'])."',
+						`DEL_YN`	='Y'
+					WHERE `MIT_ID`='".addslashes($ARR['MIT_ID'])."';
+		";
+		
+		// echo 	$iSQL ;
+		return DBManager::execQuery($iSQL);
+	}
+	
+	/* 변경이력 조회 */
+	function getSubList($ARR) {
+
+		$LimitStart = ($ARR['CURR_PAGE']-1) * $ARR['PER_PAGE'];
+		$LimitEnd   = $ARR['PER_PAGE'];
+		/** 전체리스트가 아닌경우에만 limitSql 적용 */
+		$LIMIT_SQL = "";
+		if($ARR['REQ_MODE'] == CASE_LIST_SUB){
+			$LIMIT_SQL = "LIMIT $LimitStart,$LimitEnd";
+		}
+		if($ARR['SEARCH_LOG_START_DT'] != ''){
+			$tmpKeyword .= "AND NITCL.LAST_DTHMS >= '".$ARR['SEARCH_LOG_START_DT']."' ";
+		}
+		if($ARR['SEARCH_LOG_END_DT'] != ''){
+			$tmpKeyword .= "AND NITCL.LAST_DTHMS >= '".$ARR['SEARCH_LOG_END_DT']."' ";
+		}
+		if($ARR['SEARCH_LOG_INSU_NM'] != ''){
+			$tmpKeyword .= "AND NIT.MII_ID = '".addslashes($ARR['SEARCH_LOG_INSU_NM'])."' ";
+		}
+		if($ARR['SEARCH_LOG_TEAM_NM'] != ''){
+			$tmpKeyword .= "AND INSTR(NIT.MIT_NM,'".addslashes($ARR['SEARCH_LOG_TEAM_NM'])."')>0 ";
+		}
+
+		if($ARR['SEARCH_LOG_KEY'] != ''){
+			if($ARR['SEARCH_LOG_KEY'] == 'NITCL_OLD_BOSS_NM_AES'){
+				$tmpKeyword .= "AND INSTR(CAST(AES_DECRYPT(NITCL.`NITCL_OLD_BOSS_NM_AES`,UNHEX(SHA2('".AES_SALT_KEY."',256))) AS CHAR),'".addslashes($ARR['SEARCH_LOG_KEYWORD'])."')>0 ";
+			} else if($ARR['SEARCH_LOG_KEY'] == 'NITCL_OLD_TEAM_TEL_AES'){
+				$tmpKeyword .= "AND INSTR(CAST(AES_DECRYPT(NITCL.`NITCL_OLD_TEAM_TEL_AES`,UNHEX(SHA2('".AES_SALT_KEY."',256))) AS CHAR),'".addslashes($ARR['SEARCH_LOG_KEYWORD'])."')>0 ";
+			} else if($ARR['SEARCH_LOG_KEY'] == 'NITCL_OLD_TEAM_FAX_AES'){
+				$tmpKeyword .= "AND INSTR(CAST(AES_DECRYPT(NITCL.`NITCL_OLD_TEAM_FAX_AES`,UNHEX(SHA2('".AES_SALT_KEY."',256))) AS CHAR),'".addslashes($ARR['SEARCH_LOG_KEYWORD'])."')>0 ";
+			} else if($ARR['SEARCH_LOG_KEY'] == 'NITCL_OLD_BOSS_TEL_AES'){
+				$tmpKeyword .= "AND INSTR(CAST(AES_DECRYPT(NITCL.`NITCL_OLD_BOSS_TEL_AES`,UNHEX(SHA2('".AES_SALT_KEY."',256))) AS CHAR),'".addslashes($ARR['SEARCH_LOG_KEYWORD'])."')>0 ";
+			}
+
+		}
+
+
+		// 페이징처리를 위해 전체데이터
+		$iSQL = "SELECT
+					COUNT(*) AS CNT
+				FROM 
+					`NT_MAIN`.`NMI_INSU_TEAM_CHG_LOG` NITCL,
+					`NT_MAIN`.`NMI_INSU_TEAM` NIT
+				WHERE 
+					NIT.MIT_ID = NITCL.MIT_ID AND NIT.DEL_YN ='N'
+				AND  NITCL.`MIT_ID`='".addslashes($ARR['MIT_ID'])."'
+					 $tmpKeyword  
+				;
+		";
+
+		// echo $iSQL."\n" ;
+		try{
+			$RS_T	= DBManager::getRecordSet($iSQL);
+		} catch (Exception $e){
+			echo "error : ".$e;
+			return ERROR_DB_SELECT_DATA;   
+		}
+		$TOTAL_LIST_COUNT = $RS_T['CNT'];
+		$IDX = $RS_T['CNT']-$LimitStart;
+		unset($RS_T);
+		
+		// 리스트 가져오기
+		$iSQL = "SELECT 
+					NITCL.NITCL_ID, 
+					NITCL.MIT_ID, 
+					NT_MAIN.GET_INSU_NM(NIT.MII_ID) AS MII_NM,
+					NITCL.NITCL_OLD_NM, 
+					CAST(AES_DECRYPT(NITCL.NITCL_OLD_TEAM_TEL_AES,UNHEX(SHA2('".AES_SALT_KEY."',256))) AS CHAR) AS NITCL_OLD_TEAM_TEL_AES,
+					CAST(AES_DECRYPT(NITCL.NITCL_OLD_TEAM_FAX_AES,UNHEX(SHA2('".AES_SALT_KEY."',256))) AS CHAR) AS NITCL_OLD_TEAM_FAX_AES,
+					CAST(AES_DECRYPT(NITCL.NITCL_OLD_BOSS_NM_AES,UNHEX(SHA2('".AES_SALT_KEY."',256))) AS CHAR) AS NITCL_OLD_BOSS_NM_AES,
+					CAST(AES_DECRYPT(NITCL.NITCL_OLD_BOSS_TEL_AES,UNHEX(SHA2('".AES_SALT_KEY."',256))) AS CHAR) AS NITCL_OLD_BOSS_TEL_AES,
+					CAST(AES_DECRYPT(NITCL.NITCL_OLD_BOSS_EMAIL_AES,UNHEX(SHA2('".AES_SALT_KEY."',256))) AS CHAR) AS NITCL_OLD_BOSS_EMAIL_AES,
+					NITCL.WRT_DTHMS, 
+					NITCL.LAST_DTHMS, 
+					NITCL.WRT_USERID
+				FROM 
+					`NT_MAIN`.`NMI_INSU_TEAM_CHG_LOG` NITCL,
+					`NT_MAIN`.`NMI_INSU_TEAM` NIT
+				WHERE 
+					NIT.MIT_ID = NITCL.MIT_ID AND NIT.DEL_YN ='N'
+				AND NITCL.`MIT_ID`='".addslashes($ARR['MIT_ID'])."'
+					 $tmpKeyword 
+				ORDER BY NITCL.NITCL_ID DESC 
+				$LIMIT_SQL
+				;
+		";
+	
+		// echo $iSQL."\n";
+		$Result= DBManager::getResult($iSQL);
+		$rtnArray = array();
+		while($RS = $Result->fetch_array()){
+			array_push($rtnArray,
+				array(
+				"NITCL_ID"=>$RS['NITCL_ID'],
+				"MIT_ID"=>$RS['MIT_ID'],
+				"MII_NM"=>$RS['MII_NM'],
+				"NITCL_OLD_NM"=>$RS['NITCL_OLD_NM'],
+				"NITCL_OLD_TEAM_TEL_AES"=>$RS['NITCL_OLD_TEAM_TEL_AES'],
+				"NITCL_OLD_TEAM_FAX_AES"=>$RS['NITCL_OLD_TEAM_FAX_AES'],
+				"NITCL_OLD_BOSS_NM_AES"=>$RS['NITCL_OLD_BOSS_NM_AES'],
+				"NITCL_OLD_BOSS_TEL_AES"=>$RS['NITCL_OLD_BOSS_TEL_AES'],
+				"NITCL_OLD_BOSS_EMAIL_AES"=>$RS['NITCL_OLD_BOSS_EMAIL_AES'],
+				"WRT_DTHMS"=>$RS['WRT_DTHMS'],
+				"LAST_DTHMS"=>$RS['LAST_DTHMS'],
+				"WRT_USERID"=>$RS['WRT_USERID']
+			));
+		}
+		$Result->close();  // 자원 반납
+		unset($RS);
+		if(empty($rtnArray)) {
+			return HAVE_NO_DATA;
+		} else {
+			$jsonArray = array();
+			array_push($jsonArray,$rtnArray);
+			array_push($jsonArray,$TOTAL_LIST_COUNT);
+			return  $jsonArray;
+		}
+		
+	}
+
+	/* 보험사Team 조회  */
+	function getInsuTeam() {
+		$iSQL = "SELECT 
+					MII_ID, MIT_ID, MIT_NM
+				FROM NT_MAIN.NMI_INSU_TEAM;
+		";
+
+		$Result= DBManager::getResult($iSQL);
+
+		$rtnArray = array();
+		while($RS = $Result->fetch_array()){
+			array_push($rtnArray,
+				array(
+					"MII_ID"=>$RS['MII_ID'],
+					"MIT_ID"=>$RS['MIT_ID'],
+					"MIT_NM"=>$RS['MIT_NM']
+			));
+		}
+		$Result->close();  // 자원 반납
+		unset($RS);
+
+		if(empty($rtnArray)) {
+			return HAVE_NO_DATA;
+		} else {
+			return json_encode($rtnArray);
+		}
+	}
+}
+	// 0. 객체 생성
+	$cIwTeam = new cIwTeam(FILE_UPLOAD_PATH,ALLOW_FILE_EXT);
+	$cIwTeam->ConnectDB($dbHOST, $dbUSER, $dbPASS, $dbNAME, $dbPORT, $sslPath);
+?>

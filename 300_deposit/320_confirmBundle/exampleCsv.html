@@ -1,0 +1,15 @@
+<?php
+
+    header("Content-type: text/csv;charset=UTF-8;");
+    header("Pragma: no-cache");
+    header("Expires: 0"); 
+    date_default_timezone_set('Asia/Seoul');
+
+    header("Content-Disposition: attachment; filename=".date("YmdH", time())."_일괄입금확인업로드.csv");
+    header("Content-Description: Newtesch System");
+
+    $excelHtml = "보험사명,접수번호,차량번호,입금일(yyyy-mm-dd),입금금액(숫자만)\n";
+
+    echo "\xEF\xBB\xBF"; 
+    echo $excelHtml ;
+?>

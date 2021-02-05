@@ -1,0 +1,39 @@
+
+
+.nwt-search-form .search-glypicon{
+    position: relative;
+    top: 7px; /*insulist.html :2px , insulist2.html :7px*/
+    left: -20px;
+    width: 0;
+}
+
+
+.modal-content{
+    width: 650px;
+}
+
+
+
+
+#delet-modal .modal-content{
+	width: 370px;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+    transform: translate(-50%,-50%);
+}
+
+
+.exceptionbtn{
+    z-index: 99; 
+    position: relative;
+    top: 4px;
+    padding: 0;
+}
+
+/* 글씨 안내려오도록 한 화면에 많이보여야한다고 한다면 아래 CSS 삭제 */
+.nwt-table{
+    overflow-x: scroll;
+    /* white-space: nowrap; */
+    width: 100%;
+}

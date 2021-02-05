@@ -1,0 +1,90 @@
+const ajaxUrl = 'act/writeStatus_act.php';
+let CURR_PAGE = 1;
+let isClickExcelBtn = false;
+
+$(document).ready(function(){
+    $('#indicator').hide();
+    const tdLength = $('table th').length;
+    setInitTableData(tdLength);
+
+    getClaimYearOption();
+    
+    $( "#START_DT" ).datepicker(
+        getDatePickerSetting()
+    );
+    $( "#END_DT" ).datepicker(
+        getDatePickerSetting()
+    );
+
+    const date = new Date();
+    $( "#START_DT").datepicker('setDate', date.getFullYear()+'-01-01'); 
+    $( "#END_DT").datepicker('setDate', 'today'); 
+    
+
+     /** 검색 */
+     $("#searchForm").submit(function(e){
+        e.preventDefault();
+        getList(1);
+       
+    });
+
+    
+});
+
+getList = (currentPage) => {
+    CURR_PAGE = (currentPage == undefined) ? CURR_PAGE : currentPage;
+
+    let form = $("#searchForm")[0];
+    let formData = new FormData(form);
+    formData.append('REQ_MODE', CASE_LIST);
+    formData.append('PER_PAGE', $("#perPage").val());
+    formData.append('CURR_PAGE', CURR_PAGE);
+
+    callFormAjax(ajaxUrl, 'POST', formData).then((result)=>{
+        if(isJson(result)){
+            const data = JSON.parse(result);
+            if(data.status == OK){
+                const item = data.data;
+                setTable(item[1], item[0], CURR_PAGE);
+                setTotal(item[3]);
+            }else{
+                setHaveNoDataTable();
+            }
+        }else{
+            alert(ERROR_MSG_1200);
+        }
+       
+    });     
+}
+
+excelDownload = () => {
+    location.href="writeStatusExcel.html?"+$("#searchForm").serialize()+"&REQ_MODE="+CASE_TOTAL_LIST;
+}
+
+onchangeYEAR = () => {
+    const selectYEAR = $('#CLAIM_YEAR').val();
+    const selectMONTH = $('#CLAIM_MONTH').val();
+    if(selectYEAR != '' && selectMONTH == ''){
+        $( "#START_DT").datepicker('setDate', selectYEAR+'-01-01'); 
+        $( "#END_DT").datepicker('setDate', selectYEAR+'-12-31'); 
+    }else if(selectYEAR != '' && selectMONTH != ''){
+        const lastDay = (new Date(selectYEAR, selectMONTH, 0) ).getDate();
+        $( "#START_DT").datepicker('setDate', selectYEAR+'-'+selectMONTH+'-01'); 
+        $( "#END_DT").datepicker('setDate', selectYEAR+'-'+selectMONTH+'-'+lastDay); 
+    }else{
+        const date = new Date();
+        $( "#START_DT").datepicker('setDate', date.getFullYear()+'-01-01'); 
+        $( "#END_DT").datepicker('setDate', 'today'); 
+    }
+    
+}
+
+onchangeMONTH = () => {
+    const selectYEAR = $('#CLAIM_YEAR').val();
+    const selectMONTH = $('#CLAIM_MONTH').val();
+    if(selectYEAR != '' && selectMONTH != ''){
+        const lastDay = (new Date(selectYEAR, selectMONTH, 0) ).getDate();
+        $( "#START_DT").datepicker('setDate', selectYEAR+'-'+selectMONTH+'-01'); 
+        $( "#END_DT").datepicker('setDate', selectYEAR+'-'+selectMONTH+'-'+lastDay); 
+    }
+}

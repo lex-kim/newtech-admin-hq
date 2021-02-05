@@ -1,0 +1,151 @@
+<?php
+  require $_SERVER['DOCUMENT_ROOT']."/include/headerpopup.html";
+  $REQ_MII_ID = $_REQUEST;   
+  $MII_ID = "";
+  
+  if(!empty($REQ_MII_ID)){
+    $MII_ID = $_REQUEST['MII_ID'];
+  }
+
+  $MII_ID = empty($_REQUEST['MII_ID']) ? '' : $_REQUEST['MII_ID'];
+  $MIT_ID = empty($_REQUEST['MIT_ID']) ? '' : $_REQUEST['MIT_ID'];
+  $MIT_NM = empty($_REQUEST['MIT_NM']) ? '' : $_REQUEST['MIT_NM'];
+  $NIC_NM_AES = empty($_REQUEST['NIC_NM_AES']) ?  '' : $_REQUEST['NIC_NM_AES'];
+  $NIC_FAX_AES = empty($_REQUEST['NIC_FAX_AES']) ?  '' : $_REQUEST['NIC_FAX_AES'];
+  $NIC_TEL1_AES = empty($_REQUEST['NIC_TEL1_AES']) ?  '' : $_REQUEST['NIC_TEL1_AES'];
+  $NIC_TEL2_AES = empty($_REQUEST['NIC_TEL2_AES']) ?  '' : $_REQUEST['NIC_TEL2_AES'];
+  $NIC_EMAIL_AES = empty($_REQUEST['NIC_EMAIL_AES']) ?  '' : $_REQUEST['NIC_EMAIL_AES'];
+  $NIC_NOUSE_REASON = empty($_REQUEST['NIC_NOUSE_REASON']) ?  '' : $_REQUEST['NIC_NOUSE_REASON'];
+  $NIC_MEMO = empty($_REQUEST['NIC_MEMO']) ?  '' : $_REQUEST['NIC_MEMO'];
+  $NIC_ID = empty($_REQUEST['NIC_ID']) ? '' : $_REQUEST['NIC_ID'];
+
+?>
+
+<script src="js/popup.js"></script>
+<body onload="onLoadRegistPopup();">
+  <!-- 파라메터로 보험사 아이디가 넘어오는 경우 -->
+  <input type="hidden" id="REQ_MII_ID" name="REQ_MII_ID" value="<?php echo $MII_ID?>"/>   
+  
+  <input type="hidden" id="REQ_MIT_ID" name="REQ_MIT_ID" value="<?php echo $MIT_ID?>">
+  <input type="hidden" id="REQ_MIT_NM" name="REQ_MIT_NM" value="<?php echo $MIT_NM?>">
+  <!-- 신규등록 -->
+  <!-- modal #add-new -->  
+  <div class="modal-add" id="add-new">
+          <div>
+            <form method="post" name="faoForm" id="faoForm">
+            <input type="hidden" class="form-control" id="REQ_MODE" name="REQ_MODE">
+            <input type="hidden" id="NIC_ID" name="NIC_ID" value="<?php echo $NIC_ID?>">
+            <!-- modal 상단 -->
+            <div class="modal-header">
+              <h4 class="modal-title" id="modalTitle">신규등록</h4>  
+            </div>
+    
+    
+            <!-- modal 내용 -->
+            <div class="modal-body">   
+    
+                <!-- 보험사 -->
+                <div class="row">
+                    <div class="col-md-3"><label for="MII_ID">*보험사</label></div>
+                    <div class="col-md-7">
+                      <select class="form-control" name="MII_ID" id="MII_ID" required>
+                        <option value="">선택</option>
+                      </select>
+                    </div>
+                </div>
+
+                <!-- 팀명 -->
+                <div class="row">
+                    <div class="col-md-3"><label for="MIT_ID">보험사 팀</label></div>
+                    <div class="col-md-7">
+                      <select class="form-control" name="MIT_ID" id="MIT_ID">
+                        <option value="">선택</option>
+                      </select>
+                    </div>
+                </div>
+    
+                <!-- 담당자성명 -->
+                <div class="row">
+                    <div class="col-md-3"><label for="NIC_NM_AES">*담당자성명</label></div>
+                    <div class="col-md-7">
+                      <input type="text" class="form-control require" id="NIC_NM_AES" name="NIC_NM_AES" required placeholder="입력"
+                        value="<?php echo $NIC_NM_AES?>" onblur="onCheckConfilt(event);" onkeyup="onChangeRequireData(event);">
+                       <span style="color: crimson;" id="CONFLICT_NIC_NM_AES"></span>
+                    </div>
+                </div>
+
+                <!-- 팩스 -->
+                <div class="row">
+                    <div class="col-md-3"><label for="NIC_FAX_AES">*팩스</label></div>
+                    <div class="col-md-7">
+                      <input type="text" class="form-control phone require" id="NIC_FAX_AES" name="NIC_FAX_AES" required placeholder="입력" onfocus="onFocusPhone(event);"
+                        value="<?php echo $NIC_FAX_AES?>" onblur="onCheckConfilt(event);" onkeyup="isNumber(event);onChangeRequireData(event);">
+                      <span style="color: crimson;" id="CONFLICT_NIC_FAX_AES"></span>
+                    </div>
+                </div>
+    
+                <!-- 휴대폰번호 -->
+                <div class="row">
+                    <div class="col-md-3"><label for="NIC_TEL1_AES">*휴대폰번호</label></div>
+                    <div class="col-md-7">
+                      <input type="text" class="form-control phone require" id="NIC_TEL1_AES" name="NIC_TEL1_AES" required placeholder="입력" onfocus="onFocusPhone(event);"
+                        value="<?php echo $NIC_TEL1_AES?>" onblur="onCheckConfilt(event);" onkeyup="isNumber(event);onChangeRequireData(event);" maxlength="11">
+                      <span style="color: crimson;" id="CONFLICT_NIC_TEL1_AES"></span>
+                    </div>
+                </div>
+    
+                <!-- 전화 -->
+                <div class="row">
+                    <div class="col-md-3"><label for="NIC_TEL2_AES">전화</label></div>
+                    <div class="col-md-7"><input type="text" class="form-control phone" id="NIC_TEL2_AES" name="NIC_TEL2_AES" placeholder="입력"
+                      value="<?php echo $NIC_TEL2_AES?>"  onkeyup="isNumber(event);" maxlength="11"></div>
+                </div>
+    
+                <!-- E-mail -->
+                <div class="row">
+                    <div class="col-md-3"><label for="NIC_EMAIL_AES">E-mail</label></div>
+                    <div class="col-md-7"><input type="text" class="form-control" id="NIC_EMAIL_AES" name="NIC_EMAIL_AES"  value="<?php echo $NIC_EMAIL_AES?>" placeholder="입력"></div>
+                </div>
+    
+                <!-- 미사용사유 -->
+                <div class="row">
+                    <div class="col-md-3"><label for="NIC_NOUSE_REASON">미사용사유</label></div>
+                    <div class="col-md-7"><input type="text" class="form-control" id="NIC_NOUSE_REASON" name="NIC_NOUSE_REASON" value="<?php echo $NIC_NOUSE_REASON?>" placeholder="입력"></div>
+                </div>
+    
+                <!-- 메모 -->
+                <div class="row">
+                    <div class="col-md-3"><label for="NIC_MEMO">메모</label></div>
+                    <div class="col-md-7"><input type="text" class="form-control" id="NIC_MEMO" name="NIC_MEMO" value="<?php echo $NIC_MEMO?>" placeholder="입력"></div>
+                </div>
+    
+              
+            </div>
+    
+    
+            <!-- modal 하단 -->
+            <div class="modal-footer">
+                <div class="text-left">
+                  <?php if($AUTH_DELETE == YN_Y) :?>
+                  <button type="button" class="btn btn-danger" id="btnDelete" onclick="confirmDelSwal()">삭제</button>
+                  <?php endif; ?>
+                </div>
+                <div class="text-right">
+                  <?php if($AUTH_CREATE == YN_Y) :?>
+                  <!-- 등록btn -->
+                  <button type="submit" class="btn btn-primary" id="modalSubmitBtn">등록</button>
+                  <?php endif; ?>
+                    <!-- 취소btn -->
+                    <button type="button" class="btn btn-default" data-dismiss="modal"  onclick="window.close();">취소</button>
+                </div>
+            </div>
+
+          </form>
+          </div>
+        </div>
+    
+
+</body>
+<?php
+  require $_SERVER['DOCUMENT_ROOT']."/include/footerpopup.html";
+?>

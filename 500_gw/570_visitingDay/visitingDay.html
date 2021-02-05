@@ -1,0 +1,48 @@
+<!-- header.html -->
+<?php
+  require $_SERVER['DOCUMENT_ROOT']."/include/header.html";
+?>
+
+
+  <!-- 페이지 카테고리 -->
+  <div class="container-fluid mb20px">
+    <h3 class="nwt-category"><small>공업사관리&nbsp;&nbsp;></small>임원방문일 일괄등록</h3>
+  </div>
+
+  <!-- 파일업로드 영역 -->
+  <form name="uploadForm" id="uploadForm" method="post" enctype="multipart/form-data">
+    <input type="hidden" name="REQ_MODE" id="REQ_MODE" />
+    <div class="container-fluid nwt-file-upload">
+        <div class="form-inline">
+          <label class="col-md-2 title-file" for="UPLOAD_VITIT">파일 업로드</label>
+          <div class="col-md-5">
+            <input id="UPLOAD_VITIT" name="UPLOAD_VITIT" type="file" class="form-control input-md">
+          </div>
+          <button type="button" class="btn btn-success" onclick="upload()">업로드</button>
+        </div>
+        <div class="form-inline" style="">
+          <label class="col-md-2 title-file" ></label>
+          <div class="col-md-8">
+            <div class="guideTxt">
+            * ,(콤마) 사용이 불가능합니다.<br>
+            * 공업사코드가 숫자로 이루어져 csv파일에서 숫자로 인지하여 변형이 되어 '(작은따옴표)로 감싸서 드립니다.<br>
+            * 업로드 할 경우에도 동일하게 '(작은따옴표)로 감싸서 업로드 바랍니다.<br>
+            * 아래 공업사리스트 양식에 맞춰 csv파일로 업로드 가능합니다.
+            </div>
+          </div>
+
+        </div>
+        <div class="form-inline">
+          <label class="col-md-2">공업사리스트<br>CSV파일 다운로드</label>
+          <div class="col-md-8">
+            <button type="button" class="btn btn-primary" onclick="excelDownload()">다운로드</button>
+          </div>
+        </div>
+    </div>
+  </form>
+
+
+<!-- footer.html -->
+<?php
+  require $_SERVER['DOCUMENT_ROOT']."/include/footer.html";
+?>

@@ -1,0 +1,30 @@
+
+/* modal CSS */
+
+.modal-table{
+    width: 100%;
+}
+.modal-table .text-right > div{
+    float: left;
+}
+.optionInput{
+    width: 71%;
+    margin-right: 3px;
+}
+
+
+/* 모달 캘린더 */
+.modal-body .row .col-md-2{
+    position: relative;
+}
+.modal-body .row .col-md-2 .search-glypicon{
+    position: absolute;
+    top: 10px;
+    right: 22px;
+    cursor: pointer;
+}
+
+/* option_add_btn */
+.option_add_btn{
+    margin-bottom: 10px;
+}

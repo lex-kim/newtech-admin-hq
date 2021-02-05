@@ -1,0 +1,125 @@
+<?php
+  require $_SERVER['DOCUMENT_ROOT']."/include/headerpopup.html";
+?>
+<form method="post" name="helpForm" id="helpForm">
+<input type="hidden" class="form-control" id="REQ_MODE" name="REQ_MODE">
+<!-- 페이지 카테고리 -->
+<div class="container-fluid mb20px">
+    <h3 class="nwt-category categorypopup"><small>입금관리&nbsp;&nbsp;>&nbsp;&nbsp;미지급 및 감액건 통계&nbsp;&nbsp;></small>협조요청</h3>
+</div>
+
+<div class="container-fluid" id="add-new">
+
+    <!-- modal 내용 -->
+    <div class="popup-body"> 
+        <div class="modal-left">
+
+            <!-- 협조구분 -->
+            <div class="row">
+                <div class="col-md-3"><label for="HELP_RPT_ID">협조구분</label></div>
+                <div class="col-md-5">
+                    <select class="form-control" name="HELP_RPT_ID" id="HELP_RPT_ID">
+                    <option value="">선택</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- 보험사 -->
+            <div class="row">
+                <div class="col-md-3"><label for="HELP_MII_NM">보험사</label></div>
+                <div class="col-md-5"><input type="hidden" class="form-control" id="HELP_MII_ID" name="HELP_MII_ID" value="<?php echo $_REQUEST['MII_ID'] ?>"" disabled></div>
+                <div class="col-md-5"><input type="text" class="form-control" id="HELP_MII_NM" name="HELP_MII_NM" value="<?php echo $_REQUEST['MII_NM'] ?>"" disabled></div>
+            </div>
+
+            <!-- 담당자 -->
+            <div class="row">
+                <div class="col-md-3"><label for="HELP_NIC_ID">담당자</label></div>
+                <div class="col-md-5"><input type="hidden" class="form-control" id="HELP_NIC_ID" name="HELP_NIC_ID" value="<?php echo $_REQUEST['NIC_ID'] ?>"" disabled></div>
+                <div class="col-md-5"><input type="text" class="form-control" id="HELP_NIC_NM" name="HELP_NIC_NM" value="<?php echo $_REQUEST['NIC_NM'] ?>"" disabled></div>
+            </div>
+
+            <!-- 요청일 -->
+            <div class="row">
+                <div class="col-md-3"><label for="HELP_DT">요청일</label></div>
+                <div class="col-md-5">
+                    <input type="text" class="form-control" id="HELP_DT" name="HELP_DT" autocomplete="off" placeholder="" autocomplete="off">
+                    <span class="glyphicon glyphicon-calendar search-glypicon"></span> 
+                </div>
+            </div>
+
+            <!-- 요청자 -->
+            <div class="row">
+                <div class="col-md-3"><label for="HELP_NM">요청자</label></div>
+                <div class="col-md-5"><input type="hidden" class="form-control" id="HELP_ID" name="HELP_ID" value="<?php echo $_SESSION['USERID']?>"></div>
+                <div class="col-md-5"><input type="text" class="form-control" id="HELP_NM" name="HELP_NM" value="<?php echo $_SESSION['USER_NAME'].'('.$_SESSION['USERID'].')'?>"></div>
+            </div>
+            
+            <!-- 반응 -->
+            <div class="row">
+                <div class="col-md-3"><label for="HELP_RPR_ID">반응</label></div>
+                <div class="col-md-5">
+                    <select class="form-control" name="HELP_RPR_ID" id="HELP_RPR_ID">
+                        <option value="">선택</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- 기타(메모) -->
+            <div class="row">
+                <div class="col-md-3"><label for="HELP_MEMO">기타(메모)</label></div>
+                <div class="col-md-5"><textarea name="HELP_MEMO" id="HELP_MEMO" cols="25" rows="4" placeholder="입력"></textarea></div>
+            </div>
+
+        </div>
+        <div class="modal-right">
+            <div class="modal-table" style="width: 100%;">
+                <table class="table table-bordered">
+                    <colgroup>
+                        <col width="3%"/>
+                        <col width="3%"/>
+                        <col width="3%"/>
+                        <col width="3%"/>
+                        <col width="10%"/>
+                        <col width="3%"/>
+                    </colgroup>
+                    <thead>
+                        <tr class="active">
+                            <th class="text-center">구분</th>
+                            <th class="text-center">요청일</th>
+                            <th class="text-center">요청자</th>
+                            <th class="text-center">반응</th>
+                            <th class="text-center">기타<br>(메모)</th>
+                            <th class="text-center">삭제</th>
+                        </tr>
+                    </thead>
+                    <tbody id="helpTable">
+                    </tbody>
+                </table>
+                <div class="container-fluid">
+                    <div class="text-center">
+                      <ul class="pagination" id="subPagination">
+                      </ul>
+                    </div>
+                </div>
+            </div>
+        </div>            
+
+    </div>
+
+</div>
+<!-- modal 하단 -->
+<div class="container-fluid modal-footer">
+    <div class="text-left">
+        <button type="button" class="btn btn-success" id="btnAdd" onclick="addHelp()">추가</button>
+    </div>
+    <div class="text-right">
+        
+        <!-- 취소btn -->
+        <button type="button" class="btn btn-default" onclick="window.close()">닫기</button>
+    </div>
+</div>
+
+</form>
+<?php
+  require $_SERVER['DOCUMENT_ROOT']."/include/footerpopup.html";
+?>

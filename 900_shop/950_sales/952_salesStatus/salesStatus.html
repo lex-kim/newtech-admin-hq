@@ -1,0 +1,12 @@
+<?php
+  require $_SERVER['DOCUMENT_ROOT']."/include/headerShop.html";
+  require $_SERVER['DOCUMENT_ROOT']."/common/indicator.php";
+?>
+
+
+<?php
+require "controller/SalesStatusController.php";
+ 
+$cSalesStatusController = new SalesStatusController(['CONTRACT_TYPE', 'EC_PAYMENT_TYPE']);
+$cSalesStatusController->index();
+?>

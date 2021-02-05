@@ -1,0 +1,78 @@
+<!-- header.html -->
+<?php
+  require $_SERVER['DOCUMENT_ROOT']."/include/header.html";
+?>
+
+
+  <!-- 페이지 카테고리 -->
+  <div class="container-fluid mb20px">
+    <h3 class="nwt-category"><small>코드관리&nbsp;&nbsp;></small>기준부품조견표관리</h3>
+  </div>
+
+
+  <!-- 테이블 상단 #perPage, btn 영역 -->
+  <div class="container-fluid nwt-table-top mb20r">
+        <div class="row">
+          
+          <!-- 왼쪽영역 -->
+          <div class="col-lg-6">
+            <div class="form-inline">
+            </div>
+          </div>
+          
+          <!-- 테이블 우측 상단 btn -->
+          <div class="col-lg-6 clearfix">
+            <div class="form-inline f-right">
+    
+              <!-- 엑셀 다운로드 -->
+              <?php if($AUTH_EXCEL == YN_Y) :?>
+              <button type="button" class="btn btn-success" onclick="excelDownloadPart()"><span class="glyphicon glyphicon-download-alt"></span>&nbsp;엑셀 (기준부품)</button>
+              <button type="button" class="btn btn-success" onclick="excelDownloadTime()"><span class="glyphicon glyphicon-download-alt"></span>&nbsp;엑셀 (방청시간)</button>
+              <?php endif; ?>	
+
+              <!-- 등록btn / modal handler -->
+              <?php if($AUTH_UPDATE== YN_Y) :?>
+              <button type="button" class="btn btn-default" id="submitBtn" onclick="setUpdateTable()">수정</button>
+              <?php endif; ?>	
+            </div>
+          </div>
+    
+        </div>
+    </div>
+
+   
+
+
+   
+    
+   
+  <!-- 테이블 -->
+  <div class="container-fluid nwt-table" style="width: 100%;"> <!--overflow-x: scroll;-->
+        <form id="partForm" >
+          <table class="table table-bordered table-striped">
+              <thead>
+                  <tr class="active">
+                      <th class="text-center" rowspan="2">파트</th>
+                      <th class="text-center part-nm" rowspan="2" colspan="2">작업항목</th>
+                      <th class="text-center" colspan="18" id="td_part_header">
+                          <div class="form-inline">
+                              <label for="SELECT_PART" class="mr10r">기준부품</label>
+                              <select name="SELECT_PART" class="wd200px form-control" id="SELECT_PART"></select>
+                              <label for="SELECT_WORK" class="mr10r">작업</label>
+                              <select name="SELECT_WORK" class="form-control wd100px" id="SELECT_WORK"></select>
+                          </div>
+                      </th>
+                  </tr>
+                  <tr class="active" id="tr_car">
+                  </tr>
+              </thead>
+              <tbody id="table_body">
+              </tbody>
+          </table>
+      </form>
+  </div>
+
+<!-- footer.html -->
+<?php
+  require $_SERVER['DOCUMENT_ROOT']."/include/footer.html";
+?>

@@ -1,0 +1,142 @@
+<?php
+
+    header("Content-Type: application/vnd.ms-excel");
+    date_default_timezone_set('Asia/Seoul');
+
+    header("Content-Disposition: attachment; filename=".date("YmdH", time())."_청구서휴지통.xls");
+    header("Content-Description: NewtechSystem");
+
+    require $_SERVER['DOCUMENT_ROOT']."/common/common.php";	
+    require "class/clsBillBin.php";
+
+    $data =  $cBillBin->getList($_REQUEST);
+
+    $result = $data[0];
+    $excelHtml = "
+        <table border='1'>
+            <thead>
+                <tr class='active'>
+                    <th style='text-align:center;'>순번</th>
+                    <th style='text-align:center;'>공업사코드</th>
+                    <th style='text-align:center;'>청구일</th>
+                    <th style='text-align:center;'>보험사</th>
+                    <th style='text-align:center;'>보험사팀</th>
+                    <th style='text-align:center;'>팀메모</th>
+                    <th style='text-align:center;'>보상담당</th>
+                    <th style='text-align:center;'>팩스번호</th>
+                    <th style='text-align:center;'>휴대폰번호</th>
+                    <th style='text-align:center;'>구분</th>
+                    <th style='text-align:center;'>지역</th>
+                    <th style='text-align:center;'>공업사</th>
+                    <th style='text-align:center;'>사업자번호</th>
+                    <th style='text-align:center;'>청구식</th>
+                    <th style='text-align:center;'>지급식</th>
+                    <th style='text-align:center;'>개척자</th>
+                    <th style='text-align:center;'>개시일</th>
+                    <th style='text-align:center;'>종료일</th>
+                    <th style='text-align:center;'>작성</th>
+                    <th style='text-align:center;'>작성아이디</th>
+                    <th style='text-align:center;'>쌍방작성사</th>
+                    <th style='text-align:center;'>선청구</th>
+                    <th style='text-align:center;'>접수번호</th>
+                    <th style='text-align:center;'>담보</th>
+                    <th style='text-align:center;'>차량번호</th>
+                    <th style='text-align:center;'>차량명</th>
+                    <th style='text-align:center;'>차량급</th>
+                    <th style='text-align:center;'>사용부품</th>
+                    <th style='text-align:center;'>방청시간</th>
+                    <th style='text-align:center;'>청구금액</th>
+                    <th style='text-align:center;'>입금일</th>
+                    <th style='text-align:center;'>입금액</th>
+                    <th style='text-align:center;'>입금여부</th>
+                    <th style='text-align:center;'>삭제일</th>
+                    <th style='text-align:center;'>전송여부</th>
+                    <th style='text-align:center;'>전송일시</th>
+                    <th style='text-align:center;'>차주분<br>청구액</th>
+                    <th style='text-align:center;'>차주분<br>입금일</th>
+                    <th style='text-align:center;'>차주분<br>입금액</th>
+                    <th style='text-align:center;'>차주분<br>입금여부</th>
+                    <th style='text-align:center;'>삭제사유</th>
+                </tr>
+            </thead>
+    ";
+
+    foreach($result as $item) { 
+        $depositTxt = '';
+        if($item['NBI_INSU_DEPOSIT_YN'] == YN_N){
+            $depositTxt = '미입금';
+        }else{
+            $depositTxt = '입금';
+        }
+
+
+        $workHour ='';
+        if(((int)$item['NB_WORK_TIME']/60) > 0){
+            $workHour = (int)($item['NB_WORK_TIME']/60)."시간 ".($item['NB_WORK_TIME']%60)."분 ";
+        }else if($item['NB_WORK_TIME'] == null){
+            $workHour = '-';
+        }else{
+            $workHour = ((int)$item['NB_WORK_TIME']%60)."분 ";
+        }
+
+        $carownYN = '';
+        if($item['NBI_CAROWN_DEPOSIT_YN'] == YN_Y){
+            $carownYN = '입금';
+        }else if($item['NBI_CAROWN_DEPOSIT_YN'] == YN_N){
+            $carownYN = '미입금';
+        }else{
+            $carownYN = '';
+        }
+
+
+        $excelHtml .= "<tr>
+            <td style='text-align:center;'>".$item['IDX']."</td>
+            <td style='text-align:center;'>".$item['MGG_ID']."</td>
+            <td style='text-align:center;'>".$item['NB_CLAIM_DT']."</td>
+            <td style='text-align:left;'>".($item['MII_NM'] != null ? $item['MII_NM'] : '')."</td>
+            <td style='text-align:left;'>".($item['MIT_NM'] != null ? $item['MIT_NM'] : '')."</td>
+            <td style='text-align:left;'>".($item['NBI_TEAM_MEMO'] != null ? $item['NBI_TEAM_MEMO'] : '')."</td>
+            <td style='text-align:center;'>".($item['NBI_CHG_NM'] != null ? $item['NBI_CHG_NM'] : '')."</td>
+            <td style='text-align:center;'>".($item['NBI_FAX_NUM'] != null ? cUtil::phone_format($item['NBI_FAX_NUM']) : '-')."</td>
+            <td style='text-align:center;'>".($item['NIC_TEL1'] != null ? cUtil::phone_format($item['NIC_TEL1']) : '')."</td>
+            <td style='text-align:center;'>".$item['CSD_NM']."</td>
+            <td style='text-align:center;'>".$item['RGN_NM']."</td>
+            <td style='text-align:center;'>".$item['NB_GARAGE_NM']."</td>
+            <td style='text-align:center;'>".cUtil::biz_format($item['MGG_BIZ_ID'])."</td>
+            <td style='text-align:center;'>".($item['RET_NM'] != null ? $item['RET_NM'] : '')."</td>
+            <td style='text-align:center;'>".$item['RPET_ID']."</td>
+            <td style='text-align:center;'>".$item['MGG_FRONTIER_NM']."</td>
+            <td style='text-align:center;'>".$item['MGG_BIZ_START_DT']."</td>
+            <td style='text-align:center;'>".($item['MGG_BIZ_END_DT'] != null ? $item['MGG_BIZ_END_DT'] : '')."</td>
+            <td style='text-align:center;'>".$item['NB_WRT_RMT']."</td>
+            <td style='text-align:center;'>".$item['NB_CLAIM_USERID']."</td>
+            <td style='text-align:center;'>".($item['INSU_BOTH_WRITER'] != null ? $item['INSU_BOTH_WRITER'] : '')."</td>
+            <td style='text-align:center;'>".$item['NBI_PRECLAIM_YN']."</td>
+            <td style='text-align:center;mso-number-format:\@;'>".$item['NBI_REGI_NUM']."</td>
+            <td style='text-align:center;'>".$item['RLT_NM']."</td>
+            <td style='text-align:center;mso-number-format:\@;'>".$item['NB_CAR_NUM']."</td>
+            <td style='text-align:center;'>".$item['CCC_CAR_NM']."</td>
+            <td style='text-align:center;'>".$item['RCT_NM']."</td>
+            <td style='text-align:center;'>".$item['BILL_PART_NMS']."</td>
+            <td style='text-align:right;'>".$workHour."</td>
+            <td style='text-align:center;mso-number-format:\#\,\#\#0\;'>".$item['NB_TOTAL_PRICE']."</td>
+            <td style='text-align:center;'>".($item['NBI_INSU_DEPOSIT_DT'] != null ? $item['NBI_INSU_DEPOSIT_DT'] : '')."</td>
+            <td style='text-align:right;mso-number-format:\#\,\#\#0\;'>".($item['NBI_INSU_DEPOSIT_PRICE'] != null ? $item['NBI_INSU_DEPOSIT_PRICE'] : '')."</td>
+            <td style='text-align:center;'>".$depositTxt."</td>
+            <td style='text-align:center;'>".$item['NB_DEL_DTHMS']."</td>
+            <td style='text-align:center;'>".$item['RFS_NM']."</td>
+            <td style='text-align:center;'>".($item['NBI_FAX_SEND_DTHMS'] != null ? $item['NBI_FAX_SEND_DTHMS'] : '')."</td>
+            <td style='text-align:right;mso-number-format:\#\,\#\#0\;'>".($item['NB_CAROWN_TOTAL_PRICE'] != null ? $item['NB_CAROWN_TOTAL_PRICE'] : '')."</td>
+            <td style='text-align:center;'>".($item['NBI_CAROWN_DEPOSIT_DT'] != null ? $item['NBI_CAROWN_DEPOSIT_DT'] : '')."</td>
+            <td style='text-align:right;mso-number-format:\#\,\#\#0\;'>".($item['NBI_CAROWN_DEPOSIT_PRICE'] != null ? $item['NBI_CAROWN_DEPOSIT_PRICE'] : '')."</td>
+            <td style='text-align:center;'>".$carownYN."</td>
+            <td style='text-align:center;'>".$item['NB_DEL_REASON']."</td>
+            </tr>
+        ";
+    }
+    $excelHtml .= "</table>";
+
+    echo "<meta content=\"application/vnd.ms-excel;charset=UTF-8;\" name=\"Content-type\">";
+    echo $excelHtml ;
+
+?>

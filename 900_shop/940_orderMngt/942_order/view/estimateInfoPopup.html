@@ -1,0 +1,95 @@
+<form method="post" name="editForm" id="editForm" >
+ <div class="modal modal-add" id="estimate-info">
+   <div class="modal-dialog">
+    <div class="modal-content">
+
+      <!-- modal 상단 -->
+      <div class="modal-header">
+        <h4 class="modal-title">견적서 정보 작성</h4>  
+      </div>
+
+      <!-- modal 내용 -->
+      <div class="modal-body"> 
+          <?php if(empty($quotationID) ){?>
+          <!-- 업체명 -->
+          <div class="row">
+            <div class="col-md-3"><label for="ESTIMATE_STORE_NM">업체명</label></div>
+            <div class="col-md-4">
+              <input type="text" class="form-control" value="<?php echo $quotationInfo['toName']?>"
+                id="ESTIMATE_STORE_NM" name="ESTIMATE_STORE_NM"  placeholder="입력" required />
+            </div>
+          </div>
+
+          <!-- 이름 -->
+          <div class="row">
+            <div class="col-md-3"><label for="ESTIMATE_NM">이름</label></div>
+            <div class="col-md-4"><input type="text" value="<?php echo $quotationInfo['toReceiverName']?>"
+                class="form-control" id="ESTIMATE_NM" name="ESTIMATE_NM" placeholder="입력"  required /></div>
+          </div>
+
+          <!-- 전화번호 -->
+          <div class="row">
+            <div class="col-md-3"><label for="ESTIMATE_PHONE">전화번호</label></div>
+            <div class="col-md-5">
+              <input type="text" class="form-control phone" id="ESTIMATE_PHONE" name="ESTIMATE_PHONE" value="<?php echo $quotationInfo['toPhoneNum']?>"
+                 onkeyup="isNumber(event)" placeholder="'-' 없이 숫자만 입력" required />
+            </div>
+          </div>
+
+          <!-- 이메일 -->
+          <div class="row">
+            <div class="col-md-3"><label for="ESTIMATE_EMAIL">이메일</label></div>
+            <div class="col-md-5">
+                <input type="text" class="form-control" value="<?php echo $quotationInfo['toEmail']?>"
+                 id="ESTIMATE_EMAIL" name="ESTIMATE_EMAIL" placeholder="id@email.com" required/></div>
+          </div>
+
+          <?php }?>
+          <!-- 배송&결제방법 -->
+          <!-- <div class="order-delivery-payment"> -->
+            <div class="row">
+              <!-- 배송방법 -->
+              <div class="col-md-3"><label for="ESTIMATE_DELIVERY">배송방법</label></div>
+              <div class="col-md-8">
+                 <?php echo getRadio($this->optionArray['EC_DELIVERY_METHOD'], "deliveryMethodCode", $quotationInfo['deliveryMethodCode']) ?>
+              </div>
+            </div>
+            <div class="row">
+              <!-- 결제방법 -->
+              <div class="col-md-3"><label for="ESTIMATE_PAYMENT">결제방법</label></div>
+              <div class="col-md-8">
+                  <?php echo getRadio($this->optionArray['EC_PAYMENT_TYPE'], "paymentCode", $quotationInfo['paymentCode']) ?>
+              </div>
+            </div>
+         
+            <!-- 특이사항 -->
+          <div class="row">
+            <div class="col-md-3"><label for="quotationNote">특이사항</label></div>
+            <div class="col-md-8">
+              <textarea name="quotationNote" id="quotationNote" class="form-control memo-textarea" cols="50" rows="10" placeholder="입력" ><?php echo str_replace("<br>","\r\n",  $quotationInfo['quotationNote'])?></textarea>
+            </div>
+          </div>
+
+          <!-- </div> -->
+          
+
+
+        <!-- </div> -->
+
+      </div>
+
+      <!-- modal 하단 -->
+      <div class="modal-footer">
+        <div class="text-left">
+        </div>
+        <div class="text-right">
+          <!-- 수정btn -->
+          <button type="submit" class="btn btn-primary" >견적서 저장</button>
+          <!-- 취소btn -->
+          <button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</form>

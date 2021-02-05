@@ -1,0 +1,100 @@
+<?php
+
+    header("Content-Type: application/vnd.ms-excel");
+    date_default_timezone_set('Asia/Seoul');
+
+    header("Content-Disposition: attachment; filename=".date("YmdH", time())."_보험사청구및입금현황.xls");
+    header("Content-Description: NewtechSystem");
+
+    require $_SERVER['DOCUMENT_ROOT']."/common/common.php";	
+    require "class/clsDepositIw.php";
+
+    $data =  $cDepositIw->getList($_REQUEST);
+
+    $result = $data[0];
+
+
+    $excelHtml = "
+        <table border='1'>
+            <thead>
+                <tr >
+                  <th style='text-align:center;' rowspan='2'>순번</th>
+                  <th style='text-align:center;' rowspan='2'>구분</th>
+                  <th style='text-align:center;' rowspan='2'>보험사</th>
+                  <th style='text-align:center;' rowspan='2'>총청구건수</th>
+                  <th style='text-align:center;' rowspan='2'>총청구금액</th>
+                  <th style='text-align:center;' rowspan='2'>입금건수</th>
+                  <th style='text-align:center;' rowspan='2'>입금청구액</th>
+                  <th style='text-align:center;' rowspan='2'>입금금액</th>
+                  <th style='text-align:center;' rowspan='2'>감액금액</th>
+                  <th style='text-align:center;' rowspan='2'>미입금<br>종결건수</th>
+                  <th style='text-align:center;' rowspan='2'>미입금<br>종결청구액</th>
+                  <th style='text-align:center;' rowspan='2'>미입금건수</th>
+                  <th style='text-align:center;' rowspan='2'>미입금액</th>
+                  <th style='text-align:center;' colspan='2'>입금률</th>
+                  <th style='text-align:center;' colspan='2'>감액률</th>
+                  <th style='text-align:center;' colspan='2'>미입금 종결률</th>
+                  <th style='text-align:center;' colspan='2'>미입금률</th>
+                  <th style='text-align:center;' rowspan='2'>입금<br>종결건수</th>
+                  <th style='text-align:center;' rowspan='2'>입금총결<br>청구액</th>
+                  <th style='text-align:center;' rowspan='2'>입금종결<br>입금액</th>
+                  <th style='text-align:center;' colspan='2'>입금종결률</th>
+                </tr>
+                <tr class='active'>
+                  <th style='text-align:center;'>건수</th>
+                  <th style='text-align:center;'>금액</th>
+                  <th style='text-align:center;'>건수</th>
+                  <th style='text-align:center;'>금액</th>
+                  <th style='text-align:center;'>건수</th>
+                  <th style='text-align:center;'>금액</th>
+                  <th style='text-align:center;'>건수</th>
+                  <th style='text-align:center;'>금액</th>
+                  <th style='text-align:center;'>건수</th>
+                  <th style='text-align:center;'>금액</th>
+                </tr>
+            </thead>
+    ";
+
+    foreach($result as $item) { 
+        $excelHtml .= "
+            <tr>
+              <td style='text-align:center;'>".$item['IDX']."</td>
+              <td style='text-align:center;'>".$item['RIT_NM']."</td>
+              <td style='text-align:left;'>".$item['MII_NM']."</td>
+
+              <td style='text-align:right;mso-number-format:\#\,\#\#0\;'>".cUtil::nullChk($item['NB_TOTAL_CNT'],'0')."</td>              
+              <td style='text-align:right;mso-number-format:\#\,\#\#0\;'>".cUtil::nullChk($item['NB_TOTAL_PRICE'],'0')."</td>
+              <td style='text-align:right;mso-number-format:\#\,\#\#0\;'>".cUtil::nullChk($item['NBI_TOTAL_DEPOSIT_CNT'],'0')."</td>
+              <td style='text-align:right;mso-number-format:\#\,\#\#0\;'>".cUtil::nullChk($item['NBI_TOTAL_DEPOSIT_BILL_PRICE'],'0')."</td>
+              <td style='text-align:right;mso-number-format:\#\,\#\#0\;'>".cUtil::nullChk($item['NBI_TOTAL_DEPOSIT_PRICE'],'0')."</td>
+              <td style='text-align:right;mso-number-format:\#\,\#\#0\;'>".cUtil::nullChk($item['DECREMENT_PRICE'],'0')."</td>
+              <td style='text-align:right;mso-number-format:\#\,\#\#0\;'>".cUtil::nullChk($item['UNPAID_DONE_CNT'],'0')."</td>
+              <td style='text-align:right;mso-number-format:\#\,\#\#0\;'>".cUtil::nullChk($item['UNPAID_DONE_BILL_PRICE'],'0')."</td>
+              <td style='text-align:right;mso-number-format:\#\,\#\#0\;'>".cUtil::nullChk($item['UNPAID_CNT'],'0')."</td>
+              <td style='text-align:right;mso-number-format:\#\,\#\#0\;'>".cUtil::nullChk($item['UNPAID_PRICE'],'0')."</td>
+
+              <td style='text-align:right;'>".cUtil::nullChk($item['DEPOSIT_CNT_RATIO'],'0')."%</td>
+              <td style='text-align:right;'>".cUtil::nullChk($item['DEPOSIT_PRICE_RATIO'],'0')."%</td>
+
+              <td style='text-align:right;'>".cUtil::nullChk($item['DECREMENT_CNT_RATIO'],'0')."%</td>
+              <td style='text-align:right;'>".cUtil::nullChk($item['DECREMENT_PRICE_RATIO'],'0')."%</td>
+
+              <td style='text-align:right;'>".cUtil::nullChk($item['UNPAID_DONE_CNT_RATIO'],'0')."%</td>
+              <td style='text-align:right;'>".cUtil::nullChk($item['UNPAID_DONE_PRICE_RATIO'],'0')."%</td>
+
+              <td style='text-align:right;'>".cUtil::nullChk($item['UNPAID_CNT_RATIO'],'0')."%</td>
+              <td style='text-align:right;'>".cUtil::nullChk($item['UNPAID_PRICE_RATIO'],'0')."%</td>
+
+              <td style='text-align:right;mso-number-format:\#\,\#\#0\;'>".cUtil::nullChk($item['PAID_DONE_CNT'],'0')."</td>
+              <td style='text-align:right;mso-number-format:\#\,\#\#0\;'>".cUtil::nullChk($item['PAID_DONE_BILL_PRICE'],'0')."</td>
+              <td style='text-align:right;mso-number-format:\#\,\#\#0\;'>".cUtil::nullChk($item['PAID_DONE_DEPOSIT_PRICE'],'0')."</td>
+              <td style='text-align:right;'>".cUtil::nullChk($item['PAID_DONE_CNT_RATIO'],'0')."%</td>
+              <td style='text-align:right;'>".cUtil::nullChk($item['PAID_DONE_PRICE_RATIO'],'0')."%</td>
+            </tr>       ";
+    }
+    $excelHtml .= "</table>";
+
+    echo "<meta content=\"application/vnd.ms-excel;charset=UTF-8;\" name=\"Content-type\">";
+    echo $excelHtml ;
+
+?>

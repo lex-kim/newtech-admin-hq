@@ -1,0 +1,72 @@
+<!-- header.html -->
+<?php
+  require $_SERVER['DOCUMENT_ROOT']."/include/header.html";
+?>
+
+ <script src="js/setTable.js"></script>
+  <!-- 페이지 카테고리 -->
+  <div class="container-fluid mb20px">
+    <h3 class="nwt-category"><small>코드관리&nbsp;&nbsp;></small>작업항목관리</h3>
+  </div>
+
+
+
+  <div id="workPartsIndicator" style="display:flex ; flex:1  ;align-items: center; justify-content: center; ">
+        <div class="lds-ring">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div> 
+    </div>
+
+  <!-- 테이블 -->
+  <div class="container-fluid nwt-table" style="width: 100%;display: none;" id="WorkPartsTable"> <!--overflow-x: scroll;-->
+    <div class="f-right">
+        <?php if($AUTH_EXCEL == YN_Y) :?>
+        <button type="button" class="btn btn-success" onclick="excelDownload()"><span class="glyphicon glyphicon-download-alt"></span>&nbsp;엑셀 다운로드</button>
+        <?php endif; ?>
+    </div>
+    <div class="bill-list-table workselect">
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr class="borderB">
+                    <th class="text-center active" rowspan="3">파트</th>
+                    <th class="text-center active" rowspan="3" colspan="2">작업항목</th>
+                    <th class="text-center active borderR" colspan="4">수리부위</th>
+                </tr>
+                <tr>
+                    <th class="text-center greentd" colspan="2" id="CHANGE_TD">교환</th>
+                    <th class="text-center bluetd borderR" colspan="2" id="METAL_TD">판금</th>
+                </tr>
+                <tr class="borderAll">
+                    <th class="text-center active"><span>좌측(실내)</span></th>
+                    <th class="text-center active"><span>우측(하체)</span></th>
+                    <th class="text-center active"><span>좌측(실내)</span></th>
+                <th class="text-center active borderR"><span>우측(하체)</span></th>
+                </tr>
+            </thead>
+            <tbody id="dataTable">
+               
+            </tbody>
+            </table>
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- 바닥 모달  -->
+<?php	require "./workPartFloorModal.html"; ?>
+<!-- 우선 모달  -->
+<?php	require "./workPartPriorityModal.html"; ?>
+<!-- 대체/체화 모달  -->
+<?php	require "./workPartReplaceModal.html"; ?>
+
+
+
+<!-- footer.html -->
+<?php
+  require $_SERVER['DOCUMENT_ROOT']."/include/footer.html";
+?>

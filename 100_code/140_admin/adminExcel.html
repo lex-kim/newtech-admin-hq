@@ -1,0 +1,39 @@
+<?php
+    header("Content-Type: application/vnd.ms-excel");
+    date_default_timezone_set('Asia/Seoul');
+
+    header("Content-Disposition: attachment; filename=".date("Ymd_His", time())."_시스템관리자.xls");
+    header("Content-Description:PHP4 Generated Data");
+
+
+    require $_SERVER['DOCUMENT_ROOT']."/common/common.php";	
+    require "class/clsAdmin.php";
+    
+    $result = $cAdmin->getList($_REQUEST);
+
+    $excelHtml = "
+        <table border='1'>
+            <tr>
+                <th>순번</th>
+                <th>관리자ID</th>
+                <th>관리자명</th>
+                <th>등록일시</th>
+                <th>등록자</th>
+            </tr>
+    ";
+
+    foreach($result[0] as $item) { 
+        $excelHtml .= "<tr>
+                <td>".$item['IDX']."</td>
+                <td>".$item['ASA_USERID']."</td>
+                <td>".$item['ASA_NM']."</td>
+                <td>".$item['WRT_DTHMS']."</td>
+                <td>".$item['WRT_USERID']."</td>
+            </tr>
+        ";
+    }
+    $excelHtml .= "</table>";
+
+    echo "<meta content=\"application/vnd.ms-excel;charset=UTF-8;\" name=\"Content-type\">";
+    echo $excelHtml ;
+?>

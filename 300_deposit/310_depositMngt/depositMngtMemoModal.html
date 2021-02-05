@@ -1,0 +1,40 @@
+<!-- 팀재분류메모 modal -->  
+  <div class="modal fade modal-add" id="team-memo" role="dialog">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <form method="post" name="memo_form" id="memo_form">
+        <input type="hidden" class="form-control" id="REQ_MODE" name="REQ_MODE">
+
+        <!-- modal 상단 -->
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button> 
+          <h4 class="modal-title">팀재분류메모</h4>  
+        </div>
+
+        <!-- modal 내용 -->
+        <div class="modal-body">   
+
+            <!-- 담당구분 지정 -->
+            <div class="row">
+                <div class="col-md-3"><label for="NBI_TEAM_MEMO">팀명</label></div>
+                <div class="col-md-5"><input type="text" class="form-control" id="NBI_TEAM_MEMO" name="NBI_TEAM_MEMO" placeholder="입력"></div>
+            </div>
+
+        </div>
+
+        <!-- modal 하단 -->
+        <div class="modal-footer">
+            <div class="text-left">
+            </div>
+            <div class="text-right">
+                <!-- 등록btn -->
+                <button type="button" class="btn btn-primary" onclick="setMemo()">등록</button>
+                <!-- 취소btn -->
+                <button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
+            </div>
+        </div>
+
+      </form>
+      </div>
+    </div>
+  </div>

@@ -1,0 +1,159 @@
+<?php
+  session_start();
+  
+  if(!empty($_SESSION['USERID'])){
+    echo "<script>location.replace('/900_shop/940_orderMngt/941_orderList/orderList.php');</script>";
+  }
+?>
+
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>NEWTECH - 관리자시스템</title>
+
+    <!-- favicon -->
+    <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/images/favicon.ico" type="image/x-icon">
+
+    <!-- Bootstrap v3.3.7 스타일 -->
+    <link rel="stylesheet" href="/bootstrap/css/bootstrap.css">
+    
+    <!-- 공통 스타일 -->
+    <link rel="stylesheet" href="/css/common.css">
+    <!-- 페이지별 스타일 -->
+    <link rel="stylesheet" href="css/app.css">    
+
+  </head>
+  <body>
+
+  <!-- 높이 100vh인 big-wrap -->
+  <div class="big-wrap">
+
+    <!-- header 시작 -->
+    <header class="navbar">
+        <div class="container-fluid">         
+          <!-- logo -->
+          <div class="navbar-header">
+            <a class="navbar-brand" href="#">NEWTECH</a>
+            <div class="navbar-subtitle">
+              <span>본사모드</span>
+              <span>뉴텍상사 업무지원 시스템</span>
+            </div>
+          </div>
+        </div>
+    </header>
+    <!-- header 끝 -->
+    
+
+
+    <div class="container">
+
+      <!-- 로그인박스 시작 -->
+      <div class="login-wrap">
+
+        <!-- 폼 상단 전화번호, 이메일주소 -->
+        <div class="box-top clearfix">
+          <p>전화번호 : 02-521-8688</p>
+          <p>이메일주소 : nt34@daum.net <button type="button" id="btnCopy" name="btnCopy" class="btn btn-default btn-success btn-xs copybtn">복사</button></p>
+        </div>
+
+        <!-- 로그인폼 -->
+        <div class="login-box clearfix">
+          <form name="loginForm" method="post" action="act/login_act.php" onsubmit="toMem(this)">
+            <input type="hidden" name="REQ_MODE" id="REQ_MODE" />
+            <fieldset>
+
+              <!-- 좌측 아이디&패스워드 -->
+              <div class="input-box loginIDPW">
+                
+                <!-- 아이디 -->
+                <div class="frm-group clearfix">
+                  <label for="userid"><span class="glyphicon glyphicon-user"></span> 아이디</label>
+                  <input type="text" class="form-control loginInput" id="userid" name="userid" placeholder="입력">
+                </div>
+
+                <!-- 패스워드 -->
+                <div class="frm-group clearfix">
+                  <label for="passwd"><span class="glyphicon glyphicon-lock"></span> 비밀번호</label>
+                  <input type="password" class="form-control loginInput" id="passwd" name="passwd" placeholder="입력">
+                </div>                 
+              </div>
+
+              <!-- 우측 로그인btn -->
+                <button type="submit" class="btn btn-default btn-primary pull-right">로그인</button>
+              
+                <!-- 유저저장 체크박스 -->
+              <div class="checkbox text-right">
+                <label for="checker">
+                  <input type="checkbox"  id="checker" name="checker" onclick="saveLogin()">
+                  아이디/비밀번호 저장
+                  </label>
+              </div> 
+
+            </fieldset>
+          </form>
+        </div>
+
+        <!-- 안내문구 -->
+        <p class="login-noti text-center">로그인이 안 될 경우 02-521-8688로 연락주십시오</p>
+
+      </div>
+      <!-- 로그인박스 끝 -->
+     
+
+
+      <div class="etc-btn">
+
+        <!-- 원격서비스안내 -->
+        <div class="login-btm">
+            <div><p>아래 "애니서포트 바로가기" 클릭 후 <br>"접속 인증번호 6자리"를 상담원에게 알려주세요.</p></div>
+            <div><a href="https://988.co.kr/" title="anysupport" target="_blank"><button type="button" class="downbtn btn default-btn">애니서포트 바로가기</button></a></div>
+        </div>  
+        <!-- <div>|</div>
+        <div class="shortcut-area">
+          <p>하단의 버튼을 바탕화면으로 드래그 해주세요. </p>
+          <a href="https://nt-hq.nt34.net/">
+            <div id="shortcut-title"><button type="button" class="downbtn btn default-btn">뉴텍 바로가기 만들기</button></div>
+          </a>
+        </div>  -->
+
+      </div>
+      
+    </div>
+    
+    
+    
+
+
+
+
+    <!-- footer 시작 -->
+    <footer>
+      <div class="f-inner">
+          <ul class="clearfix">
+              <li>(주)뉴텍상사</li>
+              <li>대표이사: 조명찬</li>
+              <li>사업자등록번호: 379-87-00095</li>
+          </ul>
+          <ul class="clearfix">
+            <li>주소: 우)13815 경기도 과천시 향나무1로 18(과천동), 뉴텍빌딩4층</li>
+            <li>대표전화: 02-521-8688</li>
+            <li>FAX: 02-587-8488</li>
+          </ul>
+      </div>
+    </footer>
+    <!-- footer 끝 -->
+
+  </div>
+  <!-- big-wrap 끝 -->
+
+
+<!-- footer.html -->
+<?php
+  require $_SERVER['DOCUMENT_ROOT']."/include/footer.html";
+?>
+
+

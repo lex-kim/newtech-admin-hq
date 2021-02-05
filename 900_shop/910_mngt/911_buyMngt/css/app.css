@@ -1,0 +1,133 @@
+
+.modal-dialog{
+    width: 750px;
+}
+.modal-top{
+    overflow: hidden;
+}
+.modal-top:last-child{
+    border-bottom: 0px;
+}
+.modal-content .modal-body .modal-top > div{
+    float: left;
+    margin-right: 35px;
+    width: calc(50% - 20px);
+}
+.modal-content .modal-body .modal-top > div:last-child{
+    margin-right: 0;
+}
+.modal-unit > div {
+    float: left;
+    margin-bottom: 10px;
+}
+.modal-top div p{
+    color: #888;
+}
+.modal-top .modal-unit{
+    overflow: hidden;
+}
+.modal-top .modal-unit .modal-label{
+    width: 80px;
+    margin-right: 5px;
+    margin-top: 6px;
+}
+.modal-top .modal-unit .modal-input{
+    width: 60%;
+}
+.modal-top .modal-unit .modal-select{
+    width: 70%;
+}
+
+.modal-top .modal-unit .modal-select .row{
+    padding-bottom: 0 !important;
+}
+
+.modal-bottom{
+    border-top: 1px solid #ddd;
+    padding-top: 20px;
+    margin-top: 10px;
+}
+
+
+.frmaddress  {
+    font-size:	0;
+    position: relative;
+}
+.frmaddress * {
+    font-size: 14px;
+}
+.frmaddress label[for="frmDtEnd"] {
+    width: 15px;
+    text-align: center;
+}
+.frmaddress input[type=text]:first-of-type{
+    width: calc(40%);
+    margin-right: 0;
+}
+.frmaddress input[type=text]{
+    margin-bottom: 4px;
+}
+.frmaddress button{
+    position: absolute;
+    top: 0;
+    left: 43%;
+}
+
+
+.frmGroup1 .search-glypicon{
+    top: -2px;
+}
+
+
+/* 모달 캘린더 */
+.modal-body .modal-unit .modal-input{
+    position: relative;
+}
+.modal-body .modal-unit .modal-input .search-glypicon{
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+}
+
+input[type='file']{
+    display:none;
+}
+.fileContainer{
+    display:flex;flex:1; overflow:hidden;
+    align-self: center; flex-direction:row; margin-left:4px
+}
+.fileSelectText{
+    flex:1 ; overflow:hidden
+}
+.itemDelBtn{
+    width:20px; margin-left:8px
+}
+
+/* input type style */
+label.radio-inline{
+	line-height: 28px;
+	padding-right: 0px;
+}
+label.radio-inline input[type="radio"]{
+	position: relative;
+	top: 3px;
+	margin-right: 5px;
+}
+
+
+/* 통합배송정책 CSS */
+.integrated-setting .modal-input{
+    overflow: hidden;
+}
+.integrated-setting .modal-input > *{
+    float: left;
+}
+.integrated-setting .modal-input input{
+    width: 60%;
+}
+
+.integrated-setting .modal-input span{
+    color: #000 !important;
+    margin: 8px 0px 0px 8px;
+}

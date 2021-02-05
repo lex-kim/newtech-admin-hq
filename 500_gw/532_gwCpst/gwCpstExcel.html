@@ -1,0 +1,76 @@
+<?php
+
+    header("Content-Type: application/vnd.ms-excel");
+    date_default_timezone_set('Asia/Seoul');
+
+    header("Content-Disposition: attachment; filename=".date("YmdH", time())."_공업사보상담당관리.xls");
+    header("Content-Description: Newtech System");
+
+    require $_SERVER['DOCUMENT_ROOT']."/common/common.php";	
+    require "class/clsGwCompensation.php";
+
+    $data =  $clsGwCompensation->getList($_REQUEST);
+
+    $result = $data[0];
+
+    $excelHtml = "
+        <table border='1'>
+                <thead>
+                        <tr class='active'>
+                            <th style='text-align:center;'>순번</th>
+                            <th style='text-align:center;'>구분</th>
+                            <th style='text-align:center;'>지역</th>
+                            <th style='text-align:center;'>공업사</th>
+                            <th style='text-align:center;'>사업자번호</th>
+                            <th style='text-align:center;'>미결건수</th>
+                            <th style='text-align:center;'>청구담당</th>
+                            <th style='text-align:center;'>사무실전화</th>
+                            <th style='text-align:center;'>휴대폰</th>
+                            <th style='text-align:center;'>보험사</th>
+                            <th style='text-align:center;'>최종등록일자</th>
+                            <th style='text-align:center;'>수정일</th>
+                            <th style='text-align:center;'>보상담당</th>
+                            <th style='text-align:center;'>담당구분</th>
+                            <th style='text-align:center;'>보험담당<br>팩스번호</th>
+                            <th style='text-align:center;'>보험담당<br>휴대폰</th>
+                            <th style='text-align:center;'>등록주체</th>
+                            <th style='text-align:center;'>확인여부</th>
+                        </tr>
+                </thead>
+    ";
+
+    
+    if(!empty($result)){
+        foreach($result as $item) { 
+            $excelHtml .= "<tr>
+                    <td style='text-align:center;'>".$item['IDX']."</td>
+                    <td style='text-align:center;'>".$item['CSD_NM']."</td>
+                    <td style='text-align:left;'>".$item['CRR_NM']."</td>
+                    <td style='text-align:left;'>".$item['MGG_NM']."</td>
+                    <td style='text-align:center;mso-number-format:\"\@\";'>".cUtil::biz_format($item['MGG_BIZ_ID'])."</td>
+                    <td style='text-align:right;'>".$item['NOT_CNT']."</td>
+                    <td style='text-align:left;'>".$item['MGG_CLAIM_NM_AES']."</td>
+                    <td style='text-align:center;mso-number-format:\"\@\";'>".cUtil::phone_format($item['MGG_OFFICE_TEL'])."</td>
+                    <td style='text-align:center;mso-number-format:\"\@\";'>".cUtil::phone_format($item['MGG_CLAIM_TEL_AES'])."</td>
+                    <td style='text-align:left;'>".$item['MII_NM']."</td>
+                    <td style='text-align:center;'>".$item['WRT_DTHMS']."</td>
+                    <td style='text-align:center;'>".$item['LAST_DTHMS']."</td>
+                    <td style='text-align:center;'>".$item['NIC_NM_AES']."</td>
+                    <td style='text-align:center;'>".$item['RICT_NM']."</td>
+                    <td style='text-align:center;mso-number-format:\"\@\";'>".cUtil::phone_format($item['NIC_FAX_AES'])."</td>
+                    <td style='text-align:center;mso-number-format:\"\@\";'>".cUtil::phone_format($item['NIC_TEL1_AES'])."</td>
+                    <td style='text-align:center;'>".$item['RMT_NM']."</td>
+                    <td style='text-align:center;'>".$item['NGIC_CONFIRM_YN']."</td>
+                </tr>
+            ";
+        }
+    }else{
+        $excelHtml .= "<td colspan='18'>조회한 데이터가 존재하지 않습니다.</td>";
+    }
+  
+    $excelHtml .= "</table>";
+
+    echo "<meta content=\"application/vnd.ms-excel;charset=UTF-8;\" name=\"Content-type\">";
+    echo $excelHtml ;
+
+?>

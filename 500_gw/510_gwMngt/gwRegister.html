@@ -1,0 +1,755 @@
+<?php
+  require $_SERVER['DOCUMENT_ROOT']."/include/headerpopup.html";
+
+  $MGG_ID = $_REQUEST['MGG_VALUE'];
+  $IMG = $_POST['TRANS_IMG'];
+?>
+
+
+<script src="js/setData.js"></script>
+<script src="js/setSelectOption.js"></script>
+<script src="js/setTableData.js"></script>
+<script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+
+<body onload="setSelctOption();">
+  
+  <div class="popup-dialog">
+    <form method="post" name="garageForm" id="garageForm">
+    <div class="container-fluid popup-content">
+      
+          <input type="hidden" id="REQ_MODE" name="REQ_MODE">
+          <!-- 수정일 경우 원래 공업사 코드정보 -->
+          <input type="hidden" id="ORI_MGG_ID" name="ORI_MGG_ID" value="<?php echo $MGG_ID?>"/>
+          
+
+          <?php if(!empty($_REQUEST['NSU_ID'])) : ?>
+          <div class="popup-left" id="LEFT_TABLE">
+            <!-- popup 상단 -->
+            <div class="popup-header">
+              <h4 class="popup-title">공업사 방문내역</h4>
+            </div>
+            <div class="popup-body visit-body">
+              <div class="frm-wrap">
+                <div class="container-fluid row">
+      
+                  <!-- 방문일 -->
+                  <div class="form-inline left-input">
+                    <label for="BIZ_VISIT_DATE">방문일</label>
+                    <input type="text" class="form-control" id="BIZ_VISIT_DATE" name="BIZ_VISIT_DATE" placeholder="방문일 입력">
+                    <span class="glyphicon glyphicon-calendar search-glypicon"></span>                     
+                  </div>
+                  <!-- 공급일 -->
+                  <div class="form-inline left-input">
+                    <label for="BIZ_SUPPLY_DATE">공급일</label>
+                    <input type="text" class="form-control" id="BIZ_SUPPLY_DATE" name="BIZ_SUPPLY_DATE" placeholder="공급일 입력">
+                    <span class="glyphicon glyphicon-calendar search-glypicon"></span>                     
+                  </div>
+                  
+                </div>
+                <!-- 거래명세서 이미지 -->
+                <div class="imagearea">
+                  <div class="imagearea-title">첨부파일</div>
+                  <div class="imagearea-image">
+                    <!-- images 폴더 삭제하면 됨 -->
+                    <img src="" id="NSU_FILE_IMG" onclick="imgZoomFilePopup()"> 
+                  </div>
+                </div>
+
+                <div class="imagearea">
+                  <div class="imagearea-title">서명이미지</div>
+                  <div class="imagearea-image">
+                    <!-- images 폴더 삭제하면 됨 -->
+                    <img src="" id="NSU_SIGN_IMG" onclick="imgZoomSignPopup()"> 
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <input type="hidden" id="ORI_NSU_ID" name="ORI_NSU_ID" value="<?php echo $_REQUEST['NSU_ID']?>"/>
+          <?php endif; ?>	
+
+
+          <?php if(!empty($_REQUEST['NSU_ID'])) : ?>
+          <div class="popup-right">
+          <?php endif; ?>	
+              <!-- 공업사등록 공업사영역 -->
+              <div class="popup-top">
+                <!-- popup 상단 -->
+                <div class="popup-header">
+                  <?php if(empty($_REQUEST['NSU_ID'])) : ?>
+                    <?php if(empty($MGG_ID)) : ?>
+                    <h3 class="popup-title">공업사 등록</h3>
+                    <?php else : ?>
+                    <h3 class="popup-title">공업사 수정</h3>
+                    <?php endif; ?>	
+                  <?php else : ?>
+                    <h4 class="popup-title_">공업사 계정관리</h4>
+                  <?php endif; ?>	
+                  
+                </div>
+            
+                <div class="frm-btn">
+                  <div class="frm-btn-title">
+                    공업사 : 
+                  </div>
+                  <div class="frm-btn-hide">
+                    <button type="button" class="btn btn-default" id="bizbtn">숨기기</button>
+                  </div>
+                </div>
+                <!-- popup 내용 -->
+                <div class="popup-body">   
+                    
+                    <div class="frm-wrap">
+                      <div class="row">
+                        <div class="container-fluid frm-wrap-title">
+                          <공업사 일반현황>
+                        </div>
+
+                        <!-- 구분 -->
+                        <div class="col-md-2">
+                          <!-- 라벨 안보일려면 class="sr-only" 추가 -->
+                          <label for="CSD_ID">구분</label> 
+                          <select class="form-control require" id="CSD_ID" name="CSD_ID" required>
+                              <option value="">=구분=</option>
+                          </select>                
+                        </div>
+
+                        <!-- 지역 -->
+                        <div class="col-md-2">
+                            <label for="CRR_ID" class="mr10r">지역검색</label>
+                            <input id="CRR_ID"  class="form-control" placeholder="지역검색(띄어쓰기로 시/도, 시/군/구, 읍/면/동 구분)"  
+                              disabled required onkeyup="resetSELECT_CRR_ID(event);"> 
+                            <input type="hidden" id="SELECT_CRR_ID" name="SELECT_CRR_ID" />
+                        </div>
+
+                        <!-- 공업사코드 -->
+                        <div class="col-md-2">
+                          <label for="MGG_ID">공업사코드</label>
+                          <input type="text" class="form-control require" name="MGG_ID" id="MGG_ID" placeholder="공업사코드 입력" maxlength="10" 
+                                value="<?php echo $MGG_ID?>" required>                            
+                        </div>
+
+                        <!-- 공업사아이디 -->
+                        <div class="col-md-2">
+                          <label for="MGG_USERID">공업사아이디</label>
+                          <input type="text" class="form-control require" name="MGG_USERID" id="MGG_USERID" placeholder="공업사아이디 입력" required>                            
+                        </div>
+
+                        <!-- 사업자번호 -->
+                        <div class="col-md-2">
+                          <label for="MGG_BIZ_ID">사업자번호</label>
+                          <input type="hidden" id="IS_EXIST_MGG_BIZ_ID" name="IS_EXIST_MGG_BIZ_ID" />   
+                          <input type="text" class="form-control require" name="MGG_BIZ_ID" id="MGG_BIZ_ID" placeholder="사업자번호 -없이 입력"
+                                onkeyup="isNumber(event)" required maxlength="10">                            
+                        </div>
+
+                        <!-- 회원번호 -->
+                        <div class="col-md-2">
+                          <label for="MGG_PASSWD_AES">회원번호</label>
+                          <input type="text" class="form-control require" name="MGG_PASSWD_AES" id="MGG_PASSWD_AES" placeholder="회원번호 입력-PW" required>                            
+                        </div>
+
+                        <!-- 순회순서 -->
+                        <div class="col-md-2">
+                          <label for="MGG_CIRCUIT_ORDER">순회순서</label>
+                          <!-- 순회순서가 중복인지 아닌지.. -->
+                          <input type="hidden" id="IS_EXIST_CIRCUIT_ORDER" name="IS_EXIST_CIRCUIT_ORDER" />    
+                          <input type="text" class="form-control" name="MGG_CIRCUIT_ORDER" id="MGG_CIRCUIT_ORDER" placeholder="순회순서 입력" onkeyup="isNumber(event)">                            
+                        </div>
+
+                        <!-- 공업사명 -->
+                        <div class="col-md-2">
+                          <label for="MGG_NM">공업사명</label>
+                          <input type="text" class="form-control require" name="MGG_NM" id="MGG_NM" placeholder="공업사명 입력" required>                            
+                        </div>
+
+                        <!-- 청구식 -->
+                        <div class="col-md-2">
+                          <label for="RET_ID">청구식</label>
+                          <select class="form-control dynSelect" id="RET_ID" name="RET_ID">
+                            <option value="">=청구식=</option>
+                          </select>                            
+                        </div>
+
+                        <!-- 청구식적용일 -->
+                        <div class="col-md-2">
+                          <label for="MGG_RET_DT">청구식적용일</label>
+                          <input type="text" class="form-control calenderInput" id="MGG_RET_DT" name="MGG_RET_DT" autocomplete="off" placeholder="yyyy-mm-dd" >
+                          <span class="glyphicon glyphicon-calendar search-glypicon"></span>                     
+                        </div>
+
+                        <!-- 지급식 -->
+                        <div class="col-md-2">
+                          <label for="RPET_ID">지급식</label>
+                          <select class="form-control dynSelect" id="RPET_ID" name="RPET_ID">
+                            <option value="">=지급식=</option>
+                          </select>                            
+                        </div>
+
+                        <!-- 지급식적용일 -->
+                        <div class="col-md-2">
+                          <label for="MGG_RPET_DT">지급식적용일</label>
+                          <input type="text" class="form-control calenderInput" id="MGG_RPET_DT" name="MGG_RPET_DT" autocomplete="off" placeholder="yyyy-mm-dd">
+                          <span class="glyphicon glyphicon-calendar search-glypicon"></span>                     
+                        </div>
+
+                        <!-- 지급식 적용 보험사 : 다중선택 -->
+                        <div class="col-md-2">
+                          <label for="MII_ID">지급식 적용 보험사</label>
+                          <select id="MII_ID"  name="MII_ID[]" 
+                                    data-style="btn-default" title="=지급식 적용 보험사="
+                                    class="form-control selectpicker" multiple 
+                                    data-live-search="true" data-live-search-placeholder="Search" >
+                              
+                          </select>                            
+                            
+                        </div>
+
+                        <!-- 포토앱 -->
+                        <div class="col-md-2">
+                          <label for="RAT_ID">포토앱</label>
+                          <select class="form-control dynSelect" id="RAT_ID" name="RAT_ID">
+                            <option value="">=포토앱=</option>
+                          </select>                            
+                        </div>
+
+                        <!-- AOS동의서 수령일 -->
+                        <div class="col-md-2">
+                          <label for="MGG_RAT_DT">AOS동의서 수령일</label>
+                          <input type="text" class="form-control calenderInput" id="MGG_RAT_DT" name="MGG_RAT_DT" autocomplete="off" placeholder="yyyy-mm-dd" >
+                          <span class="glyphicon glyphicon-calendar search-glypicon"></span>                     
+                        </div>
+
+                        <!-- AOS2017공업사명 -->
+                        <div class="col-md-2">
+                          <label for="MGG_RAT_NM">AOS2017공업사명</label>
+                          <input type="text" class="form-control" name="MGG_RAT_NM" id="MGG_RAT_NM" placeholder="AOS2017공업사명 입력">                            
+                        </div>
+
+                        <!-- 청구프로그램 노출값 -->
+                        <div class="col-md-2">
+                          <label for="MGG_AOS_MEMO">청구프로그램 노출값</label>
+                          <input type="text" class="form-control" name="MGG_AOS_MEMO" id="MGG_AOS_MEMO" placeholder="청구프로그램 노출값 입력">                            
+                        </div>
+
+                        <!-- 택배업체 -->
+                        <div class="col-md-2">
+                          <label for="MGG_LOGISTICS_YN">택배업체</label>
+                          <select class="form-control" id="MGG_LOGISTICS_YN" name="MGG_LOGISTICS_YN">
+                            <option value="">=택배업체=</option>
+                            <option value="N" selected>N</option>
+                            <option value="Y">Y</option>
+                          </select>                            
+                        </div>
+
+                        <div class="row container-fluid">
+                          <!-- 구주소 -->
+                          <div class="col-md-4 frmaddress"  id="addrPosition">
+                            <label for="MGG_ZIP_OLD">구주소</label>
+                            <input type="text" class="form-control require" name="MGG_ZIP_OLD" id="MGG_ZIP_OLD" placeholder="구주소" readonly required>                            
+                            <button type="button"  class="btn btn-default addrBtn" onclick="execPostCode('OLD')">주소검색</button>
+                            <input type="text" class="form-control" name="MGG_ADDRESS_OLD_1" id="MGG_ADDRESS_OLD_1" placeholder="구주소" readonly required>                            
+                            <input type="text" class="form-control" name="MGG_ADDRESS_OLD_2" id="MGG_ADDRESS_OLD_2" placeholder="구주소 상세입력">                            
+                          </div>
+
+                          <!-- 신주소 -->
+                        
+                          <div class="col-md-4 frmaddress">
+                              <label for="MGG_ZIP_NEW">신주소</label>
+                            <input type="text" class="form-control require" name="MGG_ZIP_NEW" id="MGG_ZIP_NEW" placeholder="신주소" readonly required>     
+                            <button type="button" class="btn btn-default addrBtn" onclick="execPostCode('NEW')">주소검색</button>                       
+                            <input type="text" class="form-control" name="MGG_ADDRESS_NEW_1" id="MGG_ADDRESS_NEW_1" placeholder="신주소" readonly required>                            
+                            <input type="text" class="form-control" name="MGG_ADDRESS_NEW_2" id="MGG_ADDRESS_NEW_2" placeholder="신주소 상세입력">                            
+                          </div>
+
+                              
+                          <!-- 사무실 전화 -->
+                          <div class="col-md-2 phone-area">
+                            <label for="MGG_OFFICE_TEL">사무실 전화</label>
+                            <input type="text" class="form-control phone" name="MGG_OFFICE_TEL" id="MGG_OFFICE_TEL" placeholder="사무실 전화 -없이 입력"
+                                onkeyup="isNumber(event)" >                            
+                          </div>
+
+                          <!-- 사무실 팩스 -->
+                          <div class="col-md-2">
+                            <label for="MGG_OFFICE_FAX">사무실 팩스</label>
+                            <input type="text" class="form-control phone" name="MGG_OFFICE_FAX" id="MGG_OFFICE_FAX" placeholder="사무실 팩스 -없이 입력"
+                                onkeyup="isNumber(event)" >                            
+                          </div>
+                          
+                        </div>
+
+                      </div>
+
+                      <div class="row">
+                        
+                          
+                        <!-- 부품비치장소개수 -->
+                        <div class="col-md-2">
+                          <label for="MGG_WAREHOUSE_CNT">부품비치장소개수</label>
+                          <input type="text" class="form-control" name="MGG_WAREHOUSE_CNT" id="MGG_WAREHOUSE_CNT" 
+                            onkeyup="isNumber(event)"placeholder="부품비치장소개수 숫자 입력">                            
+                        </div>
+
+                        <!-- 주요정비 -->
+                        <div class="col-md-2">
+                          <label for="RMT_ID">주요정비</label>
+                          <select class="form-control dynSelect" id="RMT_ID" name="RMT_ID">
+                            <option value="">=주요정비=</option>
+                          </select>                            
+                        </div>
+
+                        <!-- 자가여부 -->
+                        <div class="col-md-2">
+                          <label for="ROT_ID">자가여부</label>
+                          <select class="form-control dynSelect" id="ROT_ID" name="ROT_ID">
+                            <option value="">=자가여부=</option>
+                          </select>                            
+                        </div>
+
+                        <!-- 보험사협력업체 -->
+                        <div class="col-md-2">
+                          <label for="MGG_INSU_MEMO">보험사협력업체</label>
+                          <input type="text" class="form-control" name="MGG_INSU_MEMO" id="MGG_INSU_MEMO" placeholder="보험사협력업체 입력">
+                        </div>
+
+                        <!-- 제조사협력업체 -->
+                        <div class="col-md-2">
+                          <label for="MGG_MANUFACTURE_MEMO">제조사협력업체</label>
+                          <input type="text" class="form-control" name="MGG_MANUFACTURE_MEMO" id="MGG_MANUFACTURE_MEMO" placeholder="제조사협력업체 입력">
+                        </div>
+
+                        <!-- 쇼핑몰등급 -->
+                        <div class="col-md-2">
+                          <label for="SLL_ID">쇼핑몰등급</label>
+                          <select type="text" class="form-control" name="SLL_ID" id="SLL_ID" >
+                            <option value="">=쇼핑몰등급=</option>
+                          </select>
+                        </div>
+
+                      </div>
+
+                      <div class="row">
+                        <!-- 위도 -->
+                        <div class="col-md-2">
+                          <label for="MGG_GPS_LATITUDE">위도</label>
+                          <input type="text" class="form-control" name="MGG_GPS_LATITUDE" id="MGG_GPS_LATITUDE" 
+                            placeholder="위도 입력">                            
+                        </div>
+
+                        <!-- 경도 -->
+                        <div class="col-md-2">
+                          <label for="MGG_GPS_LONGITUDE">경도</label>
+                          <input type="text" class="form-control" name="MGG_GPS_LONGITUDE" id="MGG_GPS_LONGITUDE" 
+                            placeholder="경도 입력">                              
+                        </div>
+
+                        <!-- 위도/경도 확인 -->
+                        <div class="col-md-1 frmmap">
+                          <label for="mapLinkBtn"></label>
+                          <button type="button"  class="btn btn-default addrBtn" id="mapLinkBtn">위도/경도확인</button>
+                        </div>
+                      </div>
+                      <!-- 공업사담당자 -->
+                      <div class="row">
+                        <div class="container-fluid frm-wrap-title">
+                          <공업사 담당자>
+                        </div>
+                        <!-- 담당자타이틀 -->
+                        <div class="col-md-2 labelstyle">대표자</div>
+                        <div class="col-md-2 labelstyle">Key-man</div>
+                        <div class="col-md-2 labelstyle">청구담당자</div>
+                        <div class="col-md-2 labelstyle">공장장</div>
+                        <div class="col-md-2 labelstyle">도장반장</div>
+                        <div class="col-md-2 labelstyle">판금반장</div>
+
+                        <!-- 대표자 -->
+                        <div class="form-inline col-md-2 frminput2">
+                          <label for="MGG_CEO_NM_AES" class="sr-only">성명</label>
+                          <input type="text" class="form-control require" name="MGG_CEO_NM_AES" id="MGG_CEO_NM_AES" placeholder="성명 입력" required>                            
+                          <label for="MGG_CEO_TEL_AES" class="sr-only">연락처</label>
+                          <input type="text" class="form-control phone require" name="MGG_CEO_TEL_AES" id="MGG_CEO_TEL_AES" placeholder="연락처 -없이 입력" required onkeyup="isNumber(event)">                            
+                        </div>
+
+                        <!-- Key-man -->
+                        <div class="form-inline col-md-2 frminput2">
+                          <label for="MGG_KEYMAN_NM_AES" class="sr-only">성명</label>
+                          <input type="text" class="form-control" name="MGG_KEYMAN_NM_AES" id="MGG_KEYMAN_NM_AES" placeholder="성명 입력">                            
+                          <label for="MGG_KEYMAN_TEL_AES" class="sr-only">연락처</label>
+                          <input type="text" class="form-control phone" name="MGG_KEYMAN_TEL_AES" id="MGG_KEYMAN_TEL_AES" placeholder="연락처 -없이 입력" onkeyup="isNumber(event)">                            
+                        </div>
+
+                        <!-- 청구담당자 -->
+                        <div class="form-inline col-md-2 frminput2">                        
+                          <label for="MGG_CLAIM_NM_AES" class="sr-only">성명</label>
+                          <input type="text" class="form-control" name="MGG_CLAIM_NM_AES" id="MGG_CLAIM_NM_AES" placeholder="성명 입력">                            
+                          <label for="MGG_CLAIM_TEL_AES" class="sr-only">연락처</label>
+                          <input type="text" class="form-control phone" name="MGG_CLAIM_TEL_AES" id="MGG_CLAIM_TEL_AES" placeholder="연락처 -없이 입력" onkeyup="isNumber(event)" >                            
+                        </div>
+
+                        <!-- 공장장 -->
+                        <div class="form-inline col-md-2 frminput2">
+                          <label for="MGG_FACTORY_NM_AES" class="sr-only">성명</label>
+                          <input type="text" class="form-control" name="MGG_FACTORY_NM_AES" id="MGG_FACTORY_NM_AES" placeholder="성명 입력">                            
+                          <label for="MGG_FACTORY_TEL_AES" class="sr-only">연락처</label>
+                          <input type="text" class="form-control phone" name="MGG_FACTORY_TEL_AES" id="MGG_FACTORY_TEL_AES" placeholder="연락처 -없이 입력" onkeyup="isNumber(event)" >                            
+                        </div>
+
+                        <!-- 도장반장 -->
+                        <div class="form-inline col-md-2 frminput2">
+                          <label for="MGG_PAINTER_NM_AES" class="sr-only">성명</label>
+                          <input type="text" class="form-control" name="MGG_PAINTER_NM_AES" id="MGG_PAINTER_NM_AES" placeholder="성명 입력">                            
+                          <label for="MGG_PAINTER_TEL_AES" class="sr-only">연락처</label>
+                          <input type="text" class="form-control phone" name="MGG_PAINTER_TEL_AES" id="MGG_PAINTER_TEL_AES" placeholder="연락처 -없이 입력" onkeyup="isNumber(event)" >                            
+                        </div>
+
+                        <!-- 판금반장 -->
+                        <div class="form-inline col-md-2 frminput2">
+                          <label for="MGG_METAL_NM_AES" class="sr-only">성명</label>
+                          <input type="text" class="form-control" name="MGG_METAL_NM_AES" id="MGG_METAL_NM_AES" placeholder="성명 입력">                            
+                          <label for="MGG_METAL_TEL_AES" class="sr-only">연락처</label>
+                          <input type="text" class="form-control phone" name="MGG_METAL_TEL_AES" id="MGG_METAL_TEL_AES" placeholder="연락처 -없이 입력" onkeyup="isNumber(event)" >                            
+                        </div>
+
+
+                      </div>
+
+                      <!-- 청구관련 -->
+                      <div class="row">
+                        <div class="container-fluid frm-wrap-title">
+                          <청구관련>
+                        </div>
+
+                        <!-- 강제전송 대기여부 -->
+                        <div class="col-md-2">
+                          <label for="MGG_FORCE_SEND_YN">강제전송 대기여부</label>
+                          <select class="form-control" id="MGG_FORCE_SEND_YN" name="MGG_FORCE_SEND_YN">
+                            <option value="">=강제전송 대기여부=</option>
+                            <option value="Y">Y</option>
+                            <option value="N" selected>N</option>
+                          </select>                            
+                        </div>
+
+                        <!-- 청구서 전부 전송여부 -->
+                        <div class="col-md-2">
+                          <label for="MGG_BILL_ALL_YN">청구서 전부 전송여부</label>
+                          <select class="form-control" id="MGG_BILL_ALL_YN" name="MGG_BILL_ALL_YN">
+                            <option value="">=청구서 전부 전송여부=</option>
+                            <option value="Y">Y</option>
+                            <option value="N" selected>N</option>
+                          </select>                            
+                        </div>
+
+                        <!-- 청구금액 표시여부 -->
+                        <div class="col-md-2">
+                          <label for="MGG_BILL_MONEY_SHOW_YN">청구금액 표시여부</label>
+                          <select class="form-control" id="MGG_BILL_MONEY_SHOW_YN" name="MGG_BILL_MONEY_SHOW_YN">
+                            <option value="">=청구금액 표시여부=</option>
+                            <option value="Y">표시</option>
+                            <option value="N" selected>미표시</option>
+                          </select>                            
+                        </div>
+                        <div class="bill-memo-area">
+                        <!-- 청구특이사항 -->
+                        <div class="col-md-2">
+                          <label for="MGG_BILL_MEMO">청구 특이사항</label>
+                          <!-- <input type="text" class="form-control" name="MGG_BILL_MEMO" id="MGG_BILL_MEMO" placeholder="청구 특이사항 입력">     -->
+                          <textarea class="form-control memo-textarea" rows="6" name="MGG_BILL_MEMO" id="MGG_BILL_MEMO"  placeholder="청구 특이사항 입력"></textarea>                          
+                        </div>
+
+                        <!-- 업체 특이사항 -->
+                        <div class="col-md-2">
+                          <label for="MGG_GARAGE_MEMO">업체 특이사항</label>
+                          <!-- <input type="text" class="form-control" name="MGG_GARAGE_MEMO" id="MGG_GARAGE_MEMO" placeholder="업체 특이사항 입력">   -->
+                          <textarea class="form-control memo-textarea" rows="6" name="MGG_GARAGE_MEMO" id="MGG_GARAGE_MEMO"  placeholder="업체 특이사항 입력"></textarea>                           
+                        </div>
+                      </div>
+                      </div>
+
+                      <!-- 거래 및 중단 -->
+                      <div class="row table-deal">
+                        <div class="container-fluid frm-wrap-title">
+                          <거래 및 중단>
+                        </div>
+                        <div class="row container-fluid">
+                          <!-- 거래여부 -->
+                          <div class="col-md-2">
+                            <label for="RCT_ID">거래여부</label>
+                            <select class="form-control dynSelect require" id="RCT_ID" name="RCT_ID" required>
+                              <option value="">=거래여부=</option>
+                            </select>                            
+                          </div>
+
+                          <div class="col-md-10" style="display: flex; flex-direction: row;;" id="stopTable">
+                            <table class="table table-bordered" style=" width: 250px;">
+                                <col width="48%" />
+                                <col width="50%" />
+                                <tbody>
+                                  <tr><th class="text-center active" colspan="2">3개월 거래 평균</th></tr>
+                                  <tr>
+                                    <th class="text-center active">건수</th>
+                                    <th class="text-center active">금액</th>
+                                  </tr>
+                                </tbody>
+                                <tbody>
+                                  <tr>
+                                    <th class="text-center">
+                                      <input type="text" class="form-control" id="MGG_END_AVG_BILL_CNT" value="0">  
+                                    </th>
+                                    <th class="text-center">
+                                      <input type="text" class="form-control" onblur="setMoenyFormat(false);" onfocus="setMoenyFormat(true);" 
+                                            id="MGG_END_AVG_BILL_PRICE" value="0">  
+                                    </th>
+                                  </tr>
+                                </tbody>
+                                
+                            </table>   
+                            <textarea  class="table table-bordered" id="MGG_END_OUT_OF_STOCK" style="margin-left: 20px; padding: 15px;" placeholder="재고부족분 입력"></textarea>                       
+                          </div>
+                        </div>
+
+                        
+                        <!-- 거래개시일 -->
+                        <div class="col-md-2">
+                          <label for="MGG_BIZ_START_DT">거래개시일</label>
+                          <input type="text" class="form-control calenderInput require" id="MGG_BIZ_START_DT" name="MGG_BIZ_START_DT" autocomplete="off" placeholder="yyyy-mm-dd"  required>
+                          <span class="glyphicon glyphicon-calendar search-glypicon"></span>                     
+                        </div>
+
+                        <!-- 개척자 -->
+                        <div class="col-md-2">
+                          <label for="MGG_FRONTIER_NM">개척자</label>
+                          <input type="text" class="form-control require" name="MGG_FRONTIER_NM" id="MGG_FRONTIER_NM" placeholder="개척자 입력" required>                            
+                        </div>
+                        <!-- 협조자 -->
+                        <div class="col-md-2">
+                          <label for="MGG_COLLABO_NM">협조자</label>
+                          <input type="text" class="form-control" name="MGG_COLLABO_NM" id="MGG_COLLABO_NM" placeholder="협조자 입력">                            
+                        </div>
+                        <!-- 수탁자 -->
+                        <div class="col-md-2">
+                          <label for="MGG_BAILEE_NM">수탁자</label>
+                          <input type="text" class="form-control" name="MGG_BAILEE_NM" id="MGG_BAILEE_NM" placeholder="수탁자 입력">                            
+                        </div>
+                        <!-- 전거래처 -->
+                        <div class="col-md-2">
+                          <label for="MGG_BIZ_BEFORE_NM">전거래처</label>
+                          <input type="text" class="form-control" name="MGG_BIZ_BEFORE_NM" id="MGG_BIZ_BEFORE_NM" placeholder="전거래처 입력">                            
+                        </div>
+                        <!-- 계약여부 -->
+                        <div class="col-md-2">
+                          <label for="MGG_CONTRACT_YN">계약여부</label>
+                          <select class="form-control" id="MGG_CONTRACT_YN" name="MGG_CONTRACT_YN">
+                            <option value="">=계약여부=</option>
+                            <option value="Y">계약</option>
+                            <option value="N">미계약</option>
+                          </select>                            
+                        </div>
+
+                        
+                        <!-- 계약기간 -->
+                        <div class="col-md-2 form-inline frmGroup2">
+                          <div class="col-md-12 contract-dt">계약기간</div>
+                          <label for="MGG_CONTRACT_START_DT" class="sr-only">계약기간</label>
+                          <input type="text" class="form-control calenderInput" name="MGG_CONTRACT_START_DT" id="MGG_CONTRACT_START_DT" autocomplete="off" placeholder="yyyy-mm-dd" >
+                          <span class="glyphicon glyphicon-calendar search-glypicon1"></span> 
+                          <label for="MGG_CONTRACT_END_DT" class="nwt-form-label">~</label>                            
+                          <input type="text" class="form-control calenderInput" name="MGG_CONTRACT_END_DT" id="MGG_CONTRACT_END_DT" autocomplete="off" placeholder="yyyy-mm-dd" >
+                          <span class="glyphicon glyphicon-calendar search-glypicon"></span>                            
+                        </div>
+                        <!-- 수수료율 -->
+                        <div class="col-md-2">
+                          <label for="MGG_RATIO">수수료율</label>
+                          <input type="text" class="form-control" name="MGG_RATIO" id="MGG_RATIO" placeholder="수수료율 입력" onkeypress="return isFloat(event)">                            
+                        </div>
+                        <!-- 은행명 -->
+                        <div class="col-md-2">
+                          <label for="MGG_BANK_NM_AES">은행명</label>
+                          <input type="text" class="form-control" name="MGG_BANK_NM_AES" id="MGG_BANK_NM_AES" placeholder="은행명 입력">                            
+                        </div>
+                        <!-- 사업용계좌 -->
+                        <div class="col-md-2">
+                          <label for="MGG_BANK_NUM_AES">사업용계좌</label>
+                          <input type="text" class="form-control" name="MGG_BANK_NUM_AES" id="MGG_BANK_NUM_AES" 
+                          onkeyup="isNumber(event)" placeholder="사업용계좌 -없이 입력">                            
+                        </div>
+                        <!-- 계좌주 -->
+                        <div class="col-md-2">
+                          <label for="MGG_BANK_OWN_NM_AES">계좌주</label>
+                          <input type="text" class="form-control" name="MGG_BANK_OWN_NM_AES" id="MGG_BANK_OWN_NM_AES" placeholder="계좌주 입력">                            
+                        </div>
+                        <!-- 거래중단일 -->
+                        <div class="col-md-2">
+                          <label for="MGG_BIZ_END_DT">거래중단일</label>
+                          <input type="text" class="form-control calenderInput" id="MGG_BIZ_END_DT" name="MGG_BIZ_END_DT" autocomplete="off" placeholder="yyyy-mm-dd" >
+                          <span class="glyphicon glyphicon-calendar search-glypicon"></span>                     
+                        </div>
+                        <!-- 거래중단사유 -->
+                        <div class="col-md-2">
+                          <label for="RSR_ID">거래중단사유</label>
+                          <select class="form-control dynSelect" id="RSR_ID" name="RSR_ID">
+                            <option value="">=거래중단사유=</option>
+                          </select>                            
+                        </div>
+                        <!-- 타사거래 입력 -->
+                        <div class="col-md-2">
+                          <label for="MGG_OTHER_BIZ_NM">타사거래</label>
+                          <input type="text" class="form-control" name="MGG_OTHER_BIZ_NM" id="MGG_OTHER_BIZ_NM" placeholder="타사거래 입력">                            
+                        </div>
+
+                      </div>
+
+                      <!-- 신규영업 -->
+                      <div class="row">
+                        <div class="container-fluid frm-wrap-title">
+                          <신규영업>
+                        </div>
+
+                        <!-- 방문자 -->
+                        <div class="col-md-2">
+                          <label for="MGG_SALES_NM">방문자</label>
+                          <input type="text" class="form-control" name="MGG_SALES_NM" id="MGG_SALES_NM" placeholder="방문자 입력">                            
+                        </div>
+
+                        <!-- 규모 -->
+                        <div class="col-md-2">
+                          <label for="RST_ID">규모</label>
+                          <select class="form-control dynSelect" id="RST_ID" name="RST_ID">
+                            <option value="">=규모=</option>
+                          </select>                            
+                        </div>
+
+                        <!-- 면담자 직책 -->
+                        <div class="col-md-2">
+                          <label for="MGG_SALES_MEET_LVL">면담자 직책</label>
+                          <input type="text" class="form-control" name="MGG_SALES_MEET_LVL" id="MGG_SALES_MEET_LVL" placeholder="면담자 직책 입력">                            
+                        </div>
+
+                        <!-- 면담자 성명 -->
+                        <div class="col-md-2">
+                          <label for="MGG_SALES_MEET_NM_AES">면담자 성명</label>
+                          <input type="text" class="form-control" name="MGG_SALES_MEET_NM_AES" id="MGG_SALES_MEET_NM_AES" placeholder="면담자 성명 입력">                            
+                        </div>
+
+                        <!-- 면담자 연락처 -->
+                        <div class="col-md-2">
+                          <label for="MGG_SALES_MEET_TEL_AES">면담자 연락처</label>
+                          <input type="text" class="form-control phone" name="MGG_SALES_MEET_TEL_AES" id="MGG_SALES_MEET_TEL_AES" 
+                          onkeyup="isNumber(event)"placeholder="면담자 연락처 입력" >                            
+                        </div>
+
+                        <!-- 영업반응 -->
+                        <div class="col-md-2">
+                          <label for="RRT_ID">영업반응</label>
+                          <select class="form-control dynSelect" id="RRT_ID" name="RRT_ID">
+                            <option value="">=영업반응=</option>
+                          </select>                            
+                        </div> 
+
+                        <!-- 미거래처실태 -->
+                        <div class="col-md-2">
+                          <label for="MGG_SALES_WHYNOT">미거래처실태</label>
+                          <input type="text" class="form-control" name="MGG_SALES_WHYNOT" id="MGG_SALES_WHYNOT" placeholder="미거래처실태 입력">                            
+                        </div>
+
+                      </div>
+
+                      <!-- 임원방문월 -->
+                      <div class="row">
+                          <div class="container-fluid frm-wrap-title">
+                            <임원방문월>
+                          </div>
+                          <div style="display: flex; flex-direction: row;overflow: auto;">
+                              <div class="col-md-2">
+                                  <label for="NGV_VISIT_DT">임원방문월</label>
+                                  <input type="text" class="form-control calenderInput" id="NGV_VISIT_DT" name="NGV_VISIT_DT" autocomplete="off" placeholder="yyyy-mm-dd" />
+                                  <span class="glyphicon glyphicon-calendar search-glypicon"></span>   
+                                  <button type="button" class="btn btn-success visitmonthbtn" onclick="inputVisitDate()">추가</button>                     
+                                </div>
+
+                              <div style="overflow-x: auto; width: 100%;">
+                                  <table class="table table-bordered" id="visitTable">
+                                      
+                                  </table>                  
+                              </div>
+                              <div id="visitDiv">
+
+                              </div>
+                        </div> 
+                      </div>
+                    </div>            
+                </div>
+            </div>
+
+            <!-- 공업사등록 기본사용부품영역 -->
+              <!-- 기본사용부품 타이틀&버튼 -->
+            <div class="frm-btn" style="width: 100%;">
+                <div class="frm-btn-title">
+                  <공급 및 사용부품> 
+                </div>
+                <div class="frm-btn-hide">
+                  <button type="button" class="btn btn-default" id="compbtn">숨기기</button>
+                </div>
+            </div>
+            
+            <div class="popup-bottom">
+                <div class="frm-wrap">
+                  <table class="table table-bordered table-striped">
+                    <thead>
+                      <tr class="active">
+                        <th class="text-center">부품구분</th>
+                        <th class="text-center">공급부품</th>
+                        <th class="text-center">사용부품</th>
+                        <th class="text-center">배율적용</th>
+                        <th class="text-center">메모</th>
+                      </tr>
+                    </thead>
+                    <tbody id="partsTable">
+                      <tr>
+                        <td colspan="5" class="text-center">
+                            <div class="lds-ring">
+                                <div></div>
+                                <div></div>
+                                <div></div>
+                                <div></div>
+                            </div> 
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+            </div>
+          <?php if(!empty($_REQUEST['NSU_ID'])) : ?>
+          </div>
+          <?php endif; ?>	
+      
+    </div>
+    <div class="modal-footer" style="margin: 20px;">
+        <div class="text-left">
+          <?php if($AUTH_DELETE == YN_Y) :?>
+          <button type="button" class="btn btn-danger" id="btnDelete" onclick="confirmDelSwal()">삭제</button>
+          <?php endif; ?>
+        </div>
+        <div class="text-right">
+            <?php if($AUTH_CREATE == YN_Y) :?>
+            <button type="submit" class="btn btn-primary" id="btnSubmit">등록</button>
+            <?php endif; ?>
+            <button type="button" class="btn btn-default" data-dismiss="modal" onclick="window.close();">취소</button>
+        </div>
+    </div>
+    </form>
+  </div>
+
+<form method="POST" action="gwZoomFile.html" id="transImgForm" target="newwindowFileImg">
+  <input type="hidden" id="POPUP_IMG" name="POPUP_IMG"/>
+</form>
+<form method="POST" action="gwZoomSign.html" id="transSignForm" target="newwindowSignImg">
+  <input type="hidden" id="POPUP_SIGN" name="POPUP_SIGN"/>
+</form>
+</body>
+
+
+
+<?php
+  require $_SERVER['DOCUMENT_ROOT']."/include/footer.html";
+?>

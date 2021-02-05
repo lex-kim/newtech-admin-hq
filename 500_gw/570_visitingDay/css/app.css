@@ -1,0 +1,27 @@
+.nwt-file-upload{
+    border:1px solid #ddd;
+    border-radius: 4px;
+    margin: 15px;
+}
+.nwt-file-upload .form-inline{
+    width: 60%;
+    padding: 10px 10px;
+    overflow: hidden;
+}
+
+.nwt-file-upload .form-inline label.title-file{
+    padding-top: 10px;
+}
+
+.nwt-file-upload .form-inline label{
+    font-size: 14px;
+    vertical-align: center;
+}
+
+
+.guideTxt {
+    padding-left: 10px;
+    margin-top: -10px;
+    margin-bottom: -10px;
+    overflow: hidden;
+}

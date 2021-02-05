@@ -1,0 +1,557 @@
+<?php
+  require $_SERVER['DOCUMENT_ROOT']."/include/headerpopup.html";
+  $NB_ID = "";
+  $MGG_ID = "";
+  $SESSION_ID = $_SESSION['USERID'];	
+  if(!empty($_REQUEST['NB_ID'])){
+    $NB_ID = $_REQUEST['NB_ID'];
+    $MGG_ID = $_REQUEST['MGG_ID'];
+  }
+  
+?>
+
+<script src="js/setData.js"></script>
+<script src="js/setTable.js"></script>
+<script src="js/setUpdateData.js"></script>
+<script src="js/setSelectOption.js"></script>
+<script src="js/autocomplete.js"></script>
+
+<div id="LAODING_CTN">
+  <div  style="display:flex ; flex:1;align-items: center; justify-content: center; ">
+      <div class="lds-ring">
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+      </div> 
+  </div>
+  <span style="display:flex ; flex:1;align-items: center; justify-content: center; margin-top: 12px; margin-left: 16px; ">로딩중...</span>
+  
+</div>
+
+<div id="MAIN_CTN" style="display: none;">
+
+  <div class="popup-dialog" id="billMain">
+    <div class="popup-content">
+
+      <!-- 청구서왼쪽영역 -->
+      <div class="popup-left">
+
+        <!-- popup 상단 -->
+        <div class="popup-header">
+          <button type="button" class="close" data-dismiss="popup">&times;</button> 
+          <h3 class="popup-title">자동차부품 납품 및 대금 청구서</h3>
+          <p>뉴텍시스템에서 <span class="red">"자동차 수리 명세서"</span>를 작성하면 "뉴텍시스템 및 담당자 팩스"에서 <span class="red">청구서 출력 가능</span></p>  
+        </div>
+    
+    
+        <!-- popup 내용 -->
+        <div class="popup-body">         
+          <form id="claimForm">
+            <input type="hidden" name="ORI_NB_ID" id="INPUT_NB_ID" value="<?php echo $NB_ID ?>"/>
+            <input type="hidden" id="INPUT_MGG_ID" value="<?php echo $MGG_ID ?>"/>
+            <input type="hidden" id="USER_ID" value="<?php echo $SESSION_ID?>"/>
+            <!-- 등록시간(있으면 수정, 없으면 등록) -->
+            <input type="hidden" id="WRT_DTHMS" name="WRT_DTHMS"/>
+            <!-- 청구자 -->
+            <input type="hidden" id="NB_CLAIM_USERID" name="NB_CLAIM_USERID"/>
+
+            <!-- 청구일자, 수리공장명, 전화번호 -->
+            <div class="bill-info">
+              <div class="form-inline form-group">
+                <label for="NB_CLAIM_DT">청구일자</label>                            
+                <input type="text" class="form-control" name="NB_CLAIM_DT" id="NB_CLAIM_DT" autocomplete="off" placeholder="입력" readonly>
+                <span class="glyphicon glyphicon-calendar search-glypicon"></span> 
+              </div>
+              <div class="form-inline form-group bill-biznm">
+                <label for="NB_GARAGE_NM">수리공장 명</label>                            
+                <input type="text" class="form-control" name="NB_GARAGE_NM" id="NB_GARAGE_NM" 
+                    onkeyup="onchangeGarageNM(event)" placeholder="입력" required>
+                <input type="hidden" class="form-control" name="SELECT_NB_GARAGE_ID" id="SELECT_NB_GARAGE_ID">
+                <input type="hidden" class="form-control" name="SELECT_NB_GARAGE_NM" id="SELECT_NB_GARAGE_NM">
+              </div>
+              <div class="bill-bizcall">
+                <p>전화 : 02-521-8688 | 팩스 : 02-587-8488</p>
+              </div>
+            </div>
+
+            <!-- 1. 과실여부 -->
+            <div class="bill-list accident">
+              <div class="bill-list-top" style="display: inline-flex; flex-direction: row; width: 100%;">
+                <div class="top-title">
+                  <h4>1. 과실여부 선택</h4>
+                </div>
+                <div style="padding-left: 5%;padding-right: 10px; flex:1;">
+                  <input type="hidden" id="EST_SEQ1"/>
+                  <input type="hidden" id="EST_SEQ2"/>
+                  <table  style="height: 20px;width: 100%; display: none; border-color:white;" id="NB_NSRSN_TABLE">
+                    <tbody>
+                      <tr>
+                        <td class="text-right active">미작성사유 선택</td>
+                        <td class="text-left col-md-4" style="padding-left:10px;">
+                          <select class="form-control" class="NB_AB_NSRSN_VAL" id="NB_AB_NSRSN_VAL">
+                            <option value=''>==미작성 사유==</option>
+                          </select>
+                        </td>
+                        <td style="padding-left:10px; ">
+                          <button type="submit" onclick="this.form.submited=this.id;" class="btn btn-default" id="SAVE_NSRSN">전송</button>
+                        </td>
+                        <td style="padding-left:10px; padding-right:20px;  float: right;">
+                          <button type="button"  class="btn btn-default" id="OPEN_AUTOBILL">자동청구팝업</button>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <span class="red">(누락이나 잘못된 청구가 있을 경우 뉴텍상사로 연락바랍니다.)</span>
+              </div>
+              <div class="bill-list-table">
+                <table class="table table-bordered">
+                  <tbody>
+                    <tr>
+                      <td class="text-center active">일방</td>
+                      <td>선택 
+                        <label class="radio-inline" style="margin-left:6px;"><input type="radio" class="ONE_SIDE" name="RLT_ID" id="CLAIM_TYPE_11410" value="11410" checked>자차</label>
+                        <label class="radio-inline"><input type="radio" class="ONE_SIDE" name="RLT_ID" id="CLAIM_TYPE_11420" value="11420">대물</label>
+                      </td>
+                      <td>- 일방이 100% 과실로 단독 처리할 경우 (선처리포함)</td>
+                      <td class="text-center active" rowspan="3">청구주체</td>
+                      <td rowspan="3">
+                        <table class="claim-agent">
+                          <tr>
+                            <td><label class="radio-inline"><input type="radio" name="RMT_ID" id="CLAIMANT_TYPE_11510" value="11510" checked>본사</label></td>
+                            <td><label class="radio-inline"><input type="radio" name="RMT_ID" id="CLAIMANT_TYPE_11530" value="11530">공업사</label></td>
+                          </tr>
+                          <tr>
+                            <td><label class="radio-inline"><input type="radio" name="RMT_ID" id="CLAIMANT_TYPE_11520" value="11520">보험사(자차)</label></td>
+                            <td><label class="radio-inline"><input type="radio" name="RMT_ID" id="CLAIMANT_TYPE_11525" value="11525">보험사(대물)</label></td>
+                          </tr>
+                        </table>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="text-center active">쌍방</td>
+                      <td><label class="radio-inline label-left">선택<input type="radio" class="BOTH" name="RLT_ID" id="CLAIM_TYPE_11430" value="11430"></label></td>
+                      <td>- 쌍방이 과실률에 따라 쌍방 처리할 경우</td>
+                    </tr>
+                    <tr>
+                      <td class="text-center active">일부보험적용</td>
+                      <td><label class="radio-inline label-left">선택<input type="radio" class="PART" name="RLT_ID" id="CLAIM_TYPE_11440" value="11440"></label></td>
+                      <td>- 일부는 보험처리, 일부는 비보험처리 (일반처리, 자차 미가입 등)</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+            </div>
+
+            <!-- 2. 보험사선택 -->
+            <div class="bill-list insu-select">
+              <div class="bill-list-top">
+                <div class="top-title">
+                  <h4>2. 보험사 선택</h4>
+                </div>
+                <div style="display: flex; width: 67%; flex-direction: row;" id="insuManagerTable">
+                    <!-- 자차 보상담당자 정보 -->
+                    <div style="width: 100%;;margin-left: 10px;" id="NIC_INFO_11410">
+                        <table class="table table-bordered" style="width: 100%;">
+                          <tbody>
+                            <tr>
+                              <td class="text-center active" style="width: 50px;">자차</td>
+                              <td class="text-center active" style="width: 70px;">등록일</td>
+                              <td class="text-center" id="INSU_MANAGE_REGIST_DATE" style="flex:1"></td>
+                              <td class="text-center active" style="width: 90px;" >당월청구건수</td>
+                              <td class="text-center" id="INSU_MANAGE_COUNT"></td>
+                            </tr>
+                          </tbody>
+                        </table>     
+                      </div>
+
+                      <!-- 대물 보상담당자 정보 -->
+                      <div style="width: 100%;margin-left: 10px;" id="NIC_INFO_11420">
+                          <table class="table table-bordered" style="width: 100%;">
+                            <tbody>
+                              <tr>
+                                <td class="text-center active" style="width: 50px;">대물</td>
+                                <td class="text-center active" style="width: 70px;">등록일</td>
+                                <td class="text-center" id="INSU_MANAGE_REGIST_DATE_" style="flex:1"></td>
+                                <td class="text-center active" style="width: 90px;" >당월청구건수</td>
+                                <td class="text-center" id="INSU_MANAGE_COUNT_"></td>
+                              </tr>
+                            </tbody>
+                          </table>     
+                        </div>
+                </div>
+              
+                <div class="top-btn text-right">
+                    <button type="button" class="btn btn-default" onclick="openNewPopup();">담당자 신규 등록</button>
+                    <button type="button" class="btn btn-primary" onclick="openInsuManageModal();">보상담당지정</button>
+                </div>
+              </div>
+              <div class="bill-list-table">
+                <!-- 보험사 선택 테이블  -->
+                  <table class="table table-bordered" >
+                      <tbody id="billInsuTable">
+                            <!-- 자차 -->
+                            <tr class="MII_ID_LIST" id="MII_ID_LIST_11410" >
+                              <td class="text-center active">자차</td>
+                              <td class="text-center active">보험사</td>
+                              <td class="MII_ID_Table" style="width: 120px;">
+                                <select class="form-control MII_ID_SELECT"  id="MII_ID">
+                                </select>
+                                <!-- 수정모드에서 필요한 보험사 저장 -->
+                                <input type="hidden" id="MII_ID_UPDATE" value=""/>
+                              </td>
+                              <td class="text-center active">접수번호</td>
+                              <td style="width: 150px;"><input type="text" onkeyup="onchangeRegiNumber('');" class="form-control MII_REGI_NUM"  id="NBI_REGI_NUM" ></td>
+                              <td class="text-center active">담당자</td>
+                              <td style="width: 120px;">
+                                <input type="text" class="form-control CHG_NM" onkeyup="onchangeInsuManager('',event);" onchange="onblurInsuManager('');"
+                                  disabled  id="NBI_CHG_NM" placeholder="보험사 선택" >
+                                <input type="hidden" class="SELECT_CHG_NM"   id="SELECT_NBI_CHG_NM">      
+                                <input type="hidden" class="NBI_RMT_ID"  id="NBI_RMT_ID" value='11520'>  
+                                <input type="hidden" class="RICT_ID"  id="RICT_ID" ></input>
+                              </td>
+                              <td class="text-center active">구분</td>
+                              <td class="text-center" style="width:60px" id="RICT_NM"></td>
+                              <td class="text-center active">팩스</td>
+                              <td><input type="text" class="form-control phone"  id="NBI_FAX_NUM" readonly onkeyup="isNumber(event)" onfocus="removeHyphen(event)" placeholder="-없이 입력"></td>
+                              <td class="text-center active">과실률</td>
+                              <td class="ratioTable" style="width: 70px;">
+                                <select class="form-control insuRatio"  disabled class="NBI_RATIO" id="NBI_RATIO">
+                                </select>
+                                <!-- 수정모드에서 필요한 과실률 저장 -->
+                                <input type="hidden" id="NBI_RATIO_UPDATE" value=""/>
+                              </td>
+                            </tr>
+
+                            <!-- 대물 -->
+                            <tr class="MII_ID_LIST" id="MII_ID_LIST_11420" >
+                                <td class="text-center active">대물</td>
+                                <td class="text-center active">보험사</td>
+                                <td class="MII_ID_Table" style="width: 120px;">
+                                  <select class="form-control MII_ID_SELECT"  id="MII_ID_">
+                                  </select>
+                                  <!-- 수정모드에서 필요한 보험사 저장 -->
+                                  <input type="hidden" id="MII_ID_UPDATE_" value=""/>
+                                </td>
+                                <td class="text-center active">접수번호</td>
+                                <td style="width: 150px;"><input type="text" onkeyup="onchangeRegiNumber('_');" class="form-control MII_REGI_NUM"  id="NBI_REGI_NUM_" ></td>
+                                <td class="text-center active">담당자</td>
+                                <td style="width: 120px;">
+                                  <input type="text" class="form-control CHG_NM" onkeyup="onchangeInsuManager('_', event);" onchange="onblurInsuManager('_');"
+                                    disabled  id="NBI_CHG_NM_" placeholder="보험사 선택" >
+                                  <input type="hidden" class="SELECT_CHG_NM"  id="SELECT_NBI_CHG_NM_">      
+                                  <input type="hidden" class="NBI_RMT_ID"  id="NBI_RMT_ID_" value='11525'>  
+                                  <input type="hidden" class="RICT_ID"  id="RICT_ID_" ></input>
+                                </td>
+                                <td class="text-center active">구분</td>
+                                <td class="text-center" style="width:60px" id="RICT_NM_"></td>
+                                <td class="text-center active">팩스</td>
+                                <td><input type="text" class="form-control phone"  id="NBI_FAX_NUM_" readonly onkeyup="isNumber(event)" onfocus="removeHyphen(event)" placeholder="-없이 입력"></td>
+                                <td class="text-center active">과실률</td>
+                                <td class="ratioTable" style="width: 70px;">
+                                  <select class="form-control insuRatio"  disabled class="NBI_RATIO" id="NBI_RATIO_">
+                                  </select>
+                                  <!-- 수정모드에서 필요한 과실률 저장 -->
+                                  <input type="hidden" id="NBI_RATIO_UPDATE_" value=""/>
+                                </td>
+                            </tr>
+
+                            <!-- 일부 -->
+                            <tr id="MII_ID_LIST_11440"><td class="text-center active" colspan="13"><span class="red">일반처리</span></td></tr>
+                      </tbody>
+                  </table>
+              </div>
+            </div>
+
+
+            <!-- 3.수리차량 정보 -->
+            <div class="bill-list repaircar">
+              <div class="bill-list-top">
+                <div class="top-title">
+                  <h4>3. 수리차량 정보</h4>
+                </div>
+                <div class="top-btn">
+                  <button type="button" class="btn btn-success" onclick="onclickOverlapModal();">중복검사</button>
+                </div>
+              </div>
+
+              <div class="bill-list-table">
+                  <table class="table table-bordered">
+                    <tbody>
+                      <tr>
+                        <td class="text-center active" colspan="4">수리차량정보</td>
+                      </tr>
+                      <tr>
+                        <td class="text-center active" >접수번호</td>
+                        <td class="text-center" id="regiNumTable"></td>
+                        <td class="text-center active">차량명</td>
+                        <td class="text-center">
+                          <input type="text" onkeyup="onchangeCarType(event)" required  class="form-control autocomplete" name="CCC_NM" id="CCC_NM" placeholder="입력 후 선택">
+                          <input type="hidden"  name="CCC_ID" id="CCC_ID">
+                          <input type="hidden"  name="RCT_CD" id="RCT_CD">
+                        </td>
+                      </tr>
+                      <tr>
+                        <td class="text-center active">차량번호</td>
+                        <td class="text-center"><input type="text" onkeyup="onchangeCarNumber()" class="form-control" required name="NB_CAR_NUM" id="NB_CAR_NUM" placeholder="입력" required></td>
+                        <td class="text-center active">수리공장</td>
+                        <td class="text-center"><input type="text" readonly class="form-control" name="REPAIRE_GARAGE_NM" id="REPAIRE_GARAGE_NM" placeholder="자동입력"></td>
+                      </tr>
+                      <tr>
+                        <td class="text-center active" colspan="3">부가세 공제대상 차량</td>
+                        <td class="text-center" colspan="1"><input type="checkbox" id="NB_VAT_DEDUCTION_YN" ></td>
+                      </tr>
+                    </tbody>
+                  </table>
+              
+                  <table class="table table-bordered">
+                    <tbody>
+                      <tr>
+                        <td class="text-center active">
+                          <p>기타사항 <span class="red">"메모"란에는 청구에 꼭 필요한 사항만 입력해주세요</span><span class="etcfont"> (과소청구 우려 차량 등<승합<br>차 25인승 이상, 화물차 4.5톤 이상 등>은 작업부위, 사용부품 및 수량을 직접 입력/선견적 표시)</span></p>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td class="text-center">
+                          <textarea name="NB_MEMO_TXT" id="NB_MEMO_TXT" cols="70" rows="3" placeholder="한글 300자 제한" onkeyup="onCheckByte(this);"></textarea>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td class="text-center">"메모"란 입력시 즉시 "전송"되지 않고, "전송대기"(추후 뉴텍이 전송) 됨</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                
+              </div>
+            </div>
+
+
+            <!-- 4-1.사용부품항목 -->
+            <div class="bill-list useitem">
+              <div class="bill-list-top">
+                <div class="top-title">
+                  <h4>4-1. 사용부품 선택</h4>
+                </div>
+                <div class="top-info">
+                  <p>
+                  상기 차량의 정비부품으로 귀사(정비공장)에서 주문한 아래 부품을 표준 적정 소요량에 의거하여 대금을 청구합니다.<br>
+                  (아래 <span class="red">“사용부품의 수량”</span>은 기준부품의 용량과 다를 경우 환산비율 때문에 <span class="red">“기준부품의 표준 소요량”과 다를 수 있음</span>)
+                  </p>
+                </div>
+              </div>
+
+              <div class="bill-list-table" id="billListTable">
+              
+                
+              </div>
+            </div>
+
+
+            <!-- 4-2.기타부품 선택 -->
+            <div class="bill-list etcitem">
+              <div class="bill-list-top">
+                <div class="top-title">
+                  <h4>4-2. 기타부품 선택 </h4>
+                </div>
+                <div style="margin-left: 10px;display: none;" id="etcShowBtnTable">
+                  <button type="button" class="btn btn-default" id="etcShowBtn">보이기</button>
+                </div>
+                <div class="top-table">
+                  <table class="table table-bordered">
+                    <tbody>
+                      <tr>
+                        <td class="active text-center" style='width:150px'>방청작업 총 시간</td>
+                        <td class="text-right" id="reckonTimeTable"></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+              <div class="bill-list-table" id="etcPartsTable">
+              </div>
+            </div>
+
+            <!-- 부품금액계 -->
+            <div class="bill-list billtotal">
+              <div class="bill-list-table">
+                <table class="table table-bordered">
+                  <tbody>
+                    <tr>
+                      <td class="text-center active">부품금액 계</td>
+                      <td class="text-right billCount" id="billReckonTable">0</td>
+                      <td class="text-center active">부가가치세</td>
+                      <td class="text-right billCount" id="billDutyTable">0</td>
+                      <td class="text-center active">청구금액 (부가세 포함)</td>
+                      <td class="text-right billCount" id="billTotalTable">0</td>
+                    </tr>
+                    <tr>
+                      <td class="text-center active">차주 부담금액 (20%)</td>
+                      <td class="text-right billCount" id="ownerAccountTable">0</td>
+                      <td class="text-center active">자차과실 비율(%)</td>
+                      <td class="text-right" id="ownerPercentTable">0%</td>
+                      <td class="text-center active">차주과실 부담금액<br><span class="carown20-text">(차주부담금액20%*자차과실비율)</span></td>
+                      <td class="text-right billCount" id="ownerTotalTable">0</td>
+                    </tr>
+                  </tbody>
+                </table>
+                <table class="table table-bordered">
+                    <tbody>
+                      <tr>
+                        <td class="text-center active faxTarget">팩스 전송대상선택</td>
+                        <td class="text-left faxTarget">
+                          <label class="radio-inline"><input type="radio" name="FAX" id="FAX_TARGET_11410" value="11410"  checked>자차</label>
+                          <label class="radio-inline"><input type="radio" name="FAX" id="FAX_TARGET_11420" value="11420">대물</label>
+                          <label class="radio-inline"><input type="radio" name="FAX" id="FAX_TARGET_11430" value="11430">쌍방</label>
+                          <label class="radio-inline"><input type="radio" name="FAX" id="FAX_TARGET_11440" value="11440">일부</label>
+                        </td>
+                        <td class="text-center active">청구서 전부 전송여부</td>
+                        <td class="text-center"><input type="checkbox" id="NB_INC_DTL_YN"><label for="NB_INC_DTL_YN">포함</label></td>
+                        <td class="text-center active">신보적용여부</td>
+                        <td class="text-left">
+                          <label class="radio-inline"><input type="radio" name="NB_NEW_INSU_YN" value="N" checked>미적용</label>
+                          <label class="radio-inline"><input type="radio" name="NB_NEW_INSU_YN" value="Y">신보적용</label>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+              </div>
+
+              <div class="bill-list-btn" style="display: inline-flex; flex-direction: row; width: 100%;">
+                <div class="btnleft">
+                  <button type="submit" onclick="this.form.submited=this.id;" class="btn btn-default" id="SAVE_BTN">저장</button>
+                  <button type="submit" onclick="this.form.submited=this.id;" class="btn btn-default" id="SAVE_ACCOUNT_BTN" >저장(계산)</button>
+                </div>
+                <div style="padding-left: 10%;padding-right: 10px; flex:1;">
+                  
+                </div>
+                <div class="btnright" >
+                  <button type="button" class="btn btn-success" onclick="accountReckonParts();">조견표계산</button>
+                  <!-- <button type="submit" class="btn btn-primary" id="SEND_FAX">발송</button> -->
+                  <button type="submit" onclick="this.form.submited=this.id;"  class="btn btn-primary" id="SEND_FAX">발송</button> 
+                  
+                  <div class="btn btn-default btnexcept">
+                    <label for="EXCEPT_SEND_TARGET">전송제외</label><input type="checkbox" id="EXCEPT_SEND_TARGET">
+                  </div>
+                  <button type="button" class="btn btn-cancel" onclick="onReset();">취소</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- 5.작업항목선택 -->
+            <div class="bill-list workselect">
+              <div class="bill-list-top">
+                <div class="top-title">
+                  <h4>5. 작업항목 선택</h4>
+                </div>
+                <div class="top-info">
+                  <p>
+                      ※ 사용부품 <span class="red">A,B</span> 중 해당 부품을 체크하여 주시고, <span class="red">사용하지 않은</span> 부품은 <span class="red">체크를 해제</span>하여 주세요.
+                  </p>
+                </div>
+              </div>
+              <div class="bill-list-table">
+                <table class="table table-bordered table-striped" id="workPartsListTable">
+                  <thead id="workPartsHeaderTable"> 
+                    
+                  </thead>
+                  <tbody id="workPartsTable">
+                  
+                  </tbody>
+                </table>
+              </div>
+
+            </div>
+
+          </form>
+        </div>
+    
+
+      </div>
+
+
+      <!-- 청구서 오른쪽 영역 -->
+      <div class="popup-right">
+
+        <div class="bill-list inventorystatus">
+          <div class="bill-list-table">
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th class="text-center active" colspan="6">당월청구 및 재고금액 현황</th>
+                </tr>
+                <tr>
+                  <th class="text-center active">공업사</th>
+                  <th class="text-center active">전전월<br>건수</th>
+                  <th class="text-center active">전월<br>건수</th>
+                  <th class="text-center active">당월<br>건수</th>
+                  <th class="text-center active">당월<br>금액</th>
+                  <th class="text-center active">재고<br>금액</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="text-center" id="monthMGG_NM"></td>
+                  <td class="text-right" id="month2BEFORE_CNT"></td>
+                  <td class="text-right" id="monthBEFORE_CNT"></td>
+                  <td class="text-right" id="month_CNT"></td>
+                  <td class="text-right" id="month_PRICE"></td>
+                  <td class="text-right" id="monthSTOCK_PRICE"></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="bill-list contraststock">
+          <div class="bill-list-table">
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th class="text-center active" colspan="5" id="beforeMonthBillTable">
+                    2019년 5월 청구 대비 재고 현황
+                    <p>[재고비율(=재고/청구)이 1.5를 초과한 경우에만 표시]</p>
+                  </th>
+                </tr>
+                <tr>
+                  <th class="text-center active">구분</th>
+                  <th class="text-center active">공급</th>
+                  <th class="text-center active">청구</th>
+                  <th class="text-center active">재고</th>
+                  <th class="text-center active">비율</th>
+                </tr>
+              </thead>
+              <tbody id="BEFORE_MONTH_STOCK_TABLE">
+                <tr>
+                  <td class="text-center" ></td>
+                  <td class="text-center" ></td>
+                  <td class="text-right" ></td>
+                  <td class="text-right" ></td>
+                  <td class="text-right" ></td>
+                </tr>
+              </tbody>
+            </table>
+            ☞ <span class="red">청구 누락</span> 또는 <span class="red">비보험차량 등에 사용</span> 하는 경우에는 <span class="red">"청구" 대비 "재고"가 증가</span>하여 손실 발생이 우려되므로 가능한 <span class="red">보험차량 위주로 사용</span>해 주세요  
+          </div>
+        </div>
+        <form id="faxSubmit">
+          
+        </form>
+        <form id="faxForm"></form>
+      </div>
+    </div>
+  </div>
+
+  <!-- 보상담당자등록 모달  -->
+  <?php	require "./insuManaageModal.html"; ?>
+  <!-- 보상담당자등록 모달  -->
+  <?php	require "./billInsuManagerModal.html"; ?>
+  <!-- 중복검사 모달  -->
+  <?php	require "./insuOverlapCheckModal.html"; ?>
+  <?php	require "./sendFaxModal.html"; ?>
+ </div>
+
+<?php
+  require $_SERVER['DOCUMENT_ROOT']."/include/footerpopup.html";
+?>

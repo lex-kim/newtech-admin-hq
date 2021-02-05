@@ -1,0 +1,31 @@
+table > thead > tr > th.list-num{
+    width:5%;
+}
+table > thead > tr > th.write-nm{
+    width:10%;
+}
+
+
+.modal-body table{
+    margin-top: 20px;
+}
+
+.excel-down-file{
+    margin-top: 5px;
+    height: 25px;
+}
+
+.excel-down{
+    float: right;
+}
+.excel-down-file a img{
+    height: 20px;
+}
+
+.excel-down-btn button{
+    height: 28px;
+    padding: 3px 6px;
+}
+.excel-down-btn input{
+    padding: 10px 10px;
+}

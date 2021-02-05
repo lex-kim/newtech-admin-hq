@@ -1,0 +1,306 @@
+
+/* modal CSS */
+
+.modal-top .modal-unit .modal-table .tablebtn{
+    width: 20px;
+    height: 20px;
+    margin-right: 3px;
+    margin-top: 10px;
+    border: 1px solid #ddd;
+    background-color: #fff;
+    border-radius: 3px;
+    cursor: pointer;
+    box-sizing: border-box;
+}
+
+.modal-top .modal-unit .modal-table .minusBtn{
+    background: url(/images/minus.png) center center no-repeat #fff; 
+}
+.modal-top .modal-unit .modal-table .plusBtn{
+    background: url(/images/plus.png) center center no-repeat #fff; 
+}
+
+
+
+
+.modal-top .modal-unit .modal-select .row{
+    padding-bottom: 0 !important;
+}
+
+.modal-bottom{
+    border-top: 1px solid #ddd;
+    padding-top: 20px;
+    margin-top: 10px;
+}
+
+
+
+/* 모달 관리구분 CSS */
+.modal-checkbox{
+    overflow: hidden;
+    position: relative;
+    top: 5px;
+}
+.modal-checkbox>*{
+    float: left;
+}
+
+.modal-checkbox input[type="checkbox"]{
+    margin-right: 5px;
+}
+.modal-checkbox > label{
+    margin-right: 20px;
+}
+
+
+.modal-body h5{
+    color: #aaa;
+    font-size: 13px;
+}
+
+
+
+.frmaddress  {
+    font-size:	0;
+    position: relative;
+}
+.frmaddress * {
+    font-size: 14px;
+}
+.frmaddress label[for="frmDtEnd"] {
+    width: 15px;
+    text-align: center;
+}
+.frmaddress input[type=text]:first-of-type{
+    width: calc(40%);
+    margin-right: 0;
+}
+.frmaddress input[type=text]{
+    margin-bottom: 4px;
+}
+.frmaddress button{
+    position: absolute;
+    top: 0;
+    left: 43%;
+}
+
+
+.frmGroup1 .search-glypicon{
+    top: -2px;
+}
+
+
+.box_area{
+    height: 88px;
+}
+
+
+
+.modal-footer .text-right > .form-control{
+    display: inline-block;
+    width: 76px;
+    height: 34px !important;
+    margin-left: 5px;
+    position: relative;
+    top: 1px;
+}
+
+
+/* 모달 캘린더 */
+.modal-body .modal-unit .modal-input{
+    position: relative;
+}
+.modal-body .modal-unit .modal-input .search-glypicon{
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+}
+
+
+
+
+/* 정산서 CSS*/
+
+.estimate-top{
+    margin-top: 20px;
+    margin-bottom: 10px;
+    overflow: hidden;
+    position: relative;
+}
+.estimate-top>div{
+    float: left;
+}
+
+.estimate-top .estimate-top-left{
+    position: absolute;
+    bottom: 0;
+    left: 0;
+}
+.estimate-top .estimate-top-center{
+    margin: 0 auto;
+    width: 100%;
+}
+.estimate-top .estimate-top-right{
+    position: absolute;
+    bottom: 0;
+    right: 0;
+}
+
+
+.bill-title{
+    letter-spacing: 20px;
+    text-align: center;
+    width: 100%;
+    display: block;
+}
+
+.consignment-bill-title{
+    text-align: center;
+    width: 100%;
+}
+
+
+.order-total .order-btn-area ul{
+    float: right;}
+.order-total .order-btn-area ul li{
+    float: left;
+}
+
+.order-total .order-btn-area ul li .estimate-btn{
+    margin-right: 3px;
+    font-size: 13px;
+    /* width: 82px; */
+    height: 32px;
+}
+
+    /* 모달 캘린더 */
+.calendar-icon{
+    position: relative;
+}
+.calendar-icon .search-glypicon{
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    cursor: pointer;
+    color: #bbb;
+}
+
+/* 주소 */
+.address_area .row{
+    margin-bottom: 5px;
+    position: relative;
+}
+.address_area .row button{
+    top: 5px;
+    left: 50%;
+    position: absolute;
+}
+
+
+textarea{
+    resize:  none;
+}
+
+/* 합계금액 */
+.all-total-price{
+    position: relative;
+}
+.all-total-price span{
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+#estimate-product th{
+    font-weight: normal;
+}
+
+
+.recipient-info .recipient-info-biznm{
+    font-size: 14px;
+    margin-bottom: 5px;
+}
+.recipient-info div{
+    margin-bottom: 5px;
+}
+.recipient-info div span{
+    width: 30%;
+    display: inline-block;
+}
+.recipient-info div input{
+    width: 60%;
+    display: inline-block;
+    margin-bottom: 10px;
+}
+
+
+/* 결제일,입금일 CSS */
+
+.modal-add .modal-dialog{
+    width: 400px;
+}
+.modal-add .modal-body .row .search-glypicon{
+    color: #888;
+    position: relative;
+    top: 10px;
+    right: 40px;
+}
+
+#LOGISTICS_MODAL .modal-dialog{
+    width: 500px !important;
+}
+
+/* option_add_btn */
+.option_add_btn{
+    margin-bottom: 10px;
+}
+
+.inout-text{
+    margin: 0 auto;
+    text-align: center;
+    /* color: red; */
+    font-size: 14px;
+    margin-top: 100px;
+}
+
+
+.table tr td button{
+    margin-right: 0;
+}
+
+
+/* 옵션명 */
+.table > tbody > tr.active > td,
+.shop-estimate .table .active{
+    background-color: rgb(0,0,0,0.03) !important;
+}
+.expiration_area{
+    position: absolute;
+    width: 100%;
+    top: 35%;
+    left: 2%;
+    text-align: center;
+    transform: translateY(-35%);
+    z-index: -1;
+}
+.expiration_text{
+    font-weight: bold;
+    font-size: 400px;
+    letter-spacing: 30px;
+    opacity: 0.2;
+    
+}
+
+.expiration_text.ok{
+    color: skyblue;
+}
+.expiration_text.wait{
+    color: red;
+    display: none;
+}
+
+.nwt-table .table .btn{
+    margin-right: 3px;
+}

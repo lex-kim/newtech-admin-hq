@@ -1,0 +1,38 @@
+<?php
+
+    header("Content-Type: application/vnd.ms-excel");
+    date_default_timezone_set('Asia/Seoul');
+
+    header("Content-Disposition: attachment; filename=".date("YmdH", time())."_차량관리.xls");
+    header("Content-Description:PHP4 Generated Data");
+
+    require $_SERVER['DOCUMENT_ROOT']."/common/common.php";	
+    require "class/clsCarmngt.php";
+
+    $data =  $clsCarManagement->getList($_REQUEST);
+
+    $result = $data[0];
+
+    $excelHtml = "
+        <table border='1'>
+            <tr>
+                <td>순번</th>
+                <td>차량급</th>
+                <td>차량명</th>
+            </tr>
+    ";
+
+    foreach($result as $item) { 
+        $excelHtml .= "<tr>
+                <td>".$item['IDX']."</td>
+                <td>".$item['RCT_NM']."</td>
+                <td>".$item['CCC_CAR_NM']."</td>
+            </tr>
+        ";
+    }
+    $excelHtml .= "</table>";
+
+    echo "<meta content=\"application/vnd.ms-excel;charset=UTF-8;\" name=\"Content-type\">";
+    echo $excelHtml ;
+
+?>

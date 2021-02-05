@@ -1,0 +1,29 @@
+
+.table-memo{
+    width: 90%;
+    overflow: hidden; 
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+
+.calenderInput {
+    cursor:pointer;
+}
+
+/* modal CSS */
+.modal-body .modal-subtitle{
+    border-top: 1px solid #ccc;
+    /* margin-right: 10px; */
+}
+
+
+.modal-add .modal-body .row > div {
+    float: left;
+}
+.modal-add .modal-body .row .col-md-3{
+    width: 20%;
+}
+.modal-add .modal-body .row .col-md-7{
+    width: 70%;
+}

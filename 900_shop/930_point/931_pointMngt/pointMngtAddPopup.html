@@ -1,0 +1,99 @@
+<?php
+  require $_SERVER['DOCUMENT_ROOT']."/include/headerpopup.html";
+?>
+<script src="js/popupAdd.js"></script>
+<body onload="onLoadRegistPopup()">
+    <div class="modal-add" id="add-modal">
+        
+        <form class="form-horizontal" name="pointAddForm" id="pointAddForm">
+            <!-- modal 상단 -->
+            <div class="modal-header">
+            <h4 class="modal-title">포인트 적립 및 사용 등록</h4>  
+            </div>
+
+
+            <!-- modal 내용 -->
+            <div class="modal-body">         
+
+
+                <!-- 대상 공업사 -->
+                <div class="row">
+                    <div class="col-md-3"><label for="ADD_MGG_ID">업체명(사업자번호)</label></div>
+                    <div class="col-md-7">
+                        <input type="hidden" id="ADD_MGG_ID" name="ADD_MGG_ID" />
+                        <input type="text" onkeyup="onchangeGarage(event);"
+                                class="form-control" name="ADD_MGG_NM" id="ADD_MGG_NM"  autocomplete="off" placeholder="공업사 입력">    
+                    </div>
+                </div>
+
+                <!-- 포인트구분 -->
+                <div class="row">
+                    <div class="col-md-3"><label for="ADD_RPS_ID">포인트구분</label></div>
+                    <div class="col-md-7">
+                        <select class="form-control" name="ADD_RPS_ID" id="ADD_RPS_ID" required>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- 포인트 종류-->
+                <div class="row">
+                    <div class="col-md-3"><label for="ADD_RPT_ID">포인트종류</label></div>
+                    <div class="col-md-7">
+                        <select class="form-control" name="ADD_RPT_ID" id="ADD_RPT_ID" required>
+                            <option value="">선택</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- 변동포인트 -->
+                <div class="row">
+                    <div class="col-md-3"><label for="ADD_NPH_POINT">변동포인트</label></div>
+                    <div class="col-md-7"><input type="text" class="form-control" id="ADD_NPH_POINT" name="ADD_NPH_POINT"  onkeyup="isNumber(event)" placeholder="입력" required></div>
+                </div>
+
+                <!-- 변동일 -->
+                <div class="row">
+                    <div class="col-md-3"><label for="UPDATE_DTHMS">변동일</label></div>
+                    <div class="col-md-7 update-dthms">
+                        <input type="text" class="form-control" id="UPDATE_DTHMS" name="UPDATE_DTHMS" autocomplete="off" placeholder="yyyy-mm-dd" required>
+                        <span class="glyphicon glyphicon-calendar search-glypicon"></span>      
+                    </div>
+                </div>
+
+                <!-- 품명 메모 -->
+                <div class="row">
+                    <div class="col-md-3"><label for="ADD_NPH_PARTS_MEMO">품명</label></div>
+                    <div class="col-md-7"><input type="text" class="form-control" id="ADD_NPH_PARTS_MEMO" name="ADD_NPH_PARTS_MEMO" placeholder="입력"></div>
+                </div>
+                
+                <!-- 메모 -->
+                <div class="row">
+                    <div class="col-md-3"><label for="ADD_NPH_MEMO">메모</label></div>
+                    <div class="col-md-7"><input type="text" class="form-control" id="ADD_NPH_MEMO" name="ADD_NPH_MEMO" placeholder="입력"></div>
+                </div>
+                
+                
+            </div>
+
+
+            <!-- modal 하단 -->
+            <div class="modal-footer">
+                <div class="text-left">
+                    <!-- <button type="button" class="btn btn-danger" id="btnDelete" onclick="confirmDelSwal()">삭제</button> -->
+                </div>
+                <div class="text-right">
+                    <!-- 등록btn -->
+                    <button type="submit" class="btn btn-primary" id="submitBtn">저장</button>
+                    <!-- 취소btn -->
+                    <button type="button" class="btn btn-default" onclick="self.close()">닫기</button>
+                </div>
+            </div>
+
+        </form>
+    
+    </div>
+</body>
+
+<?php
+  require $_SERVER['DOCUMENT_ROOT']."/include/footerpopup.html";
+?>

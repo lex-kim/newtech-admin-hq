@@ -1,0 +1,81 @@
+<?php
+
+    header("Content-Type: application/vnd.ms-excel");
+    date_default_timezone_set('Asia/Seoul');
+
+    header("Content-Disposition: attachment; filename=".date("Ymd_His", time())."_거래처변동현황.xls");
+    header("Content-Description:Newtech System");
+
+    require $_SERVER['DOCUMENT_ROOT']."/common/common.php";	
+    require "class/clsFlucStatus.php";
+    
+    $data =  $clsFlucStatus->getList($_REQUEST);
+    $headerArray =  $clsFlucStatus->getOptionListDivision($_REQUEST);
+    $result = $data[0];
+
+    
+    $headerHtml = "";
+    $headerHtml_1 = "";
+    $headerHtml_2 = "";
+    // 총거래수에 대한 헤더
+    $headerHtml_1 .= "<th style='text-align:center;' rowspan='2'>소계</th>";
+    $headerHtml_1 .= "<th style='text-align:center;' colspan='3'>거래처변동</th>";
+    $headerHtml_2 .= "<th style='text-align:center;'>거래처</th>";
+    $headerHtml_2 .= "<th style='text-align:center;'>신규</th>";
+    $headerHtml_2 .= "<th style='text-align:center;'>중단</th>";
+    foreach($headerArray as $index => $HEADER_ITEM){
+        $headerHtml .= "<th class='text-left' colspan='4'>".$HEADER_ITEM['CSD_NM']."</th>";
+        $headerHtml_1 .= "<th style='text-align:center;' rowspan='2'>소계</th>";
+        $headerHtml_1 .= "<th style='text-align:center;' colspan='3'>거래처변동</th>";
+        $headerHtml_2 .= "<th style='text-align:center;'>거래처</th>";
+        $headerHtml_2 .= "<th style='text-align:center;'>신규</th>";
+        $headerHtml_2 .= "<th style='text-align:center;'>중단</th>";
+    }
+
+    function getDivisionInfoTable($dataArray){          // 해당공업사에서 해당보험사마다 청구된 건수를 동적으로 리턴
+        $htmlText = "";
+        foreach($dataArray as $index => $item){
+            $htmlText .= "<td style='text-align:right;mso-number-format:\#\,\#\#0\;'>".$item[0]."</td>";
+            $htmlText .= "<td style='text-align:right;mso-number-format:\#\,\#\#0\;'>".$item[1]."</td>";
+            $htmlText .= "<td style='text-align:right;mso-number-format:\#\,\#\#0\;'>".$item[2]."</td>";
+            $htmlText .= "<td style='text-align:right;mso-number-format:\#\,\#\#0\;'>".$item[3]."</td>";
+        }
+        return  $htmlText;
+    }
+
+    $excelHtml = "
+        <table border='1'>
+            <tr class='active'>
+                <th style='text-align:center;' rowspan='3'>년/월</th>
+                <th style='text-align:center;' rowspan='3'>청구건수</th>
+                <th style='text-align:center;' rowspan='3'>청구금액</th> 
+                <th style='text-align:center;' colspan='4'>총거래처수</th>
+                $headerHtml
+            <tr class='active'>
+                $headerHtml_1
+            </tr>
+            <tr class='active'>
+                $headerHtml_2
+            </tr>
+    ";
+
+    foreach($result as $item) {
+        $excelHtml .= "
+            <tr>
+                <td style='text-align:center;'>".$item['CLAIM_DT']."</td>
+                <td style='text-align:right;mso-number-format:\#\,\#\#0\;'>".$item['NB_CNT']."</td>
+                <td style='text-align:right;mso-number-format:\#\,\#\#0\;'>".$item['NB_PRICE']."</td>
+                <td style='text-align:right;mso-number-format:\#\,\#\#0\;'>".$item['TOTAL_CNT']."</td>
+                <td style='text-align:right;mso-number-format:\#\,\#\#0\;'>".$item['TOTAL_ING']."</td>
+                <td style='text-align:right;mso-number-format:\#\,\#\#0\;'>".$item['TOTAL_NEW']."</td>
+                <td style='text-align:right;mso-number-format:\#\,\#\#0\;'>".$item['TOTAL_END']."</td>
+                ".getDivisionInfoTable($item['DATA'])."
+            </tr>
+        ";
+    }
+    $excelHtml .= "</table>";
+
+    echo "<meta content=\"application/vnd.ms-excel;charset=UTF-8;\" name=\"Content-type\">";
+    echo $excelHtml ;
+
+?>

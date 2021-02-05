@@ -1,0 +1,60 @@
+<!-- 우선부품 설정 모달 -->  
+<div class="modal fade modal-add" id="priority-comp" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form id="priorityForm">
+                <!-- modal 상단 -->
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button> 
+                    <div class="title-left">
+                        <h4 class="modal-title">우선부품 설정</h4> 
+                    </div>
+                    <div class="title-right">
+                        <h4 class="modal-title" id="priority-title">프런트 : 후드(본넷)</h4>
+                    </div>
+                </div>
+        
+        
+                <!-- modal 내용 -->
+                <div class="modal-body">         
+                
+                    <input type="hidden" id="NWP_ID" name="NWP_ID"/>
+                    <input type="hidden" id="RRT_ID" name="RRT_ID"/>
+                    <input type="hidden" id="RWPP_ID" name="RWPP_ID"/>
+
+                    <table class="table table-bordered">
+                        <colgroup>
+                            <col width="20%">
+                            <col width="20%">
+                            <col width="60%">
+                        </colgroup>
+                        <thead>
+                            <tr class="active">
+                                <th class="text-center">선택</th>
+                                <th class="text-center">부품타입</th>
+                                <th class="text-center">부품</th>
+                            </tr>
+                        </thead>
+                        <tbody id="priorityTable">
+                        </tbody>
+                    </table>
+        
+                
+                </div>
+        
+        
+                <!-- modal 하단 -->
+                <div class="modal-footer">
+                    <div class="text-right">
+                        <!-- 등록btn -->
+                        <?php if($AUTH_CREATE == YN_Y) :?>
+                        <button type="submit" class="btn btn-primary">저장</button>
+                        <?php endif; ?>
+                        <!-- 취소btn -->
+                        <button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

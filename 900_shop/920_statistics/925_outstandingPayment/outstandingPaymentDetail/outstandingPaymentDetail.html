@@ -1,0 +1,7 @@
+<?php
+  require $_SERVER['DOCUMENT_ROOT']."/include/headerpopup.html";
+  require "controller/OutstandingPaymentDetailController.php";
+ 
+  $cOutstandingPaymentDetailController = new OutstandingPaymentDetailController([]);
+  $cOutstandingPaymentDetailController->index();
+?>

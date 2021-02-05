@@ -1,0 +1,456 @@
+@import '../../944_estimate/css/app.css';
+
+.nwt-table table{
+    width: 100%;
+    overflow-x: scroll; 
+    white-space: nowrap;
+    /* table-layout:fixed; */
+    /* word-break:break-all; */
+}
+
+.nwt-table table tr td {
+    height: 52px;
+}
+.table tr td button{
+    margin-right: 0;
+}
+
+.col-lg-6{
+    width: 25%;
+}
+/* 확장하기 */
+.nwt-table-top{
+    position: relative;
+}
+.nwt-table-top .table-top-etc{
+    position: absolute;
+    top: 4px;
+    left: 120px;
+}
+.nwt-table-top .table-top-etc .totalbtn{
+    display: inline;
+    padding:6px 10px;
+    border:1px solid #dddddd;
+    border-radius: 4px;
+    margin-left: 20px;
+    cursor: pointer;
+}
+.nwt-table-top .table-top-etc .extend{
+    padding-left: 20px;
+}
+
+
+
+
+/* 주문상세 CSS */
+.modal-header{
+    position: relative;
+}
+
+#cancel-modal .modal-dialog{
+    width: 500px;
+}
+
+.gw-info{
+    overflow: hidden;
+}
+.gw-info > div {
+    width: calc(50% - 0.5%);
+    float: left;
+    margin-right: 0.5%;
+}
+.gw-info div:nth-child(2n){
+    margin-right: 0;
+}
+
+
+#add-new .gw-info .col-md-8{
+    margin-top: 7px;
+}
+#add-new .payment_area .col-md-8{
+    margin-top: 7px;
+}
+.order-status-area{
+    font-size: 20px;
+    font-weight: bold;
+    color: #000
+}
+.order-status-area span{
+    color: #337ab7;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.delivery-fee-area{
+    overflow: hidden;
+    margin-top: 10px;
+}
+.delivery-fee-area > *{
+    float: left;
+}
+.delivery-fee-area span{
+    display: inline-block;
+    margin-top: 6px;
+    margin-right: 10px;
+}
+
+  /* 지출증빙 */
+.tax-list{
+    margin-top: 7px;
+}
+.tax-list li{
+    overflow: hidden;
+    padding: 5px 0px;
+    padding-right: 20px;
+    color: #000;
+    border-bottom: 1px solid #ededed;
+}
+.tax-list li span{
+    display: inline-block;
+    width: 100px;
+    color: #888;
+}
+.tax-list li >div{
+    float: left;
+    width: 50%;
+}
+
+.order-detail-bill-footer{
+    width:100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: 0 !important;
+}
+.order-detail-bill-footer>div{
+    margin-bottom: 0 !important; 
+    margin-top: 20px;
+}
+
+
+
+
+
+/* 수정 팝업 CSS*/
+#order-modify .modal-dialog{
+    width: 500px;
+}
+
+.modal-body .row textarea{
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 5px;
+}
+
+.modal-body .row .col-md-8{
+    position: relative;
+}
+.modal-body .row .col-md-8 .search-glypicon{
+    position: absolute;
+    top: 10px;
+    right: 25px;
+    cursor: pointer;
+    color: #777;
+}
+
+.modal-body .modal-subtitle{
+    border-top: 1px solid #ccc;
+    /* margin-right: 10px; */
+}
+
+h5{
+    color: #aaa;
+}
+
+#order-modify .container-fluid{
+    padding: 0;
+}
+
+#order-modify .row{
+    margin-bottom: 15px;
+}
+#order-modify .row .col-md-3{
+    padding-top: 5px;
+}
+
+
+#order-modify .row .col-md-9{
+    text-align: right;
+}
+
+#order-modify .row .col-md-9 button{
+    padding: 3px 6px !important;
+    margin-bottom: 5px;
+}
+
+#order-modify .itemlist-top{
+    margin-bottom: 10px;
+}
+
+
+
+/* 주문상세 */
+.modal-header{
+    overflow: hidden;
+}
+.modal-header > div{
+    float: left;
+    width: 50%;
+}
+#add-new .modal-body .modal-header{
+    padding-bottom: 15px;
+    margin-bottom: 15px;
+}
+.borderTop{
+    border-top: 1px solid #ddd;
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.point-area .point-input{
+    float: right;
+    /* width: 200px; */
+    display: inline;
+    overflow: hidden;
+}
+.point-area .point-input input{
+    /* display: inline-block; */
+}
+.point-area .point-input > div{
+    float: left;
+}
+.point-area .point-input div span{
+    width: 8px;
+    position: relative;
+    margin-left: 5px;
+    top: 9px;
+}
+
+.process_active{
+    background-color: #9BD8F9;
+    color: #000;
+    font-weight: bold;
+    animation-name: fadeOut;
+    animation-duration: 0.5s;
+    animation-delay: 1.5s;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+    animation-direction: alternate;
+    border-radius: 4px;
+}
+
+@keyframes fadeOut {
+    0% {
+      background-color: #9BD8F9;
+    }
+    100% {
+        background-color: #FFF8A6;
+    }
+}
+
+
+/* 결제방법/결제금액 */
+.payment_area{
+    overflow: hidden;
+}
+.payment_area > div{
+    float: left;
+    width: 50%;
+}
+
+
+
+.excel-down-btn{
+    display: inline-block;
+    margin-right: 10px;
+}
+.table-top-uplode{
+    overflow: hidden;
+}
+.table-top-uplode > div{
+    float: left;
+}
+
+#UPLOAD_CONFIRM{
+    height: 34px;
+    padding-top: 5px;
+}
+
+
+.modal-body label{
+    padding-right: 20px;
+}
+.modal-body label input[type="radio"]{
+    position: relative;
+    top: 2px;
+    margin-right: 3px;
+}
+
+
+
+
+
+.mt10{
+    margin-top: 10px;
+}
+
+/* 거래명세서  CSS */
+
+.estimate-top{
+    margin-top: 20px;
+    margin-bottom: 10px;
+    overflow: hidden;
+}
+.estimate-top>div{
+    float: left;
+}
+.bill-barcode{
+    width: 200px;
+    text-align: center;
+}
+.bill-barcode img{
+    width: 100%;
+}
+.estimate-top .estimate-top-right{
+    width: 200px;
+    float: right;
+    text-align: right;
+}
+
+.bill-title{
+    letter-spacing: 20px;
+    text-align: center;
+    width: 400px;
+}
+.bill-footer{
+    margin: 20px 0px;
+    padding-top: 20px;
+    border-top:1px solid #ccc;
+}
+
+/* 수신자 정보 */
+.recipient-info{
+    padding: 20px !important;
+}
+.recipient-info .recipient-info-biznm{
+    font-size: 14px;
+    margin-bottom: 5px;
+}
+
+/* 영역 반틈 */
+.half-area{
+    overflow: hidden;
+}
+.half-area > div{
+    float: left;
+    width: calc(50% - 5px);
+}
+.half-area .half-right{
+    margin-left: 10px;
+}
+.half-area .half-left{
+    position: relative;
+    height: 186px;
+}
+
+/* 위탁발주서 타이틀 */
+.estimate-top .consignment-bill-title{
+    text-align: center;
+    width: 100%;
+}
+
+
+
+
+
+/* 위탁발주서 CSS*/
+.order-total .order-btn-area ul{
+    float: right;}
+.order-total .order-btn-area ul li{
+    float: left;
+}
+
+.order-total .order-btn-area ul li .estimate-btn{
+    margin-right: 3px;
+    font-size: 13px;
+    /* width: 82px; */
+    height: 32px;
+}
+
+    /* 모달 캘린더 */
+.calendar-icon{
+    position: relative;
+}
+.calendar-icon .search-glypicon{
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    cursor: pointer;
+    color: #bbb;
+}
+
+/* 주소 */
+.address_area .row{
+    margin-bottom: 5px;
+    position: relative;
+}
+.address_area .row button{
+    top: 5px;
+    left: 50%;
+    position: absolute;
+}
+
+
+
+/* 주문서 */
+#orderBill-product tr{
+    height: 34px;
+}
+
+.shop-estimate .consignment-bill-title{
+    text-align: center;
+    width: 700px;
+}
+
+.payment-table{
+    position: absolute;
+    /* top: -3px; */
+    bottom: 0;
+    padding: 0;
+    margin: 0;
+}
+
+
+#phoneNum-modal .modal-dialog{
+    width: 400px;
+}
+
+
+/* 합계금액 CSS */
+.all-total-price{
+    position: relative;
+}
+.all-total-price span{
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+#estimate-product tbody tr td{
+    padding: 5.9px 9px;
+    height: 28px;
+}
+
+.memo-textarea{
+    resize:  none;
+    height: 80px !important;
+}
+
+.consignment_list{
+    background-color: #edf6fc;
+}
+
+/* 결제금액 표 간격 조정 */
+.total-payment-table tr td{
+    padding: 9px 8px !important;
+}

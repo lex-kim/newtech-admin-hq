@@ -1,0 +1,102 @@
+<?php
+    require $_SERVER['DOCUMENT_ROOT']."/include/headerpopup.html";
+
+    $REQ_MODE = $_REQUEST['REQ_MODE'];
+
+    if($REQ_MODE == CASE_UPDATE){
+        $MGB_ID = $_REQUEST['MGB_ID'];
+    }else{
+        $MGB_ID = "";
+    }
+?>
+
+<body onload="onLoadPopupSetting(<?php echo $REQ_MODE.",".$MGB_ID?>)">
+  <!-- modal #add-new -->  
+  <div class="modal-add" id="add-new" role="dialog">
+    <!-- <div class="modal-dialog">
+        <div class="modal-content"> -->
+                <form action="#" method="POST" id="boardForm" enctype="multipart/form-data">
+                    <!-- modal 상단 -->
+                    <div class="modal-header">
+                        <!-- <button type="button" class="close" data-dismiss="modal">&times;</button>   -->
+                        <h4 class="modal-title">사내게시판</h4>  
+                    </div>
+
+
+                    <!-- modal 내용 -->
+                    <div class="modal-body">     
+                            <!-- 제목 -->
+                            <div class="row">
+                                <div class="col-md-2"><label for="MGB_TITLE">제목</label></div>
+                                <div class="col-md-9"><input type="text" class="form-control" id="MGB_TITLE" name="MGB_TITLE" placeholder="입력"></div>
+                            </div>
+                
+                
+                            <!-- 보험사 -->
+                            <div class="row">
+                                <div class="col-md-2"><label for="MCG_ID">구분</label></div>
+                                <div class="col-md-5">
+                                    <select class="form-control selectpicker" name="MCG_ID" id="MCG_ID" 
+                                            title = "선택"
+                                            data-show-subtext="true" data-live-search="true">
+                                    </select>
+                                </div>
+                            </div>
+
+                        
+
+                            <!-- 내용입력 -->
+                            <div class="row">
+                                <label class="col-md-2" for="MGB_TXT_DTL">내용입력</label>
+                                <div class="col-md-9">
+                                        <div class="summernote"></div>
+                                        <input type="hidden" id="MGB_TXT_DTL" name="MGB_TXT_DTL" />
+                                </div>
+                            </div>
+
+                            <!-- 첨부파일 -->
+                            <div class="row" style="padding-bottom: 0px !important;" id="uploadFileContainer">
+                                <label class="col-md-2" for="CR_FILE_FN">첨부파일</label>
+                                <div class="col-md-5">
+                                    <div id="uploadSelectFile">
+                                         <input id="CR_FILE_FN" name="CR_FILE_FN[]" type="file" onchange="onChangeFile(this)"
+                                            class="form-control input-md"  multiple='multiple'>
+                                    </div>
+                                </div>
+                                <button type="button" class="btn btn-default" onclick='allDeleteFileList()'>전체삭제</button>
+                            </div> 
+
+                            <!-- 첨부파일 리스트 -->
+                            <div class="row">
+                                <label class="col-md-2" for="CR_FILE_FN"></label>
+                                <div class="col-md-8" >
+                                    <div id="uploadListContainer"></div>
+                                </div>
+                            </div> 
+                    </div>
+
+                    <!-- modal 하단 -->
+                    <div class="modal-footer">
+                        <div class="text-right">
+                        <!-- 등록btn -->
+                            <button type="submit" class="btn btn-primary" id="submitBtn">등록</button>
+                        <!-- 취소btn -->
+                            <button type="button" class="btn btn-default" onclick="self.close()">닫기</button>
+                        </div>
+                    </div>
+
+                    <input type="hidden" id="REQ_MODE" name="REQ_MODE"/>
+                    <input type="hidden" id="MGB_ID" name="MGB_ID"/>
+
+                    <!-- 첨부파일 삭제 index -->
+                    <div id="isDelField"> 
+                        <input type="hidden" id="IS_DEL_FILE" name="IS_DEL_FILE[]"/> 
+                    </div>
+            </form>
+         <!-- </div>
+    </div> -->
+  </div>
+</body>  
+<?php
+  require $_SERVER['DOCUMENT_ROOT']."/include/footerpopup.html";
+?>

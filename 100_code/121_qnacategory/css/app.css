@@ -1,0 +1,7 @@
+table thead tr th:first-child{
+    width:5%;
+}
+table thead tr th:nth-child(5),
+table thead tr th:nth-child(6){
+    width:10%;
+}

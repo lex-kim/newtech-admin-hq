@@ -1,0 +1,64 @@
+
+<div class="modal fade modal-add" id="process-modal" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+        <form class="form-horizontal" name="procForm" id="procForm" method="post">
+            <input type="hidden" name="REQ_MODE" id="REQ_MODE"/>
+            <!-- modal 상단 -->
+            <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button> 
+            <h4 class="modal-title">포인트 처리</h4>  
+            </div>
+
+
+            <!-- modal 내용 -->
+            <div class="modal-body">         
+
+
+                <!-- 대상 공업사 -->
+                <div class="row" id="DIV_RPS">
+                    <div class="col-md-3"><label for="RPS_ID">처리</label></div>
+                    <div class="col-md-7">
+                        <select class="form-control" name="RPS_ID" id="RPS_ID">
+                            <option value="">선택</option>
+                            <!-- <option value="type1">적립예정</option>
+                            <option value="type2">적립예정취소</option>
+                            <option value="type3">적립확정</option>
+                            <option value="type4">적립확정취소</option>
+                            <option value="type5">사용</option>
+                            <option value="type6">사용취소</option>
+                            <option value="type7">현금지급</option>
+                            <option value="type8">현금지급취소</option>
+                            <option value="type9">관리자적립</option>
+                            <option value="type10">관리자적립취소</option> -->
+                        </select>
+                    </div>
+                </div>
+
+                <!-- 메모 -->
+                <div class="row">
+                    <div class="col-md-3"><label for="NPH_MEMO" id="MEMO_LABEL">메모</label></div>
+                    <div class="col-md-7"><input type="text" class="form-control" id="NPH_MEMO" name="NPH_MEMO" placeholder="입력"></div>
+                </div>
+                
+            </div>
+
+
+            <!-- modal 하단 -->
+            <div class="modal-footer">
+                <div class="text-left">
+                    <!-- <button type="button" class="btn btn-danger" id="btnDelete" onclick="confirmDelSwal()">삭제</button> -->
+                </div>
+                <div class="text-right">
+                    <!-- 등록btn -->
+                    <button type="button" class="btn btn-primary" id="submitBtn">저장</button>
+                    <!-- 취소btn -->
+                    <button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
+                </div>
+            </div>
+
+        </form>
+
+        </div>
+    </div>
+</div>

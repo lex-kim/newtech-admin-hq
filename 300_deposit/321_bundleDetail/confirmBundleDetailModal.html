@@ -1,0 +1,50 @@
+<!-- modal #add-new -->  
+  <div class="modal fade" id="add-new" role="dialog">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <form method="post" name="matchingForm" id="matchingForm">
+        <input type="hidden" class="form-control" id="REQ_MODE" name="REQ_MODE">
+            
+
+        <!-- modal 상단 -->
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button> 
+          <h4 class="modal-title">청구정보</h4>  
+        </div>
+
+        <!-- modal 내용 -->
+        <div class="modal-body">         
+            <div class="container-fluid nwt-table" style="width: 100%;">
+                <table class="table table-bordered table-striped">
+                    <thead>
+                        <tr class="active">
+                            <th class="text-center">청구일</th>
+                            <th class="text-center">보험사</th>
+                            <th class="text-center">접수번호</th>
+                            <th class="text-center">담보</th>
+                            <th class="text-center">차량번호</th>
+                            <th class="text-center">청구금액</th>
+                            <th class="text-center">입금여부</th>
+                            <th class="text-center">선택</th>
+                        </tr>
+                    </thead>
+                    <tbody id="matchingTable">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- modal 하단 -->
+        <div class="modal-footer">
+            <div class="text-right">
+                <!-- 적용btn -->
+                <button type="button" class="btn btn-primary" id="setBillBtn">적용</button>
+                <!-- 닫기btn -->
+                <button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
+            </div>
+        </div>
+
+        </form>
+        </div>
+    </div>
+</div>

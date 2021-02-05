@@ -1,0 +1,162 @@
+<!-- modal #qna-view -->  
+  <div class="modal fade modal-add" id="qna-view" role="dialog">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <form class="form-horizontal" name="bbs_edit_form" id="bbs_edit_form" method="post">
+          <input type="hidden" name="REQ_MODE" id="REQ_MODE"/>
+    
+            <!-- modal 상단 -->
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal">&times;</button> 
+              <h4 class="modal-title">조회/답변</h4>  
+            </div>
+    
+    
+            <!-- modal 내용 -->
+            <div class="modal-body">   
+    
+                <!-- 제목 -->
+                <div class="row">
+                    <div class="col-md-3"><label for="TITLE">접수정보항목</label></div>
+                </div>
+                      
+                <div >
+                  <!-- 접수정보항목 -->
+                  <div class="row">
+                    <table class="table-info" >
+                      <colgroup>
+                          <col width="7%" />
+                          <col width="15%" />
+                          <col width="10%" />
+                          <col width="7%" />
+                          <col width="12%" />
+                          <col width="15%" />
+                          <col width="15%" />
+                          <col width="15%" />
+                      </colgroup>
+                      <thead>
+                        <tr>
+                          <th class="text-left">등록일시</th>
+                          <td class="text-left" id="WRT_DTHMS"></td>
+                          <th class="text-left">처리여부</th>
+                          <td class="text-left" id="MVV_PROC_STATUS_NM"></td>
+                          <th class="text-left">최종저장일시</th>
+                          <td class="text-left" id="LAST_DTHMS"></td>
+                          <th class="text-left">담당자성명(아이디)</th>
+                          <td class="text-left" id="WRT_USERID"></td>
+                        </tr>
+                      </thead>
+                    </table>
+                    <div class="row">
+                      <button type="button" class="btn btn-default subtable-btn">공업사정보 보이기</button>
+                    </div>
+                    <div class="mb10r qna-subtable">
+                      <table class="table-info" >
+                        <colgroup>
+                            <col width="7%" />
+                            <col width="15%" />
+                            <col width="10%" />
+                            <col width="10%" />
+                            <col width="10%" />
+                            <col width="15%" />
+                            <col width="15%" />
+                            <col width="15%" />
+                        </colgroup>
+                        <tbody>
+                          <tr>
+                            <th class="text-left">구분</th>
+                            <td class="text-left" id="CSD_NM"></td>
+                            <th class="text-left">지역</th>
+                            <td class="text-left" id="VMS_CRR_NM"></td>
+                            <th class="text-left">공업사</th>
+                            <td class="text-left" id="MGG_NM"></td>
+                            <th class="text-left">개척자</th>
+                            <td class="text-left" id="MGG_FRONTIER_NM"></td>
+                          </tr>
+                          <tr>
+                            <th class="text-left">게시일</th>
+                            <td class="text-left" id="MGG_BIZ_START_DT"></td>
+                            <th class="text-left">종료일</th>
+                            <td class="text-left" id="MGG_BIZ_END_DT"></td>
+                            <th class="text-left">중단사유</th>
+                            <td class="text-left" id="RSR_NM"></td>
+                            <th class="text-left">타사거래</th>
+                            <td class="text-left" id="MGG_OTHER_BIZ_NM"></td>
+                          </tr>
+                          <tr>
+                            <th class="text-left">사업자번호</th>
+                            <td class="text-left" id="MGG_BIZ_ID"></td>
+                            <th class="text-left">대표자 성명</th>
+                            <td class="text-left" id="MGG_CEO_NM"></td>
+                            <th class="text-left">대표자 휴대폰</th>
+                            <td class="text-left" id="MGG_CEO_TEL"></td>
+                            <th class="text-left"></th>
+                            <td class="text-left"></td>
+                          </tr>
+                          <tr>
+                            <th class="text-left">사무실 전화</th>
+                            <td class="text-left" id="MGG_OFFICE_TEL"></td>
+                            <th class="text-left">팩스번호</th>
+                            <td class="text-left" id="MGG_OFFICE_FAX"></td>
+                            <th class="text-left">보험사협력업체</th>
+                            <td class="text-left" id="MGG_INSU_MEMO"></td>
+                            <th class="text-left">제조사협력업체</th>
+                            <td class="text-left" id="MGG_MANUFACTURE_MEMO"></td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+  
+                  </div>
+                  <hr class="bold-line">
+  
+                  <!-- 문의내용 -->
+                  <div><label for="TITLE">문의내용</label></div>
+                  <div>
+                      <textarea  class="answerTxt" rows="4" id="MVV_QUESTION" readonly></textarea>
+                  </div>
+                </div>
+                
+
+                <hr>
+
+                <!-- 답변내용 -->
+                <div>
+                  <label for="TITLE">답변내용</label>
+                </div>
+                <div>
+                    <textarea class="answerTxt" rows="4" id="MVV_ANSWER"></textarea>
+                </div>
+              
+                <!-- 답변일 일 -->
+                <div class="row answer-area">
+                    <label class="col-md-1" for="MVV_DONE_DTHMS">답변일 일</label>
+                    <div class="col-md-3" id="MVV_DONE_DTHMS"></div>
+                </div>
+
+            </div>
+    
+            <!-- modal 하단 -->
+            <div class="modal-footer">
+                <div class="text-left">
+                  <?php if($AUTH_DELETE == YN_Y) :?>
+                    <button type="button" class="btn btn-danger" id="btnDelete" onclick="confirmDelSwal()">삭제</button>
+                  <?php endif; ?>
+                </div>
+              <div class="text-right">
+                <?php if($AUTH_CREATE == YN_Y && $AUTH_UPDATE == YN_Y) :?>
+                <!-- 응답btn -->
+                <button type="button" class="btn btn-default" id="tempBtn">임시저장</button>
+
+                <!-- 응답btn -->
+                <button type="button" class="btn btn-primary" id="submitBtn">응답</button>
+                <?php endif; ?>
+                <!-- 취소btn -->
+                <button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
+              </div>
+            </div>
+
+        </form>
+      </div>
+    </div>
+  </div>

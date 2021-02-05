@@ -1,0 +1,12 @@
+.nwt-search-form .search-glypicon{
+    position: relative;
+    top: 2px;
+    left: -20px;
+    width: 0;
+}
+
+.nwt-table{
+    overflow-x: scroll;
+    white-space: nowrap;
+    width: 100%;
+}

@@ -1,0 +1,49 @@
+<!-- 바닥설정 모달 -->  
+  <div class="modal fade modal-add" id="floor-setting" role="dialog">
+        <div class="modal-dialog">
+          <div class="modal-content">
+              <form id="floorForm">
+                <!-- modal 상단 -->
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal">&times;</button> 
+                  <div class="title-left">
+                    <h4 class="modal-title">바닥 설정</h4> 
+                  </div>
+                  <div class="title-right">
+                    <h4 class="modal-title" id="floor-title"></h4>
+                  </div>
+                </div>
+        
+                <input type="hidden" id="FLOOR_NWP_ID" name="FLOOR_NWP_ID"/>
+                <input type="hidden" id="FLOOR_RRT_ID" name="FLOOR_RRT_ID"/>
+                <input type="hidden" id="FLOOR_RWPP_ID" name="FLOOR_RWPP_ID"/>
+        
+                <!-- modal 내용 -->
+                <div class="modal-body">         
+                    <!-- 직급 -->
+                    <div class="row">
+                        <div class="col-md-3"><label for="NWP_FLOOR_DATA">바닥</label></div>
+                        <div class="col-md-5"><input type="text"  onkeypress="return isFloat(event)" class="form-control" id="NWP_FLOOR_DATA" name="NWP_FLOOR_DATA" placeholder="입력"></div>
+                    </div>
+        
+                  
+                </div>
+        
+        
+                <!-- modal 하단 -->
+                <div class="modal-footer">
+                    <div class="text-right">
+                        <!-- 등록btn -->
+                        <?php if($AUTH_CREATE == YN_Y) :?>
+                        <button type="submit" class="btn btn-primary">저장</button>
+                        <?php endif; ?>
+                        <!-- 취소btn -->
+                        <button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
+                    </div>
+                </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    
+    

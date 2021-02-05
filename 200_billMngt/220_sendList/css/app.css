@@ -1,0 +1,116 @@
+.nwt-table-top{
+    position: relative;
+}
+.nwt-table-top .table-top-etc{
+    position: absolute;
+    top: 4px;
+    /* left: 155px; */
+}
+.nwt-table-top .totalbtn{
+    display: inline;
+    padding:6px 10px;
+    border:1px solid #dddddd;
+    border-radius: 4px;
+    margin-left: 10px;
+    margin-right: 10px;
+    cursor: pointer;
+}
+
+.nwt-total{
+    display: none;
+}
+
+.total-open{
+    display: block;
+}
+
+.nwt-total table tr td{
+    width: calc(100% / 12);
+}
+
+.table tbody tr td a.sendstate{
+    margin-right: 10px;
+    width: 60px;
+    display: inline-block;
+}
+/* 확장하기 CSS */
+.nwt-table-top .extend{
+    padding-left: 10px;
+}
+
+
+
+#delete-modal .modal-dialog{
+    width: 450px;
+}
+
+.calenderInput {
+    cursor:pointer;
+}
+
+
+
+
+#BILL_INFO .row{
+    border-top: 1px solid #eee;
+    margin: 0px;
+    padding: 5px 0px 5px 0px !important;
+}
+#BILL_INFO .col-md-3{
+    padding:0px 15px 0px 0px;
+}
+#BILL_INFO .col-md-7{
+    line-height: 32px;
+}
+#add-trans .row {
+    padding-bottom: 15px;
+}
+
+h5{
+    color: #aaa;
+}
+
+.modal-body .modal-border-bottom{
+    border-bottom: 1px solid #ccc;
+    margin-bottom: 10px;
+}
+#add-trans .modal-body .row > div {
+    float: left;
+}
+#add-trans .modal-body .row .col-md-3{
+    width: 20%;
+}
+#add-trans  .modal-body .row .col-md-7{
+    width: 70%;
+}
+.calenderInput {
+    cursor:pointer;
+}
+
+#add-trans .form-control + span {
+    width: 100%;
+	color: 14px;
+	color: #aaa;
+}
+#add-trans .memo-textarea{
+    resize:  none;
+    height: 100px;
+}
+
+.table tr td button{
+    margin-right: 0;
+}
+
+
+#delete-modal .modal-dialog .modal-body .row div > .radio-inline{
+    padding-right: 20px !important;
+}
+
+#delete-modal .modal-dialog .modal-body .row div > input{
+    margin-top: 10px;
+}
+
+/* 쌍방 파란색 표기*/
+span.blue{
+    color: #0000ff;
+}

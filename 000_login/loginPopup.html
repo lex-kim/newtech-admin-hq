@@ -1,0 +1,63 @@
+<?php
+    include $_SERVER['DOCUMENT_ROOT']."/common/common.php";
+    include "class/clsLogin.php";
+    $data =  $cLogin->getNotice($_REQUEST);
+?>
+<!DOCTYPE html>
+    <html lang="ko">
+
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="cache-control" content="no-cache">
+        <meta http-equiv="pragma" content="no-cache">
+        <meta http-equiv='Content-type' content='text/html; charset=utf-8'>
+        <meta http-equiv="cache-control" content="no-cache, must-revalidate">
+        <meta http-equiv="pragma" content="no-cache">
+        <title>NEWTECH - 로그인</title>
+
+        
+        <!-- favicon -->
+        <!-- <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon">
+        <link rel="icon" href="/images/favicon.ico" type="image/x-icon"> -->
+        <!-- 공통스타일ㄴ -->
+        <link rel="stylesheet" href="/css/common.css">
+        <!-- 페이지별 스타일 -->
+        <link rel="stylesheet" href="css/app.css">
+
+
+        <!-- Bootstrap v3.3.7 스타일 -->
+        <!-- <link rel="stylesheet" href="/bootstrap/css/bootstrap-theme.css"> -->
+        <link rel="stylesheet" href="/bootstrap/css/bootstrap.css">
+
+
+    </head>
+
+    <body>
+        <div class="popup-line"></div>
+        <div class="popup-wrap">
+            <div class="popup-title">
+                <h4 id="NP_TITLE"><?php echo $data['NP_TITLE']?></h4>
+            </div>
+    
+            <!-- 노출여부 -->
+            <div class="popup-contents">
+                <div id="NP_DTL" ><?php echo $data['NP_DTL']?></div>
+            </div>  
+    
+
+            
+
+        </div>
+        <!--하단 -->
+        <div class="modal-footer">
+            <div class="text-right">
+                <!-- 취소btn -->
+                <button type="button" class="btn btn-default" onclick="window.close();">닫기</button>
+            </div>
+        </div>
+     
+        
+    </body> 
+</html>

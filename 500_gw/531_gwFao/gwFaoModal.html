@@ -1,0 +1,136 @@
+
+<!-- modal #add-new -->  
+<div class="modal fade" id="add-new" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+        <form method="post" name="editForm" id="editForm">
+            <input type="hidden" id="MGG_ID" name="MGG_ID">
+
+            <!-- modal 상단 -->
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button> 
+                <h4 class="modal-title">담당자관리</h4>  
+            </div>
+
+
+            <!-- modal 내용 -->
+            <div class="modal-body">   
+
+                <div class="bizfao-address">
+                    <div>
+                        <p>사무실</p>
+                        <div class="bizfao-address-unit">
+                            <div class="bizfao-label"><label for="MGG_OFFICE_TEL">연락처</label></div>
+                            <div class="bizfao-input"><input type="text" class="form-control phone" id="MGG_OFFICE_TEL" name="MGG_OFFICE_TEL" 
+                                onkeyup="isNumber(event)" placeholder="-없이 입력"></div>
+                        </div>
+                        <div class="bizfao-address-unit">
+                            <div class="bizfao-label"><label for="MGG_OFFICE_FAX">팩스번호</label></div>
+                            <div class="bizfao-input"><input type="text" class="form-control phone" id="MGG_OFFICE_FAX" name="MGG_OFFICE_FAX" 
+                                onkeyup="isNumber(event)" placeholder="-없이 입력"></div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <p>대표자</p>
+                        <div class="bizfao-address-unit">
+                            <div class="bizfao-label"><label for="MGG_CEO_NM_AES">성명</label></div>
+                            <div class="bizfao-input"><input type="text" class="form-control" id="MGG_CEO_NM_AES" name="MGG_CEO_NM_AES" placeholder="입력"></div>
+                        </div>
+                        <div class="bizfao-address-unit">
+                            <div class="bizfao-label"><label for="MGG_CEO_TEL_AES">연락처</label></div>
+                            <div class="bizfao-input"><input type="text" class="form-control phone" id="MGG_CEO_TEL_AES" name="MGG_CEO_TEL_AES"
+                                onkeyup="isNumber(event)" placeholder="-없이 입력"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bizfao-address">
+
+                    <div>
+                        <p>Key-man</p>
+                        <div class="bizfao-address-unit">
+                            <div class="bizfao-label"><label for="MGG_KEYMAN_NM_AES">성명</label></div>
+                            <div class="bizfao-input"><input type="text" class="form-control" id="MGG_KEYMAN_NM_AES" name="MGG_KEYMAN_NM_AES" placeholder="입력"></div>
+                        </div>
+                        <div class="bizfao-address-unit">
+                            <div class="bizfao-label"><label for="MGG_KEYMAN_TEL_AES">연락처</label></div>
+                            <div class="bizfao-input"><input type="text" class="form-control phone" id="MGG_KEYMAN_TEL_AES" name="MGG_KEYMAN_TEL_AES" 
+                                onkeyup="isNumber(event)" placeholder="-없이 입력"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bizfao-address">
+                    <div>
+                        <p>공장장</p>
+                        <div class="bizfao-address-unit">
+                            <div class="bizfao-label"><label for="MGG_FACTORY_NM_AES">성명</label></div>
+                            <div class="bizfao-input"><input type="text" class="form-control" id="MGG_FACTORY_NM_AES" name="MGG_FACTORY_NM_AES" placeholder="입력"></div>
+                        </div>
+                        <div class="bizfao-address-unit">
+                            <div class="bizfao-label"><label for="MGG_FACTORY_TEL_AES">연락처</label></div>
+                            <div class="bizfao-input"><input type="text" class="form-control phone" id="MGG_FACTORY_TEL_AES" name="MGG_FACTORY_TEL_AES" 
+                                onkeyup="isNumber(event)" placeholder="-없이 입력"></div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <p>청구담당자</p>
+                        <div class="bizfao-address-unit">
+                            <div class="bizfao-label"><label for="MGG_CLAIM_NM_AES">성명</label></div>
+                            <div class="bizfao-input"><input type="text" class="form-control" id="MGG_CLAIM_NM_AES" name="MGG_CLAIM_NM_AES" placeholder="입력"></div>
+                        </div>
+                        <div class="bizfao-address-unit">
+                            <div class="bizfao-label"><label for="MGG_CLAIM_TEL_AES">연락처</label></div>
+                            <div class="bizfao-input"><input type="text" class="form-control phoen" id="MGG_CLAIM_TEL_AES" name="MGG_CLAIM_TEL_AES" 
+                                onkeyup="isNumber(event)" placeholder="-없이 입력"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bizfao-address">
+                    <div>
+                        <p>도장반장</p>
+                        <div class="bizfao-address-unit">
+                            <div class="bizfao-label"><label for="MGG_PAINTER_NM_AES">성명</label></div>
+                            <div class="bizfao-input"><input type="text" class="form-control" id="MGG_PAINTER_NM_AES" name="MGG_PAINTER_NM_AES" placeholder="입력"></div>
+                        </div>
+                        <div class="bizfao-address-unit">
+                            <div class="bizfao-label"><label for="MGG_PAINTER_TEL_AES">연락처</label></div>
+                            <div class="bizfao-input"><input type="text" class="form-control phone" id="MGG_PAINTER_TEL_AES" name="MGG_PAINTER_TEL_AES" 
+                                onkeyup="isNumber(event)" placeholder="-없이 입력"></div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <p>판금반장</p>
+                        <div class="bizfao-address-unit">
+                            <div class="bizfao-label"><label for="MGG_METAL_NM_AES">성명</label></div>
+                            <div class="bizfao-input"><input type="text" class="form-control" id="MGG_METAL_NM_AES" name="MGG_METAL_NM_AES" placeholder="입력"></div>
+                        </div>
+                        <div class="bizfao-address-unit">
+                            <div class="bizfao-label"><label for="MGG_METAL_TEL_AES">연락처</label></div>
+                            <div class="bizfao-input"><input type="text" class="form-control" id="MGG_METAL_TEL_AES" name="MGG_METAL_TEL_AES" 
+                                onkeyup="isNumber(event)" placeholder="-없이 입력"></div>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+
+
+            <!-- modal 하단 -->
+            <div class="modal-footer">
+                <div class="text-right">
+                <!-- 등록btn -->
+                <button type="submit" class="btn btn-primary">수정</button>
+                <!-- 취소btn -->
+                <button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
+                </div>
+            </div>
+
+        </form>
+        </div>
+    </div>
+</div>

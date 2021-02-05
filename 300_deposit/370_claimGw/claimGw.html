@@ -1,0 +1,266 @@
+<!-- header.html -->
+<?php
+  require $_SERVER['DOCUMENT_ROOT']."/include/header.html";
+?>
+
+
+  <!-- 페이지 카테고리 -->
+  <div class="container-fluid mb20px">
+    <h3 class="nwt-category"><small>입금관리&nbsp;&nbsp;></small>공업사 월별 청구현황</h3>
+  </div>
+
+
+  <!-- 검색바(폼) 시작 -->
+  <div class="container-fluid nwt-search-form">
+    <div class="panel panel-default">
+      <div class="panel-body">
+        <form class="form-inline" id="searchForm">
+          <fieldset>
+            <legend>조건검색</legend>
+
+            <!-- 검색버튼 제외한 폼 wrap -->
+            <div class="frm-wrap">
+              <!-- 1st row -->
+              <div class="row frm-last-row">
+                  
+                <!-- 해당년 -->
+                <div class="col-md-1">
+                  <label for="YEAR_SEARCH" class="sr-only">해당년</label>
+                  <select class="form-control" id="YEAR_SEARCH" name="YEAR_SEARCH" >
+                  </select>                            
+                </div>
+
+                <!-- 구분 -->
+                <div class="col-md-1">
+                    <label for="CSD_ID_SEARCH" class="sr-only">구분</label>
+                    <select id="CSD_ID_SEARCH"  name="CSD_ID_SEARCH[]" 
+                              data-style="btn-default" title="=구분="
+                              class="form-control selectpicker" multiple
+                              data-live-search="true" data-live-search-placeholder="Search" >
+                    </select>                            
+                </div>
+
+                <!-- 지역 -->
+                <div class="col-md-1">
+                    <label for="CRR_ID_SEARCH" class="sr-only">지역</label>
+                    <select id="CRR_ID_SEARCH"  name="CRR_ID_SEARCH[]" 
+                              data-style="btn-default" title="=지역="
+                              class="form-control selectpicker" multiple
+                              data-live-search="true" data-live-search-placeholder="Search" >
+                        
+                    </select>                             
+                </div>
+            
+                <!-- 공업사 -->
+                <div class="col-md-2 frmGroup2-2">
+                    <label for="MGG_ID_SEARCH" class="sr-only">공업사</label>
+                    <select id="MGG_ID_SEARCH"  name="MGG_ID_SEARCH" 
+                              data-style="btn-default" title="=공업사="
+                              class="form-control selectpicker" 
+                              data-live-search="true" data-live-search-placeholder="Search" >
+                    </select>                            
+                </div>
+
+                <!-- 청구식 -->
+                <div class="col-md-1">
+                  <label for="RET_ID_SEARCH" class="sr-only">청구식</label>
+                  <select id="RET_ID_SEARCH"  name="RET_ID_SEARCH[]" 
+                          data-style="btn-default" title="=청구식="
+                          class="form-control selectpicker" multiple
+                          data-live-search="true" data-live-search-placeholder="Search" >
+                  </select>                            
+              </div>
+
+                <!-- 개척자 -->
+                <div class="col-md-1">
+                  <label for="MGG_FRONTIER_NM_SEARCH" class="sr-only">개척자</label>
+                  <input type="text" class="form-control" name="MGG_FRONTIER_NM_SEARCH" id="MGG_FRONTIER_NM_SEARCH" placeholder="개척자 입력">                            
+                </div>
+
+                <!-- 협조자 -->
+                <div class="col-md-1">
+                  <label for="MGG_COLLABO_NM_SEARCH" class="sr-only">협조자</label>
+                  <input type="text" class="form-control" name="MGG_COLLABO_NM_SEARCH" id="MGG_COLLABO_NM_SEARCH" placeholder="협조자 입력">                            
+                </div>
+
+                <!-- 수탁자 -->
+                <div class="col-md-1">
+                  <label for="MGG_BAILEE_NM_SEARCH" class="sr-only">수탁자</label>
+                  <input type="text" class="form-control" name="MGG_BAILEE_NM_SEARCH" id="MGG_BAILEE_NM_SEARCH" placeholder="수탁자 입력">                            
+                </div>
+
+                <!-- 포토앱 -->
+                <div class="col-md-1">
+                  <label for="RAT_ID_SEARCH" class="sr-only">포토앱</label>
+                  <select class="form-control" id="RAT_ID_SEARCH" name="RAT_ID_SEARCH">
+                    <option value="">=포토앱=</option>
+                  </select>                            
+                </div>
+
+                <!-- 거래여부 -->
+                <div class="col-md-1">
+                    <label for="RCT_ID_SEARCH" class="sr-only">거래여부</label>
+                    <select class="form-control" id="RCT_ID_SEARCH" name="RCT_ID_SEARCH">
+                        <option value="">=거래여부=</option>
+                    </select>                            
+                </div>
+
+                <!-- 계약여부 -->
+                <div class="col-md-1">
+                  <label for="MGG_CONTRACT_YN_SEARCH" class="sr-only">계약여부</label>
+                  <select class="form-control" id="MGG_CONTRACT_YN_SEARCH" name="MGG_CONTRACT_YN_SEARCH">
+                    <option value="">=계약여부=</option>
+                    <option value="Y">계약</option>
+                    <option value="N">미계약</option>
+                  </select>                            
+                </div>
+
+              </div>
+            </div> 
+
+            <!-- 검색버튼 wrap -->
+            <div class="frm-search-wrap">
+              <!-- 검색btn -->
+              <div class="row">
+                <div class="col-md-12 text-right">
+                  <button type="submit" class="btn btn-primary" id="frmSearch" style="margin-top: -10px"><span class="glyphicon glyphicon-search"></span>&nbsp;검색</button>
+                </div>
+              </div> 
+            </div>
+
+          </fieldset>
+        </form>
+      </div>
+    </div>
+  </div>
+  <!-- 검색바(폼) 끝 -->
+
+  
+  <!-- 테이블 상단 #perPage, btn 영역 -->
+  <div class="container-fluid nwt-table-top mb20r">
+    <div class="row">
+      
+      <!-- 리스트개수 -->
+      <?php	require $_SERVER['DOCUMENT_ROOT']."/include/listCnt.html"; ?>
+      
+      <!-- 테이블 우측 상단 btn -->
+      <div class="col-lg-6 clearfix">
+        <div class="form-inline f-right">
+          <?php if($AUTH_EXCEL == YN_Y) :?>
+          <!-- 엑셀 다운로드 -->
+          <button type="button" class="btn btn-success" onclick="excelDownload()"><span class="glyphicon glyphicon-download-alt"></span>&nbsp;엑셀 다운로드</button>
+          <?php endif; ?>
+        </div>
+        
+      </div>
+    </div>
+    <!-- <div class="f-right" style="margin-top: 5px">
+      (금액단위: 천원)
+    </div> -->
+
+  </div>
+
+  
+
+
+  <!-- 테이블 -->
+  <div class="container-fluid nwt-table" style="width: 100%;">
+    <div class="f-right">
+      (금액단위: 천원)
+    </div>
+    <table class="table table-bordered table-striped">
+      <thead>
+        <tr class="active">
+          <th class="text-center" rowspan="2">순번</th>
+          <th class="text-center" rowspan="2">구분</th>
+          <th class="text-center" rowspan="2">지역</th>
+          <th class="text-center" rowspan="2">공업사</th>
+          <th class="text-center" rowspan="2">청구식</th>
+          <th class="text-center" rowspan="2">개척자</th>
+          <th class="text-center" rowspan="2">협조자</th>
+          <th class="text-center" rowspan="2">수탁자</th>
+          <th class="text-center" rowspan="2">거래여부</th>
+          <th class="text-center" rowspan="2">개시일</th>
+          <th class="text-center" rowspan="2">종료일</th>
+          <th class="text-center" rowspan="2">포토앱</th>
+          <th class="text-center" rowspan="2">전거래처</th>
+          <th class="text-center" rowspan="2">중단사유</th>
+          <th class="text-center" rowspan="2">타거래처</th>
+          <th class="text-center" rowspan="2">계약여부</th>
+          <th class="text-center" rowspan="2">계약기간</th>
+          <th class="text-center" rowspan="2">수수료율</th>
+          <th class="text-center" rowspan="2">은행명</th>
+          <th class="text-center" rowspan="2">사업용계좌</th>
+          <th class="text-center" rowspan="2">계좌주</th>
+          <th class="text-center" rowspan="2">재고금액</th>
+          <th class="text-center" rowspan="2">재고비율</th>
+          <th class="text-center" colspan="2">월평균</th>
+          <th class="text-center" colspan="2">합계</th>
+          <th class="text-center" colspan="2">12월</th>
+          <th class="text-center" colspan="2">11월</th>
+          <th class="text-center" colspan="2">10월</th>
+          <th class="text-center" colspan="2">9월</th>
+          <th class="text-center" colspan="2">8월</th>
+          <th class="text-center" colspan="2">7월</th>
+          <th class="text-center" colspan="2">6월</th>
+          <th class="text-center" colspan="2">5월</th>
+          <th class="text-center" colspan="2">4월</th>
+          <th class="text-center" colspan="2">3월</th>
+          <th class="text-center" colspan="2">2월</th>
+          <th class="text-center" colspan="2">1월</th>
+          <th class="text-center" colspan="2">협력업체</th>
+        </tr>
+        <tr class="active">
+          <th class="text-center">건수</th>
+          <th class="text-center">금액</th>
+          <th class="text-center">건수</th>
+          <th class="text-center">금액</th>
+          <th class="text-center">건수</th>
+          <th class="text-center">금액</th>
+          <th class="text-center">건수</th>
+          <th class="text-center">금액</th>
+          <th class="text-center">건수</th>
+          <th class="text-center">금액</th>
+          <th class="text-center">건수</th>
+          <th class="text-center">금액</th>
+          <th class="text-center">건수</th>
+          <th class="text-center">금액</th>
+          <th class="text-center">건수</th>
+          <th class="text-center">금액</th>
+          <th class="text-center">건수</th>
+          <th class="text-center">금액</th>
+          <th class="text-center">건수</th>
+          <th class="text-center">금액</th>
+          <th class="text-center">건수</th>
+          <th class="text-center">금액</th>
+          <th class="text-center">건수</th>
+          <th class="text-center">금액</th>
+          <th class="text-center">건수</th>
+          <th class="text-center">금액</th>
+          <th class="text-center">건수</th>
+          <th class="text-center">금액</th>
+          <th class="text-center">보험사</th>
+          <th class="text-center">제조사</th>
+        </tr>
+      </thead>
+      <tbody id="dataTable">                                                       
+      </tbody>
+    </table>
+  </div>
+
+  <!-- indicator -->
+  <?php	require $_SERVER['DOCUMENT_ROOT']."/include/indicator.html"; ?>
+  
+  <!-- pagination -->
+  <div class="container-fluid">
+    <div class="text-center">
+      <ul class="pagination">
+      </ul>
+    </div>
+  </div>
+  
+
+<!-- footer.html -->
+<?php
+  require $_SERVER['DOCUMENT_ROOT']."/include/footer.html";
+?>

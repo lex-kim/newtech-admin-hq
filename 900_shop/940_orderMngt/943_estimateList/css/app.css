@@ -1,0 +1,115 @@
+.nwt-search-form .search-glypicon{
+    position: relative;
+    top: 2px;
+    left: -20px;
+    width: 0;
+}
+
+
+.detail-info{
+    margin: 50px 15px;
+    padding-top: 15px;
+    border-top: 1px solid #ddd;
+    
+}
+
+#phoneNum-modal .modal-dialog{
+    width: 400px;
+}
+
+.nwt-table h4{
+    float: left;
+}
+
+.toBizNm{
+    font-size: 14px; 
+    padding-bottom: 10px;
+}
+
+#estimate-product tbody tr td{
+    height: 34px;
+}
+
+#etcarea{
+    height: 100px;
+}
+
+
+.shop-estimate table{
+    border: 2px solid #aaa
+}
+.shop-estimate table tr th{
+    border-bottom:2px solid #aaa
+}
+.shop-estimate table tfoot tr td{
+    border-top:2px solid #aaa
+}
+.shop-estimate table tr td{
+    border: 1.5px solid #ccc
+}
+
+.bill-title{
+    letter-spacing: 20px;
+    width: 350px;
+}
+
+.estimate-top{
+    margin-top: 20px;
+    margin-bottom: 10px;
+    overflow: hidden;
+}
+
+.estimate-top>div{
+    float: left;
+}
+.estimate-top .estimate-top-right{
+    float: right;
+    margin-top: 50px;
+}
+
+
+#estimate-bizinfo .recipient-info{
+    padding: 20px;
+    box-sizing: padding-box;
+}
+#estimate-etc .etc-singularity{
+    height: 100px;
+}
+
+.bill-footer .order-btn-area ul {
+    overflow: hidden;
+    float: right;
+    padding-bottom: 20px;
+}
+.bill-footer .order-btn-area ul li{
+    float: left;
+    margin-left: 5px;
+}
+
+/* 합계금액 CSS */
+.all-total-price{
+    position: relative;
+}
+.all-total-price span{
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+/* 옵션명 */
+.expiration_area{
+    position: absolute;
+    width: 100%;
+    top: 35%;
+    left: 0;
+    text-align: center;
+    transform: translateY(-35%);
+}
+.expiration_text{
+    font-weight: bold;
+    font-size: 400px;
+    letter-spacing: 30px;
+    color: red;
+    opacity: 0.5;
+}

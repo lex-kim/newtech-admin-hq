@@ -1,0 +1,257 @@
+<!-- header.html -->
+<?php
+  require $_SERVER['DOCUMENT_ROOT']."/include/header.html";
+?>
+  <script src="js/setTable.js"></script>
+  <script src="js/setData.js"></script>
+  <script src="js/setSelectOption.js"></script>
+
+  <!-- 페이지 카테고리 -->
+  <div class="container-fluid mb20px">
+    <h3 class="nwt-category"><small>청구서관리&nbsp;&nbsp;></small>공업사 월별 청구건수 현황</h3>
+  </div>
+
+
+  <!-- 검색바(폼) 시작 -->
+  <div class="container-fluid nwt-search-form">
+      <div class="panel panel-default">
+          <div class="panel-body">
+              <form class="form-inline" id="searchForm">
+                  <fieldset>
+                      <legend>조건검색</legend>
+
+                      <!-- 검색버튼 제외한 폼 wrap -->
+                      <div class="frm-wrap">
+                        <!-- 1st row -->
+                        <div class="row">
+                          
+                          <!-- 연도 -->
+                          <div class="col-md-1">
+                              <label for="CLAIM_YEAR" class="sr-only">연도</label>
+                              <select class="form-control" id="CLAIM_YEAR" name="CLAIM_YEAR">
+                                  <option value="">=연도=</option>
+                              </select>                            
+                          </div>
+                          
+                          <!-- 구분 -->
+                          <div class="col-md-1">
+                              <label for="CSD_ID_SEARCH" class="sr-only">구분</label>
+                              <select id="CSD_ID_SEARCH"  name="CSD_ID_SEARCH" 
+                                        data-style="btn-default" title="=구분="
+                                        class="form-control selectpicker" 
+                                        data-live-search="true" data-live-search-placeholder="Search" >
+                                  
+                              </select>                            
+                          </div>
+
+                          <!-- 지역 -->
+                          <div class="col-md-1">
+                              <label for="CRR_ID_SEARCH" class="sr-only">지역</label>
+                              <select id="CRR_ID_SEARCH"  name="CRR_ID_SEARCH" 
+                                        data-style="btn-default" title="=지역="
+                                        class="form-control selectpicker" 
+                                        data-live-search="true" data-live-search-placeholder="Search" >
+                                  
+                              </select>                             
+                          </div>
+                      
+                          <!-- 공업사 -->
+                          <div class="col-md-2 frmGroup2-2">
+                              <label for="MGG_ID_SEARCH" class="sr-only">공업사</label>
+                              <select id="MGG_ID_SEARCH"  name="MGG_ID_SEARCH" 
+                                        data-style="btn-default" title="=공업사="
+                                        class="form-control selectpicker" 
+                                        data-live-search="true" data-live-search-placeholder="Search" >
+                                  
+                              </select>                            
+                          </div>
+
+                          <!-- 청구식 -->
+                          <div class="col-md-1">
+                              <label for="RET_ID_SEARCH" class="sr-only">청구식</label>
+                              <select class="form-control" id="RET_ID_SEARCH" name="RET_ID_SEARCH">
+                                  <option value="">=청구식=</option>
+                              </select>                            
+                          </div>
+
+                          <!-- 거래여부 -->
+                          <div class="col-md-1">
+                              <label for="RCT_ID_SEARCH" class="sr-only">거래여부</label>
+                              <select class="form-control" id="RCT_ID_SEARCH" name="RCT_ID_SEARCH">
+                                  <option value="">=거래여부=</option>
+                              </select>                            
+                          </div>
+
+                        </div><!-- 1st row 끝-->
+                      </div> 
+
+                      <!-- 검색버튼 wrap -->
+                      <div class="frm-search-wrap">
+                        <!-- 검색btn -->
+                        <div class="row">
+                            <div class="col-md-12 text-right">
+                              <button type="submit" class="btn btn-primary" id="frmSearch" style="margin-top: -10px"><span class="glyphicon glyphicon-search"></span>&nbsp;검색</button>
+                            </div>
+                        </div> 
+                      </div>
+
+                  </fieldset>
+              </form>
+          </div>
+      </div>
+  </div>
+  <!-- 검색바(폼) 끝 -->
+
+
+  <!-- 테이블 상단 #perPage, btn 영역 -->
+  <div class="container-fluid nwt-table-top mb20r">
+    <div class="row">
+      
+      <!-- 리스트개수 -->
+      <?php	require $_SERVER['DOCUMENT_ROOT']."/include/listCnt.html"; ?>
+      <!-- 테이블 우측 상단 btn -->
+      <div class="col-lg-6 clearfix">
+        <div class="form-inline f-right">
+          <?php if($AUTH_EXCEL == YN_Y) :?>
+          <!-- 엑셀 다운로드 -->
+          <form method="GET" id="excelForm" >
+          </form>
+          <button type="button" class="btn btn-success" onclick="excelDownload();"><span class="glyphicon glyphicon-download-alt"></span>&nbsp;엑셀 다운로드</button>
+          <?php endif; ?>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+
+  <!-- 테이블 -->
+  <div class="container-fluid nwt-table" style="width: 100%;">
+    <table class="table table-bordered table-striped">
+      <thead>
+        <tr class="active">
+          <th class="text-center" rowspan="2">순번</th>
+          <th class="text-center" rowspan="2">공업사코드</th>
+          <th class="text-center" rowspan="2">구분</th>
+          <th class="text-center" rowspan="2">지역</th>
+          <th class="text-center" rowspan="2">공업사명</th>
+          <th class="text-center" rowspan="2">사업자번호</th>
+          <th class="text-center" rowspan="2">청구식</th>
+          <th class="text-center" rowspan="2">거래여부</th>
+          <th class="text-center" rowspan="2">개시일</th>
+          <th class="text-center" rowspan="2">종료일</th>
+          <!-- ㅇ청구도과일은 당일 날짜기준으로 마지막 청구일수가 표기되어야함 -->
+          <th class="text-center table-array" rowspan="2">청구도과일
+            <div class="arrayicon">
+              <span class="glyphicon glyphicon-chevron-up" onclick="getList(undefined, 2)"></span>
+              <span class="glyphicon glyphicon-chevron-down" onclick="getList(undefined, 1)"></span>
+            </div>
+          </th>
+          <th class="text-center" rowspan="2">사무실전화</th>
+          <th class="text-center" rowspan="2">청구담당</th>
+          <th class="text-center" rowspan="2">휴대폰번호</th>
+          <th class="text-center" rowspan="2">재고금액</th>
+          <th class="text-center" rowspan="2">재고비율</th>
+          <th class="text-center" rowspan="2">월평균<br>청구건수</th>
+          <th class="text-center" rowspan="2">청구건수<br>합계</th>
+          <th class="text-center" colspan="12">월별 청구건수</th>
+          <th class="text-center" colspan="2">협력업체</th>
+        </tr>
+        <tr class="active">
+          <th class="text-left table-array month">12월
+            <div class="arrayicon">
+              <span class="glyphicon glyphicon-chevron-up" onclick="getList(undefined, 2,'12')"></span>
+              <span class="glyphicon glyphicon-chevron-down" onclick="getList(undefined, 1,'12')"></span>
+            </div>
+          </th>
+          <th class="text-left table-array month">11월
+            <div class="arrayicon">
+              <span class="glyphicon glyphicon-chevron-up" onclick="getList(undefined, 2,'11')"></span>
+              <span class="glyphicon glyphicon-chevron-down" onclick="getList(undefined, 1,'11')"></span>
+            </div>
+          </th>
+          <th class="text-left table-array month">10월
+            <div class="arrayicon">
+              <span class="glyphicon glyphicon-chevron-up" onclick="getList(undefined, 2,'10')"></span>
+              <span class="glyphicon glyphicon-chevron-down" onclick="getList(undefined, 1,'10')"></span>
+            </div>
+          </th>
+          <th class="text-left table-array month">9월
+            <div class="arrayicon">
+              <span class="glyphicon glyphicon-chevron-up" onclick="getList(undefined, 2,'9')"></span>
+              <span class="glyphicon glyphicon-chevron-down" onclick="getList(undefined, 1,'9')"></span>
+            </div>
+          </th>
+          <th class="text-left table-array month">8월
+            <div class="arrayicon">
+              <span class="glyphicon glyphicon-chevron-up" onclick="getList(undefined, 2,'8')"></span>
+              <span class="glyphicon glyphicon-chevron-down" onclick="getList(undefined, 1,'8')"></span>
+            </div>
+          </th>
+          <th class="text-left table-array month">7월
+            <div class="arrayicon">
+              <span class="glyphicon glyphicon-chevron-up" onclick="getList(undefined, 2,'7')"></span>
+              <span class="glyphicon glyphicon-chevron-down" onclick="getList(undefined, 1,'7')"></span>
+            </div>
+          </th>
+          <th class="text-left table-array month">6월
+            <div class="arrayicon">
+              <span class="glyphicon glyphicon-chevron-up" onclick="getList(undefined, 2,'6')"></span>
+              <span class="glyphicon glyphicon-chevron-down" onclick="getList(undefined, 1,'6')"></span>
+            </div>
+          </th>
+          <th class="text-left table-array month">5월
+            <div class="arrayicon">
+              <span class="glyphicon glyphicon-chevron-up" onclick="getList(undefined, 2,'5')"></span>
+              <span class="glyphicon glyphicon-chevron-down" onclick="getList(undefined, 1,'5')"></span>
+            </div>
+          </th>
+          <th class="text-left table-array month">4월
+            <div class="arrayicon">
+              <span class="glyphicon glyphicon-chevron-up" onclick="getList(undefined, 2,'4')"></span>
+              <span class="glyphicon glyphicon-chevron-down" onclick="getList(undefined, 1,'4')"></span>
+            </div>
+          </th>
+          <th class="text-left table-array month">3월
+            <div class="arrayicon">
+              <span class="glyphicon glyphicon-chevron-up" onclick="getList(undefined, 2,'3')"></span>
+              <span class="glyphicon glyphicon-chevron-down" onclick="getList(undefined, 1,'3')"></span>
+            </div>
+          </th>
+          <th class="text-left table-array month">2월
+            <div class="arrayicon">
+              <span class="glyphicon glyphicon-chevron-up" onclick="getList(undefined, 2,'2')"></span>
+              <span class="glyphicon glyphicon-chevron-down" onclick="getList(undefined, 1,'2')"></span>
+            </div>
+          </th>
+          <th class="text-left table-array month">1월
+            <div class="arrayicon">
+              <span class="glyphicon glyphicon-chevron-up" onclick="getList(undefined, 2,'1')"></span>
+              <span class="glyphicon glyphicon-chevron-down" onclick="getList(undefined, 1,'1')"></span>
+            </div>
+          </th>
+          <th class="text-center">보험사</th>
+          <th class="text-center">제조사</th>
+        </tr>
+      </thead>
+      <tbody id="dataTable">
+                                                                      
+      </tbody>
+    </table>
+  </div>
+
+  <!-- indicator -->
+  <?php	require $_SERVER['DOCUMENT_ROOT']."/include/indicator.html"; ?>
+  
+  <!-- pagination -->
+  <div class="container-fluid">
+    <div class="text-center">
+      <ul class="pagination">
+      </ul>
+    </div>
+  </div>
+
+<!-- footer.html -->
+<?php
+  require $_SERVER['DOCUMENT_ROOT']."/include/footer.html";
+?>

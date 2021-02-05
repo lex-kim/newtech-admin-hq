@@ -1,0 +1,158 @@
+<?php
+  require $_SERVER['DOCUMENT_ROOT']."/include/headerpopup.html";
+
+  $transType = count($_REQUEST['NB_ID']) == 1 ? true : false;
+  $NB_CLAIM_DT = $_REQUEST['NB_CLAIM_DT'][0];
+  $NBI_REGI_NUM = $_REQUEST['NBI_REGI_NUM'][0];
+  $MII_NM = $_REQUEST['MII_NM'][0];
+  $NBI_CHG_NM = $_REQUEST['NBI_CHG_NM'][0];
+  $NB_CAR_NUM = $_REQUEST['NB_CAR_NUM'][0];
+  $NB_TOTAL_PRICE = $_REQUEST['NB_TOTAL_PRICE'][0];
+  
+  $NB_ID =empty($_REQUEST['NB_ID']) ? '' : $_REQUEST['NB_ID'];
+  $NBI_RMT_ID =empty($_REQUEST['NBI_RMT_ID']) ? '' : $_REQUEST['NBI_RMT_ID'];
+  $NIC_ID =empty($_REQUEST['NIC_ID']) ? '' : $_REQUEST['NIC_ID'];
+  $MII_ID =empty($_REQUEST['MII_ID']) ? '' : $_REQUEST['MII_ID'];
+  $NIC_NM =empty($_REQUEST['NIC_NM']) ? '' : $_REQUEST['NIC_NM'];
+  $NIC_FAX_AES =empty($_REQUEST['NIC_FAX_AES']) ? '' : $_REQUEST['NIC_FAX_AES'];
+  
+?>
+
+<script src="../../500_gw/510_gwMngt/js/setSelectOption.js"></script>
+<script src="js/setDepositOptions.js"></script>
+<script src="js/setDepositTrans.js"></script>
+
+<body onload="onLoadPopupSetting()">
+  <!-- 이첩대상 modal #add-new -->  
+     <div class="modal-add" id="add-trans" >
+          <form method="post" name="transForm" id="transForm">
+  
+          <!-- modal 상단 -->
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button> 
+            <h4 class="modal-title">이첩대상</h4>  
+          </div>
+  
+          <!-- modal 내용 -->
+          <div class="modal-body">  
+            <?php if ($transType) : ?>
+            <div>
+              <h5>청구서정보</h5>
+            </div>
+            <div id="BILL_INFO">
+              <!-- 청구일자 -->
+              <div class="row">
+                <div class="col-md-3"><label for="TRANS_NB_CLAIM_DT">청구일자</label></div>
+                <div class="col-md-7" id="TRANS_NB_CLAIM_DT"><?php echo $NB_CLAIM_DT?></div>
+              </div>
+  
+              <div class="row">
+                <!-- 보험사명 -->
+                <div class="col-md-3"><label for="TRANS_NBI_REGI_NUM">접수번호</label></div>
+                <div class="col-md-7" id="TRANS_NBI_REGI_NUM"><?php echo $NBI_REGI_NUM?></div>
+              </div>
+  
+              <div class="row">
+                <div class="col-md-3"><label for="TRANS_NBIT_FROM_MII_NM">보험사명</label></div>
+                <div class="col-md-7" id="TRANS_NBIT_FROM_MII_NM"><?php echo $MII_NM?></div>
+              </div>
+  
+                <!-- 보험사명 -->
+              <div class="row">
+                <div class="col-md-3"><label for="TRANS_NBIT_FROM_NIC_NM_AES">담당자</label></div>
+                <div class="col-md-7" id="TRANS_NBIT_FROM_NIC_NM_AES"><?php echo $NB_CAR_NUM?></div>
+              </div>
+  
+              <div class="row">
+                <div class="col-md-3"><label for="TRANS_NB_CAR_NUM">차량번호</label></div>
+                <div class="col-md-7" id="TRANS_NB_CAR_NUM"><?php echo $NB_CAR_NUM?></div>
+              </div>
+  
+              <div class="row modal-border-bottom">
+                <!-- 보험사명 -->
+                <div class="col-md-3"><label for="TRANS_NB_TOTAL_PRICE">청구금액</label></div>
+                <div class="col-md-7" id="TRANS_NB_TOTAL_PRICE"><?php echo number_format($NB_TOTAL_PRICE)?>원</div>
+              </div>
+              
+            </div>
+            <?php endif; ?> 
+  
+            <!-- from Data -->
+            <?php foreach($_REQUEST['NBI_RMT_ID'] as $index => $value): ?>
+              <input type="hidden"  name = "TRANS_NB_ID[]" value="<?php echo $_REQUEST['NB_ID'][$index] ?>">
+              <input type="hidden"  name = "TRANS_NBI_RMT_ID[]" value="<?php echo $value ?>">
+              <input type="hidden"  name = "TRANS_NIC_ID[]" value="<?php echo $_REQUEST['NIC_ID'][$index] ?>">
+              <input type="hidden"  name = "TRANS_MII_ID[]" value="<?php echo $_REQUEST['MII_ID'][$index] ?>">
+              <input type="hidden"  name = "TRANS_NBIT_FROM_NIC_NM_AES[]" value="<?php echo $_REQUEST['NBI_CHG_NM'][$index] ?>">
+              <input type="hidden"  name = "TRANS_NBIT_FROM_NIC_FAX_AES[]" value="<?php echo $_REQUEST['NBI_FAX_NUM'][$index] ?>">
+            <?php endforeach; ?>
+            <!-- To Data -->
+            
+            <div>
+              <h5>이첩대상</h5>
+            </div>
+            <!-- 보험사명 -->
+            <div class="row">
+              <div class="col-md-3"><label for="NBIT_TO_MII_ID">보험사명</label></div>
+              <div class="col-md-7"> 
+                <select name="NBIT_TO_MII_ID" class="form-control wd100r" id="NBIT_TO_MII_ID" required>
+                </select>
+              </div>
+            </div>
+  
+  
+            <!-- 담당자 -->
+            <div class="row">
+              <div class="col-md-3"><label for="NBIT_TO_NIC_NM">담당자</label></div>
+              <input type='hidden' id="NBIT_TO_NIC_ID" name="NBIT_TO_NIC_ID">
+              <input type='hidden' id="NBIT_TO_NIC_NM_AES" name="NBIT_TO_NIC_NM_AES">
+              <input type='hidden' id="NBIT_TO_NIC_FAX_AES" name="NBIT_TO_NIC_FAX_AES">
+              <input type='hidden' id="NBIT_TO_NIC_PHONE_AES" name="NBIT_TO_NIC_PHONE_AES">
+              <div class="col-md-7">
+                <input type="text" class="form-control insuCharge" id="NBIT_TO_NIC_NM"   disabled
+                              name="NBIT_TO_NIC_NM" placeholder="" required/>
+              </div>
+             
+            </div>
+  
+            <!-- 담당자구분 -->
+            <div class="row">
+              <div class="col-md-3"><label for="RICT_ID">담당자구분</label></div>
+              <div class="col-md-7">
+                <select class="form-control" name="RICT_ID" id="RICT_ID" required>
+                  <option value="">선택</option>
+                </select>
+              </div>
+            </div>
+  
+            
+            <!-- 기타메모사항 -->
+            <div class="row">
+              <div class="col-md-3"><label for="NBIT_MEMO">기타 메모사항</label></div>
+              <div class="col-md-7">
+                <textarea class="form-control memo-textarea" rows="6" name="NBIT_MEMO" id="NBIT_MEMO"  placeholder="입력"> </textarea>
+              </div>
+            </div>
+  
+          </div>
+  
+          <!-- modal 하단 -->
+          <div class="modal-footer">
+            <div class="text-right">
+              <!-- 등록btn -->
+              <button type="submit" class="btn btn-primary" >저장</button>
+              <!-- 취소btn -->
+              <button type="button" class="btn btn-default" onclick="window.close();">취소</button>
+            </div>
+          </div>
+  
+          </form>
+        
+   
+    </div>
+  </body>
+  
+  
+  <?php
+    require $_SERVER['DOCUMENT_ROOT']."/include/footerpopup.html";
+  ?>

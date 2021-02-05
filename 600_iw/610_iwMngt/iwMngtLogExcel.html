@@ -1,0 +1,46 @@
+<?php
+
+    header("Content-Type: application/vnd.ms-excel");
+    date_default_timezone_set('Asia/Seoul');
+
+    header("Content-Disposition: attachment; filename=".date("YmdH", time())."_보험사관리변경이력.xls");
+    header("Content-Description: Newtech System");
+
+    require $_SERVER['DOCUMENT_ROOT']."/common/common.php";	
+    require "class/clsIwmngt.php";
+
+    $data =  $cIwmngt->getSubList($_REQUEST);
+
+    $result = $data[0];
+
+    $excelHtml = "
+        <table border='1'>
+            <thead>
+                <tr>
+                    <th style='text-align:center;'>날짜시간</th>
+                    <th style='text-align:center;'>담당자성명</th>
+                    <th style='text-align:center;'>담당자번호</th>
+                    <th style='text-align:center;'>책임자성명</th>
+                    <th style='text-align:center;'>책임자번호</th>
+                </tr>
+               
+
+            </thead>
+    ";
+
+    foreach($result as $item) { 
+        $excelHtml .= "<tr>
+                <td style='text-align:center;mso-number-format:\@;'>".$item['LAST_DTHMS']."</td>
+                <td style='text-align:center;'>".$item['NICL_CHG_NM']."</td>
+                <td style='text-align:center;mso-number-format:\@;'>".cUtil::phone_format($item['NICL_CHG_TEL2'])."</td>
+                <td style='text-align:center;'>".$item['NICL_BOSS_NM']."</td>
+                <td style='text-align:center;mso-number-format:\@;'>".cUtil::phone_format($item['NICL_BOSS_TEL'])."</td>
+            </tr>
+        ";
+    }
+    $excelHtml .= "</table>";
+
+    echo "<meta content=\"application/vnd.ms-excel;charset=UTF-8;\" name=\"Content-type\">";
+    echo $excelHtml ;
+
+?>

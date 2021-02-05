@@ -1,0 +1,235 @@
+
+.borderBottom {
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+    border-bottom-color: #999;
+}
+
+.div-bottom {
+    margin-bottom: 15px;
+}
+
+
+.popup-open .popup {
+    overflow-x: auto;
+    overflow-y: auto;
+  }
+  .popup-dialog {
+    position: absolute;
+    width: auto;
+    margin: 10px;
+    top: -15px; left: 10px;
+  }
+  .popup-content {
+    position: relative;
+    background-color: #fff;
+    -webkit-background-clip: padding-box;
+            background-clip: padding-box;
+    border: 1px solid #999;
+    border: 1px solid rgba(0, 0, 0, .2);
+    border-radius: 6px;
+    outline: 0;
+    -webkit-box-shadow: 0 3px 9px rgba(0, 0, 0, .5);
+            box-shadow: 0 3px 9px rgba(0, 0, 0, .5);
+  }
+  .popup-backdrop {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1040;
+    background-color: #000;
+  }
+  .popup-backdrop.fade {
+    filter: alpha(opacity=0);
+    opacity: 0;
+  }
+  .popup-backdrop.in {
+    filter: alpha(opacity=50);
+    opacity: .5;
+  }
+  .popup-header {
+    padding: 15px;
+    border-bottom: 1px solid #e5e5e5;
+  }
+  .popup-header .close {
+    margin-top: -2px;
+  }
+  .popup-title {
+    margin: 0;
+    line-height: 1.42857143;
+  }
+  .popup-body {
+    position: relative;
+    padding: 15px;
+  }
+  .popup-footer {
+    padding: 15px;
+    text-align: right;
+    border-top: 1px solid #e5e5e5;
+  }
+  .popup-footer .btn + .btn {
+    margin-bottom: 0;
+    margin-left: 5px;
+  }
+  .popup-footer .btn-group .btn + .btn {
+    margin-left: -1px;
+  }
+  .popup-footer .btn-block + .btn-block {
+    margin-left: 0;
+  }
+  .popup-scrollbar-measure {
+    position: absolute;
+    top: -9999px;
+    width: 50px;
+    height: 50px;
+    overflow: scroll;
+  }
+  /* @media (min-width: 768px) { */
+    .popup-dialog {
+      width: 700px;
+      margin: 30px auto;
+    }
+    .popup-content {
+      -webkit-box-shadow: 0 5px 15px rgba(0, 0, 0, .5);
+              box-shadow: 0 5px 15px rgba(0, 0, 0, .5);
+    }
+    .popup-sm {
+      width: 300px;
+    }
+
+    .popup-dialog .popup-content{
+        width: 932px;
+    }
+
+
+
+
+  /* notice-view modal CSS */
+  #notice-view .modal-body{
+    padding: 5px 0;
+  }
+  #notice-view .modal-body .row{
+    border-bottom: 1px solid #e5e5e5;
+    padding: 15px 0px;
+    margin: 0px 10px;
+  }
+  #notice-view .modal-body .row:last-child{
+    border-bottom: none;
+  }
+
+  /* } */
+  @media (min-width: 900px) {
+    
+    .popup-lg {
+      width: 900px;
+    }
+  }
+  .tooltip {
+    position: absolute;
+    z-index: 1070;
+    display: block;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: normal;
+    line-height: 1.42857143;
+    text-align: left;
+    text-align: start;
+    text-decoration: none;
+    text-shadow: none;
+    text-transform: none;
+    letter-spacing: normal;
+    word-break: normal;
+    word-spacing: normal;
+    word-wrap: normal;
+    white-space: normal;
+    filter: alpha(opacity=0);
+    opacity: 0;
+  
+    line-break: auto;
+  }
+
+
+
+  #uploadListContainer{
+    width: 100%; 
+    display: flex; 
+    align-content: center;   
+    flex-direction: column;
+  }
+  .uploadItem{
+    display: flex; 
+    flex-direction: row;
+  }
+  .itemFileName{
+    font-size: 15px;
+    display: flex; 
+    align-self: center; 
+  }
+  .itemFileName_{
+    font-size: 13px;
+    display: flex; 
+    align-self: center; 
+  }
+  .itemDelBtn{
+    float: none;
+    font-size: 20px;
+    margin-left: 10px;
+    display: flex; align-self: center;
+  }
+  .calenderInput {
+      cursor:pointer;
+  }
+/*======================
+	popup #add-new
+======================*/
+/* .popup-dialog{
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%,-50%)
+}
+
+row {
+	padding-bottom: 15px;
+}
+
+.form-control {
+	height: 32px;
+}
+
+.popup-content label {
+	display: table-cell;
+	height: 32px;
+	vertical-align: middle;
+}
+
+.form-control + span {
+	color: 14px;
+	color: #aaa;
+}
+
+
+.popup-footer > div {
+	float: left;
+}
+.popup-footer .text-right{
+	float: right;
+}
+ */
+
+
+
+
+
+ /* 리스트 질문답변 내용 길어질경우 */
+.table{
+  table-layout: fixed;
+}
+.overText{
+  overflow:hidden; 
+  text-overflow:ellipsis; 
+  white-space:nowrap;
+}

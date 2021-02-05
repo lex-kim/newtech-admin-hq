@@ -1,0 +1,90 @@
+<?php
+
+    header("Content-Type: application/vnd.ms-excel");
+    date_default_timezone_set('Asia/Seoul');
+
+    header("Content-Disposition: attachment; filename=".date("YmdH", time())."_이첩관리.xls");
+    header("Content-Description: NewtechSystem");
+
+    require $_SERVER['DOCUMENT_ROOT']."/common/common.php";	
+    require "class/clsTransmit.php";
+
+    $data =  $cTrans->getList($_REQUEST);
+
+    $result = $data[0];
+    $excelHtml = "
+        <table border='1'>
+            <thead>
+                <tr >
+                    <th style='text-align:center;'>순번</th>
+                    <th style='text-align:center;'>공업사고유코드</th>
+                    <th style='text-align:center;'>청구일</th>
+                    <th style='text-align:center;'>이첩 전<br>보험사</th>
+                    <th style='text-align:center;'>이첩 전<br>담당자</th>
+                    <th style='text-align:center;'>이첩 후<br>보험사</th>
+                    <th style='text-align:center;'>이첩 후<br>담당자</th>
+                    <th style='text-align:center;'>휴대폰번호</th>
+                    <th style='text-align:center;'>담당구분</th>
+                    <th style='text-align:center;'>구분</th>
+                    <th style='text-align:center;'>지역</th>
+                    <th style='text-align:center;'>공업사</th>
+                    <th style='text-align:center;'>사업자번호</th>
+                    <th style='text-align:center;'>청구식</th>
+                    <th style='text-align:center;'>접수번호</th>
+                    <th style='text-align:center;'>담보</th>
+                    <th style='text-align:center;'>차량번호</th>
+                    <th style='text-align:center;'>차량명</th>
+                    <th style='text-align:center;'>이첩일</th>
+                    <th style='text-align:center;'>이첩사유</th>
+                    <th style='text-align:center;'>등록주체</th>
+                    <th style='text-align:center;'>이첩이력</th>
+                    <th style='text-align:center;'>전송여부</th>
+                    <th style='text-align:center;'>지정일</th>
+                    <th style='text-align:center;'>담당구분지정</th>
+                    <th style='text-align:center;'>지정여부</th>
+                </tr>
+            </thead>
+    ";
+
+    foreach($result as $item) { 
+        $RICT = null;
+        
+        if($item['RICT_INFO'] != null){
+            $RICT = explode('||',$item['RICT_INFO']);
+        }
+        $excelHtml .= "<tr>
+            <td style='text-align:center;'>".$item['IDX']."</td>
+            <td style='text-align:center;'>".$item['MGG_ID']."</td>
+            <td style='text-align:center;'>".$item['NB_CLAIM_DT']."</td>
+            <td style='text-align:left;'>".$item['NBIT_FROM_MII_NM']."</td>
+            <td style='text-align:center;'>".$item['NBIT_FROM_NIC_NM_AES']."</td>
+            <td style='text-align:left;'>".$item['NBIT_TO_MII_NM']."</td>
+            <td style='text-align:center;'>".$item['NBIT_TO_NIC_NM_AES']."</td>
+            <td style='text-align:center;mso-number-format:\@;'>".($item['NBIT_TO_NIC_PHONE_AES'] != null ? cUtil::phone_format($item['NBIT_TO_NIC_PHONE_AES']) : '-' )."</td>
+            <td style='text-align:center;'>".($RICT != null ? $RICT[1]: '-')."</td>
+            <td style='text-align:center;'>".$item['CSD_NM']."</td>
+            <td style='text-align:left;'>".$item['CRR_NM']."</td>
+            <td style='text-align:left;'>".$item['MGG_NM']."</td>
+            <td style='text-align:center;mso-number-format:\@;'>".cUtil::biz_format($item['MGG_BIZ_ID'])."</td>
+            <td style='text-align:center;'>".$item['RET_NM']."</td>
+            <td style='text-align:center;mso-number-format:\@;'>".$item['NBI_REGI_NUM']."</td>
+            <td style='text-align:center;'>".$item['RLT_NM']."</td>
+            <td style='text-align:center;mso-number-format:\@;'>".$item['NB_CAR_NUM']."</td>
+            <td style='text-align:center;'>".$item['CCC_NM']."</td>
+            <td style='text-align:center;'>".$item['TRANS_DT']."</td>
+            <td style='text-align:center;'>".$item['NBIT_MEMO']."</td>
+            <td style='text-align:center;'>".$item['RMT_NM']."</td>
+            <td style='text-align:right;'>".$item['TRANS_CNT']."</td>
+            <td style='text-align:center;'>".$item['RFS_NM']."</td>
+            <td style='text-align:center;'>".($RICT != null ? $RICT[2]: '-')."</td>
+            <td style='text-align:center;'>".($RICT != null ? $RICT[1]: '-')."</td>
+            <td style='text-align:center;'>".($RICT != null ? '지정': '미지정')."</td>
+          </tr>  
+        ";
+    }
+    $excelHtml .= "</table>";
+
+    echo "<meta content=\"application/vnd.ms-excel;charset=UTF-8;\" name=\"Content-type\">";
+    echo $excelHtml ;
+
+?>

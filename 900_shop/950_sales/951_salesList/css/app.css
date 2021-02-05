@@ -1,0 +1,267 @@
+
+.nwt-table table{
+    width: 100%;
+    overflow-x: scroll; 
+    white-space: nowrap;
+    /* table-layout:fixed; */
+    /* word-break:break-all; */
+}
+
+.nwt-table table tr td {
+    height: 52px;
+}
+
+.col-lg-6{
+    width: 25%;
+}
+/* 확장하기 */
+.nwt-table-top{
+    position: relative;
+}
+.nwt-table-top .table-top-etc{
+    position: absolute;
+    top: 4px;
+    left: 120px;
+}
+.nwt-table-top .table-top-etc .totalbtn{
+    display: inline;
+    padding:6px 10px;
+    border:1px solid #dddddd;
+    border-radius: 4px;
+    margin-left: 20px;
+    cursor: pointer;
+}
+.nwt-table-top .table-top-etc .extend{
+    padding-left: 20px;
+}
+
+/* 확장하기 끝 */
+
+
+.nwt-total{
+    display: none;
+}
+
+.total-open{
+    display: block;
+}
+
+.nwt-total table tr td{
+    /* width: calc(100% / 20); */
+}
+
+.table tbody tr td a.sendstate{
+    margin-right: 10px;
+    width: 60px;
+    display: inline-block;
+}
+
+
+
+
+/* 주문상세 CSS */
+#order-detail .modal-dialog{
+    width: 1300px;
+}
+
+
+
+
+/* 수정 팝업 CSS*/
+#deposit-modify .modal-dialog{
+    width: 500px;
+}
+
+.modal-body .row textarea{
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 5px;
+}
+
+.modal-body .row .col-md-8{
+    position: relative;
+}
+.modal-body .row .col-md-8 .search-glypicon{
+    position: absolute;
+    top: 10px;
+    right: 25px;
+    cursor: pointer;
+    color: #777;
+}
+
+.modal-body .modal-subtitle{
+    border-top: 1px solid #ccc;
+    /* margin-right: 10px; */
+}
+
+h5{
+    color: #aaa;
+}
+
+#deposit-modify .container-fluid{
+    padding: 0;
+}
+
+
+#deposit-modify .row .col-md-3{
+    padding-top: 5px;
+}
+
+
+#deposit-modify .row .col-md-9{
+    text-align: right;
+}
+
+#deposit-modify .row .col-md-9 button{
+    padding: 3px 6px !important;
+    margin-bottom: 5px;
+}
+
+#deposit-modify .itemlist-top{
+    margin-bottom: 10px;
+}
+
+
+
+
+
+/* 위탁발주서 CSS*/
+
+/* 위탁발주서 타이틀 */
+.estimate-top{
+    margin-bottom: 10px;
+    overflow: hidden;
+}
+.estimate-top>div{
+    float: left;
+}
+
+.estimate-top .estimate-top-right{
+    float: right;
+}
+
+
+.bill-title{
+    letter-spacing: 20px;
+    text-align: center;
+    width: 400px;
+}
+
+.consignment-bill-title{
+    text-align: center;
+    width: 100%;
+}
+
+
+.order-total .order-btn-area ul{
+    float: right;}
+.order-total .order-btn-area ul li{
+    float: left;
+}
+
+.order-total .order-btn-area ul li .estimate-btn{
+    margin-right: 3px;
+    font-size: 13px;
+    /* width: 82px; */
+    height: 32px;
+}
+
+    /* 모달 캘린더 */
+.calendar-icon{
+    position: relative;
+}
+.calendar-icon .search-glypicon{
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    cursor: pointer;
+    color: #bbb;
+}
+
+/* 주소 */
+.address_area .row{
+    margin-bottom: 5px;
+    position: relative;
+}
+.address_area .row button{
+    top: 5px;
+    left: 50%;
+    position: absolute;
+}
+
+
+textarea{
+    resize:  none;
+}
+
+/* 합계금액 */
+.all-total-price{
+    position: relative;
+}
+.all-total-price span{
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+#estimate-product th{
+    font-weight: normal;
+}
+
+
+.recipient-info .recipient-info-biznm{
+    font-size: 14px;
+    margin-bottom: 5px;
+}
+.recipient-info div{
+    margin-bottom: 5px;
+}
+.recipient-info div span{
+    width: 20%;
+    display: inline-block;
+}
+.recipient-info div input{
+    width: 70%;
+    display: inline-block;
+    margin-bottom: 10px;
+}
+
+
+/* 결제일,입금일 CSS */
+
+.modal-add .modal-dialog{
+    width: 400px;
+}
+.modal-add .modal-body .row .search-glypicon{
+    color: #888;
+    position: relative;
+    top: 10px;
+    right: 40px;
+}
+
+#LOGISTICS_MODAL .modal-dialog{
+    width: 500px !important;
+}
+
+.estimate-top-left{
+    overflow: hidden;
+}
+.estimate-top-left > div{
+    float: left;
+}
+
+.estimate-top-left .calendar-label{
+    margin: 7px 5px 0px 0px;
+}
+
+.estimate-top-left .calendar-icon .search-glypicon{
+    top: 12px;
+    right: 10px;
+}
+
+/* CSS로 품명 선택 너비조정 */
+.bootstrap-select{
+    width: 170px !important;
+    text-align: center;
+}

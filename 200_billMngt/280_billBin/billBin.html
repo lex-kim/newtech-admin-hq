@@ -1,0 +1,300 @@
+<!-- header.html -->
+<?php
+  require $_SERVER['DOCUMENT_ROOT']."/include/header.html";
+?>
+
+<script src="../../500_gw/510_gwMngt/js/setSelectOption.js"></script>
+<script src="js/setData.js"></script>
+
+  <!-- 페이지 카테고리 -->
+  <div class="container-fluid mb20px">
+    <h3 class="nwt-category"><small>청구서관리&nbsp;&nbsp;></small>청구서 휴지통</h3>
+  </div>
+
+
+  <!-- 검색바(폼) 시작 -->
+  <div class="container-fluid nwt-search-form">
+    <div class="panel panel-default">
+      <div class="panel-body">
+        <form class="form-inline" id="searchForm">
+          <fieldset>
+            <legend>조건검색</legend>
+
+            <!-- 검색버튼 제외한 폼 wrap -->
+            <div class="frm-wrap">
+              <!-- 1st row -->
+              <div class="row">
+                
+                <!-- 기간 -->
+                <div class="col-md-2 frmGroup3">
+                  <label for="START_DT" class="sr-only">기간</label>
+                  <!-- 기간선택 -->
+                  <select class="form-control" id="SELECT_DT" name="SELECT_DT">
+                    <option value="">=기간=</option>
+                    <option value="NB_CLAIM_DT">청구일</option>
+                    <option value="NB_DEL_DTHMS">삭제일</option>
+                  </select>
+                  <!-- 날짜선택 -->
+                  <input type="text" class="form-control " name="START_DT" id="START_DT" autocomplete="off" placeholder="yyyy-mm-dd">
+                  <span class="glyphicon glyphicon-calendar search-glypicon"></span>
+                  <label for="END_DT" class="nwt-form-label">~</label>                            
+                  <input type="text" class="form-control" name="END_DT" id="END_DT" autocomplete="off" placeholder="yyyy-mm-dd">
+                  <span class="glyphicon glyphicon-calendar search-glypicon"></span>                            
+                </div>
+
+                <!-- 보험사 -->
+                <div class="col-md-1 search-insu-nm-select">
+                  <label for="SEARCH_INSU_NM" class="sr-only">보험사</label>
+                  <select class="form-control" id="SEARCH_INSU_NM" name="SEARCH_INSU_NM[]"
+                          title = "=보험사=" multiple
+                          data-show-subtext="true" data-live-search="true">
+                  </select>                            
+                </div>
+
+                <!-- 보험사팀 -->
+                <div class="col-md-1">
+                  <label for="SEARCH_INSU_TEAM" class="sr-only">보험사팀</label>
+                  <select id="SEARCH_INSU_TEAM" name="SEARCH_INSU_TEAM[]"
+                          data-style="btn-default" title="=보험사팀="
+                          class="form-control selectpicker" multiple
+                          data-show-subtext="true" data-live-search="true">
+                  </select>                                     
+                </div>
+
+                <!-- 보상담당 -->
+                <div class="col-md-1">
+                  <label for="SEARCH_NIC_NM" class="sr-only">보상담당</label>
+                  <input type="text" class="form-control" name="SEARCH_NIC_NM" id="SEARCH_NIC_NM" placeholder="보상담당 입력">                            
+                </div>
+
+                <!-- 구분 -->
+                <div class="col-md-1">
+                    <label for="CSD_ID_SEARCH" class="sr-only">구분</label>
+                  <select id="CSD_ID_SEARCH"  name="CSD_ID_SEARCH[]" 
+                          data-style="btn-default" title="=구분="
+                          class="form-control selectpicker" multiple
+                          data-live-search="true" data-live-search-placeholder="Search" >
+                    
+                </select>                             
+                </div>
+
+                <!-- 지역 -->
+                <div class="col-md-2">
+                    <label for="CRR_ID_SEARCH" class="sr-only mr10r">지역검색</label>
+                    <select id="CRR_ID_SEARCH"  name="CRR_ID_SEARCH[]" 
+                              data-style="btn-default" title="지역검색(띄어쓰기로 시/도, 시/군/구 구분)"
+                              class="form-control selectpicker" multiple
+                              data-live-search="true" data-live-search-placeholder="Search" >
+                    </select>                 
+                    <!-- <input type="hidden" id="SELECT_CRR_ID" name="SELECT_CRR_ID"/>          -->
+                </div>
+            
+
+                <!-- 공업사명 -->
+                <div class="col-md-2">
+                  <label for="SEARCH_BIZ_NM" class="sr-only">공업사명</label>
+                  <select  name="SEARCH_BIZ_NM" id="SEARCH_BIZ_NM" 
+                          data-style="btn-default" title="=공업사명="
+                          class="form-control selectpicker"
+                          data-live-search="true" data-live-search-placeholder="Search">   
+                  </select>                         
+                </div>
+
+                <!-- 청구식 -->
+                <div class="col-md-1">
+                  <label for="SEARCH_RET_ID" class="sr-only">청구식</label>
+                  <select id="SEARCH_RET_ID"  name="SEARCH_RET_ID[]" 
+                          data-style="btn-default" title="=청구식="
+                          class="form-control selectpicker" multiple
+                          data-live-search="true" data-live-search-placeholder="Search" >
+                  </select>                               
+                </div>
+
+                <!-- 작성 -->
+                <div class="col-md-1">
+                  <label for="SEARCH_RMT_ID" class="sr-only">작성</label>
+                  <select class="form-control" id="SEARCH_RMT_ID" name="SEARCH_RMT_ID">
+                    <option value="">=작성=</option>
+                    <option value="10101">본</option>
+                    <option value="10102">공</option>
+                    <option value="10103">보</option>
+                  </select>                            
+                </div>
+              </div>
+              
+              <!-- 2nd row -->
+              <div class="row frm-last-row">
+
+                <!-- 작성아이디 -->
+                <div class="col-md-2">
+                  <label for="SEARCH_CLAIM_USERID" class="sr-only">작성아이디</label>
+                  <input type="text" class="form-control" name="SEARCH_CLAIM_USERID" id="SEARCH_CLAIM_USERID" placeholder="작성아이디 입력">                            
+                </div>
+
+                <!-- 담보 -->
+                <div class="col-md-1">
+                  <label for="SEARCH_RLT_ID" class="sr-only">담보</label>
+                  <select class="form-control" id="SEARCH_RLT_ID" name="SEARCH_RLT_ID">
+                    <option value="">=담보=</option>
+                    <option value="11410">일방(자차)</option>
+                    <option value="11420">일방(대물)</option>
+                    <option value="11430">쌍방</option>
+                    <option value="11440">일부</option>
+                  </select>                            
+                </div>
+
+                <!-- 차량급 -->
+                <div class="col-md-1">
+                  <label for="SEARCH_CAR_TYPE" class="sr-only">차량급</label>
+                  <select class="form-control" id="SEARCH_CAR_TYPE" name="SEARCH_CAR_TYPE">
+                    <option value="">=차량급=</option>
+                  </select>                            
+                </div>
+
+                <!-- 사용부품 -->
+                <div class="col-md-2">
+                  <label for="SEARCH_USE_COMP" class="sr-only">사용부품</label>
+                  <select class="form-control" id="SEARCH_USE_COMP" name="SEARCH_USE_COMP">
+                    <option value="">=사용부품=</option>
+                  </select>                            
+                </div>
+
+                <!-- 차량정보 -->
+                <div class="col-md-2 frmGroup2-2">
+                  <label for="SEARCH_CAR_INFO" class="sr-only">차량정보</label>
+                  <select class="form-control" id="SEARCH_CAR_INFO" name="SEARCH_CAR_INFO">
+                    <option value="">=차량정보=</option>
+                    <option value="NB_CAR_NUM">차량번호</option>
+                    <option value="CCC_CAR_NM">차량명</option>
+                  </select>
+                  <input type="text" class="form-control" name="KEYWORD_CAR_INFO" id="KEYWORD_CAR_INFO" placeholder="입력">                            
+                </div>
+
+                <!-- 삭제사유 -->
+                <div class="col-md-2">
+                  <label for="SEARCH_DEL_REASON" class="sr-only">삭제사유</label>
+                  <input type="text" class="form-control" name="SEARCH_DEL_REASON" id="SEARCH_DEL_REASON" placeholder="삭제사유 입력">                            
+                </div>
+
+
+              </div>
+
+            </div> 
+
+            <!-- 검색버튼 wrap -->
+            <div class="frm-search-wrap">
+              <!-- 검색btn -->
+              <div class="row">
+                  <div class="col-md-12 text-right">
+                    <button type="submit" class="btn btn-primary" id="frmSearch" style="margin-top: -10px"><span class="glyphicon glyphicon-search"></span>&nbsp;검색</button>
+                  </div>
+              </div> 
+            </div>
+
+          </fieldset>
+        </form>
+      </div>
+    </div>
+  </div>
+  <!-- 검색바(폼) 끝 -->
+
+
+  <!-- 테이블 상단 #perPage, btn 영역 -->
+  <div class="container-fluid nwt-table-top mb20r">
+    <div class="row">
+      
+      <!-- 리스트개수 -->
+      <?php	require $_SERVER['DOCUMENT_ROOT']."/include/listCnt.html"; ?>
+      
+      <!-- 테이블 우측 상단 btn -->
+      <div class="col-lg-6 clearfix">
+        <div class="form-inline f-right">
+          <?php if($AUTH_EXCEL == YN_Y) :?>
+          <!-- 엑셀 다운로드 -->
+          <button type="button" class="btn btn-success" onclick="excelDownload()"><span class="glyphicon glyphicon-download-alt"></span>&nbsp;엑셀 다운로드</button>
+          <?php endif; ?>
+          <!-- 일괄복원 버튼 -->
+          <button type="button" class="btn btn-primary" onclick="showRestore('all')">일괄복원</button>
+          <?php if($AUTH_DELETE == YN_Y) :?>
+          <input type="hidden" class="form-control" name="AUTH_DELETE" id="AUTH_DELETE" value="<?php echo $AUTH_DELETE; ?>">
+
+          <button type="button" class="btn btn-danger" onclick="showDelete('all');">일괄삭제</button>
+          <?php endif; ?>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+
+  <!-- 테이블 -->
+  <div class="container-fluid nwt-table" style="width: 100%;">
+    <table class="table table-bordered table-striped">
+      <thead>
+        <tr class="active">
+          <th class="text-center">선택<br><input type="checkbox" id="allcheck"></th>
+          <th class="text-center">순번</th>
+          <th class="text-center">공업사코드</th>
+          <th class="text-center">청구일</th>
+          <th class="text-center">보험사</th>
+          <th class="text-center">보험사팀</th>
+          <th class="text-center">팀메모</th>
+          <th class="text-center">보상담당</th>
+          <th class="text-center">팩스번호</th>
+          <th class="text-center">휴대폰번호</th>
+          <th class="text-center">구분</th>
+          <th class="text-center">지역</th>
+          <th class="text-center">공업사</th>
+          <th class="text-center">사업자번호</th>
+          <th class="text-center">청구식</th>
+          <th class="text-center">지급식</th>
+          <th class="text-center">개척자</th>
+          <th class="text-center">개시일</th>
+          <th class="text-center">종료일</th>
+          <th class="text-center">작성</th>
+          <th class="text-center">작성아이디</th>
+          <th class="text-center">쌍방작성사</th>
+          <th class="text-center">선청구</th>
+          <th class="text-center">접수번호</th>
+          <th class="text-center">담보</th>
+          <th class="text-center">차량번호</th>
+          <th class="text-center">차량명</th>
+          <th class="text-center">차량급</th>
+          <th class="text-center">사용부품</th>
+          <th class="text-center">방청시간</th>
+          <th class="text-center">청구금액</th>
+          <th class="text-center">입금일</th>
+          <th class="text-center">입금액</th>
+          <th class="text-center">입금여부</th>
+          <th class="text-center">삭제일</th>
+          <th class="text-center">전송여부</th>
+          <th class="text-center listbtn">이미지다운/인쇄</th>
+          <th class="text-center">전송일시</th>
+          <th class="text-center">차주분<br>청구액</th>
+          <th class="text-center">차주분<br>입금일</th>
+          <th class="text-center">차주분<br>입금액</th>
+          <th class="text-center">차주분<br>입금여부</th>
+          <th class="text-center">삭제사유</th>
+          <th class="text-center">복원</th>
+        </tr>
+      </thead>
+      <tbody id="billBinContents">
+      </tbody>
+    </table>
+  </div>
+
+  <!-- indicator -->
+  <?php	require $_SERVER['DOCUMENT_ROOT']."/include/indicator.html"; ?>
+  
+  <!-- pagination -->
+  <div class="container-fluid">
+    <div class="text-center">
+      <ul class="pagination">
+      </ul>
+    </div>
+  </div>
+
+<!-- footer.html -->
+<?php
+  require $_SERVER['DOCUMENT_ROOT']."/include/footer.html";
+?>

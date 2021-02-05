@@ -1,0 +1,603 @@
+<!-- header.html -->
+<?php
+  require $_SERVER['DOCUMENT_ROOT']."/include/header.html";
+?>
+
+  <script src="js/setEvent.js"></script>
+  <script src="js/setTable.js"></script>
+  <script src="js/setData.js"></script>
+
+  <!-- 페이지 카테고리 -->
+  <div class="container-fluid mb20px">
+    <h3 class="nwt-category"><small>영업관리&nbsp;&nbsp;></small>영업관리 현황</h3>
+  </div>
+
+
+  <!-- 검색바(폼) 시작 -->
+  <div class="container-fluid nwt-search-form">
+      <div class="panel panel-default">
+          <div class="panel-body">
+              <form class="form-inline" id="searchForm">
+                  <fieldset>
+                      <legend>조건검색</legend>
+
+                      <!-- 검색버튼 제외한 폼 wrap -->
+                      <div class="frm-wrap">
+                        <!-- 1st row -->
+                        <div class="row">
+                          
+                          <!-- 기간 -->
+                          <div class="col-md-2 frmGroup3">
+                              <label for="START_DT" class="sr-only">기간</label>
+                              <!-- 기간선택 -->
+                              <select class="form-control input-md" id="SELECT_DT" name="SELECT_DT">
+                                <option value="">=기간=</option>
+                                <option value="">전체</option>
+                                <option value="NSU_VISIT_DT">방문일 기준</option>
+                                <option value="NSU_SUPPLY_DT">공급일 기준</option>
+                                <option value="MGG_BIZ_START_DT">개시일 기준</option>
+                                <option value="MGG_BIZ_END_DT">중단일 기준</option>
+                                <option value="DELET_DAY">현판일 기준</option>
+                              </select>
+                              <!-- 날짜선택 -->
+                              <input type="text" class="form-control input-md" name="START_DT" id="START_DT" autocomplete="off"  placeholder="입력" maxlength="10">
+                              <span class="glyphicon glyphicon-calendar search-glypicon"></span>
+                              <label for="END_DT" class="nwt-form-label">~</label>                            
+                              <input type="text" class="form-control" name="END_DT" id="END_DT" autocomplete="off"  placeholder="입력" maxlength="10">
+                              <span class="glyphicon glyphicon-calendar search-glypicon"></span>                            
+                          </div>
+
+                          <div class="col-md-2">
+                            <label for="CSD_ID_SEARCH" class="sr-only">구분</label>
+                            <select id="CSD_ID_SEARCH"  name="CSD_ID_SEARCH[]" 
+                                    data-style="btn-default" title="=구분="
+                                    class="form-control selectpicker" multiple
+                                    data-live-search="true" data-live-search-placeholder="Search" >
+                              
+                            </select>                             
+                          </div>
+          
+                          <!-- 지역 -->
+                          <div class="col-md-2">
+                            <label for="CRR_ID_SEARCH" class="sr-only mr10r">지역검색</label>
+                            <select id="CRR_ID_SEARCH"  name="CRR_ID_SEARCH[]" 
+                                      data-style="btn-default" title="지역검색(띄어쓰기로 시/도, 시/군/구 구분)"
+                                      class="form-control selectpicker" multiple
+                                      data-live-search="true" data-live-search-placeholder="Search" >
+                            </select>                 
+                          </div>
+                      
+                          <!-- 공업사명 -->
+                          <div class="col-md-2">
+                            <label for="MGG_NM_SEARCH" class="sr-only">공업사명</label>
+                            <input type="text" class="form-control" name="MGG_NM_SEARCH" id="MGG_NM_SEARCH" placeholder="공업사명 입력">                        
+                          </div>
+
+                          <!-- 방문주기 -->
+                          <div class="col-md-1">
+                            <label for="VISIT_CYCLE" class="sr-only">방문주기</label>
+                            <select class="form-control" id="VISIT_CYCLE" name="VISIT_CYCLE">
+                              <option value="">=방문주기=</option>
+                              <option value="">전체</option>
+                              <option value="1">월2회</option>
+                              <option value="2">월1회</option>
+                              <option value="3">홀월</option>
+                            </select>                            
+                          </div>
+
+                          <!-- 방문여부 -->
+                          <div class="col-md-1">
+                            <label for="VISIT_YN" class="sr-only">방문여부</label>
+                            <select class="form-control" id="VISIT_YN" name="VISIT_YN">
+                              <option value="">=방문여부=</option>
+                              <option value="N">미방문</option>
+                              <option value="Y">방문</option>
+                            </select>                            
+                          </div>
+
+                          <!-- 임원방문월-당해년도 -->
+                          <div class="col-md-2">
+                            <label for="NGV_VISIT_YEAR" class="sr-only">임원방문월-당해년도</label>
+                            <select class="form-control VISIT_SELECT" id="NGV_VISIT_YEAR" name="NGV_VISIT_YEAR">
+                              <option value="">=임원방문월-당해년도=</option>
+                            </select>                            
+                          </div>
+
+                          <!-- 임원방문월-전년도 -->
+                          <div class="col-md-2">
+                            <label for="NGV_VISIT_LAST_YEAR" class="sr-only">임원방문월-전년도</label>
+                            <select class="form-control VISIT_SELECT" id="NGV_VISIT_LAST_YEAR" name="NGV_VISIT_LAST_YEAR">
+                              <option value="">=임원방문월-전년도=</option>
+                            </select>                            
+                          </div>
+
+                          <!-- 청구도과일 -->
+                          <div class="col-md-2 frmGroup2"> 
+                            <label for="START_3MONTH_NUM" class="sr-only">청구도과일</label>
+                            <input type="text" class="form-control" name="START_DT2" id="START_DT2" placeholder="청구도과일">
+                            <label for="END_3MONTH_NUM" class="nwt-form-label">~</label>                            
+                            <input type="text" class="form-control" name="END_DT2" id="END_DT2" placeholder="청구도과일">                             
+                          </div>
+
+                          <!-- 3개월평균 건수 -->
+                          <div class="col-md-2 frmGroup2">
+                            <label for="START_3MONTH_NUM" class="sr-only">3개월평균 건수</label>
+                            <input type="text" class="form-control" name="START_3MONTH_NUM" id="START_3MONTH_NUM" placeholder="3개월평균 건수">
+                            <label for="END_3MONTH_NUM" class="nwt-form-label">~</label>                            
+                            <input type="text" class="form-control" name="END_3MONTH_NUM" id="END_3MONTH_NUM" placeholder="3개월평균 건수">                        
+                          </div>
+
+                          <!-- 3개월평균 금액 -->
+                          <div class="col-md-2 frmGroup2">
+                            <label for="START_3MONTH_PRICE" class="sr-only">3개월평균 금액</label>
+                            <input type="text" class="form-control" name="START_3MONTH_PRICE" id="START_3MONTH_PRICE" placeholder="3개월평균 금액">
+                            <label for="END_3MONTH_PRICE" class="nwt-form-label">~</label>                            
+                            <input type="text" class="form-control" name="END_3MONTH_PRICE" id="END_3MONTH_PRICE" placeholder="3개월평균 금액">              
+                          </div>
+
+                          <!-- N평균 -->
+                          <div class="col-md-2 frmGroup3">
+                            <label for="START_AVE" class="sr-only">월평균</label>
+                            <!-- 기준 -->
+                            <select class="form-control input-md AVG_SELECT" id="MOTN_AVG_CNT" name="MOTN_AVG_CNT">
+                            </select>
+                            <!-- 범위 -->
+                            <input type="text" class="form-control input-md" name="START_AVE" id="START_AVE" placeholder="건수 범위" maxlength="10">
+                            <label for="END_AVE" class="nwt-form-label">~</label>                            
+                            <input type="text" class="form-control" name="END_AVE" id="END_AVE" placeholder="건수 범위" maxlength="10">                           
+                          </div>
+
+                          <!-- N평균 금액-->
+                          <div class="col-md-2 frmGroup3">
+                            <label for="START_AVE_PRICE" class="sr-only">월평균금액</label>
+                            <!-- 기준 -->
+                            <select class="form-control input-md AVG_SELECT" id="MOTN_AVG_PRICE" name="MOTN_AVG_PRICE">
+                            </select>
+                            <input type="text" class="form-control" name="START_AVE_PRICE" id="START_AVE_PRICE" placeholder="금액 범위">
+                            <label for="END_AVE_PRICE" class="nwt-form-label">~</label>                            
+                            <input type="text" class="form-control" name="END_AVE_PRICE" id="END_AVE_PRICE" placeholder="금액 범위">              
+                          </div>
+
+                          <!-- 사업자번호 -->
+                          <div class="col-md-2">
+                            <label for="MGG_BIZ_ID_SEARCH" class="sr-only">사업자번호</label>
+                            <input type="text" class="form-control" name="MGG_BIZ_ID_SEARCH" id="MGG_BIZ_ID_SEARCH" placeholder="사업자번호 입력">
+                          </div>
+                          
+                          <!-- 청구식 -->
+                          <div class="col-md-1">
+                            <label for="RET_ID_SEARCH" class="sr-only">청구식</label>
+                            <select id="RET_ID_SEARCH"  name="RET_ID_SEARCH[]" 
+                                    data-style="btn-default" title="=청구식="
+                                    class="form-control selectpicker" multiple >
+                            </select>                            
+                          </div>
+
+                          <!-- AOS권한 -->
+                          <div class="col-md-1">
+                            <label for="RAT_ID_SEARCH" class="sr-only">AOS권한</label>
+                            <select class="form-control" id="RAT_ID_SEARCH" name="RAT_ID_SEARCH">
+                              <option value="">=AOS권한=</option>
+                            </select>                            
+                          </div>
+
+
+                          <!-- 청구프로그램 노출값 -->
+                          <div class="col-md-2">
+                            <label for="MGG_BILL_MEMO_SEARCH" class="sr-only">청구프로그램 노출값</label>
+                            <input type="text" class="form-control" name="MGG_BILL_MEMO_SEARCH" id="MGG_BILL_MEMO_SEARCH" placeholder="청구프로그램 노출값 입력">
+                          </div>
+
+
+                          <!-- 택배업체 -->
+                          <div class="col-md-2">
+                            <label for="MGG_LOGISTICS_YN" class="sr-only">택배업체</label>
+                            <select class="form-control" id="MGG_LOGISTICS_YN" name="MGG_LOGISTICS_YN">
+                              <option value="">=택배업체=</option>
+                              <option value="Y">Y</option>
+                              <option value="N">N</option>
+                            </select>                            
+                          </div>
+
+                          <!-- 주소 -->
+                          <div class="col-md-2">
+                            <label for="MGG_ADDRESS_SEARCH" class="sr-only">주소</label>
+                            <input type="text" class="form-control" name="MGG_ADDRESS_SEARCH" id="MGG_ADDRESS_SEARCH" placeholder="공업사 주소 입력">
+                          </div>
+
+                          <!-- 주요정비 -->
+                          <div class="col-md-1">
+                            <label for="RMT_ID_SEARCH" class="sr-only">주요정비</label>
+                            <select class="form-control" id="RMT_ID_SEARCH" name="RMT_ID_SEARCH">
+                              <option value="">=주요정비=</option>
+                              <option value="10911">국산</option>
+                              <option value="10912">외제</option>
+                            </select>                            
+                          </div>
+
+                          <!-- 자가여부 -->
+                          <div class="col-md-1">
+                            <label for="ROT_ID_SEARCH" class="sr-only">자가여부</label>
+                            <select class="form-control" id="ROT_ID_SEARCH" name="ROT_ID_SEARCH">
+                              <option value="">=자가여부=</option>
+                              <option value="10951">자가</option>
+                              <option value="10952">임차</option>
+                            </select>                            
+                          </div>
+
+                          <!-- 청구규모 -->
+                          <div class="col-md-1">
+                            <label for="CLAIM_SCALE" class="sr-only">청구규모</label>
+                            <select class="form-control" id="CLAIM_SCALE" name="CLAIM_SCALE">
+                              <option value="">=청구규모=</option>
+                              <option value="1">대</option>
+                              <option value="2">중</option>
+                              <option value="3">소</option>
+                            </select>                            
+                          </div>
+
+                          <!-- 협력업체-보험사 -->
+                          <div class="col-md-1">
+                            <label for="MGG_INSU_SEARCH" class="sr-only">협력업체-보험사</label>
+                            <input type="text" class="form-control" name="MGG_INSU_SEARCH" id="MGG_INSU_SEARCH" placeholder="협력업체-보험사">                          
+                          </div>
+
+                          <!-- 협력업체-제조사 -->
+                          <div class="col-md-1">
+                            <label for="MGG_MANUFACTURE_SEARCH" class="sr-only">협력업체-제조사</label>
+                            <input type="text" class="form-control" name="MGG_MANUFACTURE_SEARCH" id="MGG_MANUFACTURE_SEARCH" placeholder="협력업체-제조사">     
+                            </select>                            
+                          </div>
+
+                          <!-- 거래여부 -->
+                          <div class="col-md-1">
+                            <label for="RCT_ID_SEARCH" class="sr-only">거래여부</label>
+                            <select id="RCT_ID_SEARCH"  name="RCT_ID_SEARCH[]" 
+                                    data-style="btn-default" title="=거래여부="
+                                    class="form-control selectpicker" multiple >
+                            </select>                              
+                          </div>
+
+                          <!-- 개척자 -->
+                          <div class="col-md-1">
+                            <label for="MGG_FRONTIER_NM_SEARCH" class="sr-only">개척자</label>
+                            <input type="text" class="form-control" name="MGG_FRONTIER_NM_SEARCH" id="MGG_FRONTIER_NM_SEARCH" placeholder="개척자 입력">                          
+                          </div>
+
+                          <!-- 계약여부 -->
+                          <div class="col-md-1">
+                            <label for="MGG_CONTRACT_YN_SEARCH" class="sr-only">계약여부</label>
+                            <select class="form-control" id="MGG_CONTRACT_YN_SEARCH" name="MGG_CONTRACT_YN_SEARCH">
+                              <option value="">=계약여부=</option>
+                              <option value="Y">계약</option>
+                              <option value="N">미계약</option>
+                            </select>                            
+                          </div>
+
+                          <!-- 중단사유 -->
+                          <div class="col-md-1">
+                            <label for="RSR_ID_SEARCH" class="sr-only">중단사유</label>
+                            <select id="RSR_ID_SEARCH"  name="RSR_ID_SEARCH[]" 
+                                    data-style="btn-default" title="=중단사유="
+                                    class="form-control selectpicker" multiple >
+                            </select>                           
+                          </div>
+
+                          <!-- 타거래처 -->
+                          <div class="col-md-1">
+                            <label for="MGG_OTHER_BIZ_NM_SEARCH" class="sr-only">타사거래</label>
+                            <input type="text" class="form-control" name="MGG_OTHER_BIZ_NM_SEARCH" id="MGG_OTHER_BIZ_NM_SEARCH" placeholder="타사거래 입력"> 
+                                                    
+                          </div>
+
+
+                          <!-- 방문자 -->
+                          <div class="col-md-1">
+                            <label for="MGG_SALES_NM_SEARCH" class="sr-only">방문자</label>
+                            <input type="text" class="form-control" name="MGG_SALES_NM_SEARCH" id="MGG_SALES_NM_SEARCH" placeholder="방문자 입력">
+                          </div>
+
+                          <!-- 규모 -->
+                          <div class="col-md-1">
+                            <label for="RST_ID_SEARCH" class="sr-only">규모</label>
+                            <select class="form-control" id="RST_ID_SEARCH" name="RST_ID_SEARCH">
+                              <option value="">=규모=</option>
+                            </select>                            
+                          </div>
+
+                          <!-- 면담자 -->
+                          <div class="col-md-1">
+                            <label for="MGG_SALES_MEET_NM_AES_SEARCH" class="sr-only">면담자</label>
+                            <input type="text" class="form-control" name="MGG_SALES_MEET_NM_AES_SEARCH" id="MGG_SALES_MEET_NM_AES_SEARCH" placeholder="면담자 입력">
+                          </div>
+
+                          <!-- 영업반응 -->
+                          <div class="col-md-1">
+                            <label for="RRT_ID_SEARCH" class="sr-only">영업반응</label>
+                            <select class="form-control" id="RRT_ID_SEARCH" name="RRT_ID_SEARCH">
+                              <option value="">=영업반응=</option>
+                            </select>                            
+                          </div>
+                          
+                        </div>
+                        <!-- 2nd row -->
+                        <div class="row frm-last-row">
+
+                          <!-- 미거래처실태 -->
+                          <div class="col-md-2">
+                            <label for="MGG_SALES_WHYNOT_SEARCH" class="sr-only">미거래실태</label>
+                            <input type="text" class="form-control" name="MGG_SALES_WHYNOT_SEARCH" id="MGG_SALES_WHYNOT_SEARCH" placeholder="미거래실태 입력">                     
+                          </div>
+
+                          <!-- 최종방문일 -->
+                          <div class="col-md-2 frmGroup2">
+                            <label for="START_LAST_VISIT_DT" class="sr-only">최종방문일</label>
+                            <input type="text" class="form-control" name="START_LAST_VISIT_DT" id="START_LAST_VISIT_DT" autocomplete="off" placeholder="최종방문일">
+                            <span class="glyphicon glyphicon-calendar search-glypicon"></span>
+                            <label for="END_LAST_VISIT_DT" class="nwt-form-label">~</label>                            
+                            <input type="text" class="form-control" name="END_LAST_VISIT_DT" id="END_LAST_VISIT_DT" autocomplete="off" placeholder="최종방문일">
+                            <span class="glyphicon glyphicon-calendar search-glypicon"></span>                            
+                          </div>
+
+                        </div> 
+                      </div> 
+
+                      <!-- 검색버튼 wrap -->
+                      <div class="frm-search-wrap">
+                        <!-- 검색btn -->
+                        <div class="row">
+                            <div class="col-md-12 text-right">
+                              <button type="submit" class="btn btn-primary" id="frmSearch" style="margin-top: -10px"><span class="glyphicon glyphicon-search"></span>&nbsp;검색</button>
+                            </div>
+                        </div> 
+                      </div>
+
+                  </fieldset>
+              </form>
+          </div>
+      </div>
+  </div>
+  <!-- 검색바(폼) 끝 -->
+
+
+  <!-- 테이블 상단 #perPage, btn 영역 -->
+  <div class="container-fluid nwt-table-top mb20r">
+    <div class="row">
+      
+      <!-- 리스트개수 -->
+      <?php	require $_SERVER['DOCUMENT_ROOT']."/include/listCnt.html"; ?>
+
+      <!-- 방문주기 보여주기, 확장하기 -->
+      <div class="table-top-etc">
+        <span class="subtable-text">공업사방문주기 :</span>
+          <button type="button" class="btn btn-default subtable-btn">보이기</button>
+          <label for="extend" class="extend">확장하기</label>
+          <input type="checkbox" id="extend" name="extend">
+      </div>
+      
+      <!-- 테이블 우측 상단 btn -->
+      <div class="col-lg-6 clearfix">
+        <div class="form-inline f-right">
+          <?php if($AUTH_EXCEL == YN_Y) :?>
+          <!-- 엑셀 다운로드 -->
+          <button type="button" class="btn btn-success" onclick="excelDownload();"><span class="glyphicon glyphicon-download-alt"></span>&nbsp;엑셀 다운로드</button>
+          <?php endif; ?>
+          
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- indicator -->
+  <?php	require $_SERVER['DOCUMENT_ROOT']."/include/indicator.html"; ?>
+
+  <!-- 공업사방문주기  -->
+  <?php	require "./saStateCycle.html"; ?>
+  
+  <!-- 테이블 -->
+  <div class="container-fluid nwt-table" style="width: 100%; overflow-x: scroll;"> <!--overflow-x: scroll;-->
+    <table class="table table-bordered table-striped" id="foo">
+      <thead>
+        <tr class="active">
+          <!-- <th class="text-center" rowspan="2">선택<br><input type="checkbox" id="allcheck"></th> -->
+          <th class="text-center" rowspan="2">순번</th>
+          <th class="text-center" rowspan="2">공업사코드</th>
+          <th class="text-center" rowspan="2">구분</th>
+          <th class="text-center" rowspan="2">지역구분</th>
+          <th class="text-center" rowspan="2">순회순서</th>
+          <th class="text-center" rowspan="2">공업사명</th>
+          <th class="text-center" colspan="2">임원방문월</th>
+          <th class="text-center" rowspan="2"><span class="THIS_MONTH"></span>월<br>방문주기</th>
+          <th class="text-center" rowspan="2">당월<br>방문횟수</th>
+          <th class="text-center" rowspan="2">당월<br>공급횟수</th>
+          <th class="text-center" rowspan="2"><span class="D1_MONTH"></span>월<br>방문횟수</th>
+          <th class="text-center" rowspan="2"><span class="D1_MONTH"></span>월<br>공급횟수</th>
+          <th class="text-center" rowspan="2"><span class="D2_MONTH"></span>월<br>방문횟수</th>
+          <th class="text-center" rowspan="2"><span class="D2_MONTH"></span>월<br>공급횟수</th>
+          <th class="text-center" rowspan="2">거래여부</th>
+          <th class="text-center" rowspan="2">거래개시일</th>
+          <th class="text-center" rowspan="2">거래종료일</th>
+          <th class="text-center" rowspan="2">청구도과일</th>
+          <th class="text-center" colspan="2">3개월평균</th>
+          <th class="text-center" colspan="2"><span class="D1_MONTH"></span>월 청구</th>
+          <th class="text-center" colspan="2"><span class="D2_MONTH"></span>월 청구</th>
+          <th class="text-center" colspan="2"><span class="D3_MONTH"></span>월 청구</th>
+          <th class="text-center" rowspan="2">사업자번호</th>
+          <th class="text-center" rowspan="2">청구식</th>
+          <th class="text-center hidetd" rowspan="2">청구식적용일</th>
+          <th class="text-center" rowspan="2">AOS권한</th>
+          <th class="text-center hidetd" rowspan="2">AOS2017<br>공업사명</th>
+          <th class="text-center" rowspan="2">청구프로그램<br>노출값</th>
+          <th class="text-center" rowspan="2">택배업체</th>
+          <th class="text-center" rowspan="2">현판일자</th>
+          <th class="text-center" rowspan="2">미수금</th>
+          <th class="text-center" rowspan="2">구주소</th>
+          <th class="text-center" rowspan="2">신주소</th>
+          <th class="text-center" colspan="2">사무실</th>
+          <th class="text-center" colspan="2">대표자</th>
+          <th class="text-center hidetd" colspan="2">Key-man</th>
+          <th class="text-center" colspan="2">청구담당</th>
+          <th class="text-center hidetd" colspan="2">공장장</th>
+          <th class="text-center hidetd" colspan="2">도장반장</th>
+          <th class="text-center hidetd" colspan="2">판금반장</th>
+          <th class="text-center hidetd" rowspan="2">부품비치<br>장소개수</th>
+          <th class="text-center hidetd" rowspan="2">주요정비</th>
+          <th class="text-center hidetd" rowspan="2">자가여부</th>
+          <th class="text-center" rowspan="2">청구규모</th>
+          <th class="text-center" colspan="2">협력업체</th>
+          <th class="text-center" rowspan="2">청구특이사항</th>
+          <th class="text-center" rowspan="2">업체특이사항</th>
+          <th class="text-center" rowspan="2">개척자</th>
+          <th class="text-center hidetd" rowspan="2">협조자</th>
+          <th class="text-center" rowspan="2">계약기간</th>
+          <th class="text-center hidetd" rowspan="2">사업용계좌</th>
+          <th class="text-center" rowspan="2">중단사유</th>
+          <th class="text-center" rowspan="2">타사거래</th>
+          <th class="text-center" rowspan="2">공급현황<br>(전월데이터)</th>
+          <th class="text-center" rowspan="2">청구현황<br>(전월데이터)</th>
+          <th class="text-center" rowspan="2">재고현황<br>(전월데이터)</th>
+          <th class="text-center" rowspan="2">적정기준<br>초과공급현황<br>(전월데이터)</th>
+          <th class="text-center" rowspan="2">공급부품명</th>
+          <th class="text-center" rowspan="2">사용부품명</th>
+          <th class="text-center" rowspan="2">사용부품명<br>배율적용</th>
+          <th class="text-center changecol" colspan="7">신규영업</th>
+          <th class="text-center" rowspan="2">최종방문일</th>
+        </tr>
+        <tr class="active">
+          <th class="text-center" id="VISIT_THIS_YEAR"></th>
+          <th class="text-center" id="VISIT_BEFORE_YEAR"></th>
+          <th class="text-center">건수</th>
+          <th class="text-center">금액</th>
+          <th class="text-center">건수</th>
+          <th class="text-center">금액</th>
+          <th class="text-center">건수</th>
+          <th class="text-center">금액</th>
+          <th class="text-center">건수</th>
+          <th class="text-center">금액</th>
+          <th class="text-center">연락처</th>
+          <th class="text-center">FAX</th>
+          <th class="text-center">이름</th>
+          <th class="text-center">연락처</th>
+          <th class="text-center hidetd">이름</th>
+          <th class="text-center hidetd">연락처</th>
+          <th class="text-center">이름</th>
+          <th class="text-center">연락처</th>
+          <th class="text-center hidetd">이름</th>
+          <th class="text-center hidetd">연락처</th>
+          <th class="text-center hidetd">이름</th>
+          <th class="text-center hidetd">연락처</th>
+          <th class="text-center hidetd">이름</th>
+          <th class="text-center hidetd">연락처</th>
+          <th class="text-center">보험사</th>
+          <th class="text-center">제조사</th>
+          <th class="text-center hidetd">방문자</th>
+          <th class="text-center">규모</th>
+          <th class="text-center hidetd">직책</th>
+          <th class="text-center hidetd">총무명</th>
+          <th class="text-center hidetd">휴대폰</th>
+          <th class="text-center">영업반응</th>
+          <th class="text-center hidetd">미거래처실태</th>
+        </tr>
+      </thead>
+      <tbody id="dataTable">
+        <!-- <tr>
+          <td class="text-center"><input type="checkbox" value=""></td>
+          <td class="text-center">59</td>
+          <td class="text-center">4지역</td>
+          <td class="text-center">전북 김제</td>
+          <td class="text-right">3</td>
+          <td class="text-center">김제 신일공업사-ST</td>
+          <td class="text-left">02,04,06,08</td>
+          <td class="text-left">03,05,07,09</td>
+          <td class="text-center">월 1회방문</td>
+          <td class="text-right">20</td>
+          <td class="text-right">20</td>
+          <td class="text-right">20</td>
+          <td class="text-right">20</td>
+          <td class="text-right">20</td>
+          <td class="text-right">20</td>
+          <td class="text-center">미거래</td>
+          <td class="text-center">2017-04-12</td>
+          <td class="text-center">2017-04-12</td>
+          <td class="text-center">2017-04-12 ~ 2017-04-12</td>
+          <td class="text-right">20</td>
+          <td class="text-right">204,203</td>
+          <td class="text-right">20</td>
+          <td class="text-right">204,203</td>
+          <td class="text-right">20</td>
+          <td class="text-right">204,203</td>
+          <td class="text-right">20</td>
+          <td class="text-right">204,203</td>
+          <td class="text-center">113-83-33223</td>
+          <td class="text-center">A</td>
+          <td class="text-center hidetd">2017-04-12</td>
+          <td class="text-center">114</td>
+          <td class="text-center hidetd">김제 신일공업사-ST</td>
+          <td class="text-left">판금자동</td>
+          <td class="text-left">한진</td>
+          <td class="text-center">2017-04-12</td>
+          <td class="text-right">204,203</td>
+          <td class="text-left">서울시 서초구 방배중앙로 3 (방배동,그림빌라)</td>
+          <td class="text-center">02-6677-8174</td>
+          <td class="text-center">02-6677-8174</td>
+          <td class="text-center">김용규</td>
+          <td class="text-center">010-4477-1687</td>
+          <td class="text-center hidetd">keyman</td>
+          <td class="text-center hidetd">010-4477-1687</td>
+          <td class="text-center">김용규</td>
+          <td class="text-center">010-4477-1687</td>
+          <td class="text-center hidetd">공장장</td>
+          <td class="text-center hidetd">010-4477-1687</td>
+          <td class="text-center hidetd">도장반장</td>
+          <td class="text-center hidetd">010-4477-1687</td>
+          <td class="text-center hidetd">판금반장</td>
+          <td class="text-center hidetd">010-4477-1687</td>
+          <td class="text-center hidetd">20</td>
+          <td class="text-center hidetd">국산</td>
+          <td class="text-center hidetd">자가</td>
+          <td class="text-center">대</td>
+          <td class="text-center">삼성</td>
+          <td class="text-center">삼성</td>
+          <td class="text-center">-</td>
+          <td class="text-center">-</td>
+          <td class="text-center">미거래</td>
+          <td class="text-center hidetd">김용규</td>
+          <td class="text-center">2017-04-12</td>
+          <td class="text-center hidetd">113-83-33223</td>
+          <td class="text-center">-</td>
+          <td class="text-right">20</td>
+          <td class="text-right">20</td>
+          <td class="text-right">20</td>
+          <td class="text-right">20</td>
+          <td class="text-right">20</td>
+          <td class="text-left">순정품731(310ml)</td>
+          <td class="text-left">순정품731(310ml)</td>
+          <td class="text-center">적용</td>
+          <td class="text-center hidetd">김용규</td>
+          <td class="text-center">대</td>
+          <td class="text-center hidetd">과장</td>
+          <td class="text-center hidetd">김용규</td>
+          <td class="text-center hidetd">010-4447-1687</td>
+          <td class="text-center">대</td>
+          <td class="text-center hidetd">대</td>
+          <td class="text-center">2017-04-12</td>
+        </tr>                                                                -->
+      </tbody>
+    </table>
+  </div>
+
+  <!-- pagination -->
+  <div class="container-fluid">
+    <div class="text-center">
+      <ul class="pagination">
+      </ul>
+    </div>
+  </div>
+
+
+
+<!-- footer.html -->
+<?php
+  require $_SERVER['DOCUMENT_ROOT']."/include/footer.html";
+?>

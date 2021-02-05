@@ -1,0 +1,246 @@
+<?php
+
+    header("Content-Type: application/vnd.ms-excel");
+    date_default_timezone_set('Asia/Seoul');
+
+    header("Content-Disposition: attachment; filename=".date("YmdH", time())."_공업사관리.xls");
+    header("Content-Description:PHP4 Generated Data");
+
+    require $_SERVER['DOCUMENT_ROOT']."/common/common.php";	
+    require "class/clsGwMngt.php";
+
+    $data =  $clsGwManagement->getList($_REQUEST);
+    $CODE_PARTS = $clsGwManagement->getCodeParts();
+
+    $result = $data[0];
+    
+    function setGaragePartsTable($dataArray){
+        if(count(explode('||',$dataArray)) > 0){
+            $text = "";
+            foreach(explode('||',$dataArray) as $index => $item){
+                $text .= $item.'<br>';
+            }  
+            return $text;
+        }else{
+            return '';
+        }
+    }
+
+    $excelHtml = "
+        <table border='1'>
+                <thead>
+                        <tr>
+                          <th rowspan='2'>순번</th>
+                          <th rowspan='2'>구분</th>
+                          <th rowspan='2'>지역<br>(시도)</th>
+                          <th rowspan='2'>지역<br>(시/군/구)</th>
+                          <th rowspan='2'>지역<br>(읍/면/동)</th>
+                          <th rowspan='2'>공업사<br>고유코드</th>
+                          <th rowspan='2'>공업사아이디</th>
+                          <th rowspan='2'>사업자번호</th>
+                          <th rowspan='2'>회원번호</th>
+                          <th rowspan='2'>순회순서</th>
+                          <th rowspan='2'>공업사명</th>
+                          <th rowspan='2'>거래개시일</th>
+                          <th rowspan='2'>거래종료일</th>
+                          <th rowspan='2'>청구식</th>
+                          <th rowspan='2'>청구식<br>적용일</th>
+                          <th rowspan='2'>AOS동의서<br>수령일</th>
+                          <th rowspan='2'>지급식</th>
+                          <th rowspan='2'>지급식<br>적용일</th>
+                          <th rowspan='2'>지급식적용<br>보험사</th>
+                          <th rowspan='2'>포토앱</th>
+                          <th rowspan='2'>AOS2017<br>공업사명</th>
+                          <th rowspan='2'>사업용계좌</th>
+                          <th rowspan='2'>택배업체</th>
+                          <th rowspan='2'>주소</th>
+                          <th colspan='2'>대표자</th>
+                          <th colspan='2'>Key-man</th>
+                          <th colspan='2'>청구담당자</th>
+                          <th colspan='2'>사무실</th>
+                          <th colspan='2'>공장장</th>
+                          <th colspan='2'>도장반장</th>
+                          <th colspan='2'>판금반장</th>
+                          <th rowspan='2'>자가여부</th>
+                          <th rowspan='2'>보험사<br>협력업체</th>
+                          <th rowspan='2'>제조사<br>협력업체</th>
+                          <th rowspan='2'>강제전송대기</th>
+                          <th rowspan='2'>청구서 전부<br>전송여부</th>
+                          <th rowspan='2'>청구서금액<br>표시여부</th>
+                          <th rowspan='2'>부품비치<br>장소개수</th>
+                          <th rowspan='2'>주요정비</th>
+                          <th rowspan='2'>청구특이사항</th>
+                          <th rowspan='2'>업체특이사항</th>
+                          <th rowspan='2'>거래여부</th>
+                          <th colspan='3'>거래중단 재고처리현황</th>
+                          <th rowspan='2'>개척자</th>
+                          <th rowspan='2'>협조자</th>
+                          <th rowspan='2'>수탁자</th>
+                          <th rowspan='2'>전거래처</th>
+                          <th rowspan='2'>계약여부</th>
+                          <th rowspan='2'>계약기간</th>
+                          <th rowspan='2'>거래중단사유</th>
+                          <th rowspan='2'>타사거래</th>
+                          <th colspan='5'>신규영업</th>
+                          <th rowspan='2'>공급부품</th>
+                          <th rowspan='2'>사용부품</th>
+                          <th rowspan='2'>배율적용</th>
+                          <th rowspan='2'>메모</th>
+                          <th rowspan='2'>영업반응</th>
+                          <th rowspan='2'>미거래처실태</th>
+                          <th rowspan='2'>임원방문월</th>
+                        </tr>
+                        <tr>
+                          <th>성명</th>
+                          <th>연락처</th>
+                          <th>성명</th>
+                          <th>연락처</th>
+                          <th>성명</th>
+                          <th>연락처</th>
+                          <th>연락처</th>
+                          <th>FAX</th>
+                          <th>성명</th>
+                          <th>연락처</th>
+                          <th>성명</th>
+                          <th>연락처</th>
+                          <th>성명</th>
+                          <th>연락처</th>
+                          <th>3개월평균<br>건수</th>
+                          <th>3개월평균<br>청구액</th>
+                          <th>재고부족분</th>
+                          <th>방문자</th>
+                          <th>규모</th>
+                          <th>면담자<br>직책</th>
+                          <th>면담자<br>성명</th>
+                          <th>면담자<br>연락처</th>
+                         
+                        </tr>
+                      </thead>
+    ";
+
+
+    foreach($result as $item) { 
+        $rowCPP_NM_SHORT = "";
+        $rowCPPS_NM_SHORT = "";
+        $rowNGP_RATIO = "";
+        $rowNGP_MEMO = "";
+
+        $partsArray = array(); 
+        $brText = "<br>";
+        $partInfo = $item['PARTS_INFO'];
+
+        foreach($CODE_PARTS as $cpp){
+            if(!empty($partInfo)){
+                foreach($partInfo as $parts){
+                    if($parts['CPP_ID'] == $cpp['CPP_ID'] ){
+                        array_push($partsArray, $parts);
+                    }
+                }
+            }
+            
+            if(!empty($partsArray)){
+                $rowCPP_NM_SHORT .= $cpp['CPP_NM_SHORT'];
+                $rowCPPS_NM_SHORT .= $cpp['CPPS_NM_SHORT'];
+                $rowNGP_RATIO .= $cpp['NGP_RATIO'];
+                $rowNGP_MEMO .= $cpp['NGP_MEMO'];
+                foreach($partsArray as $partsArr){
+                    if($cpp['CPP_ID'] == $partsArr['CPP_ID']){
+                        $rowCPP_NM_SHORT .= $partsArr['CPP_NM_SHORT'];
+                        $rowCPPS_NM_SHORT .= $partsArr['CPPS_NM_SHORT'];
+                        $rowNGP_RATIO .= $partsArr['NGP_RATIO'];
+                        $rowNGP_MEMO .= $partsArr['NGP_MEMO'];  
+                    }
+                }
+                $rowCPP_NM_SHORT .= $brText;
+                $rowCPPS_NM_SHORT .= $brText;
+                $rowNGP_RATIO .= $brText;
+                $rowNGP_MEMO .= $brText;
+            }else{
+                $rowCPP_NM_SHORT .= $cpp['CPP_NM_SHORT'].$brText;
+                $rowCPPS_NM_SHORT .= "".$brText;
+                $rowNGP_RATIO .= "".$brText;
+                $rowNGP_MEMO .= "".$brText; 
+            }
+        }
+       
+        $excelHtml .= "<tr>
+                <td style='text-align:center;'>".$item['IDX']."</td>
+                <td style='text-align:center;'>".$item['CSD_NM']."</td>
+                <td style='text-align:left;'>".$item['CRR_1_NM']."</td>
+                <td style='text-align:left;'>".$item['CRR_2_NM']."</td>
+                <td style='text-align:left;'>".$item['CRR_3_NM']."</td>
+                <td style='text-align:center;mso-number-format:\"\@\";'>".$item['MGG_ID']."</td>
+                <td style='text-align:center;mso-number-format:\"\@\";'>".$item['MGG_USERID']."</td>
+                <td style='text-align:center;mso-number-format:\"\@\";'>".cUtil::biz_format($item['MGG_BIZ_ID'])."</td>
+                <td style='text-align:center;mso-number-format:\"\@\";'>".$item['MGG_PASSWD_AES']."</td>
+                <td style='text-align:center;'>".$item['MGG_CIRCUIT_ORDER']."</td>
+                <td style='text-align:left;'>".$item['MGG_NM']."</td>
+                <td style='text-align:center;'>".$item['MGG_BIZ_START_DT']."</td>
+                <td style='text-align:center;'>".$item['MGG_BIZ_END_DT']."</td>
+                <td style='text-align:center;'>".$item['RET_NM']."</td>
+                <td style='text-align:center;'>".$item['MGG_RET_DT']."</td>
+                <td style='text-align:center;'>".$item['MGG_RAT_DT']."</td>
+                <td style='text-align:center;'>".$item['RPET_NM']."</td>
+                <td style='text-align:center;'>".$item['MGG_RPET_DT']."</td>
+                <td style='text-align:center;'>".$item['MII_NM']."</td>
+                <td style='text-align:center;'>".$item['RAT_NM']."</td>
+                <td style='text-align:center;'>".$item['MGG_RAT_NM']."</td>
+                <td style='text-align:center;mso-number-format:\"\@\";'>".$item['MGG_BANK_NUM_AES']."</td>
+                <td style='text-align:center;'>".$item['MGG_LOGISTICS_YN']."</td>
+                <td style='text-align:left;'>".$item['MGGS_ADDR']."</td>
+                <td style='text-align:center;'>".$item['MGG_CEO_NM_AES']."</td>
+                <td style='text-align:center;mso-number-format:\"\@\";'>".cUtil::phone_format($item['MGG_CEO_TEL_AES'])."</td>
+                <td style='text-align:center;'>".$item['MGG_KEYMAN_NM_AES']."</td>
+                <td style='text-align:center;mso-number-format:\"\@\";'>".cUtil::phone_format($item['MGG_KEYMAN_TEL_AES'])."</td>
+                <td style='text-align:center;'>".$item['MGG_CLAIM_NM_AES']."</td>
+                <td style='text-align:center;mso-number-format:\"\@\";'>".cUtil::phone_format($item['MGG_CLAIM_TEL_AES'])."</td>
+                <td style='text-align:center;mso-number-format:\"\@\";'>".cUtil::phone_format($item['MGG_OFFICE_TEL'])."</td>
+                <td style='text-align:center;mso-number-format:\"\@\";'>".cUtil::phone_format($item['MGG_OFFICE_FAX'])."</td>
+                <td style='text-align:center;'>".$item['MGG_FACTORY_NM_AES']."</td>
+                <td style='text-align:center;mso-number-format:\"\@\";'>".cUtil::phone_format($item['MGG_FACTORY_TEL_AES'])."</td>
+                <td style='text-align:center;'>".$item['MGG_PAINTER_NM_AES']."</td>
+                <td style='text-align:center;mso-number-format:\"\@\";'>".cUtil::phone_format($item['MGG_PAINTER_TEL_AES'])."</td>
+                <td style='text-align:center;'>".$item['MGG_METAL_NM_AES']."</td>
+                <td style='text-align:center;mso-number-format:\"\@\";'>".cUtil::phone_format($item['MGG_METAL_TEL_AES'])."</td>
+                <td style='text-align:center;'>".$item['ROT_NM']."</td>
+                <td style='text-align:left;'>".$item['MGG_INSU_MEMO']."</td>
+                <td style='text-align:left;'>".$item['MGG_MANUFACTURE_MEMO']."</td>
+                <td style='text-align:center;'>".$item['MGG_FORCE_SEND_YN']."</td>
+                <td style='text-align:center;'>".$item['MGG_BILL_ALL_YN']."</td>
+                <td style='text-align:center;'>".$item['MGG_BILL_MONEY_SHOW_YN']."</td>
+                <td style='text-align:center;'>".$item['MGG_WAREHOUSE_CNT']."</td>
+                <td style='text-align:center;'>".$item['RMT_NM']."</td>
+                <td style='text-align:left;'>".$item['MGG_BILL_MEMO']."</td>
+                <td style='text-align:left;'>".$item['MGG_GARAGE_MEMO']."</td>
+                <td style='text-align:center;'>".$item['RCT_NM']."</td>
+                <td style='text-align:center;'>".$item['MGG_END_AVG_BILL_CNT']."</td> 
+                <td style='text-align:center;'>".$item['MGG_END_AVG_BILL_PRICE']."</td>
+                <td style='text-align:center;'>".$item['MGG_END_OUT_OF_STOCK']."</td>
+                <td style='text-align:center;'>".$item['MGG_FRONTIER_NM']."</td>
+                <td style='text-align:center;'>".$item['MGG_COLLABO_NM']."</td>
+                <td style='text-align:center;'>".$item['MGG_BAILEE_NM']."</td>
+                <td style='text-align:center;'>".$item['MGG_BIZ_BEFORE_NM']."</td>
+                <td style='text-align:center;'>".$item['MGG_CONTRACT_YN']."</td>
+                <td style='text-align:center;'>".$item['MGG_CONTRACT']."</td>
+                <td style='text-align:center;'>".$item['RSR_NM']."</td>
+                <td style='text-align:center;'>".$item['MGG_OTHER_BIZ_NM']."</td>
+                <td style='text-align:center;'>".$item['MGG_SALES_NM']."</td>
+                <td style='text-align:center;'>".$item['RST_NM']."</td>
+                <td style='text-align:center;'>".$item['MGG_SALES_MEET_LVL']."</td>
+                <td style='text-align:center;'>".$item['MGG_SALES_MEET_NM_AES']."</td>
+                <td style='text-align:center;mso-number-format:\"\@\";'>".cUtil::phone_format($item['MGG_SALES_MEET_TEL_AES'])."</td>
+                <td style='text-align:left;'>".$rowCPP_NM_SHORT."</td>
+                <td style='text-align:left;'>".$rowCPPS_NM_SHORT."</td>
+                <td style='text-align:right;'>".$rowNGP_RATIO."</td>
+                <td style='text-align:left;'>".$rowNGP_MEMO."</td>
+                <td style='text-align:center;'>".$item['RRT_NM']."</td>
+                <td style='text-align:center;'>".$item['MGG_SALES_WHYNOT']."</td>
+                <td style='text-align:left;'>".$item['NGV_VISIT_DT']."</td>
+            </tr>
+        ";
+    }
+    $excelHtml .= "</table>";
+
+    echo "<meta content=\"application/vnd.ms-excel;charset=UTF-8;\" name=\"Content-type\">";
+    echo $excelHtml ;
+?>

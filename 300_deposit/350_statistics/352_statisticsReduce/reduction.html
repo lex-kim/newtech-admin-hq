@@ -1,0 +1,217 @@
+<?php
+  require $_SERVER['DOCUMENT_ROOT']."/include/headerpopup.html";
+?>
+
+<script src="../../310_depositMngt/js/depositModal.js"></script>
+<script src="../../310_depositMngt/js/setDepositOptions.js"></script>
+  <!-- 페이지 카테고리 -->
+  <div class="container-fluid mb20px">
+      <h3 class="nwt-category categorypopup"><small>입금관리&nbsp;&nbsp;>&nbsp;&nbsp;미지급 및 감액건 통계&nbsp;&nbsp;></small>감액건 지급건수 상세</h3>
+    </div>
+  
+  
+    <!-- 검색바(폼) 시작 -->
+    <div class="container-fluid nwt-search-form">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <form class="form-inline" id="searchForm">
+                  <input type="hidden" class="form-control" name="NIC_ID" id="NIC_ID" value="<?php echo $_REQUEST['NIC_ID']?>">                            
+
+                    <fieldset>
+                        <legend>조건검색</legend>
+  
+                        <!-- 검색버튼 제외한 폼 wrap -->
+                        <div class="frm-wrap">
+                          <!-- 1st row -->
+                          <div class="row frm-last-row">
+                            
+                            <!-- 구분 -->
+                            <div class="col-md-1">
+                                <label for="CSD_ID_SEARCH" class="sr-only">구분</label>
+                                <select id="CSD_ID_SEARCH"  name="CSD_ID_SEARCH[]" 
+                                          data-style="btn-default" title="=구분="
+                                          class="form-control selectpicker" multiple
+                                          data-live-search="true" data-live-search-placeholder="Search" >
+                                </select>                            
+                            </div>
+
+                            <!-- 지역 -->
+                            <div class="col-md-1">
+                                <label for="CRR_ID_SEARCH" class="sr-only">지역</label>
+                                <select id="CRR_ID_SEARCH"  name="CRR_ID_SEARCH[]" 
+                                          data-style="btn-default" title="=지역="
+                                          class="form-control selectpicker" multiple
+                                          data-live-search="true" data-live-search-placeholder="Search" >
+                                    
+                                </select>                             
+                            </div>
+
+                            <!-- 접수번호 -->
+                            <div class="col-md-1">
+                              <label for="NBI_REGI_NUM_SEARCH" class="sr-only">접수번호</label>
+                              <input type="text" class="form-control" name="NBI_REGI_NUM_SEARCH" id="NBI_REGI_NUM_SEARCH" placeholder="접수번호 입력">                            
+                            </div>
+
+                            <!-- 담보 -->
+                            <div class="col-md-1">
+                              <label for="RLT_ID_SEARCH" class="sr-only">담보</label>
+                              <select class="form-control" id="RLT_ID_SEARCH" name="RLT_ID_SEARCH">
+                                <option value="">=담보=</option>
+                              </select>                            
+                            </div>
+
+                            <!-- 차량번호 -->
+                            <div class="col-md-1">
+                              <label for="NB_CAR_NUM_SEARCH" class="sr-only">차량번호</label>
+                              <input type="text" class="form-control" name="NB_CAR_NUM_SEARCH" id="NB_CAR_NUM_SEARCH" placeholder="차량번호 입력">                            
+                            </div>
+
+                            <!-- 퍼센테이지 -->
+                            <div class="col-md-2 frmGroup2">
+                              <label for="START_RATIO_SEARCH" class="sr-only">퍼센테이지</label>
+                              <input type="text" class="form-control" name="START_RATIO_SEARCH" id="START_RATIO_SEARCH" placeholder="시작감액률">
+                              <span class="glyphicon search-glypicon">%</span>  
+                              <label for="END_RATIO_SEARCH" class="nwt-form-label">~</label>                            
+                              <input type="text" class="form-control" name="END_RATIO_SEARCH" id="END_RATIO_SEARCH" placeholder="종료감액률">  
+                              <span class="glyphicon search-glypicon">%</span>                       
+                            </div>
+  
+                            <!-- 감액미입금 -->
+                            <div class="col-md-1">
+                              <label for="DECREMENT_UNPAID_SERARCH" class="sr-only">감액미입금</label>
+                              <select class="form-control" id="DECREMENT_UNPAID_SERARCH" name="DECREMENT_UNPAID_SERARCH">
+                                <option value="">=감액미입금=</option>
+                                <option value="Y">입금</option>
+                                <option value="N">미입금</option>
+                              </select>   
+                            </div>
+
+                            <!-- 입금여부 -->
+                            <div class="col-md-1">
+                              <label for="DEPOSIT_YN_SEARCH" class="sr-only">입금여부</label>
+                              <select class="form-control" id="DEPOSIT_YN_SEARCH" name="DEPOSIT_YN_SEARCH">
+                                <option value="">=입금여부=</option>
+                                <option value="Y">입금</option>
+                                <option value="N">미입금</option>
+                              </select>                            
+                            </div>
+
+                            <!-- 입금여부상세 -->
+                            <div class="col-md-1">
+                              <label for="REASON_SELECT_SEARCH" class="sr-only">입금여부상세</label>
+                              <select id="REASON_SELECT_SEARCH" name="REASON_SELECT_SEARCH"
+                                      data-style="btn-default" title="=입금여부상세="
+                                      class="form-control selectpicker" 
+                                      data-live-search="true" data-live-search-placeholder="Search">
+                              </select>   
+                            </div>
+
+                            <!-- 공업사 -->
+                            <div class="col-md-1">
+                              <label for="MGG_NM_SEARCH" class="sr-only">공업사명</label>
+                              <input type="text" class="form-control" name="MGG_NM_SEARCH" id="MGG_NM_SEARCH" placeholder="공업사명 입력">             
+                            </div>
+
+                          </div>
+  
+                        </div>
+                        
+  
+                        <!-- 검색버튼 wrap -->
+                        <div class="frm-search-wrap">
+                          <!-- 검색btn -->
+                          <div class="row">
+                              <div class="col-md-12 text-right">
+                                <button type="submit" class="btn btn-primary" id="RT_frmSearch" style="margin-top: -10px"><span class="glyphicon glyphicon-search"></span>&nbsp;검색</button>
+                              </div>
+                          </div> 
+                        </div>
+  
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- 검색바(폼) 끝 -->
+  
+    
+    <!-- 테이블 상단 #perPage, btn 영역 -->
+    <div class="container-fluid nwt-table-top mb20r">
+      <div class="row">
+        
+        <!-- 리스트개수 -->
+        <?php	require $_SERVER['DOCUMENT_ROOT']."/include/listCnt.html"; ?>
+        
+         <!-- 테이블 우측 상단 btn -->
+         <div class="col-lg-6 clearfix">
+          <div class="form-inline f-right">
+            <?php if($AUTH_EXCEL == YN_Y) :?>
+            <button type="button" class="btn btn-success" onclick="excelDownload()"><span class="glyphicon glyphicon-download-alt"></span>&nbsp;엑셀 다운로드</button>
+            <?php endif; ?>
+          </div>
+        </div>
+  
+      </div>
+    </div>
+  
+  
+  
+    <!-- 테이블 -->
+    <div class="container-fluid nwt-table">
+      <table class="table table-bordered table-striped">
+        <thead>
+          <tr class="active">
+            <th class="text-center">순번</th>
+            <th class="text-center">청구일</th>
+            <th class="text-center">구분</th>
+            <th class="text-center">지역</th>
+            <th class="text-center">공업사</th>
+            <th class="text-center">사업자번호</th>
+            <th class="text-center">보험사</th>
+            <th class="text-center">보험사팀</th>
+            <th class="text-center">담당자</th>
+            <th class="text-center">접수번호</th>
+            <th class="text-center">담보</th>
+            <th class="text-center">차량번호</th>
+            <th class="text-center">차량명</th>
+            <th class="text-center">청구금액</th>
+            <th class="text-center">지급일</th>
+            <th class="text-center">지급금액</th>
+            <th class="text-center">감액금액</th>
+            <th class="text-center">감액미입금</th>
+            <th class="text-center">추가입금일</th>
+            <th class="text-center">추가입금액</th>
+            <th class="text-center table-array">
+              감액률
+              <div class="arrayicon">
+                <span class="glyphicon glyphicon-chevron-up" onclick="getList(undefined, 'ASC', 'DECREMENT_RATIO')"></span>
+                <span class="glyphicon glyphicon-chevron-down" onclick="getList(undefined, 'DESC', 'DECREMENT_RATIO')"></span>
+              </div>
+            </th>
+            <th class="text-center">입금여부</th>
+            <th class="text-center">입금여부 상세</th>
+            <th class="text-center">감액사유일</th>
+            <th class="text-center">감액사유</th>
+            <th class="text-center">입금처리</th>
+          </tr>
+        </thead>
+        <tbody id="dataTable">                                          
+        </tbody>
+      </table>
+    </div>
+  
+  
+    <!-- pagination -->
+    <div class="container-fluid">
+      <div class="text-center">
+        <ul class="pagination">
+        </ul>
+      </div>
+    </div>
+  
+<!-- 입금처리 모달 -->
+<?php	require "../../310_depositMngt/depositMngtDepositModal.html"; ?>
+
+<?php
+  require $_SERVER['DOCUMENT_ROOT']."/include/footerpopup.html";
+?>

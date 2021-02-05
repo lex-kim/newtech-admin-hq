@@ -1,0 +1,82 @@
+<!-- header.html -->
+<?php
+  require $_SERVER['DOCUMENT_ROOT']."/include/headerpopup.html";
+
+  $ALLM_ID = "";
+  if(!empty($_REQUEST['ALLM_ID'])){   //수정모드
+    $ALLM_ID = $_REQUEST['ALLM_ID'];
+  }
+?>
+<script src="js/popup.js"></script>
+<body onload="onLoadPopup();">
+  <!-- 디테일 페이지인지 메인페이지인지  -->
+  <input type="hidden" id="authorityType" value="detail"/>
+
+  <!-- 페이지 카테고리 -->
+  <div class="container-fluid mb20px">
+    <h3 class="nwt-category"><small>코드관리&nbsp;&nbsp;></small>권한관리 <small>&nbsp;&nbsp;></small>
+    <?php if(empty($_REQUEST['ALLM_ID'])) : ?>
+       등록
+    <?php else : ?>
+       수정
+    <?php endif; ?>
+  </h3>
+  </div>
+
+  <form id="setForm">
+    <input type="hidden" id="ORI_ALLM_ID" name="ORI_ALLM_ID" value="<?php echo $ALLM_ID ?>"/>
+  <!-- 코드관리 -->
+  <div class="authority">
+    <div class="container-fluid table-title">권한명칭</div>
+    <!-- 테이블 -->
+    <div class="container-fluid table-input">
+      <input type="text" class="form-control text-left" name="ALLM_NM" id="ALLM_NM" required> 
+    </div>
+  </div>
+
+  <!-- 코드관리 -->
+  <div class="authority">
+    <div class="container-fluid table-title">권한아이디</div>
+    <!-- 테이블 -->
+    <div class="container-fluid table-input">
+      <input type="text" class="form-control text-left" name="ALLM_ID" id="ALLM_ID" onblur="oncheckDuplicateID();"
+         maxlength="6" placeholder="최대6자까지 입력가능합니다." required> 
+      <span id="DUPICATE_SPAN" style="display: none;" class="red"> 중복되는 아이디가 존재합니다.</span>
+    </div>
+  </div>
+
+  <!-- 권한 체크 테이블 동적 -->
+  <div id="authorityTotalTable"></div>
+  
+
+  <div class="container-fluid footer">
+    <?php if(!empty($_REQUEST['ALLM_ID'])) : ?>
+      <div class="text-left">
+          <?php if($AUTH_DELETE == YN_Y) :?>
+          <button type="button" class="btn btn-danger" id="btnDelete" onclick="confirmDelSwal()">삭제</button>
+          <?php endif; ?>
+      </div>
+    <?php endif; ?>
+   
+    <div class="text-right">
+        <!-- 등록btn -->
+        <?php if(empty($_REQUEST['ALLM_ID'])) : ?>
+           <?php if($AUTH_CREATE == YN_Y) :?>
+           <button type="submit" class="btn btn-primary">등록</button>
+           <?php endif; ?>
+        <?php else : ?>
+           <?php if($AUTH_UPDATE == YN_Y) :?>
+           <button type="submit" class="btn btn-primary">수정</button>
+           <?php endif; ?>
+        <?php endif; ?>
+
+        <!-- 취소btn -->
+        <button type="button" class="btn btn-default" id="cancelBtn" onclick="self.close()">닫기</button>
+    </div>
+  </div>
+</form>
+</body>
+
+<?php
+  require $_SERVER['DOCUMENT_ROOT']."/include/footerpopup.html";
+?>

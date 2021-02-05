@@ -1,0 +1,132 @@
+<?php
+    header("Content-Type: application/vnd.ms-excel");
+    date_default_timezone_set('Asia/Seoul');
+
+    header("Content-Disposition: attachment; filename=".date("Ymd_His", time())."청구서작성현황.xls");
+    header("Content-Description:Newtech System");
+
+    require $_SERVER['DOCUMENT_ROOT']."/common/common.php";	
+    require "class/clsWriteStatus.php";
+    
+    $data =  $clsWriteStatus->getList($_REQUEST);
+    $result = $data[0];
+    $total = $data[3];
+    $tt = 90.9;
+    $excelHtml = "
+        <table border='1'>
+            <tr class='active'>
+                <th style='text-align:center;' rowspan='2'>청구일자</th>
+                <th style='text-align:center;' colspan='4'>청구업체수</th>
+                <th style='text-align:center;' colspan='4'>청구건수</th>
+                <th style='text-align:center;' colspan='4'>청구금액(원)</th>
+                <th style='text-align:center;' colspan='4'>건당청구액(원)</th>
+                <th style='text-align:center;' colspan='3'>청구업체 비율</th>
+                <th style='text-align:center;' colspan='4'>청구건수 비율</th>
+                <th style='text-align:center;' colspan='4'>청구금액 비율</th>
+            </tr>
+            <tr class='active'>
+                <th style='text-align:center;'>계</th>
+                <th style='text-align:center;'>본사</th>
+                <th style='text-align:center;'>공업사</th>
+                <th style='text-align:center;'>보험사</th>
+                <th style='text-align:center;'>계</th>
+                <th style='text-align:center;'>본사</th>
+                <th style='text-align:center;'>공업사</th>
+                <th style='text-align:center;'>보험사</th>
+                <th style='text-align:center;'>계</th>
+                <th style='text-align:center;'>본사</th>
+                <th style='text-align:center;'>공업사</th>
+                <th style='text-align:center;'>보험사</th>
+                <th style='text-align:center;'>계</th>
+                <th style='text-align:center;'>본사</th>
+                <th style='text-align:center;'>공업사</th>
+                <th style='text-align:center;'>보험사</th>
+                <!-- <th style='text-align:center;'>계</th> -->
+                <th style='text-align:center;'>본사</th>
+                <th style='text-align:center;'>공업사</th>
+                <th style='text-align:center;'>보험사</th>
+                <th style='text-align:center;'>계</th>
+                <th style='text-align:center;'>본사</th>
+                <th style='text-align:center;'>공업사</th>
+                <th style='text-align:center;'>보험사</th>
+                <th style='text-align:center;'>계</th>
+                <th style='text-align:center;'>본사</th>
+                <th style='text-align:center;'>공업사</th>
+                <th style='text-align:center;'>보험사</th>
+            </tr>
+    ";
+    
+    foreach($result as $item) { 
+        
+        $excelHtml .= "<tr>
+                <td style='text-align:center;'>".$item['NB_CLAIM_DT']."</td>
+                <td style='text-align:right;mso-number-format:\#\,\#\#0\;'>".$item['MGG_CNT']."</td>
+                <td style='text-align:right;mso-number-format:\#\,\#\#0\;'>".$item['MGG_11110']."</td>
+                <td style='text-align:right;mso-number-format:\#\,\#\#0\;'>".$item['MGG_11111']."</td>
+                <td style='text-align:right;mso-number-format:\#\,\#\#0\;'>".$item['MGG_11112']."</td>
+                <td style='text-align:right;mso-number-format:\#\,\#\#0\;'>".$item['CLAIM_CNT']."</td>
+                <td style='text-align:right;mso-number-format:\#\,\#\#0\;'>".$item['CLAIM_11110']."</td>
+                <td style='text-align:right;mso-number-format:\#\,\#\#0\;'>".$item['CLAIM_11111']."</td>
+                <td style='text-align:right;mso-number-format:\#\,\#\#0\;'>".$item['CLAIM_11112']."</td>
+                <td style='text-align:right;mso-number-format:\#\,\#\#0\;'>".$item['NB_TOTAL_PRICE']."</td>
+                <td style='text-align:right;mso-number-format:\#\,\#\#0\;'>".$item['NB_TOTAL_PRICE_11110']."</td>
+                <td style='text-align:right;mso-number-format:\#\,\#\#0\;'>".$item['NB_TOTAL_PRICE_11111']."</td>
+                <td style='text-align:right;mso-number-format:\#\,\#\#0\;'>".$item['NB_TOTAL_PRICE_11112']."</td>
+                <td style='text-align:right;mso-number-format:\#\,\#\#0\;'>".$item['NB_TOTAL_PRICE']/$item['CLAIM_CNT']."</td>
+                <td style='text-align:right;mso-number-format:\#\,\#\#0\;'>".$item['NB_PRICE_11110']."</td>
+                <td style='text-align:right;mso-number-format:\#\,\#\#0\;'>".$item['NB_PRICE_11111']."</td>
+                <td style='text-align:right;mso-number-format:\#\,\#\#0\;'>".$item['NB_PRICE_11112']."</td>
+                <!-- <td style='text-align:right;mso-number-format:\#\,\#\#0\;'>".$item['MGG_PER_TOTAL']."</td> -->
+                <td style='text-align:right;mso-number-format:\#\,\#\#0\;'>".$item['MGG_PER_11110']."</td>
+                <td style='text-align:right;mso-number-format:\#\,\#\#0\;'>".$item['MGG_PER_11111']."</td>
+                <td style='text-align:right;mso-number-format:\#\,\#\#0\;'>".$item['MGG_PER_11112']."</td>
+                <td style='text-align:right;mso-number-format:\#\,\#\#0\;'>".$item['TOTAL_PER_TOTAL']."</td>
+                <td style='text-align:right;mso-number-format:\#\,\#\#0\;'>".$item['TOTAL_PER_11110']."</td>
+                <td style='text-align:right;mso-number-format:\#\,\#\#0\;'>".$item['TOTAL_PER_11111']."</td>
+                <td style='text-align:right;mso-number-format:\#\,\#\#0\;'>".$item['TOTAL_PER_11112']."</td>
+                <td style='text-align:right;mso-number-format:\#\,\#\#0\;'>".$item['PRICE_PER_TOTAL']."</td>
+                <td style='text-align:right;mso-number-format:\#\,\#\#0\;'>".$item['PRICE_PER_11110']."</td>
+                <td style='text-align:right;mso-number-format:\#\,\#\#0\;'>".$item['PRICE_PER_11111']."</td>
+                <td style='text-align:right;mso-number-format:\#\,\#\#0\;'>".$item['PRICE_PER_11112']."</td>
+            </tr>
+        ";
+    }
+
+    $excelHtml .= "<tr>
+        <td class='text-center'>총 합계</td>
+        <td style='text-align:right;mso-number-format:\#\,\#\#0\;'>".$total['MGG_CNT']."</td>
+        <td style='text-align:right;mso-number-format:\#\,\#\#0\;'>".$total['MGG_11110']."</td>
+        <td style='text-align:right;mso-number-format:\#\,\#\#0\;'>".$total['MGG_11111']."</td>
+        <td style='text-align:right;mso-number-format:\#\,\#\#0\;'>".$total['MGG_11112']."</td>
+        <td style='text-align:right;mso-number-format:\#\,\#\#0\;'>".$total['CLAIM_CNT']."</td>
+        <td style='text-align:right;mso-number-format:\#\,\#\#0\;'>".$total['CLAIM_11110']."</td>
+        <td style='text-align:right;mso-number-format:\#\,\#\#0\;'>".$total['CLAIM_11111']."</td>
+        <td style='text-align:right;mso-number-format:\#\,\#\#0\;'>".$total['CLAIM_11112']."</td>
+        <td style='text-align:right;mso-number-format:\#\,\#\#0\;'>".$total['NB_TOTAL_PRICE']."</td>
+        <td style='text-align:right;mso-number-format:\#\,\#\#0\;'>".$total['NB_TOTAL_PRICE_11110']."</td>
+        <td style='text-align:right;mso-number-format:\#\,\#\#0\;'>".$total['NB_TOTAL_PRICE_11111']."</td>
+        <td style='text-align:right;mso-number-format:\#\,\#\#0\;'>".$total['NB_TOTAL_PRICE_11112']."</td>
+        <td style='text-align:right;mso-number-format:\#\,\#\#0\;'>".($total['NB_TOTAL_PRICE']/$total['CLAIM_CNT'])."</td>
+        <td style='text-align:right;mso-number-format:\#\,\#\#0\;'>".($total['CLAIM_11110'] == 0 ? 0 :($total['NB_TOTAL_PRICE_11110']/$total['CLAIM_11110']))."</td>
+        <td style='text-align:right;mso-number-format:\#\,\#\#0\;'>".($total['CLAIM_11111'] == 0 ? 0 : ($total['NB_TOTAL_PRICE_11111']/$total['CLAIM_11111']))."</td>
+        <td style='text-align:right;mso-number-format:\#\,\#\#0\;'>".($total['CLAIM_11112'] == 0 ? 0 : ($total['NB_TOTAL_PRICE_11112']/$total['CLAIM_11112']))."</td>
+        <!-- <td style='text-align:right;'>".$total['MGG_PER_TOTAL']."%</td> -->
+        <td style='text-align:right;'>".$total['MGG_PER_11110']."%</td>
+        <td style='text-align:right;'>".$total['MGG_PER_11111']."%</td>
+        <td style='text-align:right;'>".$total['MGG_PER_11112']."%</td>
+        <td style='text-align:right;'>".$total['TOTAL_PER_TOTAL']."%</td>
+        <td style='text-align:right;'>".$total['TOTAL_PER_11110']."%</td>
+        <td style='text-align:right;'>".$total['TOTAL_PER_11111']."%</td>
+        <td style='text-align:right;'>".$total['TOTAL_PER_11112']."%</td>
+        <td style='text-align:right;'>".$total['PRICE_PER_TOTAL']."%</td>
+        <td style='text-align:right;'>".$total['PRICE_PER_11110']."%</td>
+        <td style='text-align:right;'>".$total['PRICE_PER_11111']."%</td>
+        <td style='text-align:right;'>".$total['PRICE_PER_11112']."%</td>
+    </tr>
+        ";
+    $excelHtml .= "</table>";
+
+    echo "<meta content=\"application/vnd.ms-excel;charset=UTF-8;\" name=\"Content-type\">";
+    echo $excelHtml ;
+
+?>

@@ -1,0 +1,167 @@
+
+
+/* 보험사팀관리 팝업 CSS*/
+#add-new .modal-dialog,
+#add-modal .modal-dialog{
+    width: 1200px;
+    height: 100%;
+    
+}
+#add-new .modal-dialog .modal-content,
+#add-modal .modal-dialog .modal-content{
+    margin-bottom: 40px;
+}
+#add-new .modal-dialog .modal-content .modal-body {
+    overflow: hidden;
+}
+#add-new .modal-dialog .modal-content .modal-body > div{
+    float: left;
+}
+
+.modal-left{
+    width: 30%;
+    border-right: 1px solid #ddd;
+} 
+.modal-right{
+    width: 70%;
+    padding-left: 20px;
+}
+
+.modal-body .row textarea{
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 5px;
+}
+
+.modal-body .row .col-md-7{
+    position: relative;
+}
+.modal-body .row .col-md-7 .search-glypicon{
+    position: absolute;
+    top: 10px;
+    right: 25px;
+    cursor: pointer;
+}
+
+.modal-body .modal-subtitle{
+    border-top: 1px solid #ccc;
+    /* margin-right: 10px; */
+}
+h5{
+    color: #aaa;
+}
+
+#add-new .container-fluid{
+    padding: 0;
+}
+#add-new .nwt-search-form .row  .frmGroup2 > *{
+    display: inline-block;
+}
+
+
+/* 등록 */
+#add-modal .modal-dialog{
+    width: 400px;
+}
+
+#area-modal .modal-dialog{
+    width: 800px;
+}
+
+/* 담당지역 modal */
+#area-modal .container-fluid{
+    padding: 0;
+}
+#area-modal .row{
+    padding: 0;
+    margin: 0;
+}
+#area-modal .modal-body .modal-table button{
+    float: center;
+	font-size: 13px;
+	padding: 3px 5px;
+}
+
+
+/* 담당지역 선택 modal */
+#area-select-modal .modal-dialog{
+    width: 570px !important; 
+}
+#area-select-modal .modal-body{
+    overflow: hidden;
+    width: 100%;
+}
+#area-select-modal .modal-body > div{
+    float: left;
+}
+
+#area-select-modal .modal-body #ulTeamRegion{
+    width: 250px;
+    height: 280px;
+    overflow: scroll;
+    margin-right: 10px;
+    /* background-color: red; */
+}
+#area-select-modal .modal-body #ulRegion{
+    width: 250px;
+    height: 260px;
+    overflow-y: scroll;
+    /* background-color: yellow; */
+}
+#area-select-modal .modal-body .ulRegion-area{
+    border-left:1px solid #ddd;
+    padding-left: 10px;
+}
+#area-select-modal .modal-body ul li label {
+    font-weight: normal;
+}
+#area-select-modal .modal-body ul li label input{
+    margin-right: 5px;
+}
+
+#area-select-modal .modal-dialog .modal-content .modal-body {
+    overflow: hidden;
+}
+#area-select-modal .modal-dialog .modal-content .modal-body > div{
+    float: left;
+}
+
+/* #area-select-modal .modal-dialog .modal-content .modal-body .modal-left{
+    width: 40%;
+    background-color: red;
+} 
+#area-select-modal .modal-dialog .modal-content .modal-body .modal-right{
+    width: 40%;
+    padding-left: 20px;
+} */
+
+#area-select-modal .modal-body .col-md-2{
+    padding: 0;
+}
+#area-select-modal .modal-body .col-md-2 .glyphicon-search{
+    color: #fff;
+}
+
+
+
+
+.modal-body .row textarea{
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 5px;
+}
+
+
+
+.col-md-1 .bootstrap-select .btn {
+    height: 28px;
+    font-size: 12px;
+}
+
+.modal-content .col-md-3 .btn {
+    height: 32px;
+} 
+
+span.red{
+    color: #F7553E;
+}

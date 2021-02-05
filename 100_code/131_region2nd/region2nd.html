@@ -1,0 +1,388 @@
+<!-- header.html -->
+<?php
+  require $_SERVER['DOCUMENT_ROOT']."/include/header.html";
+?>
+
+
+  <!-- 페이지 카테고리 -->
+  <div class="container-fluid mb20px">
+    <h3 class="nwt-category"><small>코드관리&nbsp;&nbsp;>&nbsp;&nbsp;지역관리&nbsp;&nbsp;></small>읍면동 관리</h3>
+  </div>
+
+
+  <!-- 검색바(폼) 시작 -->
+  <div class="container-fluid nwt-search-form">
+      <div class="panel panel-default">
+          <div class="panel-body">
+              <form class="form-inline" action="#">
+                  <fieldset>
+                      <legend>조건검색</legend>
+
+                      <!-- 검색버튼 제외한 폼 wrap -->
+                      <div class="frm-wrap">
+                        <!-- 1st row -->
+                        <div class="row">
+
+                          <!-- 구분 -->
+                          <div class="col-md-1">
+                            <label for="separation_search" class="sr-only">구분</label>
+                            <select class="form-control" id="separation_search" name="separation_search">
+                              <option value="">== 구분 ==</option>
+                              <option value="1">1지역</option>
+                              <option value="2">2지역</option>
+                              <option value="3">3지역</option>
+                              <option value="4">4지역</option>
+                              <option value="5">5지역</option>
+                            </select>                            
+                          </div>
+
+                          <!-- 시도 -->
+                          <div class="col-md-1">
+                            <label for="area1_search" class="sr-only">시도</label>
+                            <select class="form-control" id="area1_search" name="area1_search">
+                              <option value="">== 시도 ==</option>
+                              <option value="1">서울</option>
+                              <option value="2">대전</option>
+                              <option value="2">대구</option>
+                              <option value="2">부산</option>
+                            </select>                            
+                          </div>
+
+
+                          <!-- 시군구 -->
+                          <div class="col-md-1">
+                            <label for="area2_search" class="sr-only">시군구</label>
+                            <select class="form-control" id="area2_search" name="area2_search">
+                              <option value="">== 시군구 ==</option>
+                              <option value="1">서울</option>
+                              <option value="2">대전</option>
+                              <option value="2">대구</option>
+                              <option value="2">부산</option>
+                            </select>                        
+                          </div>
+
+                          <!-- 읍면동 -->
+                          <div class="col-md-1">
+                            <label for="area3_search" class="sr-only">읍면동</label>
+                            <select class="form-control" id="area3_search" name="area3_search">
+                              <option value="">== 읍면동 ==</option>
+                              <option value="1">서울</option>
+                              <option value="2">대전</option>
+                              <option value="2">대구</option>
+                              <option value="2">부산</option>
+                            </select>                           
+                          </div>
+
+                          <!-- 입력 -->
+                          <div class="col-md-1">
+                            <label for="area_text" class="sr-only">입력</label>
+                            <input type="text" class="form-control" name="area_text" id="area_text" placeholder="입력">                            
+                          </div>
+
+                        </div>
+                        
+                      </div> 
+
+                      <!-- 검색버튼 wrap -->
+                      <div class="frm-search-wrap">
+                        <!-- 검색btn -->
+                        <div class="row">
+                            <div class="col-md-12 text-right">
+                              <button type="button" class="btn btn-primary" id="frmSearch" style="margin-top: -10px"><span class="glyphicon glyphicon-search"></span>&nbsp;검색</button>
+                            </div>
+                        </div> 
+                      </div>
+
+                  </fieldset>
+              </form>
+          </div>
+      </div>
+  </div>
+  <!-- 검색바(폼) 끝 -->
+
+
+  <!-- 테이블 상단 #perPage, btn 영역 -->
+  <div class="container-fluid nwt-table-top mb20r">
+    <div class="row">
+      
+      <!-- 리스트개수 -->
+      <div class="col-lg-6">
+        <div class="form-inline">
+          <label for="perPage" class="mr10r">리스트</label>
+          <select name="perPage" class="form-control wd100r" id="perPage">
+            <option value="10">10</option>
+            <option value="20">20</option>
+            <option value="50">50</option>
+            <option value="100">100</option>
+          </select>
+        </div>
+      </div>
+      
+      <!-- 테이블 우측 상단 btn -->
+      <div class="col-lg-6 clearfix">
+        <div class="form-inline f-right">
+
+          <!-- 엑셀 다운로드 -->
+          <button type="button" class="btn btn-success"><span class="glyphicon glyphicon-download-alt"></span>&nbsp;엑셀 다운로드</button>
+          
+          <!-- 등록btn / modal handler -->
+          <button type="button" class="btn btn-primary" id="add-new-btn" data-toggle="modal" data-target="#add-new">등록</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+
+  <!-- 테이블 -->
+  <div class="container-fluid nwt-table" style="width: 100%;"> <!--overflow-x: scroll;-->
+    <table class="table table-bordered table-striped">
+      <thead>
+        <tr class="active">
+          <th class="text-center">순번</th>
+          <th class="text-center">지역코드</th>
+          <th class="text-center">구분</th>
+          <th class="text-center">시도</th>
+          <th class="text-center">시군구</th>
+          <th class="text-center">읍면동수</th>
+          <th class="text-center">거래업체수<br>(시군구기준)</th>
+          <th class="text-center">등록일시</th>
+          <th class="text-center">등록자</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="text-center">10</td>
+          <td class="text-center">111</td>
+          <td class="text-center">2지역</td>
+          <td class="text-center">서울</td>
+          <td class="text-center">강남</td>
+          <td class="text-right">31</td>
+          <td class="text-right">20</td>
+          <td class="text-center">2019-06-07</td>
+          <td class="text-center">시스템관리자</td>
+        </tr>                                                                    
+        <tr>
+          <td class="text-center">10</td>
+          <td class="text-center">111</td>
+          <td class="text-center">2지역</td>
+          <td class="text-center">서울</td>
+          <td class="text-center">강남</td>
+          <td class="text-right">31</td>
+          <td class="text-right">20</td>
+          <td class="text-center">2019-06-07</td>
+          <td class="text-center">시스템관리자</td>
+        </tr>                                                                    
+        <tr>
+          <td class="text-center">10</td>
+          <td class="text-center">111</td>
+          <td class="text-center">2지역</td>
+          <td class="text-center">서울</td>
+          <td class="text-center">강남</td>
+          <td class="text-right">31</td>
+          <td class="text-right">20</td>
+          <td class="text-center">2019-06-07</td>
+          <td class="text-center">시스템관리자</td>
+        </tr>                                                                    
+        <tr>
+          <td class="text-center">10</td>
+          <td class="text-center">111</td>
+          <td class="text-center">2지역</td>
+          <td class="text-center">서울</td>
+          <td class="text-center">강남</td>
+          <td class="text-right">31</td>
+          <td class="text-right">20</td>
+          <td class="text-center">2019-06-07</td>
+          <td class="text-center">시스템관리자</td>
+        </tr>                                                                    
+        <tr>
+          <td class="text-center">10</td>
+          <td class="text-center">111</td>
+          <td class="text-center">2지역</td>
+          <td class="text-center">서울</td>
+          <td class="text-center">강남</td>
+          <td class="text-right">31</td>
+          <td class="text-right">20</td>
+          <td class="text-center">2019-06-07</td>
+          <td class="text-center">시스템관리자</td>
+        </tr>                                                                    
+        <tr>
+          <td class="text-center">10</td>
+          <td class="text-center">111</td>
+          <td class="text-center">2지역</td>
+          <td class="text-center">서울</td>
+          <td class="text-center">강남</td>
+          <td class="text-right">31</td>
+          <td class="text-right">20</td>
+          <td class="text-center">2019-06-07</td>
+          <td class="text-center">시스템관리자</td>
+        </tr>                                                                    
+        <tr>
+          <td class="text-center">10</td>
+          <td class="text-center">111</td>
+          <td class="text-center">2지역</td>
+          <td class="text-center">서울</td>
+          <td class="text-center">강남</td>
+          <td class="text-right">31</td>
+          <td class="text-right">20</td>
+          <td class="text-center">2019-06-07</td>
+          <td class="text-center">시스템관리자</td>
+        </tr>                                                                    
+        <tr>
+          <td class="text-center">10</td>
+          <td class="text-center">111</td>
+          <td class="text-center">2지역</td>
+          <td class="text-center">서울</td>
+          <td class="text-center">강남</td>
+          <td class="text-right">31</td>
+          <td class="text-right">20</td>
+          <td class="text-center">2019-06-07</td>
+          <td class="text-center">시스템관리자</td>
+        </tr>                                                                    
+        <tr>
+          <td class="text-center">10</td>
+          <td class="text-center">111</td>
+          <td class="text-center">2지역</td>
+          <td class="text-center">서울</td>
+          <td class="text-center">강남</td>
+          <td class="text-right">31</td>
+          <td class="text-right">20</td>
+          <td class="text-center">2019-06-07</td>
+          <td class="text-center">시스템관리자</td>
+        </tr>                                                                    
+        <tr>
+          <td class="text-center">10</td>
+          <td class="text-center">111</td>
+          <td class="text-center">2지역</td>
+          <td class="text-center">서울</td>
+          <td class="text-center">강남</td>
+          <td class="text-right">31</td>
+          <td class="text-right">20</td>
+          <td class="text-center">2019-06-07</td>
+          <td class="text-center">시스템관리자</td>
+        </tr>                                                                    
+        <tr>
+          <td class="text-center">10</td>
+          <td class="text-center">111</td>
+          <td class="text-center">2지역</td>
+          <td class="text-center">서울</td>
+          <td class="text-center">강남</td>
+          <td class="text-right">31</td>
+          <td class="text-right">20</td>
+          <td class="text-center">2019-06-07</td>
+          <td class="text-center">시스템관리자</td>
+        </tr>                                                                    
+      </tbody>
+    </table>
+  </div>
+
+
+  <!-- pagination -->
+  <div class="container-fluid">
+    <div class="text-center">
+      <ul class="pagination">
+        <li><a href="#">«</a></li>
+        <li class="active"><a href="#">1</a></li>
+        <li><a href="#">2</a></li>
+        <li><a href="#">3</a></li>
+        <li><a href="#">4</a></li>
+        <li><a href="#">5</a></li>
+        <li><a href="#">»</a></li>
+      </ul>
+    </div>
+  </div>
+
+
+  <!-- modal #add-new -->  
+  <div class="modal fade" id="add-new" role="dialog">
+    <div class="modal-dialog">
+      <div class="modal-content">
+
+        <!-- modal 상단 -->
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button> 
+          <h4 class="modal-title">지역관리 시군구 관리</h4>  
+        </div>
+
+
+        <!-- modal 내용 -->
+        <div class="modal-body">         
+          <form action="#">
+
+            
+            <!-- 지역코드 -->
+            <div class="row">
+              <div class="col-md-3"><label for="area_code">지역코드</label></div>
+              <div class="col-md-5"><input type="text" class="form-control" id="area_code" name="area_code" placeholder="입력"></div>
+            </div>
+
+
+            <!-- 구분 -->
+            <div class="row">
+              <div class="col-md-3"><label for="separation">구분</label></div>
+              <div class="col-md-5">
+                <select class="form-control" name="separation" id="separation">
+                  <option value="">선택</option>
+                  <option value="">1지역</option>
+                  <option value="">2지역</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- 시도 -->
+            <div class="row">
+              <div class="col-md-3"><label for="area1">시도</label></div>
+              <div class="col-md-5">
+                <select class="form-control" name="area1" id="area1">
+                    <option value="">선택</option>
+                    <option value="">서울</option>
+                    <option value="">대전</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- 시군구 -->
+            <div class="row">
+              <div class="col-md-3"><label for="area2">시군구</label></div>
+              <div class="col-md-5">
+                <select class="form-control" name="area2" id="area2">
+                    <option value="">선택</option>
+                    <option value="">서울</option>
+                    <option value="">대전</option>
+                </select>
+              </div>
+            </div>
+  
+
+            <!-- 읍면동 -->
+            <div class="row">
+              <div class="col-md-3"><label for="area3">읍면동</label></div>
+              <div class="col-md-5">
+                <input type="text" class="form-control" id="area3" name="area3" placeholder="입력">
+              </div>
+            </div>            
+           
+          </form>
+        </div>
+
+
+        <!-- modal 하단 -->
+        <div class="modal-footer">
+            <div class="text-left">
+                <button type="button" class="btn btn-danger" id="btnDelete" onclick="delData()">삭제</button>
+            </div>
+            <div class="text-right">
+                <!-- 등록btn -->
+                <button type="submit" class="btn btn-primary">등록</button>
+                <!-- 취소btn -->
+                <button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<!-- footer.html -->
+<?php
+  require $_SERVER['DOCUMENT_ROOT']."/include/footer.html";
+?>

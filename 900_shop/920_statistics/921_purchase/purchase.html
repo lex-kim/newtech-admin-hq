@@ -1,0 +1,7 @@
+<?php
+  require $_SERVER['DOCUMENT_ROOT']."/include/headerShop.html";
+  require "controller/PurchaseStatusController.php";
+ 
+  $cPurchaseStatusController = new PurchaseStatusController(['EC_MGMT_TYPE']);
+  $cPurchaseStatusController->index();
+?>

@@ -1,0 +1,120 @@
+
+.nwt-table{
+    /* overflow-x: scroll; 
+	white-space: nowrap; */
+}
+
+
+
+.popuplist{
+    cursor: pointer;
+}
+
+/* 팝업 스타일 */
+.categorypopup{
+    margin-top: 20px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #ddd
+}
+
+
+/* 모달 textarea css */
+#add-new .popup-body {
+    overflow: hidden;
+}
+#add-new .popup-body > div{
+    float: left;
+}
+
+#add-new .modal-left{
+    width: 55%;
+    border-right: 1px solid #ddd;
+} 
+#add-new .modal-right{
+    width: 45%;
+    padding-left: 20px;
+}
+
+.modal-body .row textarea,
+.popup-body .row textarea{
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 5px;
+}
+
+.popup-body .modal-left .row .col-md-5{
+    position: relative;
+}
+.popup-body .modal-left .row .col-md-5 .search-glypicon{
+    position: absolute;
+    top: 10px;
+    right: 25px;
+    cursor: pointer;
+}
+
+.popup-body .modal-right .table tr td{
+    width: 33.3%;
+}
+
+
+/* 입금처리 CSS */
+#add-new .modal-dialog{
+    width: 1000px;
+}
+
+
+.modal-table .table tbody tr td.firsttd{
+    width: 11.5%;
+}
+
+.modal-table .table tbody tr td.secondtd{
+    width: 38%;
+}
+
+.modal-table .table tbody tr td.pricetd{
+    width: 17%;
+}
+.modal-table .table tbody tr td.datetd{
+    width: 15%;
+    position: relative;
+}
+
+
+.modal-table .table tbody tr td label.radio-inline{
+    padding-left: 35px;
+
+}
+#add-new .modal-content .modal-table .table tbody tr td label input{
+    position: relative;
+    top: -1px;
+    margin-right: 3px;
+}
+
+
+.date-input{
+    width: 14%;
+}
+
+/* 입금창의 캘린더 아이콘 */
+.date-hidetd {
+    position: relative;
+}
+.search-glypicon{
+    position: absolute;
+    top: 17px;
+    right: 15px;
+}
+
+/* 입금창의 사유처리 체크박스 CSS */
+.modal-table .table tbody tr td.reasonprocessing{
+    position: relative;
+}
+.modal-table .table tbody tr td.reasonprocessing label{
+    position: absolute;
+    top: 10px;
+    left: 22px;
+}
+
+input,label{
+    display: inline-block;
+} 

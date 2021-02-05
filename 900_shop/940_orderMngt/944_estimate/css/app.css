@@ -1,0 +1,500 @@
+
+.nwt-search-form .search-glypicon{
+    position: relative;
+    top: 2px;
+    left: -20px;
+    width: 0;
+}
+
+.detail-info{
+    margin: 50px 15px;
+    padding-top: 15px;
+    border-top: 1px solid #ddd;
+    
+}
+
+.nwt-table h4{
+    float: left;
+}
+
+
+.order-content{
+    width: 70%;
+    margin: 0 auto;
+    overflow: hidden;
+    font-size: 14px;
+    position: relative;
+}
+.order-content > div{
+    float: left;
+}
+
+
+/* 카테고리 */
+.order-menu{
+    width: 100%;
+    height: 30px;
+    background-color: #eee;
+    position: relative;
+    z-index: 1040;
+}
+.order-menu .navbar-nav {
+    background-color: #eee;
+}
+.order-menu .navbar-nav .dropdown a:focus{
+    background-color: #ddd !important;
+}
+.order-menu .nav .dropdown .dropdown-menu{
+    overflow: hidden;
+}
+.order-menu .nav .dropdown a.dropdown-toggle{
+    padding: 5px 15px;
+    font-size: 13px;
+}
+
+
+
+/* 검색바 */
+.order-search{
+    position: relative;
+}
+
+.order-search .col-lg-6{
+    width: 28%;
+    position: relative;
+    top: 11px;
+}
+
+
+
+.order-search .search-input{
+    width: 54%;
+    border:1px solid #ddd;
+    padding: 10px 20px;
+    box-sizing: border-box;
+    margin: 10px 0px;
+}
+.order-search .search-btn{
+    padding: 9px 30px;
+}
+
+
+/* 상품리스트 */
+.order-left{
+    width: 43%;
+    height: 100%;
+    position: relative;
+}
+.order-left .order-list{
+    width: 100%;
+    height: 590px;
+    overflow: scroll;
+}
+
+.order-left .order-list .goods-img{
+    width: 70px;
+}
+.order-left .order-list .goods-info{
+    width: 50%;
+}
+.order-left .order-list .goods-price{
+    width: calc(35% - 1%);
+}
+
+
+
+.order-list table tr .goods-img img{
+    width: 70px;
+    height: 70px;
+}
+.order-list table tr .goods-title{
+    margin-bottom: 5px;
+    cursor: pointer;
+    width: 100%;
+    white-space: normal;
+}
+.order-list table tr .goods-title span a{
+    font-size: 14px;
+}
+.order-list table tr .goods-title .btn{
+    padding: 1px 6px;
+    margin-left: 10px;
+}
+.order-list table tr .goods-price .price-info{
+    margin-bottom: 5px;
+}
+.order-list table tr .goods-price .price-info .goods-point{
+    font-weight: bold;
+    margin-right: 5px;
+}
+.order-list table tr .goods-price .price-info .cost-price{
+    text-decoration: line-through;
+}
+.order-list table tr .goods-price .price-info .selling-price{
+    font-size: 18px;
+    margin-left: 5px;
+}
+.order-list table tr .goods-price .price-button .btn{
+    padding: 3px 30px;
+}
+
+
+
+/* 선택 상품리스트 */
+.order-right{
+    width: calc(57% - 40px);
+    /* width: 490px; */
+    height: 750px;
+    overflow: hidden;
+    /* background-color: lightgreen; */
+    margin-left: 20px;
+    /* position: relative; */
+    border-right:1px solid #eee;
+    border-left:1px solid #eee;
+    padding: 0px 10px;
+    /* position: fixed;
+    right: 15%; */
+}
+
+/* 공업사 명 입력 */
+.estimate-biz-nm{
+    margin-bottom: 10px;
+}
+
+
+/* 타이틀 */
+.order-right .order-choice{
+    overflow: scroll;
+    height: 550px;
+
+}
+.order-choice-title{
+    font-size: 20px;
+    padding: 5px;
+    border-bottom: 1px solid #ccc;
+    background-color: #337ab7;
+    color: #fff;
+    border-radius: 3px;
+}
+
+
+.order-right .order-choice ul li{
+    width: 100%;
+    /* height: 50px; */
+    padding: 10px 0px;
+    border-bottom: 1px solid #ddd;
+    overflow: hidden;
+    /* background-color: red; */
+}
+.order-right .order-choice ul li > div{
+    float: left;
+}
+
+.order-right .order-choice .choice-title{
+    width: 38%;
+}
+.order-right .order-choice .choice-title .choice-title-goods{
+    font-size: 13px;
+}
+.order-right .order-choice .choice-title .choice-title-option{
+    color: #888;
+}
+/* 수량 */
+.order-right .order-choice .choice-num{
+    width: 12%;
+    /* margin-top: 6px; */
+}
+.order-right .order-choice .choice-num .input-num{
+    line-height: 20px;
+    text-align: center;
+    width: 44px;
+    height: 35px;
+    border: 1px solid #ddd;
+    padding: 0px 5px;
+    font-size: 12px;
+}
+.order-right .order-choice .choice-num .edit-num{
+    display: inline-block;
+    width: 13px;
+    line-height: 0;
+    vertical-align: middle;
+}
+.order-right .order-choice .choice-num .edit-num button{
+    width: 20px;
+    height: 17px;
+    border: 1px solid #ddd;
+    text-indent: -9999px;
+    font-size: 0;
+    line-height: 0;
+    background-size: contain;
+}
+
+.order-right .order-choice .choice-num .edit-num .btn-up{
+    background: url(/900_shop/940_orderMngt/944_estimate/img/upbtn.png) center no-repeat;
+    background-size: 15px;
+}
+.order-right .order-choice .choice-num .edit-num .btn-down{
+    background: url(/900_shop/940_orderMngt/944_estimate/img/downbtn.png) center no-repeat;
+    background-size: 15px;
+}
+/* 가격 */
+.order-right .order-choice .choice-price{
+    width: calc(43% - 10px);
+    margin-right: 10px;
+    text-align: right;
+}
+.order-right .order-choice .choice-price .col-md-2,
+.order-right .order-choice .choice-price .col-md-3{
+    padding: 0px 2px;
+}
+.order-right .order-choice .choice-price .choice-cost-price{
+    display: inline-block;
+    width: 94px;
+}
+.order-right .order-choice .choice-price .choice-selling-price{
+    font-weight: bold;
+    font-size: 15px;
+}
+
+/* 삭제 */
+.order-right .order-choice .choice-delete{
+    width: 6%;
+    text-align: center;
+    /* background-color: blue; */
+}
+.order-right .order-choice .choice-delete .btn{
+    padding: 2px 5px;
+}
+
+
+/* 합계 */
+.order-total{
+    /* position: absolute; */
+    width: 100%;
+    height: 100px;
+    /* bottom: 0; */
+    /* background-color: red; */
+    position: relative;
+}
+.order-total .total-price{
+    padding: 10px 5px;
+    /* background-color: blue; */
+    overflow: hidden;
+    width: 100%;
+    
+}
+.order-total .total-price> div{
+    float: left;
+    font-size: 20px;
+    
+}
+.order-total .total-price .total-price-right{
+    float: right;
+}
+.order-total .order-btn-area{
+    margin-top: 10px;
+    
+}
+.order-total .order-btn-area ul{
+    float: right;}
+.order-total .order-btn-area ul li{
+    float: left;
+}
+
+.order-total .order-btn-area ul li .estimate-btn{
+    margin-right: 3px;
+    font-size: 13px;
+}
+
+/* 페이지네이션  CSS */
+.pagination_area{
+    /* position: fixed; */
+    z-index: 1000;
+    /* bottom: 0; */
+    /* left: 3%; */
+    /* transform: translateX(-3%); */
+    background-color: #fff;
+    /* width: 39%; */
+    
+}
+
+
+
+/* 상품디테일 팝업 CSS */
+
+
+.goods-top{
+    overflow: hidden;
+    padding-top: 30px;
+}
+.goods-top>div{
+    float: left;
+    width: 50%;
+}
+.goods-top .goods-left{
+    text-align: center;
+    position: relative;
+    margin: 0 auto;
+}
+.goods-top .goods-left > img{
+    width: 350px;
+    margin: 10px;
+}
+.goods-top .goods-right{
+    width: 46%;
+    margin-top: 30px;
+    margin-right: 30px;
+}
+.goods-top .goods-right .goods-top-name{
+    font-size: 28px;
+    width: 95%;
+}
+.goods-top .goods-right .goods-top-price{
+    font-size: 30px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+.goods-top .goods-right .goods-top-price span{
+    font-size: 22px;
+    font-weight: normal;
+}
+.goods-top .goods-right .goods-top-info{
+    font-size: 13px;
+    margin-bottom: 30px;
+}
+.goods-top .goods-right .goods-top-info span{
+    font-size: 14px;
+    color: #ccc;
+    padding: 0px 10px;
+}
+.goods-top .goods-right .goods-top-info .table-bordered{
+    border:0px
+}
+.goods-top .goods-right .goods-top-info .table-bordered td{
+    border-left:0px;
+    border-right:0px;
+}
+.goods-top .goods-right .goods-top-info .table-bordered .active{
+    background: #f9f9f9;
+}
+
+.goods-images{
+    text-align: center;
+    width: 100%;
+}
+.goods-images div{
+    width: 100%;
+}
+
+/* goods-img css */
+.goods-content img{
+    width: 100%;
+    
+}
+.modal-detail-header{
+    padding: 0;
+    margin: 0;
+    /* position: fixed;
+    top: 0;
+    bottom: 0; */
+    width: 100%;
+    z-index: 100;
+    
+}
+
+.modal-menu-list{
+    overflow: hidden;
+    margin-bottom: 0;
+    border-top: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+    background-color: #fff;
+    position: relative;
+}
+.modal-menu-list .modal-menu a{
+    float: left;
+    cursor: pointer;
+    font-size: 15px;
+    padding: 10px 30px;
+    border-right:1px solid #ccc
+}
+.modal-menu-list .modal-menu a:hover{
+    background-color: #eee;
+    text-decoration: none;
+}
+
+#CLOSE_BTN{
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    z-index: 99999;
+}
+
+
+
+.modal-body-title{
+    padding: 10px 0px;
+    padding-top: 60px;
+    margin: 0px;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #ccc;
+}
+
+
+/* 942_order에서의 견적서, 주문서 가로너비설정  */
+.order-content{
+    width: 95%;
+}
+
+
+/* 견적서 리스트 배송방법, 결제방법 */
+.order-delivery-payment{
+    margin: 15px 0px;
+    border-bottom:1px solid #ccc
+}
+.order-delivery-payment .row{
+    margin-bottom: 10px;
+}
+.order-biznm-area .col-md-2,
+.order-delivery-payment .col-md-2{
+    width: 15%;
+    margin-top: 6px;
+}
+
+
+.slider-wrap{
+    /* position: relative; */
+    width: 350px;
+    display: inline-block;
+}
+
+.slick-slide{
+    margin: 0 auto;
+}
+.slider-for{
+    text-align: center;
+}
+.slider-for div {
+    width: 350px;
+}
+.slider-for div img{
+    height: 350px;
+    width: 350px;
+    object-fit: fill;
+}
+.slider-nav{
+    width: 350px;
+    margin-top: 10px;
+    margin-bottom: 50px;
+}
+.slider-nav div{
+    height: 50px;
+    text-align: center;
+}
+.slider-nav div img{
+    height: 100%;
+    width: 100%;
+    object-fit: fill;
+}
+.slider-nav .slick-track{
+    transform: translate3d(0px,0px,0px) !important;
+}

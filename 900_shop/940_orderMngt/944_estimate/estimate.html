@@ -1,0 +1,67 @@
+<!-- header.html -->
+<?php
+  require $_SERVER['DOCUMENT_ROOT']."/include/headerpopup.html";
+?>
+<body>
+
+
+  <!-- 페이지 카테고리 -->
+  <div class="container-fluid mb20px">
+    <h3 class="nwt-category"><small>견적서관리&nbsp;&nbsp;></small>견적서작성</h3>
+  </div>
+
+  <div class="order-content">
+    
+    <div class="order-left">
+      <!-- 상품메뉴&검색 -->
+      <?php	require "./estimateLeftTop.html"; ?>
+      
+
+      <!-- 상품리스트 -->
+      <div class="nwt-table order-list" style="width: 100%;">
+  
+        <?php	require "./estimateLeft.html"; ?>
+        
+      </div>
+
+       <!-- pagination -->
+       <div class="container-fluid">
+        <div class="text-center pagination_area">
+          <ul class="pagination">
+            <li><a href="#"><<</a></li>
+            <li><a href="#"><</a></li>
+            <li><a href="#">1</a></li>
+            <li><a href="#">2</a></li>
+            <li><a href="#">3</a></li>
+            <li><a href="#">4</a></li>
+            <li><a href="#">></a></li>
+            <li><a href="#">>></a></li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="order-right">
+      
+      <!-- 오른쪽영역  -->
+      <?php	require "./estimateRight.html"; ?>
+
+    </div>
+
+  </div>
+
+
+
+
+
+  <!-- indicator -->
+  <!-- <?php	require $_SERVER['DOCUMENT_ROOT']."/include/indicator.html"; ?> -->
+  
+ 
+
+</body>
+<!-- footer.html -->
+<?php
+  require $_SERVER['DOCUMENT_ROOT']."/include/footerpopup.html";
+?>

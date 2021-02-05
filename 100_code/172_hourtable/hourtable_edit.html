@@ -1,0 +1,621 @@
+<!-- header.html -->
+<?php
+  require $_SERVER['DOCUMENT_ROOT']."/include/header.html";
+?>
+
+
+  <!-- 페이지 카테고리 -->
+  <div class="container-fluid mb20px">
+    <h3 class="nwt-category"><small>코드관리&nbsp;&nbsp;></small>방청시간조견표관리</h3>
+  </div>
+
+
+  <!-- 테이블 상단 #perPage, btn 영역 -->
+  <div class="container-fluid nwt-table-top mb20r">
+        <div class="row">
+          
+          <!-- 왼쪽영역 -->
+          <div class="col-lg-6">
+            <div class="form-inline">
+            </div>
+          </div>
+          
+          <!-- 테이블 우측 상단 btn -->
+          <div class="col-lg-6 clearfix">
+            <div class="form-inline f-right">
+                <span>단위 (분)</span>
+                <!-- 엑셀 다운로드 -->
+                <button type="button" class="btn btn-success"><span class="glyphicon glyphicon-download-alt"></span>&nbsp;엑셀 다운로드</button>
+                
+                <!-- 등록btn / modal handler -->
+                <button type="button" class="btn btn-default"><a href="hourtable.html">저장</a></button>
+            </div>
+          </div>
+    
+        </div>
+      </div>
+
+
+  <!-- 테이블 -->
+  <div class="container-fluid nwt-table" style="width: 100%;"> <!--overflow-x: scroll;-->
+    <table class="table table-bordered table-striped">
+      <thead>
+        <tr class="active">
+            <th class="text-center" rowspan="3">수리부위</th>
+            <th class="text-center part-nm" rowspan="3">작업항목</th>
+            <th class="text-center" colspan="20">
+                <div class="form-inline">
+                    <!-- 차량급 -->
+                    <label for="CAR_GRADE" class="mr10r">차량급</label>
+                    <select name="CAR_GRADE" class="wd200px form-control" id="CAR_GRADE">
+                        <option value="">== 선택 ==</option>
+                        <option value="CART12345789">마티즈급</option>
+                        <option value="CART12345789">베르나급</option>
+                        <option value="CART12345789">아반테급</option>
+                    </select>
+                </div>
+            </th>
+        </tr>
+        <tr class="active">
+            <th class="text-center" colspan="2">카트리지 실런트</th>
+            <th class="text-center" colspan="2">테이프형 실런트</th>
+            <th class="text-center" colspan="2">스프레이 실런트</th>
+            <th class="text-center" colspan="2">언더코팅</th>
+            <th class="text-center" colspan="2">파워형 실런트</th>
+            <th class="text-center" colspan="2">멀티형 실런트</th>
+            <th class="text-center" colspan="2">알루미늄스프레이</th>
+            <th class="text-center" colspan="2">인너왁스</th>
+            <th class="text-center" colspan="2">패널접착제</th>
+            <th class="text-center" colspan="2">차음제</th>
+        </tr>
+        <tr class="active">
+            <th class="text-center">교환(23)</th>
+            <th class="text-center">판금(14)</th>
+            <th class="text-center">교환(23)</th>
+            <th class="text-center">판금(14)</th>
+            <th class="text-center">교환(23)</th>
+            <th class="text-center">판금(14)</th>
+            <th class="text-center">교환(23)</th>
+            <th class="text-center">판금(14)</th>
+            <th class="text-center">교환(23)</th>
+            <th class="text-center">판금(14)</th>
+            <th class="text-center">교환(23)</th>
+            <th class="text-center">판금(14)</th>
+            <th class="text-center">교환(23)</th>
+            <th class="text-center">판금(14)</th>
+            <th class="text-center">교환(23)</th>
+            <th class="text-center">판금(14)</th>
+            <th class="text-center">교환(23)</th>
+            <th class="text-center">판금(14)</th>
+            <th class="text-center">교환(23)</th>
+            <th class="text-center">판금(14)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- 수리부위 : 프런트 -->
+        <tr class="borderTh">
+            <th class="text-center active" rowspan="7">프런트</th>
+            <td class="text-left">후드(본넷)</td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="TP10_com" name="TP10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="SP10_com" name="SP10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="SP20_com" name="SP20_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="MP10_com" name="MP10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BP10_com" name="BP10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="TT10_com" name="TT10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="MT10_com" name="MT10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BT10_com" name="BT10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BT20_com" name="BT20_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BT30_com" name="BT30_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BP92_com" name="BP92_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BP95_com" name="BP95_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BP98_com" name="BP98_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BG10_com" name="BG10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BG20_com" name="BG20_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="RT10_com" name="RT10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="RT20_com" name="RT20_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BG30_com" name="BG30_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="RT20_com" name="RT20_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BG30_com" name="BG30_com" placeholder="0"></td>
+        </tr>                                                            
+        <tr>
+            <td class="text-left">프런트팬더(앞팬더)</td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="TP10_com" name="TP10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="SP10_com" name="SP10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="SP20_com" name="SP20_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="MP10_com" name="MP10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BP10_com" name="BP10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="TT10_com" name="TT10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="MT10_com" name="MT10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BT10_com" name="BT10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BT20_com" name="BT20_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BT30_com" name="BT30_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BP92_com" name="BP92_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BP95_com" name="BP95_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BP98_com" name="BP98_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BG10_com" name="BG10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BG20_com" name="BG20_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="RT10_com" name="RT10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="RT20_com" name="RT20_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BG30_com" name="BG30_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="RT20_com" name="RT20_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BG30_com" name="BG30_com" placeholder="0"></td>
+        </tr>                                                            
+        <tr>
+            <td class="text-left">프런트패널</td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="TP10_com" name="TP10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="SP10_com" name="SP10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="SP20_com" name="SP20_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="MP10_com" name="MP10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BP10_com" name="BP10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="TT10_com" name="TT10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="MT10_com" name="MT10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BT10_com" name="BT10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BT20_com" name="BT20_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BT30_com" name="BT30_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BP92_com" name="BP92_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BP95_com" name="BP95_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BP98_com" name="BP98_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BG10_com" name="BG10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BG20_com" name="BG20_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="RT10_com" name="RT10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="RT20_com" name="RT20_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BG30_com" name="BG30_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="RT20_com" name="RT20_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BG30_com" name="BG30_com" placeholder="0"></td>
+        </tr>                                                            
+        <tr>
+            <td class="text-left">프런트휠하우스</td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="TP10_com" name="TP10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="SP10_com" name="SP10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="SP20_com" name="SP20_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="MP10_com" name="MP10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BP10_com" name="BP10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="TT10_com" name="TT10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="MT10_com" name="MT10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BT10_com" name="BT10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BT20_com" name="BT20_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BT30_com" name="BT30_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BP92_com" name="BP92_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BP95_com" name="BP95_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BP98_com" name="BP98_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BG10_com" name="BG10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BG20_com" name="BG20_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="RT10_com" name="RT10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="RT20_com" name="RT20_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BG30_com" name="BG30_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="RT20_com" name="RT20_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BG30_com" name="BG30_com" placeholder="0"></td>
+        </tr>                                                            
+        <tr>
+            <td class="text-left">프런트사이드멤버</td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="TP10_com" name="TP10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="SP10_com" name="SP10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="SP20_com" name="SP20_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="MP10_com" name="MP10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BP10_com" name="BP10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="TT10_com" name="TT10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="MT10_com" name="MT10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BT10_com" name="BT10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BT20_com" name="BT20_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BT30_com" name="BT30_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BP92_com" name="BP92_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BP95_com" name="BP95_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BP98_com" name="BP98_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BG10_com" name="BG10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BG20_com" name="BG20_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="RT10_com" name="RT10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="RT20_com" name="RT20_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BG30_com" name="BG30_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="RT20_com" name="RT20_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BG30_com" name="BG30_com" placeholder="0"></td>
+        </tr>                                                            
+        <tr class="borderTop">
+            <td class="text-left">카울패널</td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="TP10_com" name="TP10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="SP10_com" name="SP10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="SP20_com" name="SP20_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="MP10_com" name="MP10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BP10_com" name="BP10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="TT10_com" name="TT10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="MT10_com" name="MT10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BT10_com" name="BT10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BT20_com" name="BT20_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BT30_com" name="BT30_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BP92_com" name="BP92_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BP95_com" name="BP95_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BP98_com" name="BP98_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BG10_com" name="BG10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BG20_com" name="BG20_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="RT10_com" name="RT10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="RT20_com" name="RT20_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BG30_com" name="BG30_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="RT20_com" name="RT20_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BG30_com" name="BG30_com" placeholder="0"></td>
+        </tr>                                                            
+        <tr class="borderBottom">
+            <td class="text-left">대쉬패널</td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="TP10_com" name="TP10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="SP10_com" name="SP10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="SP20_com" name="SP20_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="MP10_com" name="MP10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BP10_com" name="BP10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="TT10_com" name="TT10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="MT10_com" name="MT10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BT10_com" name="BT10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BT20_com" name="BT20_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BT30_com" name="BT30_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BP92_com" name="BP92_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BP95_com" name="BP95_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BP98_com" name="BP98_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BG10_com" name="BG10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BG20_com" name="BG20_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="RT10_com" name="RT10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="RT20_com" name="RT20_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BG30_com" name="BG30_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="RT20_com" name="RT20_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BG30_com" name="BG30_com" placeholder="0"></td>
+        </tr>
+        
+        <!-- 수리부위 : 사이드 -->
+        <tr class="borderTh">
+            <th class="text-center active" rowspan="5">사이드</th>
+            <td class="text-left">프런트필러(A필러)</td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="TP10_com" name="TP10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="SP10_com" name="SP10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="SP20_com" name="SP20_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="MP10_com" name="MP10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BP10_com" name="BP10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="TT10_com" name="TT10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="MT10_com" name="MT10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BT10_com" name="BT10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BT20_com" name="BT20_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BT30_com" name="BT30_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BP92_com" name="BP92_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BP95_com" name="BP95_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BP98_com" name="BP98_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BG10_com" name="BG10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BG20_com" name="BG20_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="RT10_com" name="RT10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="RT20_com" name="RT20_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BG30_com" name="BG30_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="RT20_com" name="RT20_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BG30_com" name="BG30_com" placeholder="0"></td>
+        </tr>                                                            
+        <tr>
+            <td class="text-left">프런트도어</td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="TP10_com" name="TP10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="SP10_com" name="SP10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="SP20_com" name="SP20_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="MP10_com" name="MP10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BP10_com" name="BP10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="TT10_com" name="TT10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="MT10_com" name="MT10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BT10_com" name="BT10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BT20_com" name="BT20_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BT30_com" name="BT30_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BP92_com" name="BP92_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BP95_com" name="BP95_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BP98_com" name="BP98_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BG10_com" name="BG10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BG20_com" name="BG20_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="RT10_com" name="RT10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="RT20_com" name="RT20_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BG30_com" name="BG30_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="RT20_com" name="RT20_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BG30_com" name="BG30_com" placeholder="0"></td>
+        </tr>  
+        <tr>
+            <td class="text-left">리어도어/슬라이딩도어</td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="TP10_com" name="TP10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="SP10_com" name="SP10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="SP20_com" name="SP20_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="MP10_com" name="MP10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BP10_com" name="BP10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="TT10_com" name="TT10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="MT10_com" name="MT10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BT10_com" name="BT10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BT20_com" name="BT20_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BT30_com" name="BT30_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BP92_com" name="BP92_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BP95_com" name="BP95_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BP98_com" name="BP98_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BG10_com" name="BG10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BG20_com" name="BG20_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="RT10_com" name="RT10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="RT20_com" name="RT20_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BG30_com" name="BG30_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="RT20_com" name="RT20_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BG30_com" name="BG30_com" placeholder="0"></td>
+        </tr>  
+        <tr>
+            <td class="text-left">센터필러(B필러)</td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="TP10_com" name="TP10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="SP10_com" name="SP10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="SP20_com" name="SP20_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="MP10_com" name="MP10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BP10_com" name="BP10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="TT10_com" name="TT10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="MT10_com" name="MT10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BT10_com" name="BT10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BT20_com" name="BT20_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BT30_com" name="BT30_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BP92_com" name="BP92_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BP95_com" name="BP95_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BP98_com" name="BP98_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BG10_com" name="BG10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BG20_com" name="BG20_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="RT10_com" name="RT10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="RT20_com" name="RT20_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BG30_com" name="BG30_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="RT20_com" name="RT20_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BG30_com" name="BG30_com" placeholder="0"></td>
+        </tr>  
+        <tr class="borderBottom">
+            <td class="text-left">사이드스텝패널</td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="TP10_com" name="TP10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="SP10_com" name="SP10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="SP20_com" name="SP20_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="MP10_com" name="MP10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BP10_com" name="BP10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="TT10_com" name="TT10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="MT10_com" name="MT10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BT10_com" name="BT10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BT20_com" name="BT20_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BT30_com" name="BT30_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BP92_com" name="BP92_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BP95_com" name="BP95_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BP98_com" name="BP98_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BG10_com" name="BG10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BG20_com" name="BG20_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="RT10_com" name="RT10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="RT20_com" name="RT20_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BG30_com" name="BG30_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="RT20_com" name="RT20_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BG30_com" name="BG30_com" placeholder="0"></td>
+        </tr> 
+
+        <!-- 수리부위 : 센터 -->
+        <tr class="borderTh">
+            <th class="text-center active" rowspan="3">센터</th>
+            <td class="text-left">루프패널</td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="TP10_com" name="TP10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="SP10_com" name="SP10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="SP20_com" name="SP20_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="MP10_com" name="MP10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BP10_com" name="BP10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="TT10_com" name="TT10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="MT10_com" name="MT10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BT10_com" name="BT10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BT20_com" name="BT20_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BT30_com" name="BT30_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BP92_com" name="BP92_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BP95_com" name="BP95_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BP98_com" name="BP98_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BG10_com" name="BG10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BG20_com" name="BG20_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="RT10_com" name="RT10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="RT20_com" name="RT20_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BG30_com" name="BG30_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="RT20_com" name="RT20_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BG30_com" name="BG30_com" placeholder="0"></td>
+        </tr>                                                            
+        <tr>
+            <td class="text-left">실내바닥(앞)</td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="TP10_com" name="TP10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="SP10_com" name="SP10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="SP20_com" name="SP20_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="MP10_com" name="MP10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BP10_com" name="BP10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="TT10_com" name="TT10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="MT10_com" name="MT10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BT10_com" name="BT10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BT20_com" name="BT20_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BT30_com" name="BT30_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BP92_com" name="BP92_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BP95_com" name="BP95_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BP98_com" name="BP98_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BG10_com" name="BG10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BG20_com" name="BG20_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="RT10_com" name="RT10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="RT20_com" name="RT20_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BG30_com" name="BG30_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="RT20_com" name="RT20_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BG30_com" name="BG30_com" placeholder="0"></td>
+        </tr>  
+        <tr class="borderBottom">
+            <td class="text-left">실내바닥(뒤)</td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="TP10_com" name="TP10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="SP10_com" name="SP10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="SP20_com" name="SP20_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="MP10_com" name="MP10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BP10_com" name="BP10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="TT10_com" name="TT10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="MT10_com" name="MT10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BT10_com" name="BT10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BT20_com" name="BT20_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BT30_com" name="BT30_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BP92_com" name="BP92_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BP95_com" name="BP95_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BP98_com" name="BP98_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BG10_com" name="BG10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BG20_com" name="BG20_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="RT10_com" name="RT10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="RT20_com" name="RT20_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BG30_com" name="BG30_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="RT20_com" name="RT20_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BG30_com" name="BG30_com" placeholder="0"></td>
+        </tr>
+
+        <!-- 수리부위 : 리어 -->
+        <tr>
+            <th class="text-center active" rowspan="7">리어</th>
+            <td class="text-left">트렁크리드/백도어</td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="TP10_com" name="TP10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="SP10_com" name="SP10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="SP20_com" name="SP20_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="MP10_com" name="MP10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BP10_com" name="BP10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="TT10_com" name="TT10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="MT10_com" name="MT10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BT10_com" name="BT10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BT20_com" name="BT20_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BT30_com" name="BT30_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BP92_com" name="BP92_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BP95_com" name="BP95_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BP98_com" name="BP98_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BG10_com" name="BG10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BG20_com" name="BG20_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="RT10_com" name="RT10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="RT20_com" name="RT20_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BG30_com" name="BG30_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="RT20_com" name="RT20_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BG30_com" name="BG30_com" placeholder="0"></td>
+        </tr>                                                            
+        <tr>
+            <td class="text-left">리어팬더(뒤팬더,쿼터)</td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="TP10_com" name="TP10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="SP10_com" name="SP10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="SP20_com" name="SP20_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="MP10_com" name="MP10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BP10_com" name="BP10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="TT10_com" name="TT10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="MT10_com" name="MT10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BT10_com" name="BT10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BT20_com" name="BT20_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BT30_com" name="BT30_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BP92_com" name="BP92_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BP95_com" name="BP95_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BP98_com" name="BP98_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BG10_com" name="BG10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BG20_com" name="BG20_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="RT10_com" name="RT10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="RT20_com" name="RT20_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BG30_com" name="BG30_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="RT20_com" name="RT20_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BG30_com" name="BG30_com" placeholder="0"></td>
+        </tr> 
+        <tr>
+            <td class="text-left">백패널</td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="TP10_com" name="TP10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="SP10_com" name="SP10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="SP20_com" name="SP20_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="MP10_com" name="MP10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BP10_com" name="BP10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="TT10_com" name="TT10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="MT10_com" name="MT10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BT10_com" name="BT10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BT20_com" name="BT20_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BT30_com" name="BT30_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BP92_com" name="BP92_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BP95_com" name="BP95_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BP98_com" name="BP98_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BG10_com" name="BG10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BG20_com" name="BG20_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="RT10_com" name="RT10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="RT20_com" name="RT20_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BG30_com" name="BG30_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="RT20_com" name="RT20_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BG30_com" name="BG30_com" placeholder="0"></td>
+        </tr> 
+        <tr>
+            <td class="text-left">컴비네이션패널(테루)</td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="TP10_com" name="TP10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="SP10_com" name="SP10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="SP20_com" name="SP20_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="MP10_com" name="MP10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BP10_com" name="BP10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="TT10_com" name="TT10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="MT10_com" name="MT10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BT10_com" name="BT10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BT20_com" name="BT20_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BT30_com" name="BT30_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BP92_com" name="BP92_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BP95_com" name="BP95_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BP98_com" name="BP98_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BG10_com" name="BG10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BG20_com" name="BG20_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="RT10_com" name="RT10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="RT20_com" name="RT20_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BG30_com" name="BG30_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="RT20_com" name="RT20_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BG30_com" name="BG30_com" placeholder="0"></td>
+        </tr> 
+        <tr>
+            <td class="text-left">리어휠하우스</td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="TP10_com" name="TP10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="SP10_com" name="SP10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="SP20_com" name="SP20_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="MP10_com" name="MP10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BP10_com" name="BP10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="TT10_com" name="TT10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="MT10_com" name="MT10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BT10_com" name="BT10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BT20_com" name="BT20_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BT30_com" name="BT30_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BP92_com" name="BP92_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BP95_com" name="BP95_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BP98_com" name="BP98_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BG10_com" name="BG10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BG20_com" name="BG20_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="RT10_com" name="RT10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="RT20_com" name="RT20_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BG30_com" name="BG30_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="RT20_com" name="RT20_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BG30_com" name="BG30_com" placeholder="0"></td>
+        </tr> 
+        <tr>
+            <td class="text-left">리어사이드멤버</td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="TP10_com" name="TP10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="SP10_com" name="SP10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="SP20_com" name="SP20_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="MP10_com" name="MP10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BP10_com" name="BP10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="TT10_com" name="TT10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="MT10_com" name="MT10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BT10_com" name="BT10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BT20_com" name="BT20_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BT30_com" name="BT30_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BP92_com" name="BP92_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BP95_com" name="BP95_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BP98_com" name="BP98_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BG10_com" name="BG10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BG20_com" name="BG20_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="RT10_com" name="RT10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="RT20_com" name="RT20_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BG30_com" name="BG30_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="RT20_com" name="RT20_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BG30_com" name="BG30_com" placeholder="0"></td>
+        </tr> 
+        <tr>
+            <td class="text-left">트렁크바닥</td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="TP10_com" name="TP10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="SP10_com" name="SP10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="SP20_com" name="SP20_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="MP10_com" name="MP10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BP10_com" name="BP10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="TT10_com" name="TT10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="MT10_com" name="MT10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BT10_com" name="BT10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BT20_com" name="BT20_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BT30_com" name="BT30_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BP92_com" name="BP92_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BP95_com" name="BP95_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BP98_com" name="BP98_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BG10_com" name="BG10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BG20_com" name="BG20_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="RT10_com" name="RT10_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="RT20_com" name="RT20_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BG30_com" name="BG30_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="RT20_com" name="RT20_com" placeholder="0"></td>
+            <td class="text-right"><input type="text" class="form-control text-right" id="BG30_com" name="BG30_com" placeholder="0"></td>
+        </tr> 
+      </tbody>
+    </table>
+  </div>
+
+
+
+<!-- footer.html -->
+<?php
+  require $_SERVER['DOCUMENT_ROOT']."/include/footer.html";
+?>

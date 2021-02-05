@@ -1,0 +1,237 @@
+
+.nwt-table table{
+    width: 100%;
+    overflow-x: scroll; 
+    /* white-space: nowrap; */
+    table-layout:fixed;
+    word-break:break-all;
+}
+
+.nwt-table table tr td {
+    height: 52px;
+}
+
+.col-lg-6{
+    width: 25%;
+}
+/* 확장하기 */
+.nwt-table-top{
+    position: relative;
+}
+.nwt-table-top .table-top-etc{
+    position: absolute;
+    top: 4px;
+    left: 120px;
+}
+.nwt-table-top .table-top-etc .totalbtn{
+    display: inline;
+    padding:6px 10px;
+    border:1px solid #dddddd;
+    border-radius: 4px;
+    margin-left: 20px;
+    cursor: pointer;
+}
+.nwt-table-top .table-top-etc .extend{
+    padding-left: 20px;
+}
+
+/* 확장하기 끝 */
+
+
+.nwt-total{
+    display: none;
+}
+
+.total-open{
+    display: block;
+}
+
+.nwt-total table tr td{
+    /* width: calc(100% / 20); */
+}
+
+.table tbody tr td a.sendstate{
+    margin-right: 10px;
+    width: 60px;
+    display: inline-block;
+}
+
+
+
+/* 목록확장 */
+
+
+
+/* 입금처리 CSS */
+#add-new .modal-dialog{
+    width: 1000px;
+}
+
+
+.modal-table .table tbody tr td.firsttd{
+    width: 11.5%;
+}
+
+.modal-table .table tbody tr td.secondtd{
+    width: 38%;
+}
+
+.modal-table .table tbody tr td.pricetd{
+    width: 17%;
+}
+.modal-table .table tbody tr td.datetd{
+    width: 15%;
+    position: relative;
+}
+
+
+.modal-table .table tbody tr td label.radio-inline{
+    padding-left: 35px;
+   
+}
+#add-new .modal-content .modal-table .table tbody tr td label input{
+    position: relative;
+    top: -1px;
+    margin-right: 3px;
+}
+
+
+.date-input{
+    width: 14%;
+}
+
+/* 입금창의 캘린더 아이콘 */
+.date-hidetd {
+    position: relative;
+}
+.search-glypicon{
+    position: absolute;
+    top: 17px;
+    right: 15px;
+}
+
+/* 입금창의 사유처리 체크박스 CSS */
+.modal-table .table tbody tr td.reasonprocessing{
+    position: relative;
+}
+.modal-table .table tbody tr td.reasonprocessing label{
+    position: absolute;
+    top: 10px;
+    left: 22px;
+}
+
+input,label{
+    display: inline-block;
+}
+
+
+/* 입금일지정 CSS */
+#DEPOSIT_MODAL .modal-body .row .search-glypicon{
+    color: #888;
+    position: relative;
+    top: 10px;
+    right: 40px;
+}
+
+
+/* 차주분입금처리 CSS */
+#car-deposit .modal-table .date-input{
+    position: relative;
+} 
+#car-deposit .modal-table .date-input .search-glypicon{
+    position: absolute;
+    top: 17px;
+    right: 18px;
+}
+
+/* 메인 리스트 - 입금여부 미처리 */
+span.green{
+    color:  #5cb85c;
+
+}
+
+
+/* add-trans CSS */
+
+#BILL_INFO .row{
+    border-top: 1px solid #eee;
+    margin: 0px;
+    padding: 5px 0px 5px 0px !important;
+}
+#BILL_INFO .col-md-3{
+    padding:0px 15px 0px 0px;
+}
+#BILL_INFO .col-md-7{
+    line-height: 32px;
+}
+
+
+#add-trans .row {
+    padding-bottom: 15px;
+}
+
+
+h5{
+    color: #aaa;
+}
+
+.modal-body .modal-border-bottom{
+    border-bottom: 1px solid #ccc;
+    margin-bottom: 10px;
+}
+
+
+/* 보상담당등록 모달 css */
+
+#add-modal .modal-dialog{
+    width: 400px;
+}
+
+.modal-body .row .col-md-7 .search-glypicon{
+    position: absolute;
+    top: 10px;
+    right: 25px;
+    cursor: pointer;
+}
+
+
+#add-trans .modal-body .row > div {
+    float: left;
+}
+#add-trans .modal-body .row .col-md-3{
+    width: 20%;
+}
+#add-trans  .modal-body .row .col-md-7{
+    width: 70%;
+}
+.calenderInput {
+    cursor:pointer;
+}
+
+#add-trans .form-control + span {
+    width: 100%;
+	color: 14px;
+	color: #aaa;
+}
+#add-trans .memo-textarea{
+    resize:  none;
+    height: 100px;
+}
+
+.table tr td button{
+    margin-right: 0;
+}
+
+/* 중복표기 */
+span.red{
+    color: #F7553E;
+}
+
+/* 삭제 모달 */
+#delete-modal .modal-dialog .modal-body .row div > .radio-inline{
+    padding-right: 20px !important;
+}
+
+#delete-modal .modal-dialog .modal-body .row div > input{
+    margin-top: 10px;
+}

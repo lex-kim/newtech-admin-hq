@@ -1,0 +1,201 @@
+<!-- header.html -->
+<?php
+  require $_SERVER['DOCUMENT_ROOT']."/include/header.html";
+?>
+
+  <!-- 페이지 카테고리 -->
+  <div class="container-fluid mb20px">
+    <h3 class="nwt-category"><small>보험사관리&nbsp;&nbsp;></small>보험사 관리</h3>
+  </div>
+
+
+  <!-- 검색바(폼) 시작 -->
+  <div class="container-fluid nwt-search-form">
+      <div class="panel panel-default">
+          <div class="panel-body">
+              <form class="form-inline" name="searchForm" id="searchForm">
+                  <fieldset>
+                      <legend>조건검색</legend>
+
+                      <!-- 검색버튼 제외한 폼 wrap -->
+                      <div class="frm-wrap">
+                        <!-- 1st row -->
+                        <div class="row frm-last-row">
+
+                           <!-- 기간 -->
+                           <div class="col-md-2 frmGroup2">
+                            <label for="SEARCH_START_DT" class="sr-only">기간</label>
+                            <input type="text" class="form-control" name="SEARCH_START_DT" id="SEARCH_START_DT" autocomplete="off" placeholder="=기간 시작일=">
+                            <span class="glyphicon glyphicon-calendar search-glypicon"></span>
+                            <label for="SEARCH_END_DT" class="nwt-form-label">~</label>                            
+                            <input type="text" class="form-control" name="SEARCH_END_DT" id="SEARCH_END_DT" autocomplete="off" placeholder="=기간 종료일=">
+                            <span class="glyphicon glyphicon-calendar search-glypicon"></span>                            
+                          </div>
+
+                          <!-- 보험사분류 -->
+                          <div class="col-md-1">
+                            <label for="SEARCH_INSU_TYPE" class="sr-only">보험사분류</label>
+                            <select class="form-control" id="SEARCH_INSU_TYPE" name="SEARCH_INSU_TYPE">
+                            </select>                            
+                          </div>
+                          
+                          <!-- 보험사 -->
+                          <div class="col-md-1 search-insu-nm-select">
+                            <label for="SEARCH_INSU_NM" class="sr-only">보험사</label>
+                            <select class="form-control" id="SEARCH_INSU_NM" name="SEARCH_INSU_NM"
+                                    title = "=보험사="
+                                    data-show-subtext="true" data-live-search="true">
+                            </select>                            
+                          </div>
+
+                          <!-- 담당정보 -->
+                          <div class="col-md-2 frmGroup2-2">
+                            <label for="SEARCH_CHG" class="sr-only">담당정보</label>
+                            <select class="form-control" id="SEARCH_CHG" name="SEARCH_CHG">
+                              <option value="">=담당정보=</option>
+                              <option value="MII_CHG_NM">성명</option>
+                              <option value="MII_CHG_TEL">연락처</option>
+                            </select>
+                            <input type="text" class="form-control" name="CHG_KEYWORD" id="CHG_KEYWORD" placeholder="입력">                            
+                          </div>
+
+                        </div>
+
+                      </div> 
+
+                      <!-- 검색버튼 wrap -->
+                      <div class="frm-search-wrap">
+                        <!-- 검색btn -->
+                        <div class="row">
+                            <div class="col-md-12 text-right">
+                              <button type="submit" class="btn btn-primary" id="frmSearch">
+                                <span class="glyphicon glyphicon-search"></span>&nbsp;검색
+                              </button>
+                            </div>
+                        </div> 
+                      </div>
+
+                  </fieldset>
+              </form>
+          </div>
+      </div>
+  </div>
+  <!-- 검색바(폼) 끝 -->
+
+
+  <!-- 테이블 상단 #perPage, btn 영역 -->
+  <div class="container-fluid nwt-table-top mb20r">
+    <div class="row">
+      
+      <!-- 리스트개수 -->
+      <?php	require $_SERVER['DOCUMENT_ROOT']."/include/listCnt.html"; ?>
+      
+      <!-- 테이블 우측 상단 btn -->
+      <div class="col-lg-6 clearfix">
+        <div class="form-inline f-right">
+          <?php if($AUTH_EXCEL == YN_Y) :?>
+          <!-- 엑셀 다운로드 -->
+          <button type="button" class="btn btn-success" onclick="excelDownload()"><span class="glyphicon glyphicon-download-alt"></span>&nbsp;엑셀 다운로드</button>
+          <?php endif; ?>
+          
+          <?php if($AUTH_CREATE == YN_Y) :?>
+          <!-- 등록btn / modal handler -->
+          <button type="button" class="btn btn-primary" onclick="showAddModal()">등록</button>
+          <?php endif; ?>
+          <?php if($AUTH_UPDATE == YN_Y) :?>
+          <input type="hidden" class="form-control" name="AUTH_UPDATE" id="AUTH_UPDATE" value="<?php echo $AUTH_UPDATE; ?>">
+
+          <?php endif; ?>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- indicator -->
+  <?php	require $_SERVER['DOCUMENT_ROOT']."/include/indicator.html"; ?>
+
+
+  <!-- 테이블 -->
+  <div class="container-fluid nwt-table" style="width: 100%;"> <!--overflow-x: scroll;-->
+    <table class="table table-bordered table-striped">
+      <colgroup>
+        <col width="2.5%"/>
+        <col width="4%"/>
+        <col width="3%"/>
+        <col width="4%"/>
+        <col width="4%"/>
+        <col width="15%"/> 
+        <col width="4%"/>
+        <col width="5%"/>
+        <col width="5%"/>
+        <col width="3%"/>
+        <col width="4%"/>
+        <col width="5%"/>
+        <col width="5%"/>
+        <col width="7%"/>
+        <col width="3%"/>
+        <col width="4%"/>
+        <col width="5%"/>
+        <col width="7%"/>
+        <col width="3%"/>
+        <col width="4%"/>
+        <col width="2%"/>
+      </colgroup>
+      <thead>
+        <tr class="active">
+          <th class="text-center" rowspan="2">순번</th>
+          <th class="text-center" rowspan="2">출력순서</th>
+          <th class="text-center" rowspan="2">보험사<br>분류</th>
+          <th class="text-center" rowspan="2">보험사</th>
+          <th class="text-center" rowspan="2">미결건수</th>
+          <th class="text-center" rowspan="2">주소</th>
+          <th class="text-center" rowspan="2">부품할인율</th>
+          <th class="text-center" rowspan="2">등록일자</th>
+          <th class="text-center" colspan="6">보상지원담당정보</th>
+          <th class="text-center" colspan="3">보상지원부서장</th>
+          <th class="text-center" rowspan="2">메모</th>
+          <th class="text-center" rowspan="2">청구서<br>이관</th>
+          <th class="text-center" rowspan="2">담당지역<br>관리</th>
+          <?php if($AUTH_UPDATE == YN_Y) :?>
+          <th class="text-center" rowspan="2">수정</th>
+          <?php endif; ?>
+
+        </tr>
+        <tr class="active">
+          <th class="text-center">부서</th>
+          <th class="text-center">직책</th>
+          <th class="text-center">성명</th>
+          <th class="text-center">사무실전화</th>
+          <th class="text-center">휴대폰</th>
+          <th class="text-center">이메일</th>
+          <th class="text-center">직책</th>
+          <th class="text-center">성명</th>
+          <th class="text-center">휴대폰</th>
+        </tr>
+      </thead>
+      <tbody id="iwMngtContents">                                                                       
+      </tbody>
+    </table>
+  </div>
+
+
+  <!-- pagination -->
+  <div class="container-fluid">
+    <div class="text-center">
+      <ul class="pagination">
+      </ul>
+    </div>
+  </div>
+
+  <!-- 등록/수정 모달  -->
+  <?php	require "./iwMngtModal.html"; ?>
+  <!-- 담당지역선택 모달-->
+  <?php	require "./iwMngtAreaModal.html"; ?>
+  <!-- 청구서이관 모달 -->
+  <?php	require "./iwMngtTransferModal.html"; ?>
+
+<!-- footer.html -->
+<?php
+  require $_SERVER['DOCUMENT_ROOT']."/include/footer.html";
+?>

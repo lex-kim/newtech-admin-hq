@@ -1,0 +1,7 @@
+<?php
+  require $_SERVER['DOCUMENT_ROOT']."/include/headerShop.html";
+  require "controller/EmployeeStatusController.php";
+ 
+  $cEmployeeStatusController = new EmployeeStatusController(['EC_MGMT_TYPE']);
+  $cEmployeeStatusController->index();
+?>

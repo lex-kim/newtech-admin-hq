@@ -1,0 +1,51 @@
+
+  <!-- 청구서 이관 -->
+  <!-- modal #add-new -->  
+  <div class="modal fade modal-add" id="transfer-modal" role="dialog">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <form method="post" name="transfer_form" id="transfer_form">
+        <input type="hidden" class="form-control" id="REQ_MODE" name="REQ_MODE">
+
+        <!-- modal 상단 -->
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button> 
+          <h4 class="modal-title">청구서이관</h4>  
+        </div>
+
+        <!-- modal 내용 -->
+        <div class="modal-body">  
+
+            <!-- 출력순서 -->
+            <div class="row">
+              <div class="col-md-4"><label for="PRESENT_INSU_NM">现보험사명</label></div>
+              <div class="col-md-3"><input type="hidden" class="form-control" id="PRESENT_INSU_ID" name="PRESENT_INSU_ID" readonly></div>
+              <div class="col-md-8"><input type="text" class="form-control" id="PRESENT_INSU_NM" name="PRESENT_INSU_NM" readonly></div>
+            </div>
+
+            <!-- 청구서 이관할 보험사 -->
+            <div class="row">
+              <div class="col-md-4"><label for="TRANSFER_INSU_NM">청구서 이관할 보험사</label></div>
+              <div class="col-md-8">
+                <select class="form-control" name="TRANSFER_INSU_NM" id="TRANSFER_INSU_NM">
+                  <option value="">선택</option>
+                </select>
+              </div>
+            </div>
+          
+        </div>
+
+        <!-- modal 하단 -->
+        <div class="modal-footer">
+          <div class="text-right">
+            <!-- 등록btn -->
+            <button type="button" class="btn btn-primary" onclick="setTrans()">이관</button>
+            <!-- 취소btn -->
+            <button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
+          </div>
+        </div>
+
+        </form>
+      </div>
+    </div>
+  </div>

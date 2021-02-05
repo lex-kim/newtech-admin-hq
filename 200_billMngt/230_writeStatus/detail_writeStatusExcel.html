@@ -1,0 +1,97 @@
+<?php
+    header("Content-Type: application/vnd.ms-excel");
+    date_default_timezone_set('Asia/Seoul');
+
+    header("Content-Disposition: attachment; filename=".date("Ymd_His", time())."청구서작성현황.xls");
+    header("Content-Description:Newtech System");
+
+    require $_SERVER['DOCUMENT_ROOT']."/common/common.php";	
+    require "class/clsWriteStatus.php";
+    
+    $data =  $clsWriteStatus->getList($_REQUEST);
+    $result = $data[0];
+    $total = $data[3];
+    $tt = 90.9;
+    $excelHtml = "
+        <table border='1'>
+            <tr class='active'>
+                <th>NB_ID</th>
+                <th>MGG_ID</th>
+                <th>NB_GARAGE_NM</th>
+                <th>NB_CAR_NUM</th>
+                <th>NB_CLAIM_DT</th>
+                <th>RLT_ID</th>
+                <th>RMT_ID</th>
+                <th>CCC_ID</th>
+                <th>NB_VAT_DEDUCTION_YN</th>
+                <th>NB_INC_DTL_YN</th>
+                <th>NB_NEW_INSU_YN</th>
+                <th>NB_TOTAL_PRICE</th>
+                <th>NB_VAT_PRICE</th>
+                <th>NB_CLAIM_USERID</th>
+                <th>NB_CLAIM_DTHMS</th>
+                <th>NB_DUPLICATED_YN</th>
+                <th>WRT_DTHMS</th>
+                <th>LAST_DTHMS</th>
+                <th>WRT_USERID</th>
+                <th>DEL_YN</th>
+                <th>NB_DEL_REASON</th>
+                <th>NB_DEL_DTHMS</th>
+                <th>NB_DEL_USERID</th>
+                <th>NB_AB_EST_SEQ1</th>
+                <th>NB_AB_EST_SEQ2</th>
+                <th>NB_AB_VIEW_URI</th>
+                <th>NB_AB_NSRSN</th>
+                <th>NB_AB_NSRSN_VAL</th>
+                <th>NB_AB_BILL_YN</th>
+                <th>NB_AB_NSRSN_DTHMS</th>
+                <th>NB_AB_NSRSN_USERID</th>
+                <th>MODE_TARGE</th>
+            </tr>
+    ";
+    
+    foreach($result as $item) { 
+        
+        $excelHtml .= "<tr>
+            <td style='text-align:center;mso-number-format:\@;'>".$item['NB_ID']."</td>
+            <td>".$item['MGG_ID']."</td>
+            <td>".$item['NB_GARAGE_NM']."</td>
+            <td>".$item['NB_CAR_NUM']."</td>
+            <td>".$item['NB_CLAIM_DT']."</td>
+            <td>".$item['RLT_ID']."</td>
+            <td>".$item['RMT_ID']."</td>
+            <td>".$item['CCC_ID']."</td>
+            <td>".$item['NB_VAT_DEDUCTION_YN']."</td>
+            <td>".$item['NB_INC_DTL_YN']."</td>
+            <td>".$item['NB_NEW_INSU_YN']."</td>
+            <td>".$item['NB_TOTAL_PRICE']."</td>
+            <td>".$item['NB_VAT_PRICE']."</td>
+            <td>".$item['NB_CLAIM_USERID']."</td>
+            <td>".$item['NB_CLAIM_DTdMS']."</td>
+            <td>".$item['NB_DUPLICATED_YN']."</td>
+            <td>".$item['WRT_DTdMS']."</td>
+            <td>".$item['LAST_DTdMS']."</td>
+            <td>".$item['WRT_USERID']."</td>
+            <td>".$item['DEL_YN']."</td>
+            <td>".$item['NB_DEL_REASON']."</td>
+            <td>".$item['NB_DEL_DTdMS']."</td>
+            <td>".$item['NB_DEL_USERID']."</td>
+            <td>".$item['NB_AB_EST_SEQ1']."</td>
+            <td>".$item['NB_AB_EST_SEQ2']."</td>
+            <td>".$item['NB_AB_VIEW_URI']."</td>
+            <td>".$item['NB_AB_NSRSN']."</td>
+            <td>".$item['NB_AB_NSRSN_VAL']."</td>
+            <td>".$item['NB_AB_BILL_YN']."</td>
+            <td>".$item['NB_AB_NSRSN_DTdMS']."</td>
+            <td>".$item['NB_AB_NSRSN_USERID']."</td>
+            <td>".$item['MODE_TARGET']."</td>
+            </tr>
+        ";
+    }
+
+    $excelHtml .= "</table>";
+
+    echo "<meta content=\"application/vnd.ms-excel;charset=UTF-8;\" name=\"Content-type\">";
+    echo $excelHtml ;
+
+?>

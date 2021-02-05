@@ -1,0 +1,23 @@
+.nwt-table{
+    overflow-x: scroll;
+	white-space: nowrap;
+}
+
+.nwt-table-top{
+    position: relative;
+}
+.nwt-table-top .table-top-etc{
+    position: absolute;
+    top: 4px;
+    left: 150px;
+}
+
+.nwt-table-top .form-inline .extend{
+    padding-left: 30px;
+}
+
+
+
+span.warning {
+    color: #ec971f;
+}

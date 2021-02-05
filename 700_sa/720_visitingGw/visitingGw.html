@@ -1,0 +1,205 @@
+<!-- header.html -->
+<?php
+  require $_SERVER['DOCUMENT_ROOT']."/include/header.html";
+?>
+  <script src="js/setTable.js"></script>
+
+  <!-- 페이지 카테고리 -->
+  <div class="container-fluid mb20px">
+    <h3 class="nwt-category"><small>영업관리&nbsp;&nbsp;></small>공업사 방문 내역</h3>
+  </div>
+
+
+  <!-- 검색바(폼) 시작 -->
+  <div class="container-fluid nwt-search-form">
+    <div class="panel panel-default">
+      <div class="panel-body">
+        <form class="form-inline" id="searchForm">
+          <fieldset>
+            <legend>조건검색</legend>
+
+            <!-- 검색버튼 제외한 폼 wrap -->
+            <div class="frm-wrap">
+              <!-- 1st row -->
+              <div class="row frm-last-row">
+                
+                <!-- 기간 -->
+                <div class="col-md-2 frmGroup3">
+                  <label for="START_DT" class="sr-only">기간</label>
+                  <!-- 기간선택 -->
+                  <select class="form-control input-md" id="SELECT_DT" name="SELECT_DT">
+                    <option value="">=기간=</option>
+                    <option value="NSU_VISIT_DT">방문일 기준</option>
+                    <option value="NSU_SUPPLY_DT">공급일 기준</option>
+                  </select>
+                  <!-- 날짜선택 -->
+                  <input type="text" class="form-control input-md" name="START_DT" id="START_DT" autocomplete="off"  placeholder="입력" maxlength="10">
+                  <span class="glyphicon glyphicon-calendar search-glypicon"></span>
+                  <label for="END_DT" class="nwt-form-label">~</label>                            
+                  <input type="text" class="form-control" name="END_DT" id="END_DT" autocomplete="off"  placeholder="입력" maxlength="10">
+                  <span class="glyphicon glyphicon-calendar search-glypicon"></span>                            
+                </div>
+
+                <!-- 구분 -->
+                <div class="col-md-1">
+                  <label for="CSD_ID_SEARCH" class="sr-only">구분</label>
+                <select id="CSD_ID_SEARCH"  name="CSD_ID_SEARCH[]" 
+                        data-style="btn-default" title="=구분="
+                        class="form-control selectpicker" multiple
+                        data-live-search="true" data-live-search-placeholder="Search" >
+                  
+                </select>                             
+                </div>
+
+                <!-- 지역 -->
+                <div class="col-md-2">
+                  <label for="CRR_ID_SEARCH" class="sr-only mr10r">지역검색</label>
+                  <select id="CRR_ID_SEARCH"  name="CRR_ID_SEARCH[]" 
+                            data-style="btn-default" title="지역검색(띄어쓰기로 시/도, 시/군/구 구분)"
+                            class="form-control selectpicker" multiple
+                            data-live-search="true" data-live-search-placeholder="Search" >
+                  </select>                 
+                </div>
+            
+                <!-- 공업사명 -->
+                <div class="col-md-2">
+                  <label for="MGG_NM_SEARCH" class="sr-only">공업사명</label>
+                  <input type="text" class="form-control" name="MGG_NM_SEARCH" id="MGG_NM_SEARCH" placeholder="공업사명 입력">                        
+                </div>
+
+                <!-- 거래여부 -->
+                <div class="col-md-1">
+                  <label for="RCT_ID_SEARCH" class="sr-only">거래여부</label>
+                  <select class="form-control" id="RCT_ID_SEARCH" name="RCT_ID_SEARCH">
+                    <option value="">=거래여부=</option>
+                  </select>                            
+                </div>
+
+                <!-- 방문자 -->
+                <div class="col-md-1">
+                  <label for="VISITANT_SEARCH" class="sr-only">방문자</label>
+                  <input type="text" class="form-control" name="VISITANT_SEARCH" id="VISITANT_SEARCH" placeholder="방문자 입력">
+                </div>
+
+                <!-- 처리자 -->
+                <div class="col-md-1">
+                  <label for="DISPOSER_SEARCH" class="sr-only">처리자</label>
+                  <input type="text" class="form-control" name="DISPOSER_SEARCH" id="DISPOSER_SEARCH" placeholder="처리자 입력">
+                </div>
+
+                <!-- 첨부구분 -->
+                <div class="col-md-1">
+                  <label for="RSF_ID_SELECT" class="sr-only">첨부구분</label>
+                  <select class="form-control" id="RSF_ID_SELECT" name="RSF_ID_SELECT">
+                    <option value="">=첨부구분=</option>
+                  </select>                            
+                </div>
+              </div>
+            </div> 
+
+            <!-- 검색버튼 wrap -->
+            <div class="frm-search-wrap">
+              <!-- 검색btn -->
+              <div class="row">
+                  <div class="col-md-12 text-right">
+                    <button type="submit" class="btn btn-primary" id="frmSearch" style="margin-top: -10px"><span class="glyphicon glyphicon-search"></span>&nbsp;검색</button>
+                  </div>
+              </div> 
+            </div>
+
+          </fieldset>
+        </form>
+      </div>
+    </div>
+  </div>
+  <!-- 검색바(폼) 끝 -->
+
+
+  <!-- 테이블 상단 #perPage, btn 영역 -->
+  <div class="container-fluid nwt-table-top mb20r">
+    <div class="row">
+      
+      <!-- 리스트개수 -->
+      <?php	require $_SERVER['DOCUMENT_ROOT']."/include/listCnt.html"; ?>
+      
+      <!-- 테이블 우측 상단 btn -->
+      <div class="col-lg-6 clearfix">
+        <div class="form-inline f-right">
+          <?php if($AUTH_DELETE == YN_Y) :?>
+          <input type="hidden" class="form-control" name="AUTH_DELETE" id="AUTH_DELETE" value="<?php echo $AUTH_DELETE; ?>">
+          <button type="button" class="btn btn-danger"  onclick="openDeleteModal();">일괄삭제</button>
+          <?php endif; ?>
+          <?php if($AUTH_EXCEL == YN_Y) :?>
+          <!-- 엑셀 다운로드 -->
+          <button type="button" class="btn btn-success" onclick="excelDownload();"><span class="glyphicon glyphicon-download-alt"></span>&nbsp;엑셀 다운로드</button>
+          <?php endif; ?>
+          
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- indicator -->
+  <?php	require $_SERVER['DOCUMENT_ROOT']."/include/indicator.html"; ?>
+  
+  <!-- 테이블 -->
+  <div class="container-fluid nwt-table" style="width: 100%;"> <!--overflow-x: scroll;-->
+    <table class="table table-bordered table-striped">
+      <thead>
+        <tr class="active">
+          <th class="text-center">선택</th>
+          <th class="text-center">순번</th>
+          <th class="text-center">구분</th>
+          <th class="text-center">지역</th>
+          <th class="text-center table-array">순회순서
+            <div class="arrayicon">
+              <span class="glyphicon glyphicon-chevron-up" onclick="getSortList(2)"></span>
+              <span class="glyphicon glyphicon-chevron-down" onclick="getSortList(1)"></span>
+            </div>
+          </th>
+          <th class="text-center">공업사명</th>
+          <th class="text-center">청구식</th>
+          <th class="text-center">거래여부</th>
+          <th class="text-center">방문자(접속아이디)</th>
+          <th class="text-center">방문일</th>
+          <th class="text-center">공급일</th>
+          <th class="text-center">처리여부</th>
+          <th class="text-center">처리자(접속아이디)</th>
+          <th class="text-center">처리일</th>
+          <th class="text-center">첨부구분</th>
+          <th class="text-center">영업사원<br>위치</th>
+          <?php if($AUTH_UPDATE != YN_Y && $AUTH_DELETE != YN_Y ) :?>
+          <?php else :?>
+          <th class="text-center">수정/삭제</th>
+          <input type="hidden" class="form-control" name="AUTH_UPDATE" id="AUTH_UPDATE" value="<?php echo $AUTH_UPDATE; ?>">
+          <?php endif; ?>
+        </tr>
+      </thead>
+      <tbody id="dataTable">
+                                                                    
+      </tbody>
+    </table>
+  </div>
+
+
+  <!-- pagination -->
+  <div class="container-fluid">
+    <div class="text-center">
+      <ul class="pagination">
+      </ul>
+    </div>
+  </div>
+
+  <form method="POST" action="../../500_gw/510_gwMngt/gwRegister.html" id="gwForm" target="newwindow">
+      <input type="hidden" id="MGG_VALUE" name="MGG_VALUE"/>
+      <input type="hidden" id="NSU_ID" name="NSU_ID"/>
+  </form>
+
+  <form method="POST" name="delForm" id="delForm">
+  </form>
+  
+<!-- footer.html -->
+<?php
+  require $_SERVER['DOCUMENT_ROOT']."/include/footer.html";
+?>

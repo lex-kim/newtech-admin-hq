@@ -1,0 +1,239 @@
+<!-- header.html -->
+<?php
+  require $_SERVER['DOCUMENT_ROOT']."/include/headerShop.html";
+?>
+
+
+  <!-- 페이지 카테고리 -->
+  <div class="container-fluid mb20px">
+    <h3 class="nwt-category"><small>쇼핑몰관리&nbsp;&nbsp;>&nbsp;&nbsp;포인트관리&nbsp;&nbsp;></small>포인트관리</h3>
+  </div>
+
+
+  <!-- 검색바(폼) 시작 -->
+  <div class="container-fluid nwt-search-form">
+      <div class="panel panel-default">
+          <div class="panel-body">
+              <form class="form-inline" id="searchForm">
+                  <fieldset>
+                      <legend>조건검색</legend>
+
+                      <!-- 검색버튼 제외한 폼 wrap -->
+                      <div class="frm-wrap">
+                        <!-- 1st row -->
+                        <div class="row frm-last-row">
+                          
+                          <!-- 기간 -->
+                          <div class="col-md-2 frmGroup3">
+                            <!-- 기간선택 -->
+                            <select class="form-control" id="DT_KEY_SEARCH" name="DT_KEY_SEARCH">
+                              <option value="">=기간=</option>
+                              <option value="NPH_ISSUE_DT" selected>변동일</option>
+                              <option value="LAST_DTHMS">최종변동일</option>
+                            </select>
+                            <label for="START_DT_SEARCH" class="sr-only">기간</label>
+                            <input type="text" class="form-control" name="START_DT_SEARCH" id="START_DT_SEARCH" autocomplete="off"  placeholder="기간">
+                            <span class="glyphicon glyphicon-calendar search-glypicon"></span>
+                            <label for="END_DT_SEARCH" class="nwt-form-label">~</label>                            
+                            <input type="text" class="form-control" name="END_DT_SEARCH" id="END_DT_SEARCH" autocomplete="off"  placeholder="기간">
+                            <span class="glyphicon glyphicon-calendar search-glypicon"></span>                            
+                          </div>
+
+                          <!-- 거래여부 -->
+                          <div class="col-md-1">
+                            <label for="RCT_ID_SEARCH" class="sr-only">거래여부</label>
+                            <select class="form-control" id="RCT_ID_SEARCH" name="RCT_ID_SEARCH">
+                              <option value="">=거래여부=</option>
+                            </select>                            
+                          </div>
+
+                          <!-- 구분 -->
+                          <div class="col-md-1">
+                            <label for="CSD_ID_SEARCH" class="sr-only">구분</label>
+                            <select id="CSD_ID_SEARCH"  name="CSD_ID_SEARCH[]" 
+                                    data-style="btn-default" title="=구분="
+                                    class="form-control selectpicker" multiple
+                                    data-live-search="true" data-live-search-placeholder="Search" >
+                              
+                          </select>                             
+                          </div>
+
+                          <!-- 지역 -->
+                          <div class="col-md-1">
+                              <label for="CRR_ID_SEARCH" class="sr-only mr10r">지역검색</label>
+                              <select id="CRR_ID_SEARCH"  name="CRR_ID_SEARCH[]" 
+                                        data-style="btn-default" title="지역검색(띄어쓰기로 시/도, 시/군/구 구분)"
+                                        class="form-control selectpicker" multiple
+                                        data-live-search="true" data-live-search-placeholder="Search" >
+                              </select>                          
+                          </div>
+                          
+                           <!-- 포인트종류 -->
+                           <div class="col-md-1">
+                            <label for="RPT_ID_SEARCH" class="sr-only">포인트종류</label>
+                            <select class="form-control" id="RPT_ID_SEARCH" name="RPT_ID_SEARCH">
+                              <option value="">=포인트종류=</option>
+                            </select>                            
+                          </div>
+
+                          <!-- 포인트상태 -->
+                          <div class="col-md-1">
+                            <label for="RPS_ID_SEARCH" class="sr-only">포인트상태</label>
+                            <select class="form-control" id="RPS_ID_SEARCH" name="RPS_ID_SEARCH">
+                              <option value="">=포인트상태=</option>
+                            </select>                            
+                          </div>
+
+                          <!-- 취소여부 -->
+                          <div class="col-md-1">
+                            <label for="CANCEL_SEARCH" class="sr-only">취소여부</label>
+                            <select class="form-control" id="CANCEL_SEARCH" name="CANCEL_SEARCH">
+                              <option value="">=취소여부=</option>
+                              <option value="Y">Y</option>
+                              <option value="N">N</option>
+                            </select>                            
+                          </div>
+
+                          <!-- 업체명 입력 -->
+                          <div class="col-md-2">
+                            <label for="MGG_NM_SEARCH" class="sr-only">업체명</label>
+                            <select  name="MGG_NM_SEARCH" id="MGG_NM_SEARCH" 
+                                    data-style="btn-default" title="=업체명="
+                                    class="form-control selectpicker" 
+                                    data-live-search="true" data-live-search-placeholder="Search">   
+                            </select>                         
+                          </div>
+
+
+                          <!-- 사업자번호 입력 -->
+                          <div class="col-md-1">
+                            <label for="MGG_BIZ_ID_SEARCH" class="sr-only">사업자번호</label>
+                            <input type="text" class="form-control" name="MGG_BIZ_ID_SEARCH" id="MGG_BIZ_ID_SEARCH" placeholder="사업자번호 입력" maxlength="10">                             
+                          </div>
+
+                          <!-- 품명 입력 -->
+                          <div class="col-md-1">
+                            <label for="NPH_PARTS_MEMO_SEARCH" class="sr-only">품명</label>
+                            <input type="text" class="form-control" name="NPH_PARTS_MEMO_SEARCH" id="NPH_PARTS_MEMO_SEARCH" placeholder="품명 입력" maxlength="10">                             
+                          </div>
+                          
+                        </div>
+                      </div> 
+                      
+                      <!-- 검색버튼 wrap -->
+                      <div class="frm-search-wrap">
+                        <!-- 검색btn -->
+                        <div class="row">
+
+                          <div class="col-md-12 text-right">
+                            <button type="submit" class="btn btn-primary" id="frmSearch" style="margin-top: -10px"><span class="glyphicon glyphicon-search"></span>&nbsp;검색</button>
+                          </div>
+                        </div> 
+                      </div>
+
+                  </fieldset>
+              </form>
+          </div>
+      </div>
+  </div>
+  <!-- 검색바(폼) 끝 -->
+
+
+ 
+  <!-- 테이블 상단 #perPage, btn 영역 -->
+  <div class="container-fluid nwt-table-top mb20r">
+    <div class="row">
+      
+      <!-- 리스트개수 -->
+      <?php	require $_SERVER['DOCUMENT_ROOT']."/include/listCnt.html"; ?>
+      
+      <!-- 테이블 우측 상단 btn -->
+      <div class="col-lg-6">
+        <div class="form-inline f-right">
+          <button type="button" class="btn btn-default" onclick="onClickAdd()">등록/사용</button>
+          <button type="button" class="btn btn-default" onclick="onClickProcess()">일괄확정</button>
+          <!-- 엑셀다운로드-->
+          <button type="button" class="btn btn-success" onclick="excelDownload()"><span class="glyphicon glyphicon-download-alt"></span>&nbsp;엑셀 다운로드</button>
+          <!-- 등록btn / modal handler -->
+          <!-- <button type="button" class="btn btn-primary" id="add-new-btn" onclick="openPopup()">등록</button> -->
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- indicator -->
+  <?php	require $_SERVER['DOCUMENT_ROOT']."/include/indicator.html"; ?>
+  
+  <!-- 테이블 -->
+  <div class="container-fluid nwt-table" style="width: 100%;"> 
+    <table class="table table-bordered table-striped">
+      <colgroup>
+        <col width='2.5%'/>
+        <col width='3%'/>
+        <col width='2.5%'/>
+        <col width='2.8%'/>
+        <col width='8%'/>
+        <col width='5%'/>
+        <col width='8%'/>
+        <col width='2.8%'/>
+        <col width='10%'/>
+        <col width='4.6%'/>
+        <col width='4.6%'/>
+        <col width="5%"/>
+        <col width="4%"/>
+        <col width="4%"/>
+        <col width="3%"/>
+        <col width="3%"/>
+        <col width="5%"/>
+        <col width="5%"/>
+        <col width="2%"/>
+        <col width="3%"/>
+        <col width="5%"/>
+      </colgroup>
+      <thead>
+        <tr class="active">
+          <th class="text-center">선택<br><input type="checkbox" id="allcheck" class="listcheck"></th>
+          <th class="text-center">순번</th>
+          <th class="text-center">거래<br>여부</th>
+          <th class="text-center">구분</th>
+          <th class="text-center">지역</th>
+          <th class="text-center">사업자번호</th>
+          <th class="text-center">업체명</th>
+          <th class="text-center">청구식</th>
+          <th class="text-center">주소</th>
+          <th class="text-center">사무실<br>연락처</th>
+          <th class="text-center">사무실<br>FAX</th>
+          <th class="text-center">포인트종류</th>
+          <th class="text-center">포인트구분<br>(취소여부)</th>
+          <th class="text-center">품명</th>
+          <th class="text-center">변동<br>포인트</th>
+          <th class="text-center">잔여<br>포인트</th>
+          <th class="text-center">메모</th>
+          <th class="text-center">처리자</th>
+          <th class="text-center">변동일</th>
+          <th class="text-center">최종변동일</th>
+          <th class="text-center">처리/취소</th>
+        </tr>
+      </thead>
+      <tbody id="dataTable">                                                                 
+      </tbody>
+    </table>
+  </div>
+
+
+  <!-- pagination -->
+  <div class="container-fluid">
+    <div class="text-center">
+      <ul class="pagination">
+      </ul>
+    </div>
+  </div>
+
+  <!-- 등록/수정 모달  -->
+  <?php	require "./pointMngtProcessModal.html"; ?>
+    
+<!-- footer.html -->
+<?php
+  require $_SERVER['DOCUMENT_ROOT']."/include/footerShop.html";
+?>

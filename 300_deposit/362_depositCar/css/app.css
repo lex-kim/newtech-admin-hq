@@ -1,0 +1,24 @@
+.nwt-table-top{
+    position: relative;
+}
+.nwt-table-top .table-top-etc{
+    position: absolute;
+    top: 4px;
+    left: 140px;
+}
+.nwt-table-top .table-top-etc .totalbtn{
+    display: inline;
+    padding:6px 10px;
+    border:1px solid #dddddd;
+    border-radius: 4px;
+    margin-left: 10px;
+    cursor: pointer;
+}
+
+.nwt-total{
+    display: none;
+}
+
+.summary-open{
+    display: block;
+}

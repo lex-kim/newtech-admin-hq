@@ -1,0 +1,52 @@
+<?php
+
+    header("Content-Type: application/vnd.ms-excel");
+    date_default_timezone_set('Asia/Seoul');
+
+    header("Content-Disposition: attachment; filename=".date("YmdH", time())."_위탁장비 구분관리.xls");
+    header("Content-Description: Newtech System");
+
+    require $_SERVER['DOCUMENT_ROOT']."/common/common.php";	
+    require "class/clsCategory.php";
+
+    $data =  $clsCategory->getList($_REQUEST);
+
+    $result = $data[0];
+
+    $excelHtml = "
+        <table border='1'>
+            <thead>
+                <tr>
+                    <th>순번</th>
+                    <th>출력순서</th>
+                    <th>장비구분</th>
+                    <th>사용여부</th>
+                    <th>등록자</th>
+                    <th>등록일시</th>
+                </tr>
+            </thead>
+    ";
+
+    foreach($result as $item) { 
+        $nccUseYn ='';
+        if($item['NCC_USE_YN'] == YN_Y){
+            $nccUseYn = '사용';
+        } else {
+            $nccUseYn = '미사용';
+        }
+        $excelHtml .= "<tr>
+                <td>".$item['IDX']."</td>
+                <td>".$item['NCC_ORDER_NUM']."</td>
+                <td>".$item['NCC_NM']."</td>
+                <td>".$nccUseYn."</td>
+                <td>".$item['WRT_USERID']."</td>
+                <td>".$item['WRT_DTHMS']."</td>
+            </tr>
+        ";
+    }
+    $excelHtml .= "</table>";
+
+    echo "<meta content=\"application/vnd.ms-excel;charset=UTF-8;\" name=\"Content-type\">";
+    echo $excelHtml ;
+
+?>

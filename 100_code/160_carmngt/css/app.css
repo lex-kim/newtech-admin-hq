@@ -1,0 +1,11 @@
+/* 테이블 간격조절 */
+table thead tr th:first-child{
+    width:4%;
+}
+
+table thead tr th:nth-child(5){
+    width:15%;
+}
+table thead tr th:nth-child(6){
+    width:15%;
+}

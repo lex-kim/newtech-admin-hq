@@ -1,0 +1,53 @@
+<!-- 모달창 일 때 다운받을데 많이 복잡하면 모달창이 아닌 리스트에 버튼 두개로 변경해도됩니다. -->
+
+<!-- 청구서이미지 다운로드 modal -->  
+<div class="modal fade modal-add" id="delete-modal" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+        <form method="post" name="down_form" id="delForm">
+        <input type="hidden" class="form-control" id="REQ_MODE" name="REQ_MODE">
+
+            <!-- modal 상단 -->
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button> 
+                <h4 class="modal-title">삭제사유</h4>  
+            </div>
+
+
+            <!-- modal 내용 -->
+            <div class="modal-body"> 
+
+                <!-- 확장자선택 -->
+                <div class="row">
+                    <div class="col-md-3"><label for="DOWN_FORMAT">삭제사유</label></div>
+                    <div class="col-md-9">
+                        <label class="radio-inline"><input type="radio" name="DELETE_REASON" id="DELETE_UNUSE" value="unused">미사용</label>
+                        <label class="radio-inline"><input type="radio" name="DELETE_REASON" id="DELETE_OTHER" value="other">타업체사용</label>
+                        <label class="radio-inline"><input type="radio" name="DELETE_REASON" id="DELETE_DUPLI" value="duplication">중복</label>
+                        <label class="radio-inline"><input type="radio" name="DELETE_REASON" id="DELETE_ETC" value="etc">기타</label>
+                        <input type="text" class="form-control" name="NB_DEL_REASON" id="DELETE_REASON_TXT" placeholder="입력" required>
+                    </div>
+                </div> 
+
+            </div>
+
+            <!-- modal 하단 -->
+            <div class="modal-footer">
+                <div class="text-left">
+                    <!-- <button type="button" class="btn btn-danger" id="btnDelete" data-toggle="modal" data-target="#delet-modal">삭제</button> -->
+                </div>
+                <div class="text-right">
+                    <?php if($AUTH_DELETE == YN_Y) :?>
+                    <!-- 등록btn -->
+                    <button type="submit" class="btn btn-danger">삭제</button>
+                    <?php endif; ?>
+
+                    <!-- 취소btn -->
+                    <button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
+                </div>
+            </div>
+
+        </form>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,38 @@
+<?php
+  require $_SERVER['DOCUMENT_ROOT']."/include/headerpopup.html";
+  $IMG = $_POST['POPUP_IMG'];
+?>
+<script src="../510_gwMngt/js/setData.js"></script> 
+<div class="container-fluid main-popup-dialog">
+  <div class="main-popup-header">
+    <button type="button" class="close" onclick="window.close();">&times;</button> 
+    <h4 class="img-popup-title">첨부파일</h4>
+  </div>
+  <form method="post" name="img_form" id="img_form">
+  <input type="hidden" class="form-control" id="REQ_MODE" name="REQ_MODE">
+      
+    <div class="main-popup-content">
+
+
+      <!-- 청구서 오른쪽 영역 -->
+      <div class="popup-zoom-content">
+
+        <div>
+          <div>
+              <img class="receipt-image-zoom" src="<?php echo $IMG?>" id="NSU_FILE_IMG_ZOOM"/>
+          </div>
+        </div>
+
+      </div>
+
+
+    </div>
+    
+
+  </form>
+</div>
+
+
+<?php
+  require $_SERVER['DOCUMENT_ROOT']."/include/footerpopup.html";
+?>

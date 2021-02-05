@@ -1,0 +1,65 @@
+<?php
+    header("Content-Type: application/vnd.ms-excel");
+    date_default_timezone_set('Asia/Seoul');
+
+    header("Content-Disposition: attachment; filename=".date("Ymd_His", time())."_취급부품관리.xls");
+    header("Content-Description:PHP4 Generated Data");
+
+    require $_SERVER['DOCUMENT_ROOT']."/common/common.php";	
+    require "class/clsHandleComponent.php";
+    
+    $data =  $clsHandleComponent->getList($_REQUEST);
+    
+    $result = $data[0];
+    
+    $excelHtml = "
+        <table border='1'>
+            <tr>
+            <td>순번</th>
+            <td>출력순번</th>
+            <td>부품타입</th>
+            <td>기준부품명</th>
+            <td>기준부품약어</th>
+            <td>기준부품 용량/길이</th>
+            <td>취급부품번호</th>
+            <td>취급부품명</th>
+            <td>취급부품약어</th>
+            <td>취급부품 용량/길이</th>
+            <td>환산사용량</th>
+            <td>순정여부</th>
+            <td>조견표 적용여부</th>
+            <td>재고 연동여부</th>
+            <td>최초적용일</th>
+            <td>변동적용일</th>
+            <td>청구단가(원)</th>
+            </tr>
+    ";
+
+    foreach($result as $item) { 
+        $excelHtml .= "<tr>
+                <td>".$item['IDX']."</td>
+                <td>".$item['CPPS_ORDER_NUM']."</td>
+                <td>".$item['CPP_PART_TYPE']."</td>
+                <td>".$item['CPP_NM']."</td>
+                <td>".$item['CPP_NM_SHORT']."</td>
+                <td>".$item['CPP_UNIT']."</td>
+                <td>".$item['CPPS_ID']."</td>
+                <td>".$item['CPPS_NM']."</td>
+                <td>".$item['CPPS_NM_SHORT']."</td>
+                <td>".$item['CPPS_UNIT']."</td>
+                <td>".$item['CPPS_RATIO']."</td>
+                <td>".$item['CPPS_GENUINE_YN']."</td>
+                <td>".$item['CPPS_RECKON_YN']."</td>
+                <td>".$item['CPPS_INOUT_YN']."</td>
+                <td>".$item['WRT_DTHMS']."</td>
+                <td>".$item['CPPS_APPLY_DT']."</td>
+                <td style='mso-number-format:\#\,\#\#0\;'>".$item['CPPS_PRICE']."</td>
+            </tr>
+        ";
+    }
+    $excelHtml .= "</table>";
+
+    echo "<meta content=\"application/vnd.ms-excel;charset=UTF-8;\" name=\"Content-type\">";
+    echo $excelHtml ;
+
+?>

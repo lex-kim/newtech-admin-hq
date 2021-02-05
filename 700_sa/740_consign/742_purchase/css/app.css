@@ -1,0 +1,13 @@
+#stock-modal .modal-dialog{
+    width: 400px;
+}
+
+.modal-body .row .col-md-7{
+    position: relative;
+}
+.modal-body .row .col-md-7 .search-glypicon{
+    position: absolute;
+    top: 10px;
+    right: 25px;
+    cursor: pointer;
+}

@@ -1,0 +1,49 @@
+table > thead > tr > th.list-num{
+    width:4%;
+}
+table > thead > tr > th.write-nm{
+    width:10%;
+}
+
+
+
+
+.modal-body table{
+    margin-top: 20px;
+}
+
+
+
+
+.nwt-search-form .search-glypicon{
+    position: relative;
+    top: 7px; /*insulist.html :2px , insulist2.html :7px*/
+    left: -20px;
+    width: 0;
+}
+
+.excel-down-file{
+    width: 100%;
+    margin-top: 5px;
+    margin-left: 5px;
+    height: 80px;
+}
+
+/* .excel-down-file .excel-down{
+
+    width: 100%;
+} */
+.excel-down-file a img{
+    height: 20px;
+}
+
+.excel-down-btn button{
+    height: 28px;
+    padding: 3px 6px;
+}
+
+.excel-down-btn input{
+    width: 350px;
+    padding-top: 3px;
+    padding-left: 3px;
+}

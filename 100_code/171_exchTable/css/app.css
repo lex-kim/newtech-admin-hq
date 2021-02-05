@@ -1,0 +1,38 @@
+.nwt-table table tbody tr.borderBottom td{
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+    border-bottom-color: #999;
+}
+.nwt-table table tbody tr.borderTh th{
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+    border-bottom-color: #999;
+}
+
+.nwt-table table thead tr th select{
+    margin-right: 40px;
+}
+
+
+.nwt-table table tbody tr td input{
+    height: 13px;
+    font-size: 12px;
+    padding: 2px 8px;
+}
+
+table > thead > tr > th:first-child{
+    width:5%;
+}
+table > thead > tr > th.part-nm:nth-child(2){
+    width:10%;
+}
+/* 환산소요량 계산 버튼 */
+.glyphicon-plus{
+    font-size: 10px;
+    color: #F7553E;
+}
+
+#resetBtn{
+    font-size: 11px;
+    display: none;
+}

@@ -1,0 +1,1055 @@
+<?php
+  require $_SERVER['DOCUMENT_ROOT']."/include/headerpopup.html";
+?>
+
+
+<div class="popup-dialog">
+  <form method="post" name="edit_form" id="edit_form">
+  <input type="hidden" class="form-control" id="REQ_MODE" name="REQ_MODE">
+
+  <div class="container-fluid popup-content">
+    <div class="popup-left">
+      <!-- popup 상단 -->
+      <div class="popup-header">
+        <h4 class="popup-title">공업사 방문 내역</h4>
+      </div>
+      <div class="popup-body visit-body">
+        <div class="frm-wrap">
+          <div class="container-fluid row">
+
+            <!-- 방문일 -->
+            <div class="form-inline left-input">
+              <label for="BIZ_VISIT_DATE">방문일</label>
+              <input type="text" class="form-control" id="BIZ_VISIT_DATE" name="BIZ_VISIT_DATE" placeholder="방문일 입력">
+              <span class="glyphicon glyphicon-calendar search-glypicon"></span>                     
+            </div>
+            <!-- 공급일 -->
+            <div class="form-inline left-input">
+              <label for="BIZ_SUPPLY_DATE">공급일</label>
+              <input type="text" class="form-control" id="BIZ_SUPPLY_DATE" name="BIZ_SUPPLY_DATE" placeholder="공급일 입력">
+              <span class="glyphicon glyphicon-calendar search-glypicon"></span>                     
+            </div>
+            
+          </div>
+          <!-- 거래명세서 이미지 -->
+          <div class="imagearea">
+            <div class="imagearea-title">거래명세서</div>
+            <div class="imagearea-image">
+              <!-- images 폴더 삭제하면 됨 -->
+              <img src="images/example.png" alt="거래명세서 예시"> 
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="popup-right">
+       <!-- 공업사등록 공업사영역 -->
+      <div class="popup-top">
+
+        <!-- popup 상단 -->
+        <div class="popup-header">
+          <button type="button" class="close" data-dismiss="popup">&times;</button> 
+          <h4 class="popup-title">공업사 계정관리</h4>
+            
+        </div>
+    
+        <div class="frm-btn">
+          <div class="frm-btn-title">
+            공업사 : 
+          </div>
+          <div class="frm-btn-hide">
+            <button type="button" class="btn btn-default" id="bizbtn">숨기기</button>
+          </div>
+        </div>
+        <!-- popup 내용 -->
+        <div class="popup-body biz-body">         
+          
+            
+          <div class="frm-wrap">
+            <div class="row">
+              <div class="container-fluid frm-wrap-title">
+                <공업사 일반현황>
+              </div>
+              <!-- 구분 -->
+              <div class="col-md-2">
+                <label for="separation" class="sr-only">구분</label>
+                <select class="form-control" id="separation" name="separation">
+                  <option value="">=구분=</option>
+                  <option value="1">1지역</option>
+                  <option value="2">2지역</option>
+                  <option value="3">3지역</option>
+                  <option value="4">4지역</option>
+                  <option value="5">5지역</option>
+                </select>                            
+              </div>
+
+              <!-- 지역 -->
+              <div class="form-inline col-md-4 frmselect3">
+                <!-- 지역 시/도 -->
+                <label for="area1" class="sr-only">지역 시/도</label>
+                <select class="form-control" id="area1" name="area1">
+                  <option value="">=지역/도=</option>
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                  <option value="4">4</option>
+                  <option value="5">5</option>
+                </select>  
+                <!-- 지역 시/군/구-->
+                <label for="area2" class="sr-only">지역 시/군/구</label>
+                <select class="form-control" id="area2" name="area2">
+                  <option value="">=지역/군/구=</option>
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                  <option value="4">4</option>
+                  <option value="5">5</option>
+                </select>   
+                <!-- 지역 읍/면/동-->
+                <label for="area3" class="sr-only">지역 읍/면/동</label>
+                <select class="form-control" id="area3" name="area3">
+                  <option value="">=지역/면/동=</option>
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                  <option value="4">4</option>
+                  <option value="5">5</option>
+                </select> 
+              </div>
+
+              <!-- 공업사코드 -->
+              <div class="col-md-2">
+                <label for="BIZ_CODE" class="sr-only">공업사코드</label>
+                <input type="text" class="form-control" name="BIZ_CODE" id="BIZ_CODE" placeholder="공업사코드 입력">                            
+              </div>
+
+              <!-- 공업사아이디 -->
+              <div class="col-md-2">
+                <label for="BIZ_ID" class="sr-only">공업사아이디</label>
+                <input type="text" class="form-control" name="BIZ_ID" id="BIZ_ID" placeholder="공업사아이디 입력">                            
+              </div>
+
+              <!-- 사업자번호 -->
+              <div class="col-md-2">
+                <label for="CORPORATE_NUM" class="sr-only">사업자번호</label>
+                <input type="text" class="form-control" name="CORPORATE_NUM" id="CORPORATE_NUM" placeholder="사업자번호 -없이 입력">                            
+              </div>
+
+              <!-- 회원번호 -->
+              <div class="col-md-2">
+                <label for="MEMBER_NUM" class="sr-only">회원번호</label>
+                <input type="text" class="form-control" name="MEMBER_NUM" id="MEMBER_NUM" placeholder="회원번호 입력-PW">                            
+              </div>
+
+              <!-- 순회순서 -->
+              <div class="col-md-2">
+                <label for="TOUR_NUM" class="sr-only">순회순서</label>
+                <input type="text" class="form-control" name="TOUR_NUM" id="TOUR_NUM" placeholder="순회순서 입력">                            
+              </div>
+
+              <!-- 공업사명 -->
+              <div class="col-md-2">
+                <label for="BIZ_NM" class="sr-only">공업사명</label>
+                <input type="text" class="form-control" name="BIZ_NM" id="BIZ_NM" placeholder="공업사명 입력">                            
+              </div>
+
+              <!-- 청구식 -->
+              <div class="col-md-2">
+                <label for="CLAIM" class="sr-only">청구식</label>
+                <select class="form-control" id="CLAIM" name="CLAIM">
+                  <option value="">=청구식=</option>
+                  <option value="1">1지역</option>
+                  <option value="2">2지역</option>
+                  <option value="3">3지역</option>
+                  <option value="4">4지역</option>
+                  <option value="5">5지역</option>
+                </select>                            
+              </div>
+
+              <!-- 청구식적용일 -->
+              <div class="col-md-2">
+                <input type="text" class="form-control" id="CLAIM_DATE" name="CLAIM_DATE" placeholder="청구식적용일 입력">
+                <span class="glyphicon glyphicon-calendar search-glypicon"></span>                     
+              </div>
+
+              <!-- 지급식 -->
+              <div class="col-md-2">
+                <label for="PAY_FORMULA" class="sr-only">지급식</label>
+                <select class="form-control" id="PAY_FORMULA" name="PAY_FORMULA">
+                  <option value="">=지급식=</option>
+                  <option value="1">분할</option>
+                  <option value="2">통합</option>
+                </select>                            
+              </div>
+
+              <!-- 지급식적용일 -->
+              <div class="col-md-2">
+                <input type="text" class="form-control" id="PAY_FORMULA_DATE" name="PAY_FORMULA_DATE" placeholder="지급식적용일 입력">
+                <span class="glyphicon glyphicon-calendar search-glypicon"></span>                     
+              </div>
+
+              <!-- 지급식 적용 보험사 : 다중선택 -->
+              <div class="col-md-2">
+                <label for="PAY_FORMULA_INSU" class="sr-only">지급식 적용 보험사</label>
+                <select class="form-control" id="PAY_FORMULA_INSU" name="PAY_FORMULA_INSU">
+                  <option value="">=지급식용 보험사=</option>
+                  <option value="1">분할</option>
+                  <option value="2">통합</option>
+                </select>                            
+              </div>
+
+              <!-- AOS권한 -->
+              <div class="col-md-2">
+                <label for="AOS" class="sr-only">AOS권한</label>
+                <select class="form-control" id="AOS" name="AOS">
+                  <option value="">=AOS권한=</option>
+                  <option value="1">뉴</option>
+                  <option value="2">주뉴</option>
+                  <option value="2">뉴케</option>
+                </select>                            
+              </div>
+
+              <!-- AOS동의서 수령일 -->
+              <div class="col-md-2">
+                <input type="text" class="form-control" id="AOS_DATE" name="AOS_DATE" placeholder="AOS동의서 수령일 입력">
+                <span class="glyphicon glyphicon-calendar search-glypicon"></span>                     
+              </div>
+
+              <!-- AOS2017공업사명 -->
+              <div class="col-md-2">
+                <label for="AOS2017_BIZ" class="sr-only">AOS2017공업사명</label>
+                <input type="text" class="form-control" name="AOS2017_BIZ" id="AOS2017_BIZ" placeholder="AOS2017공업사명 입력">                            
+              </div>
+
+              <!-- 택배업체 -->
+              <div class="col-md-2">
+                <label for="DELIVERY_COMPANY" class="sr-only">택배업체</label>
+                <select class="form-control" id="DELIVERY_COMPANY" name="DELIVERY_COMPANY">
+                  <option value="">=택배업체=</option>
+                  <option value="1">CJ대한통운</option>
+                  <option value="2">한진택배</option>
+                </select>                            
+              </div>
+
+              <div class="row container-fluid">
+                <!-- 구주소 -->
+                <div class="col-md-4 frmaddress">
+                  <label for="BIZ_BEFORE_ADDRESS" class="sr-only">구주소</label>
+                  <input type="text" class="form-control" name="BIZ_BEFORE_ADDRESS" id="BIZ_BEFORE_ADDRESS" placeholder="구주소">                            
+                  <button type="button" class="btn btn-default">주소검색</button>
+                  <input type="text" class="form-control" name="BIZ_BEFORE_ADDRESS2" id="BIZ_BEFORE_ADDRESS2" placeholder="구주소">                            
+                  <input type="text" class="form-control" name="BIZ_BEFORE_ADDRESS3" id="BIZ_BEFORE_ADDRESS3" placeholder="구주소 상세입력">                            
+                </div>
+
+                <!-- 신주소 -->
+                <div class="col-md-4 frmaddress">
+                  <label for="BIZ_ADDRESS" class="sr-only">신주소</label>
+                  <input type="text" class="form-control" name="BIZ_ADDRESS" id="BIZ_ADDRESS" placeholder="신주소">     
+                  <button type="button" class="btn btn-default">주소검색</button>                       
+                  <input type="text" class="form-control" name="BIZ_ADDRESS2" id="BIZ_ADDRESS2" placeholder="신주소">                            
+                  <input type="text" class="form-control" name="BIZ_ADDRESS3" id="BIZ_ADDRESS3" placeholder="신주소 상세입력">                            
+                </div>
+
+                
+
+                <!-- 사무실 전화 -->
+                <div class="col-md-2">
+                  <label for="BIZ_OFFICE_TEL" class="sr-only">사무실 전화</label>
+                  <input type="text" class="form-control" name="BIZ_OFFICE_TEL" id="BIZ_OFFICE_TEL" placeholder="사무실 전화 입력">                            
+                </div>
+
+                <!-- 사무실 팩스 -->
+                <div class="col-md-2">
+                  <label for="BIZ_OFFICE_FAX" class="sr-only">사무실 팩스</label>
+                  <input type="text" class="form-control" name="BIZ_OFFICE_FAX" id="BIZ_OFFICE_FAX" placeholder="사무실 팩스 입력">                            
+                </div>
+              </div>
+
+              <!-- 부품비치장소개수 -->
+              <div class="col-md-2">
+                <label for="COMP_PLACE_NUM" class="sr-only">부품비치장소개수</label>
+                <input type="text" class="form-control" name="COMP_PLACE_NUM" id="COMP_PLACE_NUM" placeholder="부품비치장소개수 숫자 입력">                            
+              </div>
+
+              <!-- 주요정비 -->
+              <div class="col-md-2">
+                <label for="MAIN_SERVICING" class="sr-only">주요정비</label>
+                <select class="form-control" id="MAIN_SERVICING" name="MAIN_SERVICING">
+                  <option value="">=주요정비=</option>
+                  <option value="1">자가</option>
+                  <option value="2">임차</option>
+                  <option value="2">없음(기본)</option>
+                </select>                            
+              </div>
+
+              <!-- 자가여부 -->
+              <div class="col-md-2">
+                <label for="SELF_YN" class="sr-only">자가여부</label>
+                <select class="form-control" id="SELF_YN" name="SELF_YN">
+                  <option value="">=자가여부=</option>
+                  <option value="1">자가</option>
+                  <option value="2">임차</option>
+                  <option value="2">없음(기본)</option>
+                </select>                            
+              </div>
+
+              <!-- 보험사협력업체 -->
+              <div class="col-md-2">
+                <label for="COOPER_INSU" class="sr-only">보험사협력업체</label>
+                <input type="text" class="form-control" name="COOPER_INSU" id="COOPER_INSU" placeholder="보험사협력업체 입력">                            
+              </div>
+
+              <!-- 제조사협력업체 -->
+              <div class="col-md-2">
+                <label for="COOPER_MNFT" class="sr-only">제조사협력업체</label>
+                <input type="text" class="form-control" name="COOPER_MNFT" id="COOPER_MNFT" placeholder="제조사협력업체 입력">                            
+              </div>
+
+
+            </div>
+
+            <!-- 공업사담당자 -->
+            <div class="row">
+              <div class="container-fluid frm-wrap-title">
+                <공업사 담당자>
+              </div>
+              <!-- 담당자타이틀 -->
+              <div class="col-md-2">대표자</div>
+              <div class="col-md-2">Key-man</div>
+              <div class="col-md-2">청구담당자</div>
+              <div class="col-md-2">공장장</div>
+              <div class="col-md-2">도장반장</div>
+              <div class="col-md-2">판금반장</div>
+
+              <!-- 대표자 -->
+              <div class="form-inline col-md-2 frminput2">
+                <label for="BIZ_CEO_NM" class="sr-only">성명</label>
+                <input type="text" class="form-control" name="BIZ_CEO_NM" id="BIZ_CEO_NM" placeholder="성명 입력">                            
+                <label for="BIZ_CEO_TEL" class="sr-only">연락처</label>
+                <input type="text" class="form-control" name="BIZ_CEO_TEL" id="BIZ_CEO_TEL" placeholder="연락처 입력">                            
+              </div>
+
+              <!-- Key-man -->
+              <div class="form-inline col-md-2 frminput2">
+                <label for="KEYMAN_NM" class="sr-only">성명</label>
+                <input type="text" class="form-control" name="KEYMAN_NM" id="KEYMAN_NM" placeholder="성명 입력">                            
+                <label for="KEYMAN_TEL" class="sr-only">연락처</label>
+                <input type="text" class="form-control" name="KEYMAN_TEL" id="KEYMAN_TEL" placeholder="연락처 입력">                            
+              </div>
+
+              <!-- 청구담당자 -->
+              <div class="form-inline col-md-2 frminput2">
+                <label for="CLAIM_ROLE" class="sr-only">직책</label>
+                <input type="text" class="form-control" name="CLAIM_ROLE" id="CLAIM_ROLE" placeholder="직책 입력">                            
+                <label for="CLAIM_NM" class="sr-only">성명</label>
+                <input type="text" class="form-control" name="CLAIM_NM" id="CLAIM_NM" placeholder="성명 입력">                            
+                <label for="CLAIM_TEL" class="sr-only">연락처</label>
+                <input type="text" class="form-control" name="CLAIM_TEL" id="CLAIM_TEL" placeholder="연락처 입력">                            
+              </div>
+
+              <!-- 공장장 -->
+              <div class="form-inline col-md-2 frminput2">
+                <label for="FACTORY_NM" class="sr-only">성명</label>
+                <input type="text" class="form-control" name="FACTORY_NM" id="FACTORY_NM" placeholder="성명 입력">                            
+                <label for="FACTORY_TEL" class="sr-only">연락처</label>
+                <input type="text" class="form-control" name="FACTORY_TEL" id="FACTORY_TEL" placeholder="연락처 입력">                            
+              </div>
+
+              <!-- 도장반장 -->
+              <div class="form-inline col-md-2 frminput2">
+                <label for="PAINTING_NM" class="sr-only">성명</label>
+                <input type="text" class="form-control" name="PAINTING_NM" id="PAINTING_NM" placeholder="성명 입력">                            
+                <label for="PAINTING_TEL" class="sr-only">연락처</label>
+                <input type="text" class="form-control" name="PAINTING_TEL" id="PAINTING_TEL" placeholder="연락처 입력">                            
+              </div>
+
+              <!-- 판금반장 -->
+              <div class="form-inline col-md-2 frminput2">
+                <label for="METAL_NM" class="sr-only">성명</label>
+                <input type="text" class="form-control" name="METAL_NM" id="METAL_NM" placeholder="성명 입력">                            
+                <label for="METAL_TEL" class="sr-only">연락처</label>
+                <input type="text" class="form-control" name="METAL_TEL" id="METAL_TEL" placeholder="연락처 입력">                            
+              </div>
+
+
+            </div>
+
+            <!-- 청구관련 -->
+            <div class="row">
+              <div class="container-fluid frm-wrap-title">
+                <청구관련>
+              </div>
+
+              <!-- 강제전송 대기여부 -->
+              <div class="col-md-2">
+                <label for="FORCED_WAIT_YN" class="sr-only">강제전송 대기여부</label>
+                <select class="form-control" id="FORCED_WAIT_YN" name="FORCED_WAIT_YN">
+                  <option value="">=강제전송기여부=</option>
+                  <option value="1">Y</option>
+                  <option value="2">N(기본)</option>
+                </select>                            
+              </div>
+
+              <!-- 청구서 전부 전송여부 -->
+              <div class="col-md-2">
+                <label for="SEND_BILL_YN" class="sr-only">청구서 전부 전송여부</label>
+                <select class="form-control" id="SEND_BILL_YN" name="SEND_BILL_YN">
+                  <option value="">=청구서부 전송여부=</option>
+                  <option value="1">Y</option>
+                  <option value="2">N(기본)</option>
+                </select>                            
+              </div>
+
+              <!-- 청구금액 표시여부 -->
+              <div class="col-md-2">
+                <label for="BILL_PRICE_YN" class="sr-only">청구금액 표시여부</label>
+                <select class="form-control" id="BILL_PRICE_YN" name="BILL_PRICE_YN">
+                  <option value="">=청구금액시여부=</option>
+                  <option value="1">표시</option>
+                  <option value="2">미표시(기본)</option>
+                </select>                            
+              </div>
+
+              <!-- 청구특이사항 -->
+              <div class="col-md-2">
+                <label for="BILL_SPECIAL_NOTE" class="sr-only">청구 특이사항</label>
+                <input type="text" class="form-control" name="BILL_SPECIAL_NOTE" id="BILL_SPECIAL_NOTE" placeholder="청구 특이사항 입력">                            
+              </div>
+
+              <!-- 업체 특이사항 -->
+              <div class="col-md-2">
+                <label for="BIZ_SPECIAL_NOTE" class="sr-only">업체 특이사항</label>
+                <input type="text" class="form-control" name="BIZ_SPECIAL_NOTE" id="BIZ_SPECIAL_NOTE" placeholder="업체 특이사항 입력">                            
+              </div>
+
+
+            </div>
+
+            <!-- 거래 및 중단 -->
+            <div class="row table-deal">
+              <div class="container-fluid frm-wrap-title">
+                <거래 및 중단>
+              </div>
+              <div class="row container-fluid">
+                <!-- 거래여부 -->
+                <div class="col-md-2">
+                  <label for="DEAL_YN" class="sr-only">거래여부</label>
+                  <select class="form-control" id="DEAL_YN" name="DEAL_YN">
+                    <option value="">=거래여부=</option>
+                    <option value="1">거래</option>
+                    <option value="stop">거래중단</option>
+                  </select>                            
+                </div>
+
+                <div class="col-md-10">
+                  <table class="table table-bordered stop-table">
+                    <thead>
+                      <tr class="active">
+                        <th class="text-center" colspan="2">3개월 평균</th>
+                        <th class="text-center" colspan="14">재고 부족분</th>
+                      </tr>
+                      <tr class="active">
+                        <th class="text-center">건수</th>
+                        <th class="text-center">금액</th>
+                        <th class="text-center">카</th>
+                        <th class="text-center">테</th>
+                        <th class="text-center">언</th>
+                        <th class="text-center">파</th>
+                        <th class="text-center">멀</th>
+                        <th class="text-center">알</th>
+                        <th class="text-center">아스</th>
+                        <th class="text-center">언스</th>
+                        <th class="text-center">인왁</th>
+                        <th class="text-center">패</th>
+                        <th class="text-center">차</th>
+                        <th class="text-center">방</th>
+                        <th class="text-center">범접</th>
+                        <th class="text-center">본</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td class="text-center">23</td>
+                        <td class="text-center">232,000</td>
+                        <td class="text-center">
+                          <input type="text" class="form-control" name="COMP_CA" id="COMP_CA">
+                        </td>
+                        <td class="text-center">
+                          <input type="text" class="form-control" name="COMP_TE" id="COMP_TE">
+                        </td>
+                        <td class="text-center">
+                          <input type="text" class="form-control" name="COMP_UN" id="COMP_UN">
+                        </td>
+                        <td class="text-center">
+                          <input type="text" class="form-control" name="COMP_PA" id="COMP_PA">
+                        </td>
+                        <td class="text-center">
+                          <input type="text" class="form-control" name="COMP_MUL" id="COMP_MUL">
+                        </td>
+                        <td class="text-center">
+                          <input type="text" class="form-control" name="COMP_ARL" id="COMP_ARL">
+                        </td>
+                        <td class="text-center">
+                          <input type="text" class="form-control" name="COMP_AS" id="COMP_AS">
+                        </td>
+                        <td class="text-center">
+                          <input type="text" class="form-control" name="COMP_UNS" id="COMP_UNS">
+                        </td>
+                        <td class="text-center">
+                          <input type="text" class="form-control" name="COMP_INW" id="COMP_INW">
+                        </td>
+                        <td class="text-center">
+                          <input type="text" class="form-control" name="COMP_PE" id="COMP_PE">
+                        </td>
+                        <td class="text-center">
+                          <input type="text" class="form-control" name="COMP_CHA" id="COMP_CHA">
+                        </td>
+                        <td class="text-center">
+                          <input type="text" class="form-control" name="COMP_BANG" id="COMP_BANG">
+                        </td>
+                        <td class="text-center">
+                          <input type="text" class="form-control" name="COMP_BUM" id="COMP_BUM">
+                        </td>
+                        <td class="text-center">
+                          <input type="text" class="form-control" name="COMP_BON" id="COMP_BON">
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>                          
+                </div>
+              </div>
+
+              
+              <!-- 거래개시일 -->
+              <div class="col-md-2">
+                <input type="text" class="form-control" id="DEAL_DATE" name="DEAL_DATE" placeholder="거래개시일 입력">
+                <span class="glyphicon glyphicon-calendar search-glypicon"></span>                     
+              </div>
+
+              <!-- 개척자 -->
+              <div class="col-md-2">
+                <label for="PIONEER" class="sr-only">개척자</label>
+                <input type="text" class="form-control" name="PIONEER" id="PIONEER" placeholder="개척자 입력">                            
+              </div>
+              <!-- 협조자 -->
+              <div class="col-md-2">
+                <label for="assistant" class="sr-only">협조자</label>
+                <input type="text" class="form-control" name="assistant" id="assistant" placeholder="협조자 입력">                            
+              </div>
+              <!-- 수탁자 -->
+              <div class="col-md-2">
+                <label for="BAILEE" class="sr-only">수탁자</label>
+                <input type="text" class="form-control" name="BAILEE" id="BAILEE" placeholder="수탁자 입력">                            
+              </div>
+              <!-- 수탁요율 -->
+              <div class="col-md-2">
+                <label for="BAILEE_PERCENT" class="sr-only">수탁요율</label>
+                <input type="text" class="form-control" name="BAILEE_PERCENT" id="BAILEE_PERCENT" placeholder="수탁요율 입력">                            
+              </div>
+              <!-- 전거래처 -->
+              <div class="col-md-2">
+                <label for="BEFORE_DEAL" class="sr-only">전거래처</label>
+                <input type="text" class="form-control" name="BEFORE_DEAL" id="BEFORE_DEAL" placeholder="전거래처 입력">                            
+              </div>
+              <!-- 계약여부 -->
+              <div class="col-md-2">
+                <label for="CONTRACT_YN" class="sr-only">계약여부</label>
+                <select class="form-control" id="CONTRACT_YN" name="CONTRACT_YN">
+                  <option value="">=계약여부=</option>
+                  <option value="1">계약</option>
+                  <option value="2">미계약</option>
+                </select>                            
+              </div>
+              <!-- 계약기간 -->
+              <div class="col-md-2 form-inline frmGroup2">
+                <label for="START_DEAL" class="sr-only">계약기간</label>
+                <input type="text" class="form-control" name="START_DEAL" id="START_DEAL" placeholder="계약기간">
+                <span class="glyphicon glyphicon-calendar search-glypicon1"></span> 
+                <label for="END_DEAL" class="nwt-form-label">~</label>                            
+                <input type="text" class="form-control" name="END_DEAL" id="END_DEAL" placeholder="계약기간">
+                <span class="glyphicon glyphicon-calendar search-glypicon"></span>                            
+              </div>
+              <!-- 수수료율 -->
+              <div class="col-md-2">
+                <label for="CHARGE_PERCENT" class="sr-only">수수료율</label>
+                <input type="text" class="form-control" name="CHARGE_PERCENT" id="CHARGE_PERCENT" placeholder="수수료율 입력">                            
+              </div>
+              <!-- 은행명 -->
+              <div class="col-md-2">
+                <label for="BANK_NM" class="sr-only">은행명</label>
+                <input type="text" class="form-control" name="BANK_NM" id="BANK_NM" placeholder="은행명 입력">                            
+              </div>
+              <!-- 사업용계좌 -->
+              <div class="col-md-2">
+                <label for="BIZ_ACCOUNT" class="sr-only">사업용계좌</label>
+                <input type="text" class="form-control" name="BIZ_ACCOUNT" id="BIZ_ACCOUNT" placeholder="사업용계좌 입력">                            
+              </div>
+              <!-- 계좌주 -->
+              <div class="col-md-2">
+                <label for="ACCOUNT_NM" class="sr-only">계좌주</label>
+                <input type="text" class="form-control" name="ACCOUNT_NM" id="ACCOUNT_NM" placeholder="계좌주 입력">                            
+              </div>
+              <!-- 거래중단일 -->
+              <div class="col-md-2">
+                <input type="text" class="form-control" id="STOP_DEAL_DATE" name="STOP_DEAL_DATE" placeholder="거래중단일 입력">
+                <span class="glyphicon glyphicon-calendar search-glypicon"></span>                     
+              </div>
+              <!-- 거래중단사유 -->
+              <div class="col-md-2">
+                <label for="STOP_DEAL_REASON" class="sr-only">거래중단사유</label>
+                <select class="form-control" id="STOP_DEAL_REASON" name="STOP_DEAL_REASON">
+                  <option value="">=거래중단사유=</option>
+                  <option value="1">계약</option>
+                  <option value="2">미계약</option>
+                </select>                            
+              </div>
+              <!-- 타사거래 입력 -->
+              <div class="col-md-2">
+                <label for="OTHER_DEAL" class="sr-only">타사거래</label>
+                <input type="text" class="form-control" name="OTHER_DEAL" id="OTHER_DEAL" placeholder="타사거래 입력">                            
+              </div>
+
+            </div>
+
+            <!-- 신규영업 -->
+            <div class="row">
+              <div class="container-fluid frm-wrap-title">
+                <신규영업>
+              </div>
+
+              <!-- 방문자 -->
+              <div class="col-md-2">
+                <label for="NEW_VISIT" class="sr-only">방문자</label>
+                <input type="text" class="form-control" name="NEW_VISIT" id="NEW_VISIT" placeholder="방문자 입력">                            
+              </div>
+
+              <!-- 규모 -->
+              <div class="col-md-2">
+                <label for="SCALE" class="sr-only">규모</label>
+                <select class="form-control" id="SCALE" name="SCALE">
+                  <option value="">=규모=</option>
+                  <option value="1">대</option>
+                  <option value="2">중</option>
+                  <option value="2">소</option>
+                  <option value="2">미선택</option>
+                </select>                            
+              </div>
+
+              <!-- 면담자 직책 -->
+              <div class="col-md-2">
+                <label for="INTERVIEWER_ROLE" class="sr-only">면담자 직책</label>
+                <input type="text" class="form-control" name="INTERVIEWER_ROLE" id="INTERVIEWER_ROLE" placeholder="면담자 직책 입력">                            
+              </div>
+
+              <!-- 면담자 성명 -->
+              <div class="col-md-2">
+                <label for="INTERVIEWER_NM" class="sr-only">면담자 성명</label>
+                <input type="text" class="form-control" name="INTERVIEWER_NM" id="INTERVIEWER_NM" placeholder="면담자 성명 입력">                            
+              </div>
+
+              <!-- 면담자 연락처 -->
+              <div class="col-md-2">
+                <label for="INTERVIEWER_TEL" class="sr-only">면담자 연락처</label>
+                <input type="text" class="form-control" name="INTERVIEWER_TEL" id="INTERVIEWER_TEL" placeholder="면담자 연락처 입력">                            
+              </div>
+
+              <!-- 영업반응 -->
+              <div class="col-md-2">
+                <label for="INTERVIEWER_REACT" class="sr-only">영업반응</label>
+                <select class="form-control" id="INTERVIEWER_REACT" name="INTERVIEWER_REACT">
+                  <option value="">=영업반응=</option>
+                  <option value="1">Y</option>
+                  <option value="2">N(기본)</option>
+                </select>                            
+              </div> 
+
+              <!-- 미거래처실태 -->
+              <div class="col-md-2">
+                <label for="DEAL_STATE" class="sr-only">미거래처실태</label>
+                <input type="text" class="form-control" name="DEAL_STATE" id="DEAL_STATE" placeholder="미거래처실태 입력">                            
+              </div>
+
+            </div>
+
+            <!-- 임원방문월 -->
+            <div class="row">
+              <div class="container-fluid frm-wrap-title">
+                <임원방문월>
+              </div>
+              <div class="col-md-2">
+                <label for="VISITMONTH_DATE" class="sr-only">임원방문월</label>
+                <input type="text" class="form-control" name="VISITMONTH_DATE" id="VISITMONTH_DATE" placeholder="미거래처실태 입력">    
+                <button type="button" class="btn btn-success visitmonthbtn">추가</button>                        
+              </div>
+              <div class="col-md-10">
+                <table class="table table-bordered">
+                  <thead>
+                    <tr class="active">
+                      <th class="text-center">2019</th>
+                      <th class="text-center">2018</th>
+                      <th class="text-center">2017</th>
+                      <th class="text-center">2016</th>
+                      <th class="text-center">2015</th>
+                      <th class="text-center">2014</th>
+                      <th class="text-center">2013</th>
+                      <th class="text-center">2012</th>
+                      <th class="text-center">2011</th>
+                      <th class="text-center">2010</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td class="text-center">03,05,07,09,11</td>
+                      <td class="text-center">03,05,07,09,11</td>
+                      <td class="text-center">03,05,07,09,11</td>
+                      <td class="text-center">03,05,07,09,11</td>
+                      <td class="text-center">03,05,07,09,11</td>
+                      <td class="text-center">03,05,07,09,11</td>
+                      <td class="text-center">03,05,07,09,11</td>
+                      <td class="text-center">03,05,07,09,11</td>
+                      <td class="text-center">03,05,07,09,11</td>
+                      <td class="text-center">03,05,07,09,11</td>
+                    </tr>
+                  </tbody>
+                </table>                          
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 공업사등록 기본사용부품영역 -->
+      <!-- 기본사용부품 타이틀&버튼 -->
+      <div class="frm-btn">
+        <div class="frm-btn-title">
+          <공급 및 사용부품> 
+        </div>
+        <div class="frm-btn-hide">
+          <button type="button" class="btn btn-default" id="compbtn">숨기기</button>
+        </div>
+      </div>
+      
+      <div class="popup-bottom">
+        
+        <div class="frm-wrap">
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr class="active">
+                <th class="text-center">부품구분</th>
+                <th class="text-center">공급부품</th>
+                <th class="text-center">사용부품</th>
+                <th class="text-center">배율적용</th>
+                <th class="text-center">메모</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="text-left">카트리지실런드</td>
+                <td class="text-left form-inline">
+                  <label for="ca1"><input type="checkbox" id="ca1" name="ca1">순정품731(310ml)</label>
+                  <label for="ca2"><input type="checkbox" id="ca2" name="ca2">순정품515(300ml)</label>
+                  <label for="ca3"><input type="checkbox" id="ca3" name="ca3">순정품515(300ml)</label>
+                  <label for="ca4"><input type="checkbox" id="ca4" name="ca4">순정품515(300ml)</label>
+                  <label for="ca5"><input type="checkbox" id="ca5" name="ca5">순정품515(300ml)</label>
+                </td>
+                <td class="text-center">
+                  <select class="form-control" id="USECOMP_CA" name="USECOMP_CA">
+                    <option value="">=선택=</option>
+                    <option value="1">대</option>
+                    <option value="2">중</option>
+                    <option value="2">소</option>
+                    <option value="2">미선택</option>
+                  </select> 
+                </td>
+                <td class="text-center">
+                    <input type="text" class="form-control text-right" name="INSU_TEAM_NM_SEARCH" id="INSU_TEAM_NM_SEARCH">   
+                </td>
+                <td class="text-center">
+                    <input type="text" class="form-control text-left" name="INSU_TEAM_NM_SEARCH" id="INSU_TEAM_NM_SEARCH">   
+                </td>
+              </tr>
+              <tr>
+                <td class="text-left">테이프형실런트</td>
+                <td class="text-left form-inline">
+                  <label for="te1"><input type="checkbox" id="te1" name="te1">순정품731(310ml)</label>
+                  <label for="te2"><input type="checkbox" id="te2" name="te2">순정품515(300ml)</label>
+                  <label for="te3"><input type="checkbox" id="te3" name="te3">순정품515(300ml)</label>
+                  <label for="te4"><input type="checkbox" id="te4" name="te4">순정품515(300ml)</label>
+                  <label for="te5"><input type="checkbox" id="te5" name="te5">순정품515(300ml)</label>
+                </td>
+                <td class="text-center">
+                  <select class="form-control" id="USECOMP_TE" name="USECOMP_TE">
+                    <option value="">=선택=</option>
+                    <option value="1">대</option>
+                    <option value="2">중</option>
+                    <option value="2">소</option>
+                    <option value="2">미선택</option>
+                  </select> 
+                </td>
+                <td class="text-center">
+                    <input type="text" class="form-control text-right" name="INSU_TEAM_NM_SEARCH" id="INSU_TEAM_NM_SEARCH">   
+                </td>
+                <td class="text-center">
+                    <input type="text" class="form-control text-left" name="INSU_TEAM_NM_SEARCH" id="INSU_TEAM_NM_SEARCH">   
+                </td>
+              </tr>
+              <tr>
+                <td class="text-left">언더코팅</td>
+                <td class="text-left form-inline">
+                  <label for="UN1"><input type="checkbox" id="UN1" name="UN1">순정품731(310ml)</label>
+                  <label for="UN2"><input type="checkbox" id="UN2" name="UN2">순정품515(300ml)</label>
+                  <label for="UN3"><input type="checkbox" id="UN3" name="UN3">순정품515(300ml)</label>
+                  <label for="UN4"><input type="checkbox" id="UN4" name="UN4">순정품515(300ml)</label>
+                  <label for="UN5"><input type="checkbox" id="UN5" name="UN5">순정품515(300ml)</label>
+                </td>
+                <td class="text-center">
+                  <select class="form-control" id="USECOMP_UN" name="USECOMP_UN">
+                    <option value="">=선택=</option>
+                    <option value="1">대</option>
+                    <option value="2">중</option>
+                    <option value="2">소</option>
+                    <option value="2">미선택</option>
+                  </select> 
+                </td>
+                <td class="text-center">
+                    <input type="text" class="form-control text-right" name="INSU_TEAM_NM_SEARCH" id="INSU_TEAM_NM_SEARCH">   
+                </td>
+                <td class="text-center">
+                    <input type="text" class="form-control text-left" name="INSU_TEAM_NM_SEARCH" id="INSU_TEAM_NM_SEARCH">   
+                </td>
+              </tr>
+              <tr>
+                <td class="text-left">파워형실런트</td>
+                <td class="text-left form-inline">
+                  <label for="pa1"><input type="checkbox" id="pa1" name="pa1">순정품731(310ml)</label>
+                  <label for="pa2"><input type="checkbox" id="pa2" name="pa2">순정품515(300ml)</label>
+                  <label for="pa3"><input type="checkbox" id="pa3" name="pa3">순정품515(300ml)</label>
+                  <label for="pa4"><input type="checkbox" id="pa4" name="pa4">순정품515(300ml)</label>
+                  <label for="pa5"><input type="checkbox" id="pa5" name="pa5">순정품515(300ml)</label>
+                </td>
+                <td class="text-center">
+                  <select class="form-control" id="USECOMP_PA" name="USECOMP_PA">
+                    <option value="">=선택=</option>
+                    <option value="1">대</option>
+                    <option value="2">중</option>
+                    <option value="2">소</option>
+                    <option value="2">미선택</option>
+                  </select> 
+                </td>
+                <td class="text-center">
+                    <input type="text" class="form-control text-right" name="INSU_TEAM_NM_SEARCH" id="INSU_TEAM_NM_SEARCH">   
+                </td>
+                <td class="text-center">
+                    <input type="text" class="form-control text-left" name="INSU_TEAM_NM_SEARCH" id="INSU_TEAM_NM_SEARCH">   
+                </td>
+              </tr>
+              <tr>
+                <td class="text-left">멀티형실런트</td>
+                <td class="text-left form-inline">
+                  <label for="mul1"><input type="checkbox" id="mul1" name="mul1">순정품731(310ml)</label>
+                  <label for="mul2"><input type="checkbox" id="mul2" name="mul2">순정품515(300ml)</label>
+                  <label for="mul3"><input type="checkbox" id="mul3" name="mul3">순정품515(300ml)</label>
+                  <label for="mul4"><input type="checkbox" id="mul4" name="mul4">순정품515(300ml)</label>
+                  <label for="mul5"><input type="checkbox" id="mul5" name="mul5">순정품515(300ml)</label>
+                </td>
+                <td class="text-center">
+                  <select class="form-control" id="USECOMP_MUL" name="USECOMP_MUL">
+                    <option value="">=선택=</option>
+                    <option value="1">대</option>
+                    <option value="2">중</option>
+                    <option value="2">소</option>
+                    <option value="2">미선택</option>
+                  </select> 
+                </td>
+                <td class="text-center">
+                    <input type="text" class="form-control text-right" name="INSU_TEAM_NM_SEARCH" id="INSU_TEAM_NM_SEARCH">   
+                </td>
+                <td class="text-center">
+                    <input type="text" class="form-control text-left" name="INSU_TEAM_NM_SEARCH" id="INSU_TEAM_NM_SEARCH">   
+                </td>
+              </tr>
+              <tr>
+                <td class="text-left">알루미늄스프레이</td>
+                <td class="text-left form-inline">
+                  <label for="arl1"><input type="checkbox" id="arl1" name="arl1">순정품731(310ml)</label>
+                  <label for="arl2"><input type="checkbox" id="arl2" name="arl2">순정품515(300ml)</label>
+                  <label for="arl3"><input type="checkbox" id="arl3" name="arl3">순정품515(300ml)</label>
+                  <label for="arl4"><input type="checkbox" id="arl4" name="arl4">순정품515(300ml)</label>
+                  <label for="arl5"><input type="checkbox" id="arl5" name="arl5">순정품515(300ml)</label>
+                </td>
+                <td class="text-center">
+                  <select class="form-control" id="USECOMP_ARL" name="USECOMP_ARL">
+                    <option value="">=선택=</option>
+                    <option value="1">대</option>
+                    <option value="2">중</option>
+                    <option value="2">소</option>
+                    <option value="2">미선택</option>
+                  </select> 
+                </td>
+                <td class="text-center">
+                    <input type="text" class="form-control text-right" name="INSU_TEAM_NM_SEARCH" id="INSU_TEAM_NM_SEARCH">   
+                </td>
+                <td class="text-center">
+                    <input type="text" class="form-control text-left" name="INSU_TEAM_NM_SEARCH" id="INSU_TEAM_NM_SEARCH">   
+                </td>
+              </tr>
+              <tr>
+                <td class="text-left">아연스프레이</td>
+                <td class="text-left form-inline">
+                  <label for="a1"><input type="checkbox" id="a1" name="a1">순정품731(310ml)</label>
+                  <label for="a2"><input type="checkbox" id="a2" name="a2">순정품515(300ml)</label>
+                  <label for="a3"><input type="checkbox" id="a3" name="a3">순정품515(300ml)</label>
+                  <label for="a4"><input type="checkbox" id="a4" name="a4">순정품515(300ml)</label>
+                  <label for="a5"><input type="checkbox" id="a5" name="a5">순정품515(300ml)</label>
+                </td>
+                <td class="text-center">
+                  <select class="form-control" id="USECOMP_A" name="USECOMP_A">
+                    <option value="">=선택=</option>
+                    <option value="1">대</option>
+                    <option value="2">중</option>
+                    <option value="2">소</option>
+                    <option value="2">미선택</option>
+                  </select> 
+                </td>
+                <td class="text-center">
+                    <input type="text" class="form-control text-right" name="INSU_TEAM_NM_SEARCH" id="INSU_TEAM_NM_SEARCH">   
+                </td>
+                <td class="text-center">
+                    <input type="text" class="form-control text-left" name="INSU_TEAM_NM_SEARCH" id="INSU_TEAM_NM_SEARCH">   
+                </td>
+              </tr>
+              <tr>
+                <td class="text-left">언더코팅스프레이</td>
+                <td class="text-left form-inline">
+                  <label for="uns1"><input type="checkbox" id="uns1" name="uns1">순정품731(310ml)</label>
+                  <label for="uns2"><input type="checkbox" id="uns2" name="uns2">순정품515(300ml)</label>
+                  <label for="uns3"><input type="checkbox" id="uns3" name="uns3">순정품515(300ml)</label>
+                  <label for="uns4"><input type="checkbox" id="uns4" name="uns4">순정품515(300ml)</label>
+                  <label for="uns5"><input type="checkbox" id="uns5" name="uns5">순정품515(300ml)</label>
+                </td>
+                <td class="text-center">
+                  <select class="form-control" id="USECOMP_UNS" name="USECOMP_UNS">
+                    <option value="">=선택=</option>
+                    <option value="1">대</option>
+                    <option value="2">중</option>
+                    <option value="2">소</option>
+                    <option value="2">미선택</option>
+                  </select> 
+                </td>
+                <td class="text-center">
+                    <input type="text" class="form-control text-right" name="INSU_TEAM_NM_SEARCH" id="INSU_TEAM_NM_SEARCH">   
+                </td>
+                <td class="text-center">
+                    <input type="text" class="form-control text-left" name="INSU_TEAM_NM_SEARCH" id="INSU_TEAM_NM_SEARCH">   
+                </td>
+              </tr>
+              <tr>
+                <td class="text-left">인너왁스</td>
+                <td class="text-left form-inline">
+                  <label for="inw1"><input type="checkbox" id="inw1" name="inw1">순정품731(310ml)</label>
+                  <label for="inw2"><input type="checkbox" id="inw2" name="inw2">순정품515(300ml)</label>
+                  <label for="inw3"><input type="checkbox" id="inw3" name="inw3">순정품515(300ml)</label>
+                  <label for="inw4"><input type="checkbox" id="inw4" name="inw4">순정품515(300ml)</label>
+                  <label for="inw5"><input type="checkbox" id="inw5" name="inw5">순정품515(300ml)</label>
+                </td>
+                <td class="text-center">
+                  <select class="form-control" id="USECOMP_INW" name="USECOMP_INW">
+                    <option value="">=선택=</option>
+                    <option value="1">대</option>
+                    <option value="2">중</option>
+                    <option value="2">소</option>
+                    <option value="2">미선택</option>
+                  </select> 
+                </td>
+                <td class="text-center">
+                    <input type="text" class="form-control text-right" name="INSU_TEAM_NM_SEARCH" id="INSU_TEAM_NM_SEARCH">   
+                </td>
+                <td class="text-center">
+                    <input type="text" class="form-control text-left" name="INSU_TEAM_NM_SEARCH" id="INSU_TEAM_NM_SEARCH">   
+                </td>
+              </tr>
+              <tr>
+                <td class="text-left">패널접착제</td>
+                <td class="text-left form-inline">
+                  <label for="pe1"><input type="checkbox" id="pe1" name="pe1">순정품731(310ml)</label>
+                  <label for="pe2"><input type="checkbox" id="pe2" name="pe2">순정품515(300ml)</label>
+                  <label for="pe3"><input type="checkbox" id="pe3" name="pe3">순정품515(300ml)</label>
+                  <label for="pe4"><input type="checkbox" id="pe4" name="pe4">순정품515(300ml)</label>
+                  <label for="pe5"><input type="checkbox" id="pe5" name="pe5">순정품515(300ml)</label>
+                </td>
+                <td class="text-center">
+                  <select class="form-control" id="USECOMP_PE" name="USECOMP_PE">
+                    <option value="">=선택=</option>
+                    <option value="1">대</option>
+                    <option value="2">중</option>
+                    <option value="2">소</option>
+                    <option value="2">미선택</option>
+                  </select> 
+                </td>
+                <td class="text-center">
+                    <input type="text" class="form-control text-right" name="INSU_TEAM_NM_SEARCH" id="INSU_TEAM_NM_SEARCH">   
+                </td>
+                <td class="text-center">
+                    <input type="text" class="form-control text-left" name="INSU_TEAM_NM_SEARCH" id="INSU_TEAM_NM_SEARCH">   
+                </td>
+              </tr>
+              <tr>
+                <td class="text-left">기타부품1</td>
+                <td class="text-left form-inline">
+                  <label for="etc1"><input type="checkbox" id="etc1" name="etc1">순정품731(310ml)</label>
+                  <label for="etc2"><input type="checkbox" id="etc2" name="etc2">순정품515(300ml)</label>
+                  <label for="etc3"><input type="checkbox" id="etc3" name="etc3">순정품515(300ml)</label>
+                  <label for="etc4"><input type="checkbox" id="etc4" name="etc4">순정품515(300ml)</label>
+                  <label for="etc5"><input type="checkbox" id="etc5" name="etc5">순정품515(300ml)</label>
+                </td>
+                <td class="text-center">
+                  <select class="form-control" id="separation" name="separation">
+                    <option value="">=선택=</option>
+                    <option value="1">대</option>
+                    <option value="2">중</option>
+                    <option value="2">소</option>
+                    <option value="2">미선택</option>
+                  </select> 
+                </td>
+                <td class="text-center">
+                    <input type="text" class="form-control text-right" name="INSU_TEAM_NM_SEARCH" id="INSU_TEAM_NM_SEARCH">   
+                </td>
+                <td class="text-center">
+                    <input type="text" class="form-control text-left" name="INSU_TEAM_NM_SEARCH" id="INSU_TEAM_NM_SEARCH">   
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 하단 -->
+  <div class="modal-footer">
+      <div class="text-left">
+        <?php if($AUTH_DELETE == YN_Y) :?>
+        <button type="button" class="btn btn-danger" id="btnDelete">삭제</button>
+        <?php endif; ?>
+      </div>
+      <div class="text-right">
+        <?php if($AUTH_CREATE == YN_Y) :?>
+        <!-- 등록btn -->
+        <button type="submit" class="btn btn-primary">등록</button>
+        <?php endif; ?>
+          <!-- 취소btn -->
+          <button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
+      </div>
+  </div>
+
+</form>
+</div>
+
+
+
+
+
+<?php
+  require $_SERVER['DOCUMENT_ROOT']."/include/footerpopup.html";
+?>

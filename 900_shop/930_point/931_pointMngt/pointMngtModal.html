@@ -1,0 +1,93 @@
+<?php
+  require $_SERVER['DOCUMENT_ROOT']."/include/headerpopup.html";
+?>
+<script src="js/popup.js"></script>
+<body onload="onLoadRegistPopup()">
+    <div class="modal-add" id="add-modal">
+        
+        <form class="form-horizontal" name="addForm" id="addForm">
+            <input type="hidden" name="REQ_MODE" id="REQ_MODE"/>
+            <!-- modal 상단 -->
+            <div class="modal-header">
+            <h4 class="modal-title">포인트관리</h4>  
+            </div>
+
+
+            <!-- modal 내용 -->
+            <div class="modal-body">         
+
+
+                <!-- 대상 공업사 -->
+                <div class="row">
+                    <div class="col-md-3"><label for="MGG_ID">업체명</label></div>
+                    <div class="col-md-7">
+                        <input type="hidden" id="MGG_ID" name="MGG_ID"  />
+                        <input type="text" onkeyup="onchangeGarage(event);"
+                                class="form-control" name="MGG_NM" id="MGG_NM"  autocomplete="off" placeholder="공업사 입력">    
+                    </div>
+                </div>
+
+                <!-- 변동포인트 -->
+                <div class="row">
+                    <div class="col-md-3"><label for="NPH_POINT">변동포인트</label></div>
+                    <div class="col-md-7"><input type="text" class="form-control" id="NPH_POINT" name="NPH_POINT"  onkeyup="isNumber(event)" placeholder="입력"></div>
+                </div>
+
+                <!-- 포인트구분 -->
+                <div class="row">
+                    <div class="col-md-3"><label for="pointDivisionCd">포인트구분</label></div>
+                    <div class="col-md-7">
+                        <select class="form-control" name="pointDivisionCd" id="pointDivisionCd">
+                            <option value="">선택</option>
+                            <option value="">관리자적립</option>
+                            <option value="">현금지급</option>
+                            <option value="">사용</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- 지출증빙 : 포인트구분 현급지급 시 선택(나타남)-->
+                <div class="row">
+                    <div class="col-md-3"><label for="receiptCd">지출증빙</label></div>
+                    <div class="col-md-7">
+                        <select class="form-control" name="receiptCd" id="receiptCd">
+                            <option value="">선택</option>
+                            <option value="sealant">세금계산서</option>
+                            <option value="sealant">원천징수</option>
+                            <option value="cash">현금영수증</option>
+                            <option value="sealant">기타</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- 메모 -->
+                <div class="row">
+                    <div class="col-md-3"><label for="memo">메모</label></div>
+                    <div class="col-md-7"><input type="text" class="form-control" id="memo" name="memo" placeholder="입력"></div>
+                </div>
+                
+                
+            </div>
+
+
+            <!-- modal 하단 -->
+            <div class="modal-footer">
+                <div class="text-left">
+                    <!-- <button type="button" class="btn btn-danger" id="btnDelete" onclick="confirmDelSwal()">삭제</button> -->
+                </div>
+                <div class="text-right">
+                    <!-- 등록btn -->
+                    <button type="submit" class="btn btn-primary" id="submitBtn">저장</button>
+                    <!-- 취소btn -->
+                    <button type="button" class="btn btn-default" onclick="self.close()">닫기</button>
+                </div>
+            </div>
+
+        </form>
+    
+    </div>
+</body>
+
+<?php
+  require $_SERVER['DOCUMENT_ROOT']."/include/footerpopup.html";
+?>

@@ -1,0 +1,47 @@
+
+ <div class="modal modal-add fade" id="cancel-modal" role="dialog">
+  <div class="modal-dialog">
+   <div class="modal-content">
+   <form name="refundModalForm" id="refundModalForm">
+
+     <!-- modal 상단 -->
+     <div class="modal-header">
+         <h4 class="modal-title">취소사유</h4>
+     </div>
+
+     <!-- modal 내용 -->
+     <div class="modal-body"> 
+         <!-- 취소종류 -->
+         <div class="row">
+           <div class="col-md-3"><label for="SEND_PHONE_NUM">취소종류</label></div>
+           <div class="col-md-8">
+             <?php echo getRadio($this->optionArray['EC_ORDER_CANCEL'], "cancelTypeCode", $orderInfo['cancelTypeCode']) ?>
+           </div>
+         </div>
+         <!-- 취소사유 -->
+         <div class="row">
+           <div class="col-md-3"><label for="SEND_PHONE_NUM">취소사유</label></div>
+           <div class="col-md-8">
+             <select class="form-control" id="ORDER_CANCEL_TYPE" name="ORDER_DELIVERY_NM" required>
+               <?php echo getOption($this->optionArray['EC_ORDER_CANCEL_TYPE'], "" , $orderInfo['cancelDetailTypeCode']) ?>
+             </select> 
+           </div>
+         </div>
+     </div>
+
+     <!-- modal 하단 -->
+     <div class="modal-footer">
+       <div class="text-left">
+       </div>
+       <div class="text-right">
+         <!-- 수정btn -->
+         <button type="submit" class="btn btn-primary" id="submitBtn" name ="submitBtn">승인취소</button>
+         <!-- 취소btn -->
+         <button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
+       </div>
+     </div>
+
+   </form>
+   </div>
+ </div>
+</div>

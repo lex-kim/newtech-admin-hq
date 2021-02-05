@@ -1,0 +1,7 @@
+<?php
+  require $_SERVER['DOCUMENT_ROOT']."/include/headerShop.html";
+  require "controller/InOutStatusController.php";
+ 
+  $cInOutStatusController = new InOutStatusController(['EC_MGMT_TYPE']);
+  $cInOutStatusController->index();
+?>

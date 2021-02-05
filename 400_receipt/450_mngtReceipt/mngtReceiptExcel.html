@@ -1,0 +1,74 @@
+<?php
+
+    header("Content-Type: application/vnd.ms-excel");
+    date_default_timezone_set('Asia/Seoul');
+
+    header("Content-Disposition: attachment; filename=".date("YmdH", time())."_공업사입출고관리.xls");
+    header("Content-Description: Newtech System");
+
+    require $_SERVER['DOCUMENT_ROOT']."/common/common.php";	
+    require "class/clsMngtReceipt.php";
+
+    $headerData =  $cMngtReceipt->getData($_REQUEST);   // 헤더 셋팅할 데이터 
+
+
+    $data =  $cMngtReceipt->getList($_REQUEST); // 공업사 일반정보 조회
+    $result = $data[0];
+    $approved ='승인';
+
+    $excelHtml = "
+        <table border='1'>
+            <thead>
+              <tr class='active'>
+                  <th style='text-align:center;'>순번</th>
+                  <th style='text-align:center;'>변경일</th>
+                  <th style='text-align:center;'>구분</th>
+                  <th style='text-align:center;'>지역</th>
+                  <th style='text-align:center;'>공업사</th>
+                  <th style='text-align:center;'>사업자번호</th>
+                  <th style='text-align:center;'>청구식</th>
+                  <th style='text-align:center;'>변동원인</th>
+    ";
+    foreach($headerData as $item){
+        $excelHtml .= "<th style='text-align:center;'>".$item['CPPS_NM_SHORT']."</th>";
+    }
+    $excelHtml .="
+                  <th style='text-align:center;'>승인여부</th>
+                  <th style='text-align:center;'>승인일</th>
+              </tr>
+            </thead>
+    ";
+
+    foreach($result as $item) { 
+        $excelHtml .= "
+                <tr>
+                <td style='text-align:center;'>".$item['IDX']."</td>
+                <td style='text-align:center;'>".$item['NIH_DT']."</td>
+                <td style='text-align:center;'>".$item['CSD_NM']."</td>
+                <td style='text-align:left;'>".$item['CRR_NM']."</td>
+                <td style='text-align:left;'>".$item['MGG_NM']."</td>
+                <td style='text-align:center;'>".cUtil::biz_format($item['MGG_BIZ_ID'])."</td>
+                <td style='text-align:center;'>".$item['RET_NM']."</td>
+                <td style='text-align:center;'>".$item['RST_NM']."</td>
+    
+        ";
+
+        foreach($item['SUMMARY'] as $subItem){
+            $excelHtml .= "<td style='text-align:right;'>".$subItem['NIS_AMOUNT']."</td>";
+        }
+        if($item['NIH_APPROVED_YN'] == 'N'){
+            $approved = '미승인';
+        }
+
+        $excelHtml .= "
+            <td style='text-align:center;'>".$approved."</td>
+            <td style='text-align:center;'>".$item['NIH_APPROVED_DTHMS']."</td>
+            </tr>
+        ";
+    }
+    $excelHtml .= "</table>";
+
+    echo "<meta content=\"application/vnd.ms-excel;charset=UTF-8;\" name=\"Content-type\">";
+    echo $excelHtml ;
+
+?>

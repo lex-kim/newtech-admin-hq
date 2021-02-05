@@ -1,0 +1,26 @@
+<?php
+
+    header("Content-type: text/csv;charset=UTF-8;");
+    header("Pragma: no-cache");
+    header("Expires: 0"); 
+    date_default_timezone_set('Asia/Seoul');
+
+    header("Content-Disposition: attachment; filename=".date("YmdH", time())."_공업사리스트.csv");
+    header("Content-Description: Newtesch System");
+
+    require $_SERVER['DOCUMENT_ROOT']."/common/common.php";	
+    require "class/clsVisitingDay.php";
+
+    $data =  $cVisit->getList($_REQUEST);
+
+    $result = $data[0];
+    $excelHtml = "순번,구분,순회순서,공업사코드,공업사명,임원방문일(yyyy-mm-dd)\n";
+
+
+    foreach($result as $item) { 
+        $excelHtml .= $item['IDX'].",".$item['CSD_NM'].",".$item['MGG_CIRCUIT_ORDER'].",'".$item['MGG_ID']."',".$item['MGG_NM'].",".$item['VISIT_DT']."\n";
+    }
+
+    echo "\xEF\xBB\xBF"; 
+    echo $excelHtml ;
+?>

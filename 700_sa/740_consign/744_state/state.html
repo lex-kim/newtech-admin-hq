@@ -1,0 +1,264 @@
+<!-- header.html -->
+<?php
+  require $_SERVER['DOCUMENT_ROOT']."/include/header.html";
+?>
+
+  <input type="hidden" id="bbsType" value="main"/>
+
+  <!-- 출력순서가 존재한다면 업데이트를 진행할지.. 업데이트 여부 -->
+  <input type="hidden" value='' id="IS_EXIST_ORDER_NUM"/>
+
+  <!-- 출력순서 업데이트 시 변동사항이 있는지.. -->
+  <input type="hidden" value='' id="ORI_MGC_ORDER_NUM"/>
+
+
+  <!-- 페이지 카테고리 -->
+  <div class="container-fluid mb20px">
+    <h3 class="nwt-category"><small>영업관리&nbsp;&nbsp;>&nbsp;&nbsp;위탁장비관리&nbsp;&nbsp;>&nbsp;</small>위탁장비 현황</h3>
+  </div>
+  
+  <!-- 검색바(폼) 시작 -->
+  <div class="container-fluid nwt-search-form">
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <form class="form-inline" id="searchForm">
+                <fieldset>
+                    <legend>조건검색</legend>
+
+                    <!-- 검색버튼 제외한 폼 wrap -->
+                    <div class="frm-wrap">
+                        <!-- 1st row -->
+                        <div class="row frm-last-row">
+                          
+                          <!-- 구분 선택 -->
+                          <div class="col-md-1">
+                            <label for="NCC_ID_SEARCH" class="sr-only">구분</label>
+                            <select class="form-control" name="NCC_ID_SEARCH" id="NCC_ID_SEARCH">
+                              <option value="">=구분=</option>
+                            </select>
+                          </div>
+
+                          <!-- 지역 시군수 -->
+                          <div class="col-md-2">
+                            <label for="NCC_ID_SEARCH" class="sr-only">지역</label>
+                            <select class="form-control" name="NCC_ID_SEARCH" id="NCC_ID_SEARCH">
+                              <option value="">=지역=</option>
+                            </select>
+                          </div>
+
+                          <!-- 공업사 선택/직접입력 -->
+                          <div class="col-md-2">
+                            <label for="NCC_ID_SEARCH" class="sr-only">공업사</label>
+                            <select class="form-control" name="NCC_ID_SEARCH" id="NCC_ID_SEARCH">
+                              <option value="">=공업사=</option>
+                            </select>
+                          </div>
+
+                          <!-- 영업담당 입력,키워드 -->
+                          <div class="col-md-1">
+                            <label for="WRT_USERID_SEARCH" class="sr-only">영업담당</label>
+                            <input type="text" class="form-control" name="WRT_USERID_SEARCH" id="WRT_USERID_SEARCH" 
+                                 placeholder="영업담당 입력">
+                          </div>
+
+                          <!-- 장비구분 선택 -->
+                          <div class="col-md-1">
+                            <label for="NCC_ID_SEARCH" class="sr-only">장비구분</label>
+                            <select class="form-control" name="NCC_ID_SEARCH" id="NCC_ID_SEARCH">
+                              <option value="">=장비구분=</option>
+                            </select>
+                          </div>
+
+                          <!-- 장비명 직접입력 -->
+                          <div class="col-md-1">
+                            <label for="NCP_NM_SEARCH" class="sr-only">장비명</label>
+                            <select class="form-control" name="NCP_NM_SEARCH" id="NCP_NM_SEARCH">
+                              <option value="">=장비명=</option>
+                            </select>
+                          </div>
+
+                        </div>
+
+                      </div> 
+
+                      <!-- 검색버튼 wrap -->
+                      <div class="frm-search-wrap">
+                        <!-- 검색btn -->
+                        <div class="row">
+                            <div class="col-md-12 text-right">
+                              <button type="submit" class="btn btn-primary" style="margin-top: -10px">
+                                <span class="glyphicon glyphicon-search"></span>&nbsp;검색
+                              </button>
+                            </div>
+                        </div> 
+                      </div>
+
+                </fieldset>
+            </form>
+        </div>
+    </div>
+  </div>
+  <!-- 검색바(폼) 끝 -->
+
+  <!-- 테이블 상단 #perPage, btn 영역 -->
+  <div class="container-fluid nwt-table-top mb20r">
+    <div class="row">
+      
+      <!-- 리스트개수 -->
+      <?php	require $_SERVER['DOCUMENT_ROOT']."/include/listCnt.html"; ?>
+      
+      <!-- 테이블 우측 상단 btn -->
+      <div class="col-lg-6 clearfix">
+        <div class="form-inline f-right">
+          <?php if($AUTH_EXCEL == YN_Y) :?>
+          <!-- 엑셀다운로드 -->
+          <button type="button" class="btn btn-success" onclick="excelDownload();"><span class="glyphicon glyphicon-download-alt"></span>&nbsp;엑셀 다운로드</button>
+          <?php endif; ?>
+          <!-- 등록btn / modal handler -->
+          <!-- <?php if($AUTH_CREATE == YN_Y) :?>
+          <button type="button" class="btn btn-primary" id="add-new-btn" data-toggle="modal" onclick="showAddModal()">등록</button>
+          <?php endif; ?> -->
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <?php	require $_SERVER['DOCUMENT_ROOT']."/include/indicator.html"; ?>
+
+
+  <!-- 테이블 -->
+  <div class="container-fluid nwt-table" style="width: 100%;"> <!--overflow-x: scroll;-->
+    <table class="table table-bordered table-striped">
+      <thead>
+        <tr class="active">
+          <th class="text-center" rowspan="3">부품구분</th>
+          <th class="text-center" rowspan="3">부품명</th>
+          <th class="text-center" colspan="6">창고현황</th>
+          <th class="text-center" colspan="20">차량현황</th>
+          <th class="text-center" colspan="10">공업사현황</th>
+          <th class="text-center" colspan="20">분실/폐기현황</th>
+        </tr>
+        <tr class="active">
+          <!-- 창고현황 -->
+          <th class="text-center" colspan="2">출고</th>
+          <th class="text-center" colspan="4">재고</th>
+          <!-- 차량현황 -->
+          <th class="text-center" colspan="4">1지역</th>
+          <th class="text-center" colspan="4">2지역</th>
+          <th class="text-center" colspan="4">3지역</th>
+          <th class="text-center" colspan="4">4지역</th>
+          <th class="text-center" colspan="4">5지역</th>
+          <!-- 공업사현황 -->
+          <th class="text-center" colspan="2">1지역</th>
+          <th class="text-center" colspan="2">2지역</th>
+          <th class="text-center" colspan="2">3지역</th>
+          <th class="text-center" colspan="2">4지역</th>
+          <th class="text-center" colspan="2">5지역</th>
+          <!-- 분실/폐기현황 -->
+          <th class="text-center" colspan="4">1지역</th>
+          <th class="text-center" colspan="4">2지역</th>
+          <th class="text-center" colspan="4">3지역</th>
+          <th class="text-center" colspan="4">4지역</th>
+          <th class="text-center" colspan="4">5지역</th>
+        </tr>
+        <tr class="active">
+          <!-- 창고현황 -->
+          <th class="text-center">수량</th>
+          <th class="text-center">금액</th>
+          <th class="text-center">잔여수량</th>
+          <th class="text-center">잔여금액</th>
+          <th class="text-center">회수수량</th>
+          <th class="text-center">회수금액</th>
+
+          <!-- 차량현황 -->
+          <th class="text-center">공급수량</th>
+          <th class="text-center">공급금액</th>
+          <th class="text-center">회수수량</th>
+          <th class="text-center">회수금액</th>
+
+          <th class="text-center">공급수량</th>
+          <th class="text-center">공급금액</th>
+          <th class="text-center">회수수량</th>
+          <th class="text-center">회수금액</th>
+
+          <th class="text-center">공급수량</th>
+          <th class="text-center">공급금액</th>
+          <th class="text-center">회수수량</th>
+          <th class="text-center">회수금액</th>
+
+          <th class="text-center">공급수량</th>
+          <th class="text-center">공급금액</th>
+          <th class="text-center">회수수량</th>
+          <th class="text-center">회수금액</th>
+
+          <th class="text-center">공급수량</th>
+          <th class="text-center">공급금액</th>
+          <th class="text-center">회수수량</th>
+          <th class="text-center">회수금액</th>
+          
+          <!-- 공업사현황 -->
+          <th class="text-center">공급수량</th>
+          <th class="text-center">공급금액</th>
+          
+          <th class="text-center">공급수량</th>
+          <th class="text-center">공급금액</th>
+          
+          <th class="text-center">공급수량</th>
+          <th class="text-center">공급금액</th>
+          
+          <th class="text-center">공급수량</th>
+          <th class="text-center">공급금액</th>
+          
+          <th class="text-center">공급수량</th>
+          <th class="text-center">공급금액</th>
+          
+          <!-- 분실/폐기현황 -->
+          <th class="text-center">분실수량</th>
+          <th class="text-center">분실금액</th>
+          <th class="text-center">폐기수량</th>
+          <th class="text-center">폐기금액</th>
+          
+          <th class="text-center">분실수량</th>
+          <th class="text-center">분실금액</th>
+          <th class="text-center">폐기수량</th>
+          <th class="text-center">폐기금액</th>
+          
+          <th class="text-center">분실수량</th>
+          <th class="text-center">분실금액</th>
+          <th class="text-center">폐기수량</th>
+          <th class="text-center">폐기금액</th>
+          
+          <th class="text-center">분실수량</th>
+          <th class="text-center">분실금액</th>
+          <th class="text-center">폐기수량</th>
+          <th class="text-center">폐기금액</th>
+          
+          <th class="text-center">분실수량</th>
+          <th class="text-center">분실금액</th>
+          <th class="text-center">폐기수량</th>
+          <th class="text-center">폐기금액</th>
+          
+        </tr>
+      </thead>
+      <tbody id="dataTable">
+
+      </tbody>
+    </table>
+  </div>
+
+
+  <!-- pagination -->
+  <div class="container-fluid">
+    <div class="text-center">
+      <ul class="pagination">
+
+      </ul>
+    </div>
+  </div>
+
+
+<!-- footer.html -->
+<?php
+  require $_SERVER['DOCUMENT_ROOT']."/include/footer.html";
+?>

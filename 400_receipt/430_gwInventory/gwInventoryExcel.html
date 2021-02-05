@@ -1,0 +1,86 @@
+<?php
+
+    header("Content-Type: application/vnd.ms-excel");
+    date_default_timezone_set('Asia/Seoul');
+
+    header("Content-Disposition: attachment; filename=".date("YmdH")."_공업사재고현황.xls");
+    header("Content-Description: Newtech System");
+
+    require $_SERVER['DOCUMENT_ROOT']."/common/common.php";	
+    require "class/clsGwInventory.php";
+
+    $headerData =  $cInventory->getChart($_REQUEST);   // 헤더 셋팅할 데이터 
+
+
+    $data =  $cInventory->getList($_REQUEST); // 공업사 일반정보 조회
+    $result = $data[0];
+    $IDX = count($result);
+
+    $excelHtml = "
+        <table border='1'>
+            <thead>
+              <tr class='active'>
+                <th style='text-align:center;' rowspan='2'>순번</th>
+                <th style='text-align:center;' rowspan='2'>구분</th>
+                <th style='text-align:center;' rowspan='2'>지역</th>
+                <th style='text-align:center;' rowspan='2'>공업사명</th>
+                <th style='text-align:center;' rowspan='2'>사업자번호</th>
+                <th style='text-align:center;' rowspan='2'>청구식</th>
+                <th style='text-align:center;' rowspan='2'>거래여부</th>
+                <th style='text-align:center;' rowspan='2'>개시일</th>
+                <th style='text-align:center;' rowspan='2'>종료일</th>
+                <th style='text-align:center;' rowspan='2'>당월 청구건수</th>
+                <th style='text-align:center;' rowspan='2'>당월 청구금액</th>
+                <th style='text-align:center;' rowspan='2'>재고금액</th>
+    ";
+    foreach($headerData as $item){
+        $excelHtml .= "<th style='text-align:center;' rowspan='2'>".$item['CPPS_NM_SHORT']."</th>";
+    }
+    $excelHtml .="
+                  <th style='text-align:center;'colspan='2'>협력업체</th>
+              </tr>
+              <tr>
+                <th style='text-align:center;'>보험사</th>
+                <th style='text-align:center;'>제조사</th>
+              </tr>
+            </thead>
+    ";
+
+    foreach($result as $item) { 
+        $excelHtml .= "
+                <tr>
+                <td style='text-align:center;'>".$IDX--."</td>
+                <td style='text-align:center;'>".$item['CSD_NM']."</td>
+                <td style='text-align:left;'>".$item['CRR_NM']."</td>
+                <td style='text-align:left;'>".$item['MGG_NM']."</td>
+                <td style='text-align:center;'>".cUtil::biz_format($item['MGG_BIZ_ID'])."</td>
+                <td style='text-align:center;'>".$item['RET_NM']."</td>
+                <td style='text-align:center;'>".$item['RCT_NM']."</td>
+                <td style='text-align:center;'>".$item['MGG_BIZ_START_DT']."</td>
+                <td style='text-align:center;'>".$item['MGG_BIZ_END_DT']."</td>
+                <td style='text-align:right;mso-number-format:\#\,\#\#0\;'>".$item['NB_CNT']."</td>
+                <td style='text-align:right;mso-number-format:\#\,\#\#0\;'>".$item['NB_TOTAL_PRICE']."</td>
+        ";
+
+        $_REQUEST['MGG_ID']=$item['MGG_ID'];
+        $npsPrice = 0 ;
+        $npsTxt = "";
+        foreach($cInventory->getSubList($_REQUEST) as $subItem){
+            $npsPrice += (int)$subItem['NPS_PRICE'];
+            $npsTxt .= "<td>".$subItem['NIS_AMOUNT']."</td>";
+        }
+        
+        $excelHtml .= "<td>".$npsPrice."</td>";
+        $excelHtml .= $npsTxt."
+            <td>".$item['MGG_INSU_MEMO']."</td>
+            <td>".$item['MGG_MANUFACTURE_MEMO']."</td>
+            </tr>
+        ";
+    }
+    
+    $excelHtml .= "</table>";
+
+    echo "<meta content=\"application/vnd.ms-excel;charset=UTF-8;\" name=\"Content-type\">";
+    echo $excelHtml ;
+
+?>

@@ -1,0 +1,257 @@
+<?php require_once $_SERVER['DOCUMENT_ROOT']."/common/common.php"; ?>
+<?php
+  $USER_AUTH_INFO = array();
+  $AUTH_CREATE = "";
+  $AUTH_READ = "";
+  $AUTH_UPDATE = "";
+  $AUTH_DELETE = "";
+  $AUTH_EXCEL = "";
+
+  if(!$_SESSION['USERID'] || $_SESSION['USERID']=="") {
+      echo "<HTML><SCRIPT>alert('로그인 하십시오'); location.href='/';</SCRIPT></HTML>";
+  }else{
+      include $_SERVER['DOCUMENT_ROOT']."/common/class/clsCommon.php"; 
+      $_REQUEST['ALLS_URI'] = $_SERVER["PHP_SELF"];
+      $USER_AUTH_INFO = $clsCommon->getUserAuthLevel($_REQUEST);
+
+      if(empty($USER_AUTH_INFO)){
+        header("Location: /000_login/error.html");
+      }else{
+        $AUTH_CREATE  = $USER_AUTH_INFO[0]['ALLS_CREATE_YN'];
+        $AUTH_READ  = $USER_AUTH_INFO[0]['ALLS_READ_YN'];
+        $AUTH_UPDATE  = $USER_AUTH_INFO[0]['ALLS_UPDATE_YN'];
+        $AUTH_DELETE  = $USER_AUTH_INFO[0]['ALLS_DELETE_YN'];
+        $AUTH_EXCEL  = $USER_AUTH_INFO[0]['ALLS_EXCEL_YN']; 
+        $params1 = "NUI_1ST=".iconv('utf-8','euc-kr',  $USER_AUTH_INFO[0]['NUI_1ST']);
+        $params2 = "&NUI_2ND=".iconv('utf-8','euc-kr', $USER_AUTH_INFO[0]['NUI_2ND']);
+        $params3 = "&NUI_3RD=".iconv('utf-8','euc-kr', $USER_AUTH_INFO[0]['NUI_3RD']);
+        $params4 = "&NUI_4TH=".iconv('utf-8','euc-kr', $USER_AUTH_INFO[0]['NUI_4TH']);
+        $params5 = "&TYPE=";
+        if($AUTH_READ  == 'N'){
+          header("Location: /000_login/notRead.html?".$params1.$params2.$params3.$params4.$params5);
+        }
+      }      
+  }
+?>
+
+<!DOCTYPE html>
+  <html lang="ko">
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="cache-control" content="no-cache">
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv='Content-type' content='text/html; charset=utf-8'>
+    <meta http-equiv="cache-control" content="no-cache, must-revalidate">
+    <meta http-equiv="pragma" content="no-cache">
+    <title>NEWTECH - ERP관리자시스템</title>
+
+    
+    <!-- favicon -->
+    <link rel="icon" href="/images/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon">
+
+
+    <!-- Bootstrap v3.3.7 스타일 -->
+    <link rel="stylesheet" href="/bootstrap/css/bootstrap-theme.css">
+    <link rel="stylesheet" href="/bootstrap/css/bootstrap.css">
+
+    <!-- multiselect.css -->
+    <link rel="stylesheet" href="/bootstrap/css/bootstrap-select.min.css">
+
+    <!-- multiselect.css -->
+    <link rel="stylesheet" href="/bootstrap/css/bootstrap-select.min.css">
+
+    <!-- 캘린더CSS -->
+    <link rel="stylesheet" href="/css/jquery-ui.css">
+
+    <!-- editor CSS -->
+    <link rel="stylesheet" href="/summernote/summernote.css"> 
+
+    
+    <!-- 공통 스타일 -->
+    <link rel="stylesheet" href="/css/common.css">
+    <!-- 페이지별 스타일 -->
+    <link rel="stylesheet" href="css/app.css">
+
+  </head>
+  <body>
+    <header id="SHOP_HEADER">
+    <!-- 헤더 상단 탭메뉴 -->
+    <div class="navTop">
+      <div class="container-fluid">
+        <ul>
+          <!-- <li><a href="/001_guide/systemGuide.html">시스템 설정 및 이용안내</a></li>
+          <li><a href="/001_guide/billGuide.html">부품대금 청구서 작성방법</a></li>
+          <li><a href="/001_guide/printGuide.html">시스템 인쇄 설정 안내</a></li> -->
+        </ul>
+      </div>
+    </div>
+
+    <!-- navbar 시작 -->
+    <div class="navbar">
+      <div class="container-fluid">
+        
+        <!-- logo -->
+        <div class="navbar-header">
+          <a class="navbar-brand" href="#">NEWTECH 쇼핑몰 관리</a>
+        </div>
+
+        
+        <!-- 메인메뉴 -->
+        <ul class="nav navbar-nav">         
+
+          <!-- 청구서작성btn -->
+          <li class="claimbtn">
+            <!-- <a href="/200_billMngt/210_writeBill/writeBill.html"
+                onclick="window.open('/200_billMngt/210_writeBill/writeBill.html', 
+                'newwindow', 
+                'width=1500,height=1000'); 
+                return false;" 
+            >
+              <button type="button" class="btn btn-default navbar-btn">청구서작성</button>
+            </a> -->
+          </li>
+
+
+          <!-- 거래처관리 -->
+          <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">거래처관리<span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <li><a href="/900_shop/910_mngt/911_buyMngt/buyMngt.php">매입처관리</a></li>
+              <li><a href="/900_shop/910_mngt/511_storeMngt/storeMngt.html">업체관리</a></li>
+              <!-- <li><a href="/900_shop/910_mngt/918_delivery/delivery.php">배송정책관리</a></li> -->
+            </ul>
+          </li> 
+
+          <!-- 상품관리 -->
+          <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">상품관리<span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <li><a href="/900_shop/910_mngt/912_productCategory/productCategory.php">상품카테고리 관리</a></li>
+              <li><a href="/900_shop/910_mngt/913_product/product.php">상품관리</a></li>
+              <!-- <li><a href="/900_shop/910_mngt/918_delivery/delivery.php">배송정책관리</a></li> -->
+            </ul>
+          </li> 
+
+          <!-- 입출고 관리 -->
+          <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">입출고 관리<span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <li class="dropdown-header">입출고 관리</li>
+              <li><a href="/900_shop/960_inout/961_stock/stock.php">-입고 관리</a></li>
+              <li><a href="/900_shop/960_inout/962_release/release.php">-출고 관리</a></li>
+              <li><a href="/900_shop/960_inout/963_lost/lost.php">-분실/폐기 관리</a></li>
+              <li><a href="/900_shop/960_inout/964_collect/collect.php">-회수 관리</a></li>
+              <li class="divider"></li>
+              <li class="dropdown-header">입출고 현황</li>
+              <li><a href="/900_shop/960_inout/966_inoutStatus/inoutStatus.html">-입출고 현황</a></li>
+              <li><a href="/900_shop/960_inout/967_employeeStatus/employeeStatus.html">-직원별 수불현황</a></li>
+              <li><a href="/900_shop/960_inout/968_areaStatus/areaStatus.html">-지역별 수불현황</a></li>
+            </ul>
+          </li>          
+        
+          <!-- 일반판매관리 -->
+          <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">일반판매관리<span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <li><a href="/900_shop/950_sales/951_salesList/salesList.php">일반판매 내역</a></li>
+              <li><a href="/900_shop/950_sales/952_salesStatus/salesStatus.html">일반판매 현황</a></li>
+            </ul>
+          </li> 
+
+          <!-- 견적서관리 -->
+          <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">견적서관리<span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <li><a href="/900_shop/940_orderMngt/943_estimateList/estimateList.php">견적서 관리</a></li>
+              <li><a href="javascript: openWindowPopup('/900_shop/940_orderMngt/942_order/estimatePopup.php', 'estimatePopup', 1320, 913);">견적서 작성</a></li>
+            </ul>
+          </li>     
+          
+          <!-- 주문관리 -->
+          <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">주문관리<span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <!-- <li class="dropdown-header">쇼핑몰관리</li> -->
+              <li><a href="/900_shop/940_orderMngt/941_orderList/orderList.php">주문관리</a></li>
+              <!-- <li><a href="javascript:openWindowPopup('/900_shop/940_orderMngt/942_order/estimatePopup.html')/900_shop/940_orderMngt/942_order/estimatePopup.html"
+                onclick="window.open('/900_shop/940_orderMngt/942_order/estimatePopup.html', 
+                'estimatePopup', 
+                'width=1320,height=860,scrollbars=yes'); 
+                return false;" >주문서 작성</a></li> -->
+                <li><a href="/900_shop/960_inout/965_inoutOrder/inoutOrder.php">발주관리</a></li>
+            </ul>
+          </li>  
+
+          <!-- 정산관리 -->
+          <!-- <li><a href="/900_shop/970_calculate/971_calculate/calculate.php">정산관리</a></li>      -->
+
+
+          <!-- 운영정보관리 -->
+          <!-- <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">운영정보관리<span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <li><a href="/900_shop/910_mngt/916_info/info.html">-쇼핑몰 사업자정보</a></li>
+              <li><a href="/900_shop/910_mngt/917_setting/setting.html">-설정</a></li>
+            </ul>
+          </li>            -->
+ 
+          <!-- 포인트관리 -->
+          <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">포인트관리<span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <li><a href="/900_shop/930_point/931_pointMngt/pointMngt.html">포인트관리</a></li>
+              <li><a href="/900_shop/930_point/932_calculate/calculate.html">포인트현황</a></li>
+              <li><a href="/900_shop/930_point/935_pointState/pointState.html">업체별포인트현황</a></li>
+              <li><a href="/900_shop/930_point/933_extinction/extinction.html">소멸예정포인트</a></li>
+              <li><a href="/900_shop/930_point/934_policy/policy.html">포인트적립정책</a></li>
+            </ul>
+          </li>    
+
+
+          <!-- 현황통계 -->
+          <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">현황통계<span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <li><a href="/900_shop/920_statistics/925_outstandingPayment/outstandingPayment/outstandingPayment.html">미결제금액 현황</a></li>
+              <li><a href="/900_shop/920_statistics/926_notReceived/notReceived/notReceived.html">미수금액 현황</a></li>
+              <li><a href="/900_shop/920_statistics/923_productIn/productIn.html">제품별 매입/매출 통계</a></li>
+              <!-- <li><a href="/900_shop/920_statistics/924_productOut/productOut.html">제품별 매출 통계</a></li> -->
+            </ul>
+          </li>  
+
+          
+        </ul>
+        <!-- 메인메뉴 끝 -->
+
+      
+        <!-- navbar 우측 코드관리, 유저, 로그인&로그아웃 -->
+        <ul class="nav navbar-nav navbar-right">
+          <li class="claimbtn">
+            <a href="/200_billMngt/220_sendList/sendList.html"
+                onclick="location.href('/200_billMngt/220_sendList/sendList.html');" 
+            >
+              <button type="button" class="btn btn-default navbar-btn">뉴텍 시스템관리</button>
+            </a>
+          </li>
+
+
+          <!-- 관리 -->
+          <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">코드관리<span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <li class="dropdown-header">코드관리</li>
+              <li><a href="/900_shop/910_mngt/915_gradeMngt/gradeMngt.html">-등급관리</a></li>
+              <li class="divider"></li>
+              <li class="dropdown-header">운영정보관리</li>
+              <li><a href="/900_shop/910_mngt/916_info/info.php">-쇼핑몰 사업자정보</a></li>
+              <li><a href="/900_shop/910_mngt/917_setting/setting.php">-설정</a></li>
+              <li><a href="/900_shop/910_mngt/919_integratedDelivery/integratedDelivery.php">-통합배송관리</a></li>
+            </ul>
+          </li>
+          
+          <!-- user -->
+          <li><a href="#"><span class="glyphicon glyphicon-user"></span>&nbsp;<?php echo $_SESSION['AUTH_LEVEL']." ".$_SESSION['USER_NAME']."(".$_SESSION['USERID'].")" ?> </a></li>
+
+          <!-- login&logout -->
+          <li class="nwt-navbar-btn-list"><button type="button" class="btn btn-primary navbar-btn" onclick="confirmLogout()">로그아웃</button></li>
+
+        </ul>
+      </div>
+    </div>
+    <!-- navbar 끝 -->
+    </header>
+    <div class="shop-height"></div>

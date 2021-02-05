@@ -1,0 +1,159 @@
+<?php
+    header("Content-Type: application/vnd.ms-excel");
+    date_default_timezone_set('Asia/Seoul');
+
+    header("Content-Disposition: attachment; filename=".date("Ymd_His", time())."_공업사월별청구현황.xls");
+    header("Content-Description:Newtech System");
+
+    require $_SERVER['DOCUMENT_ROOT']."/common/common.php";	
+    require "class/clsClaimGw.php";
+    
+    $data =  $cClaimGw->getList($_REQUEST);
+    
+    $result = $data[0];
+    
+    $excelHtml = "
+        <table border='1'>
+            <tr class='active'>
+                <th class='text-center' rowspan='2'>순번</th>
+                <th class='text-center' rowspan='2'>구분</th>
+                <th class='text-center' rowspan='2'>지역</th>
+                <th class='text-center' rowspan='2'>공업사</th>
+                <th class='text-center' rowspan='2'>청구식</th>
+                <th class='text-center' rowspan='2'>개척자</th>
+                <th class='text-center' rowspan='2'>협조자</th>
+                <th class='text-center' rowspan='2'>수탁자</th>
+                <th class='text-center' rowspan='2'>거래여부</th>
+                <th class='text-center' rowspan='2'>개시일</th>
+                <th class='text-center' rowspan='2'>종료일</th>
+                <th class='text-center' rowspan='2'>포토앱</th>
+                <th class='text-center' rowspan='2'>전거래처</th>
+                <th class='text-center' rowspan='2'>중단사유</th>
+                <th class='text-center' rowspan='2'>타거래처</th>
+                <th class='text-center' rowspan='2'>계약여부</th>
+                <th class='text-center' rowspan='2'>계약기간</th>
+                <th class='text-center' rowspan='2'>수수료율</th>
+                <th class='text-center' rowspan='2'>은행명</th>
+                <th class='text-center' rowspan='2'>사업용계좌</th>
+                <th class='text-center' rowspan='2'>계좌주</th>
+                <th class='text-center' rowspan='2'>재고금액</th>
+                <th class='text-center' rowspan='2'>재고비율</th>
+                <th class='text-center' colspan='2'>월평균</th>
+                <th class='text-center' colspan='2'>합계</th>
+                <th class='text-center' colspan='2'>12월</th>
+                <th class='text-center' colspan='2'>11월</th>
+                <th class='text-center' colspan='2'>10월</th>
+                <th class='text-center' colspan='2'>9월</th>
+                <th class='text-center' colspan='2'>8월</th>
+                <th class='text-center' colspan='2'>7월</th>
+                <th class='text-center' colspan='2'>6월</th>
+                <th class='text-center' colspan='2'>5월</th>
+                <th class='text-center' colspan='2'>4월</th>
+                <th class='text-center' colspan='2'>3월</th>
+                <th class='text-center' colspan='2'>2월</th>
+                <th class='text-center' colspan='2'>1월</th>
+                <th class='text-center' colspan='2'>협력업체</th>
+              </tr>
+              <tr>
+                <th class='text-center'>건수</th>
+                <th class='text-center'>금액</th>
+                <th class='text-center'>건수</th>
+                <th class='text-center'>금액</th>
+                <th class='text-center'>건수</th>
+                <th class='text-center'>금액</th>
+                <th class='text-center'>건수</th>
+                <th class='text-center'>금액</th>
+                <th class='text-center'>건수</th>
+                <th class='text-center'>금액</th>
+                <th class='text-center'>건수</th>
+                <th class='text-center'>금액</th>
+                <th class='text-center'>건수</th>
+                <th class='text-center'>금액</th>
+                <th class='text-center'>건수</th>
+                <th class='text-center'>금액</th>
+                <th class='text-center'>건수</th>
+                <th class='text-center'>금액</th>
+                <th class='text-center'>건수</th>
+                <th class='text-center'>금액</th>
+                <th class='text-center'>건수</th>
+                <th class='text-center'>금액</th>
+                <th class='text-center'>건수</th>
+                <th class='text-center'>금액</th>
+                <th class='text-center'>건수</th>
+                <th class='text-center'>금액</th>
+                <th class='text-center'>건수</th>
+                <th class='text-center'>금액</th>
+                <th class='text-center'>보험사</th>
+                <th class='text-center'>제조사</th>
+              </tr>
+    ";
+
+    foreach($result as $item) { 
+        $excelHtml .= "<tr>
+                <td style='text-align:center;'>".$item['IDX']."</td>
+                <td style='text-align:center;'>".$item['CSD_NM']."</td>
+                <td style='text-align:left;'>".$item['CRR_NM']."</td>
+                <td style='text-align:left;'>".$item['MGG_NM']."</td>
+                <td style='text-align:center;'>".$item['RET_NM']."</td>
+                
+                <td style='text-align:center;'>".cUtil::nullChk($item['MGG_FRONTIER_NM'],'-')."</td>
+                <td style='text-align:center;'>".cUtil::nullChk($item['MGG_COLLABO_NM'],'-')."</td>
+                <td style='text-align:center;'>".cUtil::nullChk($item['MGG_BAILEE_NM'],'-')."</td>
+
+                <td style='text-align:center;'>".$item['RCT_NM']."</td>
+                <td style='text-align:center;'>".$item['MGG_BIZ_START_DT']."</td>
+                <td style='text-align:center;'>".cUtil::nullChk($item['MGG_BIZ_END_DT'],'-')."</td>
+                <td style='text-align:center;'>".cUtil::nullChk($item['RAT_NM'],'-')."</td>
+                <td style='text-align:center;'>".cUtil::nullChk($item['MGG_BIZ_BEFORE_NM'],'-')."</td>
+                <td style='text-align:center;'>".cUtil::nullChk($item['RSR_NM'],'-')."</td>
+                <td style='text-align:left;'>".cUtil::nullChk($item['MGG_OTHER_BIZ_NM'],'-')."</td>
+                <td style='text-align:center;'>".($item['MGG_CONTRACT_YN'] == YN_Y ? '계약' :'미계약')."</td>
+                <td style='text-align:center;'>".($item['MGG_CONTRACT_START_DT'] != null ? $item['MGG_CONTRACT_END_DT'] == null? $item['MGG_CONTRACT_START_DT']."~" : $item['MGG_CONTRACT_START_DT']."~".$item['MGG_CONTRACT_END_DT']: '-' )."</td>
+              
+                <td style='text-align:right;'>".cUtil::nullChk($item['MGG_RATIO'],'0')."%</td>
+                <td style='text-align:center;'>".cUtil::nullChk($item['MGG_BANK_NM_AES'],'-')."</td>
+                <td style='text-align:left;mso-number-format:\@;'>".cUtil::nullChk($item['MGG_BANK_NUM_AES'],'-')."</td>
+                <td style='text-align:center;'>".cUtil::nullChk($item['MGG_BANK_OWN_NM_AES'],'-')."</td>
+                
+                <td style='text-align:right;'>".$item['STOCK_PRICE']."</td>
+                <td style='text-align:right;'>".$item['STOCK']."%</td>
+                <td style='text-align:right;mso-number-format:\#\,\#\#0\;'>".$item['AVG_CNT']."</td>
+                <td style='text-align:right;mso-number-format:\#\,\#\#0\;'>".$item['AVG_PRICE']."</td>
+                <td style='text-align:right;mso-number-format:\#\,\#\#0\;'>".$item['SUM_CNT']."</td>
+                <td style='text-align:right;mso-number-format:\#\,\#\#0\;'>".$item['SUM_PRICE']."</td>
+
+                <td style='text-align:right;mso-number-format:\#\,\#\#0\;'>".$item['CLAIM_CNT_12']."</td>
+                <td style='text-align:right;mso-number-format:\#\,\#\#0\;'>".$item['CLAIM_PRICE_12']."</td>
+                <td style='text-align:right;mso-number-format:\#\,\#\#0\;'>".$item['CLAIM_CNT_11']."</td>
+                <td style='text-align:right;mso-number-format:\#\,\#\#0\;'>".$item['CLAIM_PRICE_11']."</td>
+                <td style='text-align:right;mso-number-format:\#\,\#\#0\;'>".$item['CLAIM_CNT_10']."</td>
+                <td style='text-align:right;mso-number-format:\#\,\#\#0\;'>".$item['CLAIM_PRICE_10']."</td>
+                <td style='text-align:right;mso-number-format:\#\,\#\#0\;'>".$item['CLAIM_CNT_9']."</td>
+                <td style='text-align:right;mso-number-format:\#\,\#\#0\;'>".$item['CLAIM_PRICE_9']."</td>
+                <td style='text-align:right;mso-number-format:\#\,\#\#0\;'>".$item['CLAIM_CNT_8']."</td>
+                <td style='text-align:right;mso-number-format:\#\,\#\#0\;'>".$item['CLAIM_PRICE_8']."</td>
+                <td style='text-align:right;mso-number-format:\#\,\#\#0\;'>".$item['CLAIM_CNT_7']."</td>
+                <td style='text-align:right;mso-number-format:\#\,\#\#0\;'>".$item['CLAIM_PRICE_7']."</td>
+                <td style='text-align:right;mso-number-format:\#\,\#\#0\;'>".$item['CLAIM_CNT_6']."</td>
+                <td style='text-align:right;mso-number-format:\#\,\#\#0\;'>".$item['CLAIM_PRICE_6']."</td>
+                <td style='text-align:right;mso-number-format:\#\,\#\#0\;'>".$item['CLAIM_CNT_5']."</td>
+                <td style='text-align:right;mso-number-format:\#\,\#\#0\;'>".$item['CLAIM_PRICE_5']."</td>
+                <td style='text-align:right;mso-number-format:\#\,\#\#0\;'>".$item['CLAIM_CNT_4']."</td>
+                <td style='text-align:right;mso-number-format:\#\,\#\#0\;'>".$item['CLAIM_PRICE_4']."</td>
+                <td style='text-align:right;mso-number-format:\#\,\#\#0\;'>".$item['CLAIM_CNT_3']."</td>
+                <td style='text-align:right;mso-number-format:\#\,\#\#0\;'>".$item['CLAIM_PRICE_3']."</td>
+                <td style='text-align:right;mso-number-format:\#\,\#\#0\;'>".$item['CLAIM_CNT_2']."</td>
+                <td style='text-align:right;mso-number-format:\#\,\#\#0\;'>".$item['CLAIM_PRICE_2']."</td>
+                <td style='text-align:right;mso-number-format:\#\,\#\#0\;'>".$item['CLAIM_CNT_1']."</td>
+                <td style='text-align:right;mso-number-format:\#\,\#\#0\;'>".$item['CLAIM_PRICE_1']."</td>
+                <td style='text-align:center;'>".$item['MGG_INSU_MEMO']."</td>
+                <td style='text-align:center;'>".$item['MGG_MANUFACTURE_MEMO']."</td>
+            </tr>
+        ";
+    }
+    $excelHtml .= "</table>";
+
+    echo "<meta content=\"application/vnd.ms-excel;charset=UTF-8;\" name=\"Content-type\">";
+    echo $excelHtml ;
+
+?>

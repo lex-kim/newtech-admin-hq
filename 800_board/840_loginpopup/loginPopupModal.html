@@ -1,0 +1,89 @@
+<?php
+    require $_SERVER['DOCUMENT_ROOT']."/include/headerpopup.html";
+
+
+    $REQ_MODE = $_REQUEST['REQ_MODE'];
+    if($REQ_MODE == CASE_UPDATE){
+        $NP_ID = $_REQUEST['NP_ID'];
+    }else{
+        $NP_ID = "";
+    }
+?>
+<body onload="onLoadPopupSetting(<?php echo $REQ_MODE.','.$NP_ID?>)">
+  <!-- modal #add-new -->  
+  <div class="modal-add" id="add-new" role="dialog">
+    <!-- <div class="modal-dialog">
+        <div class="modal-content"> -->
+            <form action="#" method="POST" id="boardForm" enctype="multipart/form-data">
+                <input type="hidden" id="REQ_MODE" name="REQ_MODE"/>
+                <input type="hidden" id="NP_ID" name="NP_ID"/>
+
+
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal">&times;</button> 
+              <h4 class="modal-title">로그인 팝업</h4>  
+            </div>
+    
+            <!-- modal 내용 -->
+            <div class="modal-body">   
+
+                <!-- 제목 -->
+                <div class="row">
+                    <div class="col-md-2"><label for="NP_TITLE">제목</label></div>
+                    <div class="col-md-8">
+                        <input type="text" class="form-control" id="NP_TITLE" name="NP_TITLE" placeholder="입력">
+                    </div>
+                </div>
+
+                <hr>
+    
+                <!-- 노출여부 -->
+                <div class="margin-bottom">
+                    <div class="row">
+                        <div class="col-md-2"><label for="NP_SHOW_YN">노출여부</label></div>
+                        <div class="col-md-3">
+                        <select class="form-control" name="NP_SHOW_YN" id="NP_SHOW_YN">
+                            <option value="Y">노출</option>
+                            <option value="N">숨김</option>
+                        </select>
+                        </div>
+                        <div class="col-md-5">*노출로 설정 시 기존 노출 설정 된 글은 자동 숨김처리됩니다.</div>
+                    </div>
+    
+
+                <!-- 내용입력 -->
+                <div class="row">
+                    <label class="col-md-2" for="NP_DTL">내용입력</label>
+                    <div class="col-md-8">
+                            <div class="summernote"></div>
+                            <input type="hidden" id="NP_DTL" name="NP_DTL" />
+                    </div>
+                </div>
+    
+            </div>
+    
+            <!-- modal 하단 -->
+            <div class="modal-footer">
+              <div class="text-left">
+                <?php if($AUTH_DELETE == YN_Y) :?>
+                <button type="button" class="btn btn-danger" id="btnDelete" onclick="confirmDelSwal()">삭제</button>
+                <?php endif; ?>
+              </div>
+              <div class="text-right">
+                <?php if($AUTH_UPDATE == YN_Y) :?>
+                <!-- 등록btn -->
+                <button type="submit" class="btn btn-primary" id="submitBtn">수정</button>
+                <?php endif; ?>
+                <!-- 취소btn -->
+                <button type="button" class="btn btn-default" onclick="self.close()">닫기</button>
+              </div>
+            </div>
+
+        </form>
+<!-- </div>
+    </div> -->
+</div>
+</body>  
+<?php
+  require $_SERVER['DOCUMENT_ROOT']."/include/footerpopup.html";
+?>

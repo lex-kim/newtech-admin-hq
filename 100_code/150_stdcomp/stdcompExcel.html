@@ -1,0 +1,50 @@
+<?php
+
+    header("Content-Type: application/vnd.ms-excel");
+    date_default_timezone_set('Asia/Seoul');
+
+    header("Content-Disposition: attachment; filename=".date("YmdH", time())."_기준부품관리.xls");
+    header("Content-Description:PHP4 Generated Data");
+
+    require $_SERVER['DOCUMENT_ROOT']."/common/common.php";	
+    require "class/clsStdcomp.php";
+
+    $data =  $clsStandardComponent->getList($_REQUEST);
+
+    $result = $data[0];
+
+    $excelHtml = "
+        <table border='1'>
+            <tr>
+                <td>순번</th>
+                <td>출력순서</th>
+                <td>부품타입</th>
+                <td>기준부품코드</th>
+                <td>기준부품명</th>
+                <td>기준부품약어</th>
+                <td>용량/길이</th>
+                <td>취급부품수</th>
+                <td>사용여부</th>
+            </tr>
+    ";
+
+    foreach($result as $item) { 
+        $excelHtml .= "<tr>
+                <td>".$item['IDX']."</td>
+                <td>".$item['CPP_ORDER_NUM']."</td>
+                <td>".$item['CPP_PART_TYPE']."</td>
+                <td>".$item['CPP_ID']."</td>
+                <td>".$item['CPP_NM']."</td>
+                <td>".$item['CPP_NM_SHORT']."</td>
+                <td>".$item['CPP_UNIT']."</td>
+                <td>".$item['CPPS_COUNT']."</td>
+                <td>".$item['CPP_USE_YN']."</td>
+            </tr>
+        ";
+    }
+    $excelHtml .= "</table>";
+
+    echo "<meta content=\"application/vnd.ms-excel;charset=UTF-8;\" name=\"Content-type\">";
+    echo $excelHtml ;
+
+?>

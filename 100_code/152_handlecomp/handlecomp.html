@@ -1,0 +1,266 @@
+<!-- header.html -->
+<?php
+  require $_SERVER['DOCUMENT_ROOT']."/include/header.html";
+?>
+
+
+
+  <!-- 페이지 카테고리 -->
+  <div class="container-fluid mb20px">
+    <h3 class="nwt-category"><small>코드관리&nbsp;&nbsp;></small>취급부품관리</h3>
+  </div>
+
+
+  <!-- 검색바(폼) 시작 -->
+  <div class="container-fluid nwt-search-form">
+      <div class="panel panel-default">
+          <div class="panel-body">
+              <form class="form-inline" id="searchForm">
+                  <fieldset>
+                      <legend>조건검색</legend>
+
+                      <!-- 검색버튼 제외한 폼 wrap -->
+                      <div class="frm-wrap">
+                          <!-- 1st row -->
+                          <div class="row frm-last-row">
+                            
+                            <!-- 기간 -->
+                            <div class="col-md-2 frmGroup3">
+                          
+                              <label for="DATE_TYPE_SEARCH" class="sr-only">기간</label>
+                              
+                              <!-- 기간선택 -->
+                              <select class="form-control" id="DATE_TYPE_SEARCH" name="DATE_TYPE_SEARCH">
+                                  <option value="">기간</option>
+                                  <option value="WRT_DTHMS">최초적용일</option>
+                                  <option value="CPPS_APPLY_DT">변동적용일</option>
+                              </select>
+                              
+                              <!-- 시작일선택 -->
+                              <input type="text" class="form-control calenderInput" name="DATE_START" id="DATE_START" placeholder="yyyy-mm-dd"  maxlength="10">    
+                              <span class="glyphicon glyphicon-calendar search-glypicon"></span>         
+                              
+                              <!-- 종료일선택 -->
+                              <label for="frmDtEnd" style="vertical-align: bottom;">~</label>
+                      
+                              <input type="text" class="form-control calenderInput" name="DATE_END" id="DATE_END" placeholder="yyyy-mm-dd"  maxlength="10">
+                              <span class="glyphicon glyphicon-calendar search-glypicon"></span>
+                            
+                            </div>
+  
+                            <!-- 부품타입 -->
+                            <div class="col-md-1">
+                              <label for="CPP_PART_TYPE_SARCH" class="sr-only">부품타입</label>
+                              <select class="form-control" id="CPP_PART_TYPE_SARCH" name="CPP_PART_TYPE_SARCH">
+                               
+                              </select>                            
+                            </div>
+  
+                            <!-- 기준부품 -->
+                            <div class="col-md-1">
+                                <label for="CPP_NM_SEARCH" class="sr-only">기준부품명</label>
+                                <select class="form-control" id="CPP_NM_SEARCH" name="CPP_NM_SEARCH">
+                                 
+                                </select>                            
+                            </div>
+  
+                            <!-- 취급부품번호 -->
+                            <div class="col-md-1">
+                                <label for="CPPS_ID_SEARCH" class="sr-only">취급부품번호</label>
+                                <select id="CPPS_ID_SEARCH"  name="CPPS_ID_SEARCH[]" 
+                                          data-style="btn-default" title="=취급부품번호="
+                                          class="form-control selectpicker" multiple
+                                          data-live-search="true" data-live-search-placeholder="Search" >
+                                    
+                                </select>                          
+                            </div>
+  
+                            <!-- 취급부품명 -->
+                            <div class="col-md-1">
+                                <label for="CPPS_NM_SEARCH" class="sr-only">취급부품명</label>
+                                <select id="CPPS_NM_SEARCH" name="CPPS_NM_SEARCH[]"
+                                          data-style="btn-default" title="=취급부품명="
+                                          class="form-control selectpicker" multiple
+                                          data-live-search="true" data-live-search-placeholder="Search" >
+                                    
+                                </select>
+
+                            </div>
+    
+  
+                            <!-- 취급부품약어 -->
+                            <div class="col-md-1">
+                                <label for="CPPS_NM_SHORT_SEARCH" class="sr-only">취급부품약어</label>
+                                <select id="CPPS_NM_SHORT_SEARCH" name="CPPS_NM_SHORT_SEARCH[]"
+                                          data-style="btn-default" title="=취급부품약어="
+                                          class="form-control selectpicker" multiple
+                                          data-live-search="true" data-live-search-placeholder="Search" >
+                                    
+                                </select>                           
+                            </div>                        
+  
+                            <!-- 환산사용량 -->
+                            <div class="col-md-1">
+                              <label for="CPPS_RATIO_SEARCH" class="sr-only">환산사용량</label>
+                              <input type="text" class="form-control" name="CPPS_RATIO_SEARCH" id="CPPS_RATIO_SEARCH" 
+                                   placeholder="환산사용량 입력">
+                            </div>
+  
+                              <!-- 순정여부 -->
+                            <div class="col-md-1">
+                              <label for="CPPS_GENUINE_YN_SEARCH" class="sr-only">순정여부</label>
+                              <select class="form-control" name="CPPS_GENUINE_YN_SEARCH" id="CPPS_GENUINE_YN_SEARCH">
+                                <option value="">=순정여부=</option>
+                                <option value="Y">순정</option>
+                                <option value="N">비순정</option>
+                              </select>
+                            </div>
+  
+                            <!-- 조견표적용여부 -->
+                            <div class="col-md-1">
+                                <label for="CPPS_RECKON_YN_SEARCH" class="sr-only">조견표적용여부</label>
+                                <select class="form-control" name="CPPS_RECKON_YN_SEARCH" id="CPPS_RECKON_YN_SEARCH">
+                                  <option value="">=조견표적용여부=</option>
+                                  <option value="Y">적용</option>
+                                  <option value="N">미적용</option>
+                                </select>
+                              </div>
+    
+                              <!-- 재고연동여부 -->
+                              <div class="col-md-1">
+                                <label for="CPPS_INOUT_YN_SEARCH" class="sr-only">재고연동여부</label>
+                                <select class="form-control" name="CPPS_INOUT_YN_SEARCH" id="CPPS_INOUT_YN_SEARCH">
+                                  <option value="">=재고연동여부=</option>
+                                  <option value="Y">연동</option>
+                                  <option value="N">미연동</option>
+                                </select>
+                              </div>
+  
+                          </div>
+                        </div> 
+  
+                        <!-- 검색버튼 wrap -->
+                        <div class="frm-search-wrap">
+                          <!-- 검색btn -->
+                          <div class="row">
+                              <div class="col-md-12 text-right">
+                                <button type="submit" class="btn btn-primary" style="margin-top: -10px">
+                                  <span class="glyphicon glyphicon-search"></span>&nbsp;검색
+                                </button>
+                              </div>
+                          </div> 
+                        </div>
+
+                  </fieldset>
+              </form>
+          </div>
+      </div>
+  </div>
+  <!-- 검색바(폼) 끝 -->
+
+
+  <!-- 테이블 상단 #perPage, btn 영역 -->
+  <div class="container-fluid nwt-table-top mb20r">
+    <div class="row">
+      
+      <!-- 리스트개수 -->
+      <?php	require $_SERVER['DOCUMENT_ROOT']."/include/listCnt.html"; ?>
+      
+      <!-- 테이블 우측 상단 btn -->
+      <div class="col-lg-6 clearfix">
+        <div class="form-inline f-right">
+
+          <form action="handlecompExcel.html" method="POST" id="excelForm">
+              <input type="hidden" id="EXCEL_LIST" name="EXCEL_LIST"/>
+              <!-- 엑셀 다운로드 -->
+              <?php if($AUTH_EXCEL == YN_Y) :?>
+              <button type="button" class="btn btn-success" onclick="excelDownload()"><span class="glyphicon glyphicon-download-alt"></span>&nbsp;엑셀 다운로드</button>
+              <?php endif; ?>
+
+                <!-- 등록btn / modal handler -->
+              <?php if($AUTH_CREATE == YN_Y) :?>
+              <button type="button" class="btn btn-primary" id="add-new-btn" onClick="showAddModal()">등록</button>
+              <?php endif; ?>
+          </form>
+         
+          
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+
+  <!-- 테이블 -->
+  <div class="container-fluid nwt-table" style="width: 100%;"> <!--overflow-x: scroll;-->
+    <table class="table table-bordered table-striped">
+      <colgroup>
+        <col width="3%"/>
+        <col width="4%"/>
+        <col width="4%"/>
+        <col width="8%"/>
+        <col width="5%"/>
+        <col width="5%"/>
+        <col width="6%"/>
+        <col width="8%"/>
+        <col width="5%"/>
+        <col width="5%"/>
+        <col width="4%"/>
+        <col width="4%"/>
+        <col width="4%"/>
+        <col width="4%"/>
+        <col width="5%"/>
+        <col width="5%"/>
+        <col width="6%"/>
+        <col width="7%"/>
+        <?php if($AUTH_UPDATE == YN_Y) :?>
+        <col width="4%"/>
+        <?php endif; ?>
+      </colgroup>
+      <thead>
+        <tr class="active">
+          <th class="text-center">순번</th>
+          <th class="text-center">출력순번</th>
+          <th class="text-center">부품타입</th>
+          <th class="text-center">기준부품명</th>
+          <th class="text-center">기준부품약어</th>
+          <th class="text-center">기준부품<br>용량/길이</th>
+          <th class="text-center">취급부품번호</th>
+          <th class="text-center">취급부품명</th>
+          <th class="text-center">취급부품약어</th>
+          <th class="text-center">취급부품<br>용량/길이</th>
+          <th class="text-center">환산사용량</th>
+          <th class="text-center">순정여부</th>
+          <th class="text-center">조견표<br>적용여부</th>
+          <th class="text-center">재고<br>연동여부</th>
+          <th class="text-center">최초적용일</th>
+          <th class="text-center">변동적용일</th>
+          <th class="text-center">청구단가(원)</th>
+          <th class="text-center">조견표<br>조회</th>
+          <?php if($AUTH_UPDATE == YN_Y) :?>
+          <th class="text-center" id="UPDATE_TABLE">수정</th>
+          <?php endif; ?>
+        </tr>
+      </thead>
+      <tbody id="dataTable">
+                                                                           
+      </tbody>
+    </table>
+  </div>
+
+
+  <!-- pagination -->
+  <div class="container-fluid">
+    <div class="text-center">
+      <ul class="pagination">
+
+      </ul>
+    </div>
+  </div>
+
+
+  <?php	require "handlecompModal.html"; ?>
+<!-- footer.html -->
+<?php
+  require $_SERVER['DOCUMENT_ROOT']."/include/footer.html";
+?>

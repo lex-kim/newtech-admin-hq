@@ -1,0 +1,68 @@
+<?php
+
+    header("Content-Type: application/vnd.ms-excel");
+    date_default_timezone_set('Asia/Seoul');
+
+    header("Content-Disposition: attachment; filename=".date("YmdH", time())."_미지급건수.xls");
+    header("Content-Description: NewtechSystem");
+
+    require $_SERVER['DOCUMENT_ROOT']."/common/common.php";	
+    require "class/clsStatisticsNon.php";
+
+    $data =  $cStatNon->getList($_REQUEST);
+
+    $result = $data[0];
+
+
+    $excelHtml = "
+        <table border='1'>
+            <thead>
+                <tr>
+                  <th style='text-align:center;'>순번</th>
+                  <th style='text-align:center;'>청구일</th>
+                  <th style='text-align:center;'>구분</th>
+                  <th style='text-align:center;'>지역</th>
+                  <th style='text-align:center;'>공업사</th>
+                  <th style='text-align:center;'>사업자번호</th>
+                  <th style='text-align:center;'>보험사</th>
+                  <th style='text-align:center;'>보험사팀</th>
+                  <th style='text-align:center;'>담당자</th>
+                  <th style='text-align:center;'>접수번호</th>
+                  <th style='text-align:center;'>담보</th>
+                  <th style='text-align:center;'>차량번호</th>
+                  <th style='text-align:center;'>차량명</th>
+                  <th style='text-align:center;'>청구금액</th>
+                </tr>
+               
+            </thead>
+    ";
+
+    foreach($result as $item) { 
+        $excelHtml .= "
+            <tr>
+              <td style='text-align:center;'>".$item['IDX']."</td>
+              <td style='text-align:center;mso-number-format:\@;'>".$item['NB_CLAIM_DT']."</td>
+              <td style='text-align:center;'>".$item['CSD_NM']."</td>
+              <td style='text-align:left;'>".$item['CRR_NM']."</td>
+              <td style='text-align:left;'>".$item['MGG_NM']."</td>
+              <td style='text-align:center;mso-number-format:\@;'>".cUtil::biz_format($item['MGG_BIZ_ID'])."</td>
+              <td style='text-align:left;'>".$item['MII_NM']."</td>
+              <td style='text-align:left;'>".cUtil::nullChk($item['MIT_NM'],'-')."</td>
+              <td style='text-align:center;'>".cUtil::nullChk($item['NIC_NM'],'-')."</td>
+              
+              
+              <td style='text-align:center;mso-number-format:\@;'>".$item['NBI_REGI_NUM']."</td>
+              <td style='text-align:center;'>".$item['RLT_NM']."</td>
+              <td style='text-align:center;mso-number-format:\@;'>".$item['NB_CAR_NUM']."</td>
+              <td style='text-align:center;'>".$item['CCC_NM']."</td>
+
+              <td style='text-align:right;mso-number-format:\#\,\#\#0\;'>".$item['NB_TOTAL_PRICE']."</td>
+
+            </tr>       ";
+    }
+    $excelHtml .= "</table>";
+
+    echo "<meta content=\"application/vnd.ms-excel;charset=UTF-8;\" name=\"Content-type\">";
+    echo $excelHtml ;
+
+?>

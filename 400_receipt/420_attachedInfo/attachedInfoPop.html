@@ -1,0 +1,61 @@
+<?php
+  require $_SERVER['DOCUMENT_ROOT']."/include/headerpopup.html";
+
+  $MGG_ID = $_POST['MGG_ID'];
+  $IMG = $_POST['IMG'];
+?>
+
+<div class="container-fluid main-popup-dialog">
+  <div class="main-popup-header">
+    <button type="button" class="close" onclick="window.close();">&times;</button> 
+    <h3 class="main-popup-title">첨부정보 조회</h3>
+  </div>
+  <input type="hidden" class="form-control" id="REQ_MODE" name="REQ_MODE">
+      
+    <div class="main-popup-content">
+        <!-- 청구서 오른쪽 영역 -->
+        <div class="main-popup-left">
+          <div>
+            <div>
+                <h4>영업사원 촬영 사진</h4>
+            </div>
+            <div>
+                <img id="popup-img" onclick="imgZoomPopup()" src="<?php echo $IMG?>"/>
+            </div>
+
+            <form method="POST" action="attachedInfoImg.html" id="attachedImgForm" target="newwindowImg">
+              <input type="hidden" id="POPUP_MGG_ID_" name="POPUP_MGG_ID"/>
+              <input type="hidden" id="POPUP_MGG_NM" name="POPUP_MGG_NM"/>
+              <input type="hidden" id="POPUP_IMG" name="POPUP_IMG"/>
+            </form>
+          </div>
+        </div>
+
+        <!-- 청구서왼쪽영역 -->
+        <div class="main-popup-right">
+
+            <iframe src="/500_gw/510_gwMngt/gwRegister.html?MGG_VALUE=<?php echo $MGG_ID?>"></iframe>
+             
+        </div>
+    </div>
+
+</div>
+
+<!-- 이미지확대 -->
+<div class="imgZoom">
+  <div class="zoom-content">
+    <div class="zoom-header">
+      <button type="button" class="close" id="zoom-close">&times;</button> 
+    </div>
+    <div class="zoom-img">
+      <img src="<?php echo $IMG?>"/>
+    </div>
+  </div>
+</div>
+
+
+
+
+<?php
+  require $_SERVER['DOCUMENT_ROOT']."/include/footerpopup.html";
+?>

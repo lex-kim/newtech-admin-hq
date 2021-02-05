@@ -1,0 +1,44 @@
+<?php
+  require $_SERVER['DOCUMENT_ROOT']."/include/headerpopup.html";
+  $MNN_ID = $_REQUEST['MNN_ID'];
+?>
+<script src="js/popup.js"></script>
+<!-- modal #notice-view -->  
+<!-- <body> -->
+<div class="modal-add" id="notice-view" role="dialog">
+    <!-- <div class="modal-dialog"> -->
+        <!-- <div class="modal-content"> -->
+        <form method="post" name="view_form" id="view_form">
+        <input type="hidden" class="form-control" id="REQ_MODE" name="REQ_MODE">
+
+            <!-- modal 상단 -->
+            <div class="modal-header">
+                <h4 class="modal-title">상품정보</h4>  
+            </div>
+
+            <!-- modal 내용 -->
+            <div class="modal-body"> 
+                
+                <div class="goods-content">
+                    <img src="img/goodsdetail.jpg" alt="">
+                </div>
+
+            </div>
+
+            <!-- modal 하단 -->
+            <div class="modal-footer">
+                <div class="text-right">
+                    <!-- 취소btn -->
+                    <button type="button" class="btn btn-default" onclick="window.close()">닫기</button>
+                </div>
+            </div>
+
+        </form>
+        <!-- </div> -->
+    <!-- </div> -->
+</div>
+
+</body>
+<?php
+  require $_SERVER['DOCUMENT_ROOT']."/include/footerpopup.html";
+?>

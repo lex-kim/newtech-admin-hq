@@ -1,0 +1,98 @@
+<?php
+
+    header("Content-Type: application/vnd.ms-excel");
+    date_default_timezone_set('Asia/Seoul');
+
+    header("Content-Disposition: attachment; filename=".date("YmdH", time())."_업체별포인트현황.xls");
+    header("Content-Description: Newtech System");
+
+    require $_SERVER['DOCUMENT_ROOT']."/common/common.php";	
+    require "class/clsPointState.php";
+
+    $data =  $cPointState->getList($_REQUEST);
+
+    $result = $data[0];
+
+    $excelHtml = "
+        <table border='1'>
+            <thead>
+                <tr>
+                  <th style='text-align:center;' rowspan='2'>no</th>
+                  <th style='text-align:center;' rowspan='2'>구분</th>
+                  <th style='text-align:center;' rowspan='2'>지역</th>
+                  <th style='text-align:center;' rowspan='2'>사업자번호</th>
+                  <th style='text-align:center;' rowspan='2'>공업사</th>
+                  <th style='text-align:center;' rowspan='2'>청구식</th>
+                  <th style='text-align:center;' rowspan='2'>개시일</th>
+                  <th style='text-align:center;' rowspan='2'>종료일</th>
+                  <th style='text-align:center;' rowspan='2'>등급명</th>
+                  <th style='text-align:center;' colspan='2'>대표자</th>
+                  <th style='text-align:center;' rowspan='2'>주소</th>
+                  <th style='text-align:center;' colspan='2'>사무실</th>
+                  <th style='text-align:center;' rowspan='2'>재고금액</th>
+                  <th style='text-align:center;' colspan='4'>적립</th>
+                  <th style='text-align:center;' colspan='4'>사용</th>
+                  <th style='text-align:center;' colspan='4'>소멸</th>
+                  <th style='text-align:center;' rowspan='2'>잔여<br>포인트</th>
+                </tr>
+                <tr>
+                  <th style='text-align:center;'>성명</th>
+                  <th style='text-align:center;'>연락처</th>
+                  <th style='text-align:center;'>연락처</th>
+                  <th style='text-align:center;'>FAX</th>
+                  <th style='text-align:center;'>적립예정</th>
+                  <th style='text-align:center;'>적립예정<br>취소</th>
+                  <th style='text-align:center;'>적립확정</th>
+                  <th style='text-align:center;'>적립확정<br>취소</th>
+                  <th style='text-align:center;'>사용예정</th>
+                  <th style='text-align:center;'>사용예정<br>취소</th>
+                  <th style='text-align:center;'>사용확정</th>
+                  <th style='text-align:center;'>사용확정<br>취소</th>
+                  <th style='text-align:center;'>소멸예정</th>
+                  <th style='text-align:center;'>소멸예정<br>취소</th>
+                  <th style='text-align:center;'>소멸확정</th>
+                  <th style='text-align:center;'>소멸확정<br>취소</th>
+                </tr>
+              </thead>
+    ";
+
+    foreach($result as $item) { 
+        $excelHtml .= "
+            <tr>
+                <td style='text-align:center;'>".$item['IDX']."</td>
+                <td style='text-align:center;'>".$item['CSD_NM']."</td>
+                <td style='text-align:left;'>".$item['CRR_NM']."</td>
+                <td style='text-align:center;mso-number-format:\"\@\";'>".cUtil::biz_format($item['MGG_BIZ_ID'])."</td>
+                <td style='text-align:left;'>".$item['MGG_NM']."</td>
+                <td style='text-align:center;'>".cUtil::nullChk($item['RET_NM'],'-')."</td>
+                <td style='text-align:center;'>".$item['MGG_BIZ_START_DT']."</td>
+                <td style='text-align:center;'>".cUtil::nullChk($item['MGG_BIZ_END_DT'],'-')."</td>
+                <td style='text-align:center;'>".cUtil::nullChk($item['SLL_NM'],'-')."</td>
+                <td style='text-align:left;'>".cUtil::nullChk($item['MGG_CEO_NM_AES'],'-')."</td>
+                <td style='text-align:center;'>".cUtil::phone_format(cUtil::nullChk($item['MGG_CEO_TEL_AES'],'-'))."</td>
+                <td style='text-align:left;'>".$item['MGGS_ADDR']."</td>
+                <td style='text-align:center;'>".cUtil::phone_format(cUtil::nullChk($item['MGG_OFFICE_TEL'],'-'))."</td>
+                <td style='text-align:center;'>".cUtil::phone_format(cUtil::nullChk($item['MGG_OFFICE_FAX'],'-'))."</td>
+                <td style='text-align:right;'>".$item['STOCK_PRICE']."</td>
+                <td style='text-align:right;'>".$item['POINT_60110']."</td>
+                <td style='text-align:right;'>".$item['POINT_60110_CANCEL']."</td>
+                <td style='text-align:right;'>".$item['POINT_60119']."</td>
+                <td style='text-align:right;'>".$item['POINT_60119_CANCEL']."</td>
+                <td style='text-align:right;'>".$item['POINT_60120']."</td>
+                <td style='text-align:right;'>".$item['POINT_60120_CANCEL']."</td>
+                <td style='text-align:right;'>".$item['POINT_60129']."</td>
+                <td style='text-align:right;'>".$item['POINT_60129_CANCEL']."</td>
+                <td style='text-align:right;'>".$item['POINT_60190']."</td>
+                <td style='text-align:right;'>".$item['POINT_60190_CANCEL']."</td>
+                <td style='text-align:right;'>".$item['POINT_60199']."</td>
+                <td style='text-align:right;'>".$item['POINT_60199_CANCEL']."</td>
+                <td style='text-align:right;'>".$item['NPB_POINT']."</td>
+            </tr>
+        ";
+    }
+    $excelHtml .= "</table>";
+
+    echo "<meta content=\"application/vnd.ms-excel;charset=UTF-8;\" name=\"Content-type\">";
+    echo $excelHtml ;
+
+?>

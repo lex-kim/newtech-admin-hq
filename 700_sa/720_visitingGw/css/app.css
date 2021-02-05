@@ -1,0 +1,294 @@
+.nwt-table table tbody tr td img{
+    cursor: pointer;
+}
+
+
+
+/* 공업사등록 */
+
+/* 공업사등록 팝업 CSS */
+.popup-header .popup-title{
+    padding:10px 0px;
+}
+.popup-body{
+    font-size: 12px;
+    
+}
+.popup-body select,
+.popup-body input,
+.popup-bottom select,
+.popup-bottom input[type=text]
+{
+    height: 28px;
+    font-size: 12px;
+    margin-bottom: 10px;
+}
+.popup-body button{
+    padding: 4px 8px;
+}
+
+.frm-btn{
+    overflow: hidden;
+    border-top: 2px solid #ddd;
+    margin-top: 10px;
+    padding-top: 10px;
+}
+.frm-btn > div{
+    float: left;
+}
+.frm-btn .frm-btn-title{
+    font-size: 15px;
+    font-weight: bold;
+    color: #333;
+    padding-top: 4px;
+    padding-right: 10px;
+}
+.frm-btn .frm-btn-hide button{
+    padding: 3px 9px;
+}
+
+/* 공업사 영역 CSS */
+.popup-content{
+    overflow: hidden;
+}
+.popup-content > div{
+    float: left;
+}
+.popup-left{
+    width: calc(25% - 20px);
+    margin-right: 20px;
+    /* background-color: red; */
+}
+.popup-right{
+    width: 75%;
+    /* background-color: blue; */
+}
+
+.imagearea-image{
+    /* background-color: red; */
+    height: 300px;
+}
+
+.popup-left .popup-header .popup-title{
+    border-bottom: 2px solid #ddd;
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+}
+
+.popup-left .popup-body .left-input{
+    position: relative;
+    /* background-color: blue; */
+}
+.popup-left .popup-body .left-input label{
+    margin-right: 10px;
+    position: relative;
+    top: -4px;
+}
+.popup-left .popup-body .left-input input[type=text]{
+    width: 50%;
+}
+.popup-left .popup-body .left-input .search-glypicon{
+    position: relative;
+    top: -3px;
+    right: 26px;
+    cursor: pointer;
+    color: #888;
+}
+
+
+.popup-left .popup-body .imagearea .imagearea-title{
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+.popup-left .popup-body .imagearea .imagearea-image{
+    width: 100%;
+}
+.popup-left .popup-body .imagearea .imagearea-image img{
+    width: 100%;
+    object-fit: contain;
+}
+
+
+
+
+
+
+/* popup-right 영역 css */
+.popup-body .frm-wrap{
+    margin: 10px 0px;
+}
+.popup-body .frm-wrap .frm-wrap-title{
+    border-top: 1px solid #ddd;
+    font-size: 14px;
+    color: #333;
+    font-weight: bold;
+    margin: 0px 15px;
+    padding: 10px 0px 5px 0px;
+}
+
+    /* 캘린더아이콘 */
+    .popup-right .popup-body .frm-wrap .row{
+        position: relative;
+    }
+    .popup-right .popup-body .frm-wrap .row .search-glypicon{
+        position: absolute;
+        top: 7px;
+        right: 25px;
+        cursor: pointer;
+        color: #888;
+    }
+
+
+    /* 지역 시도 세개 */
+    .frm-wrap .frmselect3  {
+        font-size:	0;
+        /* background-color: red; */
+    }
+    .frm-wrap .frmselect3 * {
+        font-size: 12px;
+    }
+    .frm-wrap .frmselect3 label[for="frmDtEnd"] {
+        width: 15px;
+        text-align: center;
+    }	
+    .frm-wrap .frmselect3 select {
+        width: calc(33.3% - 7px);
+        margin-right: 10px;
+    }
+    .frm-wrap .frmselect3 select:last-child{
+        margin-right: 0;
+    }
+
+    /* 공업사담당자 input */
+    .frm-wrap .frminput2  {
+        font-size:	0;
+    }
+    .frm-wrap .frminput2 * {
+        font-size: 12px;
+    }
+    .frm-wrap .frminput2 label[for="frmDtEnd"] {
+        width: 15px;
+        text-align: center;
+    }	
+    .frm-wrap .frminput2 input {
+        width: calc(40%);
+        margin-right: 8px;
+    }
+    .frm-wrap .frminput2 input:last-child{
+        width: calc(60% - 10px);
+        margin-right: 0;
+    }
+
+    .visitmonthbtn{
+        margin-top: 6px;
+    }
+
+    /* 주소 input */
+    .frm-wrap .frmaddress  {
+        font-size:	0;
+        position: relative;
+    }
+    .frm-wrap .frmaddress * {
+        font-size: 12px;
+    }
+    .frm-wrap .frmaddress label[for="frmDtEnd"] {
+        width: 15px;
+        text-align: center;
+    }
+    .frm-wrap .frmaddress input[type=text]:first-of-type{
+        width: calc(40%);
+        margin-right: 0;
+    }
+    .frm-wrap .frmaddress button{
+        position: absolute;
+        top: 0;
+        left: 43%;
+    }
+    /* 기간 */
+    .frm-wrap .frmGroup2  {
+		font-size:	0;
+	}
+	.frm-wrap .frmGroup2 * {
+		font-size: 12px;
+	}
+	.frm-wrap .frmGroup2 select {
+		margin-right: 8px;
+		width: calc(50% - 9.5px);
+	}
+	.frm-wrap .frmGroup2 label {
+		width: 16px;
+        text-align: center;
+        color: #888;
+	}	
+	.frm-wrap .frmGroup2 input {
+		width: calc(50% - 8px);
+    }
+    .popup-body .frm-wrap .frmGroup2 .search-glypicon1{
+        position: absolute;
+        top: 7px;
+        left: 38%;
+        color: #888;
+        cursor: pointer;
+    }	
+
+
+
+    /* 기본사용부품 */
+    .popup-bottom{
+        margin-top: 10px;
+    }
+    .popup-bottom .frm-wrap .table tr td{
+        padding: 4px;
+    }
+    .popup-bottom .frm-wrap .table select,
+    .popup-bottom .frm-wrap .table input{
+        margin: 0;
+    }
+    .popup-bottom .frm-wrap .table tr td:nth-child(1){
+        width: 10%;
+        padding-left: 10px;
+    }
+    .popup-bottom .frm-wrap .table tr td:nth-child(2){
+        width: 60%;
+        padding-left: 10px;
+    }
+    .popup-bottom .frm-wrap .table tr th:nth-child(3){
+        width: 10%;
+    }
+    .popup-bottom .frm-wrap .table tr th:nth-child(5){
+        width: 15%;
+    }
+
+    .popup-bottom .table tbody tr td label{
+        margin-right: 10px;
+        margin-top: 4px;
+        font-weight: normal;
+    }
+    .popup-bottom .table tbody tr td label input[type=checkbox]{
+        margin-right: 5px;
+        margin-top: 4px;
+    }
+
+    /* 거래중단 */
+    .table-deal .table thead tr:nth-child(1) th:nth-child(1){
+        width: 15%;
+    }
+    .table-deal .table input[type=text]{
+        margin:0;
+        text-align: center;
+    }
+
+
+
+
+.astylenone{
+    text-decoration: none;
+}
+
+
+.sub-hide{
+    display: none;
+}
+.stop-table{
+    display: none;
+}

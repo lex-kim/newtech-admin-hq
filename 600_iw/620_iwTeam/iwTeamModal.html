@@ -1,0 +1,327 @@
+<script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+
+  <!-- 리스트 팀명 누를경우 나타나는 보험사팀관리 수정 팝업 modal -->  
+  <div class="modal fade" id="add-new" role="dialog">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <form method="post" name="iwTeamForm" id="iwTeamForm">
+        <input type="hidden" class="form-control" id="REQ_MODE" name="REQ_MODE">
+
+        <!-- modal 상단 -->
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button> 
+          <h4 class="modal-title">보험사팀관리</h4>  
+        </div>
+
+        <!-- modal 내용 -->
+        <div class="modal-body">   
+          <div class="modal-left">
+
+            <!-- 보험사 -->
+            <div class="row">
+              <div class="col-md-4"><label for="MII_ID">*보험사</label></div>
+              <div class="col-md-7">
+                  <select class="form-control" id="MII_ID" name="MII_ID"
+                          title = "=보험사="
+                          data-show-subtext="true" data-live-search="true" required>
+                  </select>    
+              </div>
+            </div>
+
+            <!-- 아이디 -->
+            <div class="row">
+              <div class="col-md-4"><label for="MIT_USER_ID">아이디</label></div>
+              <div class="col-md-7"><input type="text" class="form-control" id="MIT_USER_ID" name="MIT_USER_ID" placeholder="입력"></div>
+            </div>
+
+            <!-- 비밀번호 -->
+            <div class="row">
+              <div class="col-md-4"><label for="MIT_USER_PASSWD_AES">비밀번호</label></div>
+              <div class="col-md-7"><input type="text" class="form-control" id="MIT_USER_PASSWD_AES" name="MIT_USER_PASSWD_AES" placeholder="입력"></div>
+            </div>
+
+            <div class="modal-subtitle">
+              <h5>팀장정보</h5>
+            </div>
+
+            <!-- 보험사팀명 -->
+            <div class="row">
+              <div class="col-md-4"><label for="MIT_NM">*보험사팀명</label></div>
+              <div class="col-md-7">
+                <input type="hidden" class="form-control" id="MIT_ID" name="MIT_ID" required>
+                <input type="text" class="form-control" id="MIT_NM" name="MIT_NM" placeholder="보험사팀명입력" required>
+              </div>
+            </div>
+
+            <!-- 팀장명 -->
+            <div class="row">
+              <div class="col-md-4"><label for="MIT_BOSS_NM_AES">*팀장명</label></div>
+              <div class="col-md-7"><input type="text" class="form-control" id="MIT_BOSS_NM_AES" name="MIT_BOSS_NM_AES" placeholder="팀장명입력" required></div>
+            </div>
+
+            <!-- 담당지역메모 -->
+            <div class="row">
+              <div class="col-md-4"><label for="MIT_REGION_MEMO">담당지역메모</label></div>
+              <div class="col-md-7"><textarea type="text" rows="3" cols="29"   id="MIT_REGION_MEMO" name="MIT_REGION_MEMO" placeholder="담당지역메모입력"></textarea></div>
+            </div>
+
+            <!-- 주소 -->
+            <div class="row">
+                <div class="col-md-4"><label for="INSU_TEAM_ADDRESS">주소</label></div>
+                <div class="col-md-4">
+                  <input type="hidden" class="form-control" id="MIT_OLD_ZIP" name="MIT_OLD_ZIP" readonly >
+                  <input type="text" class="form-control" id="MIT_NEW_ZIP" name="MIT_NEW_ZIP" readonly >
+                </div>
+                <button type="button" class="btn btn-default" onclick="execNewPostCode('MIT')">주소검색</button>
+            </div>
+            <div class="row">  
+                <div class="col-md-4"><label for="MIT_NEW_ADDRESS1"></label></div>
+                <div class="col-md-7">
+                  <input type="hidden" class="form-control" id="MIT_OLD_ADDRESS1_AES" name="MIT_OLD_ADDRESS1_AES" readonly>
+                  <input type="text" class="form-control" id="MIT_NEW_ADDRESS1_AES" name="MIT_NEW_ADDRESS1_AES" readonly>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4"><label for="MIT_NEW_ADDRESS2"></label></div>
+                <div class="col-md-7">
+                  <input type="hidden" class="form-control" id="MIT_OLD_ADDRESS2_AES" name="MIT_OLD_ADDRESS2_AES" >
+                  <input type="text" class="form-control" id="MIT_NEW_ADDRESS2_AES" name="MIT_NEW_ADDRESS2_AES" placeholder="상세주소">
+                </div>
+              </div>
+
+            <!-- 대표전화 -->
+            <div class="row">
+              <div class="col-md-4"><label for="MIT_TEAM_TEL_AES">*대표전화</label></div>
+              <div class="col-md-7"><input type="text" class="form-control" id="MIT_TEAM_TEL_AES" name="MIT_TEAM_TEL_AES" onkeyup="isNumber(event)" placeholder="0212341234" required></div>
+            </div>
+
+            <!-- 팩스번호 -->
+            <div class="row">
+              <div class="col-md-4"><label for="MIT_TEAM_FAX_AES">팩스번호</label></div>
+              <div class="col-md-7"><input type="text" class="form-control" id="MIT_TEAM_FAX_AES" name="MIT_TEAM_FAX_AES" onkeyup="isNumber(event)" placeholder="0212341234"></div>
+            </div>
+
+            <!-- 휴대폰번호 -->
+            <div class="row">
+              <div class="col-md-4"><label for="MIT_BOSS_TEL_AES">*휴대폰번호</label></div>
+              <div class="col-md-7"><input type="text" class="form-control" id="MIT_BOSS_TEL_AES" name="MIT_BOSS_TEL_AES" onkeyup="isNumber(event)" placeholder="01012341234" required></div>
+            </div>
+
+            <!-- 이메일 -->
+            <div class="row">
+              <div class="col-md-4"><label for="MIT_BOSS_EMAIL_AES">이메일</label></div>
+              <div class="col-md-7"><input type="text" class="form-control" id="MIT_BOSS_EMAIL_AES" name="MIT_BOSS_EMAIL_AES" placeholder="입력"></div>
+            </div>
+            
+            <div class="modal-subtitle">
+              <h5>총무정보</h5>
+            </div>
+            
+            <!-- 직책 -->
+            <div class="row">
+              <div class="col-md-4"><label for="MIT_CHG_LVL">직책</label></div>
+              <div class="col-md-7"><input type="text" class="form-control" id="MIT_CHG_LVL" name="MIT_CHG_LVL" placeholder="입력"></div>
+            </div>
+
+            <!-- 총무명 -->
+            <div class="row">
+              <div class="col-md-4"><label for="MIT_CHG_NM_AES">총무명</label></div>
+              <div class="col-md-7"><input type="text" class="form-control" id="MIT_CHG_NM_AES" name="MIT_CHG_NM_AES" placeholder="입력"></div>
+            </div>
+
+            <!-- 팩스번호 -->
+            <div class="row">
+              <div class="col-md-4"><label for="MIT_CHG_FAX_AES">팩스번호</label></div>
+              <div class="col-md-7"><input type="text" class="form-control" id="MIT_CHG_FAX_AES" name="MIT_CHG_FAX_AES" onkeyup="isNumber(event)" placeholder="0212341234"></div>
+            </div>
+
+            <!-- 휴대폰 -->
+            <div class="row">
+              <div class="col-md-4"><label for="MIT_CHG_TEL_AES">휴대폰</label></div>
+              <div class="col-md-7"><input type="text" class="form-control" id="MIT_CHG_TEL_AES" name="MIT_CHG_TEL_AES" onkeyup="isNumber(event)" placeholder="01012341234"></div>
+            </div>
+
+            <!-- 이메일 -->
+            <div class="row">
+              <div class="col-md-4"><label for="MIT_CHG_EMAIL_AES">이메일</label></div>
+              <div class="col-md-7"><input type="text" class="form-control" id="MIT_CHG_EMAIL_AES" name="MIT_CHG_EMAIL_AES" placeholder="입력"></div>
+            </div>
+
+            <!-- 메모 -->
+            <div class="row">
+              <div class="col-md-4"><label for="MIT_CHG_MEMO">총무메모</label></div>
+              <div class="col-md-7"><input type="text" class="form-control" id="MIT_CHG_MEMO" name="MIT_CHG_MEMO" placeholder="입력"></div>
+            </div>
+
+            <div class="modal-subtitle">
+              <h5></h5>
+            </div>
+
+            <!-- 메모 -->
+            <div class="row">
+              <div class="col-md-4"><label for="MIT_MEMO">메모</label></div>
+              <div class="col-md-7"><input type="text" class="form-control" id="MIT_MEMO" name="MIT_MEMO" placeholder="입력"></div>
+            </div>
+
+            <!-- 등록일자 -->
+            <div class="row">
+              <div class="col-md-4"><label for="MIT_ENROLL_DT">등록일자</label></div>
+              <div class="col-md-7">
+                <input type="text" class="form-control" id="MIT_ENROLL_DT" name="MIT_ENROLL_DT" readonly>
+                <span class="glyphicon glyphicon-calendar search-glypicon"></span> 
+              </div>
+            </div>
+
+          </div>
+
+          <div class="modal-right">
+            <h5>변경이력</h5>
+        
+              <!-- 검색바(폼) 시작 -->
+              <div class="container-fluid nwt-search-form">
+                <div class="panel panel-default">
+                  <div class="panel-body">
+                      <fieldset>
+                        <legend>조건검색</legend>
+
+                        <!-- 검색버튼 제외한 폼 wrap -->
+                        <div class="frm-wrap form-inline">
+                          <!-- 1st row -->
+                          <div class="row">
+                            <!-- 기간 -->
+                            <div class="col-md-6 frmGroup2">
+                                <label for="SEARCH_LOG_START_DT" class="sr-only">기간</label>
+                                <input type="text" class="form-control" name="SEARCH_LOG_START_DT" id="SEARCH_LOG_START_DT" autocomplete="off" placeholder="=변경일시작=">
+                                <span class="glyphicon glyphicon-calendar search-glypicon"></span>
+                                <label for="SEARCH_LOG_END_DT" class="nwt-form-label">~</label>                            
+                                <input type="text" class="form-control" name="SEARCH_LOG_END_DT" id="SEARCH_LOG_END_DT" autocomplete="off" placeholder="=변경일종료=">
+                                <span class="glyphicon glyphicon-calendar search-glypicon"></span>                          
+                            </div>
+
+                            <!-- 보험사 -->
+                          <div class="col-md-3">
+                              <label for="SEARCH_LOG_INSU_NM" class="sr-only">보험사</label>
+                              <select class="form-control" id="SEARCH_LOG_INSU_NM" name="SEARCH_LOG_INSU_NM"
+                                      title = "=보험사="
+                                      data-show-subtext="true" data-live-search="true">
+                              </select>                                     
+                            </div>
+
+                            <!-- 팀명 -->
+                            <div class="col-md-3">
+                              <label for="SEARCH_LOG_TEAM_NM" class="sr-only">팀명</label>
+                              <input type="text" class="form-control" name="SEARCH_LOG_TEAM_NM" id="SEARCH_LOG_TEAM_NM" placeholder="팀명 입력">
+                            </div>
+                          </div>
+
+                          <!-- 2nd줄 -->
+                          <div class="row frm-last-row">
+                            <!-- 키필드 -->
+                            <div class="col-md-6 frmGroup2-2">
+                              <label for="SEARCH_LOG_KEY" class="sr-only">키필드</label>
+                              <select class="form-control" id="SEARCH_LOG_KEY" name="SEARCH_LOG_KEY">
+                              <option value="">=키필드=</option>
+                              <option value="NITCL_OLD_BOSS_NM_AES">팀장명</option>
+                              <option value="NITCL_OLD_TEAM_TEL_AES">대표번호</option>
+                              <option value="NITCL_OLD_TEAM_FAX_AES">팩스번호</option>
+                              <option value="NITCL_OLD_BOSS_TEL_AES">휴대폰</option>
+                              </select>
+                              <input type="text" class="form-control" name="SEARCH_LOG_KEYWORD" id="SEARCH_LOG_KEYWORD" placeholder="입력">                            
+                            </div>
+                          </div>
+
+                        </div>
+                        
+                        <!-- 검색버튼 wrap -->
+                        <div class="frm-search-wrap">
+                          <!-- 검색btn -->
+                          <div class="row">
+                              <div class="col-md-12 text-right">
+                                <button type="button" class="btn btn-primary" id="RT_frmSearch" style="margin-top: -10px" onclick="getSubList()"><span class="glyphicon glyphicon-search"></span>&nbsp;검색</button>
+                              </div>
+                          </div> 
+                        </div>
+
+                      </fieldset>
+                    
+                  </div>
+                </div>
+              </div>
+            <!-- 검색바(폼) 끝 -->
+            
+            <div id="DIV_LOG_LIST">
+              <!-- 테이블 상단 #perPage, btn 영역 -->
+              <div class="nwt-table-top mb20r">
+                  <div class="row">
+                    <!-- 리스트개수 -->
+                    <div class="col-lg-6">
+                      <div class="form-inline">
+                        
+                      </div>
+                    </div>
+                    
+                    <!-- 테이블 우측 상단 btn -->
+                    <div class="col-lg-6 clearfix">
+                      <div class="form-inline f-right">
+              
+                        <!-- 엑셀 다운로드 -->
+                        <button type="button" class="btn btn-success" onclick="logExcelDownload()"><span class="glyphicon glyphicon-download-alt"></span>&nbsp;엑셀 다운로드</button>
+                      </div>
+                    </div>
+              
+                  </div>
+              </div>
+              <div class="modal-table"  id="DIV_LOG_LIST">
+                  <table class="table table-bordered">
+                    <thead>
+                      <tr class="active">
+                        <th class="text-center">변경일</th>
+                        <th class="text-center">보험사</th>
+                        <th class="text-center">팀명</th>
+                        <th class="text-center">팀장명</th>
+                        <th class="text-center">대표전화</th>
+                        <th class="text-center">팩스번호</th>
+                        <th class="text-center">휴대폰</th>
+                        <th class="text-center">이메일</th>
+                      </tr>
+                    </thead>
+                    <tbody id="logListContents">
+                    </tbody>
+                  </table>
+  
+                  <div class="container-fluid">
+                      <div class="text-center">
+                        <ul class="pagination" id="subPagination">
+                        </ul>
+                      </div>
+                  </div>
+              </div>
+            </div>
+             
+              
+            </div>
+          </div>       
+           <!-- modal 하단 -->
+          <div class="modal-footer">
+            <div class="text-left">
+              <?php if($AUTH_DELETE == YN_Y) :?>
+              <button type="button" class="btn btn-danger" id="btnDelete" onclick="confirmDelSwal()">삭제</button>
+              <?php endif; ?>
+            </div>
+            <div class="text-right">
+              <?php if($AUTH_UPDATE == YN_Y) :?>
+              <!-- 수정btn -->
+              <button type="submit" class="btn btn-primary"  id="submitBtn" name ="submitBtn">수정</button>
+              <?php endif; ?>
+              <!-- 취소btn -->
+              <button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
+            </div>
+          </div>     
+        </div>
+
+      </Form> 
+
+    </div>
+  </div>
+</div>
+

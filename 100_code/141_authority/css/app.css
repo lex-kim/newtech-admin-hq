@@ -1,0 +1,54 @@
+.nwt-table table thead tr th:first-child{
+    width:4%;
+}
+.nwt-table table thead tr th:nth-child(2){
+    width:70%;
+}
+span.red{
+    color: #F7553E;
+}
+
+
+/* authorityModal css */
+.authority{
+    overflow: hidden;
+    margin-bottom: 30px;
+}
+.authority > div{
+    float: left;
+}
+.authority .table-title{
+    width: 10%;
+    font-size: 17px;
+    font-weight: bold;
+    /* background-color:red; */
+}
+.authority .table-input{
+    width: 450px;
+    /* background-color: blue; */
+}
+.authority .table-content{
+    width: 90%;
+    /* background-color: blue; */
+}
+.table-content tbody tr:hover td {
+	background-color: #dff0d8;
+}
+.table-content table thead tr th:first-child{
+    width:40%;
+}
+
+
+/* footer */
+.footer{
+    border-top:1px solid #ddd;
+    padding-top: 20px ;
+    padding-bottom: 20px ;
+    
+}
+.footer > div{
+    float: left;
+}
+.footer .text-right{
+    float: right;
+}

@@ -1,0 +1,86 @@
+<?php
+
+    header("Content-Type: application/vnd.ms-excel");
+    date_default_timezone_set('Asia/Seoul');
+
+    header("Content-Disposition: attachment; filename=".date("YmdH", time())."_보험사팀관리.xls");
+    header("Content-Description:PHP4 Generated Data");
+
+    require $_SERVER['DOCUMENT_ROOT']."/common/common.php";	
+    require "class/clsIwTeam.php";
+
+    $data =  $cIwTeam->getList($_REQUEST);
+
+    $result = $data[0];
+
+    $excelHtml = "
+        <table border='1'>
+            <thead>
+                <tr class='active'>
+                    <th class='text-center' rowspan='2'>순번</th>
+                    <th class='text-center' rowspan='2'>보험사</th>
+                    <th class='text-center' rowspan='2'>아이디</th>
+                    <th class='text-center' rowspan='2'>비밀번호</th>
+                    <th class='text-center' colspan='3'>팀별현황</th>
+                    <th class='text-center' rowspan='2'>등록일자</th>
+                    <th class='text-center' colspan='5'>팀별 팀장현황</th>
+                    <th class='text-center' colspan='5'>팀별 총무 현황</th>
+                    <th class='text-center' rowspan='2'>등록주체</th>
+                    <th class='text-center' rowspan='2'>확인여부</th>
+                    <th class='text-center' rowspan='2'>메모</th>
+                </tr>
+                <tr class='active'>
+                    <th class='text-center'>팀명</th>
+                    <th class='text-center'>주소</th>
+                    <th class='text-center'>담당지역</th>
+                    <th class='text-center'>팀장명</th>
+                    <th class='text-center'>대표전화</th>
+                    <th class='text-center'>팩스번호</th>
+                    <th class='text-center'>휴대폰</th>
+                    <th class='text-center'>이메일</th>
+                    <th class='text-center'>직책</th>
+                    <th class='text-center'>총무명</th>
+                    <th class='text-center'>팩스번호</th>
+                    <th class='text-center'>휴대폰</th>
+                    <th class='text-center'>이메일</th>
+                </tr>
+            </thead>
+    ";
+
+    foreach($result as $item) { 
+        if($item['NITU_APPLY_YN'] == YN_N){
+            $reqModeTxt = "미확인";
+        } else {
+            $reqModeTxt = "확인";
+        }
+        $excelHtml .= "<tr>
+                <td style='text-align:center;'>".$item['IDX']."</td>
+                <td style='text-align:left;'>".$item['MII_NM']."</td>
+                <td style='text-align:left;'>".cUtil::nullChk($item['MIT_USER_ID'],'-')."</td>
+                <td style='text-align:left;'>".cUtil::nullChk($item['MIT_USER_PASSWD_AES'],'-')."</td>
+                <td style='text-align:left;'>".$item['MIT_NM']."</td>
+                <td style='text-align:left;'>".$item['MIT_NEW_ADDRESS1_AES']." ".$item['MIT_NEW_ADDRESS2_AES']."</td>
+                <td style='text-align:left;'>".$item['MIT_REGION_MEMO']."</td>
+                <td style='text-align:center;'>".$item['MIT_ENROLL_DT']."</td>
+                <td style='text-align:center;'>".$item['MIT_BOSS_NM_AES']."</td>
+                <td style='text-align:center;mso-number-format:\@;'>".cUtil::phone_format($item['MIT_TEAM_TEL_AES'])."</td>
+                <td style='text-align:center;mso-number-format:\@;'>".cUtil::phone_format($item['MIT_TEAM_FAX_AES'])."</td>
+                <td style='text-align:center;mso-number-format:\@;'>".cUtil::phone_format($item['MIT_BOSS_TEL_AES'])."</td>
+                <td style='text-align:left;'>".$item['MIT_BOSS_EMAIL_AES']."</td>
+                <td style='text-align:center;'>".$item['MIT_CHG_LVL']."</td>
+                <td style='text-align:center;'>".$item['MIT_CHG_NM_AES']."</td>
+                <td style='text-align:center;mso-number-format:\@;'>".cUtil::phone_format($item['MIT_CHG_FAX_AES'])."</td>
+                <td style='text-align:center;mso-number-format:\@;'>".cUtil::phone_format($item['MIT_CHG_TEL_AES'])."</td>
+                <td style='text-align:left;'>".$item['MIT_CHG_EMAIL_AES']."</td>
+                <td style='text-align:center;'>".$item['MIT_REQUEST_MODE']."</td>
+                <td style='text-align:center;'> $reqModeTxt</td>
+                <td style='text-align:left;'>".$item['MIT_MEMO']."</td>
+            </tr>
+        ";
+    }
+    $excelHtml .= "</table>";
+
+    echo "<meta content=\"application/vnd.ms-excel;charset=UTF-8;\" name=\"Content-type\">";
+    echo $excelHtml ;
+
+?>

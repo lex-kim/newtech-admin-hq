@@ -1,0 +1,100 @@
+<?php
+
+    header("Content-Type: application/vnd.ms-excel");
+    date_default_timezone_set('Asia/Seoul');
+
+    header("Content-Disposition: attachment; filename=".date("YmdH", time())."_공업사담당자관리.xls");
+    header("Content-Description:PHP4 Generated Data");
+
+    require $_SERVER['DOCUMENT_ROOT']."/common/common.php";	
+    require "class/clsGwFAO.php";
+
+    $data =  $clsGwFAO->getList($_REQUEST);
+
+    $result = $data[0];
+
+    $excelHtml = "
+        <table border='1'>
+                <thead>
+                    <tr>
+                        <th style='text-align:center;' rowspan='2'>순번</th>
+                        <th style='text-align:center;' rowspan='2'>구분</th>
+                        <th style='text-align:center;' rowspan='2'>지역</th>
+                        <th style='text-align:center;' rowspan='2'>공업사</th>
+                        <th style='text-align:center;' rowspan='2'>사업자번호</th>
+                        <th style='text-align:center;' rowspan='2'>거래여부</th>
+                        <th style='text-align:center;' rowspan='2'>개시일</th>
+                        <th style='text-align:center;' rowspan='2'>종료일</th>
+                        <th style='text-align:center;' colspan='2'>최근 3개월<br>평균청구</th>
+                        <th style='text-align:center;' rowspan='2'>수정일</th>
+                        <th style='text-align:center;' colspan='2'>사무실</th>
+                        <th style='text-align:center;' colspan='2'>대표자</th>
+                        <th style='text-align:center;' colspan='2'>Key-man</th>
+                        <th style='text-align:center;' colspan='2'>공장장</th>
+                        <th style='text-align:center;' colspan='2'>청구담당자</th>
+                        <th style='text-align:center;' colspan='2'>도장반장</th>
+                        <th style='text-align:center;' colspan='2'>판금반장</th>
+                    </tr>
+                    <tr>
+                        <th style='text-align:center;'>건수</th>
+                        <th style='text-align:center;'>금액</th>
+                        <th style='text-align:center;'>연락처</th>
+                        <th style='text-align:center;'>팩스번호</th>
+                        <th style='text-align:center;'>성명</th>
+                        <th style='text-align:center;'>연락처</th>
+                        <th style='text-align:center;'>성명</th>
+                        <th style='text-align:center;'>연락처</th>
+                        <th style='text-align:center;'>성명</th>
+                        <th style='text-align:center;'>연락처</th>
+                        <th style='text-align:center;'>성명</th>
+                        <th style='text-align:center;'>연락처</th>
+                        <th style='text-align:center;'>성명</th>
+                        <th style='text-align:center;'>연락처</th>
+                        <th style='text-align:center;'>성명</th>
+                        <th style='text-align:center;'>연락처</th>
+                    </tr>
+                </thead>
+    ";
+
+    
+    if(!empty($result)){
+        foreach($result as $item) { 
+            $excelHtml .= "<tr>
+                    <td style='text-align:center;'>".$item['IDX']."</td>
+                    <td style='text-align:center;'>".$item['CSD_NM']."</td>
+                    <td style='text-align:left;'>".$item['CRR_NM']."</td>
+                    <td style='text-align:left;'>".$item['MGG_NM']."</td>
+                    <td style='text-align:center;mso-number-format:\"\@\";'>".cUtil::biz_format($item['MGG_BIZ_ID'])."</td>
+                    <td style='text-align:center;'>".$item['RCT_NM']."</td>
+                    <td style='text-align:center;'>".$item['MGG_BIZ_START_DT']."</td>
+                    <td style='text-align:center;'>".$item['MGG_BIZ_END_DT']."</td>
+                    <td style='text-align:right;'>".$item['AVG_CNT']."</td>
+                    <td style='text-align:right;'>".$item['AVG_PRICE']."</td>
+                    <td style='text-align:center;'>".$item['LAST_DT']."</td>
+                    <td style='text-align:center;mso-number-format:\"\@\";'>".cUtil::phone_format($item['MGG_OFFICE_TEL'])."</td>
+                    <td style='text-align:center;mso-number-format:\"\@\";'>".cUtil::phone_format($item['MGG_OFFICE_FAX'])."</td>
+                    <td style='text-align:left;'>".$item['MGG_CEO_NM_AES']."</td>
+                    <td style='text-align:center;mso-number-format:\"\@\";'>".cUtil::phone_format($item['MGG_CEO_TEL_AES'])."</td>
+                    <td style='text-align:left;'>".$item['MGG_KEYMAN_NM_AES']."</td>
+                    <td style='text-align:center;mso-number-format:\"\@\";'>".cUtil::phone_format($item['MGG_KEYMAN_TEL_AES'])."</td>
+                    <td style='text-align:left;'>".$item['MGG_FACTORY_NM_AES']."</td>
+                    <td style='text-align:center;mso-number-format:\"\@\";'>".cUtil::phone_format($item['MGG_FACTORY_TEL_AES'])."</td>
+                    <td style='text-align:left;'>".$item['MGG_CLAIM_NM_AES']."</td>
+                    <td style='text-align:center;mso-number-format:\"\@\";'>".cUtil::phone_format($item['MGG_CLAIM_TEL_AES'])."</td>
+                    <td style='text-align:left;'>".$item['MGG_PAINTER_NM_AES']."</td>
+                    <td style='text-align:center;mso-number-format:\"\@\";'>".cUtil::phone_format($item['MGG_PAINTER_TEL_AES'])."</td>
+                    <td style='text-align:left;'>".$item['MGG_METAL_NM_AES']."</td>
+                    <td style='text-align:center;mso-number-format:\"\@\";'>".cUtil::phone_format($item['MGG_METAL_TEL_AES'])."</td>
+                </tr>
+            ";
+        }
+    }else{
+        $excelHtml .= "<td style='text-align:center;' colspan='7'>조회한 데이터가 존재하지 않습니다.</td>";
+    }
+  
+    $excelHtml .= "</table>";
+
+    echo "<meta content=\"application/vnd.ms-excel;charset=UTF-8;\" name=\"Content-type\">";
+    echo $excelHtml ;
+
+?>

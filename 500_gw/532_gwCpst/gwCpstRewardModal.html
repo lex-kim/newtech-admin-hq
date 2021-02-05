@@ -1,0 +1,222 @@
+<?php
+  require $_SERVER['DOCUMENT_ROOT']."/include/headerpopup.html";
+
+
+  $MGG_ID = "";
+  $MGG_NM = "";
+  $MGG_OFFICE_TEL = "";
+  $MGG_CLAIM_NM_AES = "";
+  $MGG_CLAIM_TEL_AES = "";
+  $NIC_ID = "";
+  $MII_ID = "";
+  $NIC_NM_AES = "";
+  $NIC_FAX_AES = "";
+  $NIC_TEL1_AES = "";
+  $RICT_ID = "";
+  $IS_NEW = "";
+  
+  if(!empty($_REQUEST['MGG_ID']) && !empty($_REQUEST['RICT_ID']) && empty($_REQUEST['TYPE']) ){     // 수정일때..(공업사아이디와 보상담당자 정보가 있을경우)
+    //require $_SERVER['DOCUMENT_ROOT']."/common/common.php";	
+    //require $_SERVER['DOCUMENT_ROOT']."/common/class/clsUtil.php";	
+    require "class/clsGwCompensation.php";
+    $data = $clsGwCompensation->getData($_REQUEST);
+
+    $MGG_ID = $data[0]['MGG_ID'];
+    $MGG_NM = $data[0]['MGG_NM'];
+    $MGG_OFFICE_TEL = cUtil::Tel_Format($data[0]['MGG_OFFICE_TEL'],"-","-");
+    $MGG_CLAIM_NM_AES = $data[0]['MGG_CLAIM_NM_AES'];
+    $MGG_CLAIM_TEL_AES = cUtil::Tel_Format($data[0]['MGG_CLAIM_TEL_AES'],"-","-");
+    $NIC_ID = $data[0]['NIC_ID'];
+    $MII_ID = $data[0]['MII_ID'];
+    $NIC_NM_AES = $data[0]['NIC_NM_AES'];
+    $NIC_FAX_AES = cUtil::Tel_Format($data[0]['NIC_FAX_AES'],"-","-");
+    $NIC_TEL1_AES = cUtil::Tel_Format($data[0]['NIC_TEL1_AES'],"-","-");
+    $RICT_ID = $data[0]['RICT_ID'];
+  }else if(!empty($_REQUEST['MGG_ID']) && !empty($_REQUEST['TYPE'])){    // 등록인데 공업사와 보험사가 있는경우
+    $MGG_ID = $_REQUEST['MGG_ID'];
+    $MII_ID = $_REQUEST['MII_ID'];
+    $RICT_ID = empty($_REQUEST['RICT_ID']) ? '' : $_REQUEST['RICT_ID'];
+    $IS_NEW = "Y";
+  } else{
+    $MGG_ID = "";
+    $MGG_NM = "";
+    $MGG_OFFICE_TEL = "";
+    $MGG_CLAIM_NM_AES = "";
+    $MGG_CLAIM_TEL_AES = "";
+    $NIC_ID = "";
+    $MII_ID = "";
+    $NIC_NM_AES = "";
+    $NIC_FAX_AES = "";
+    $NIC_TEL1_AES = "";
+    $RICT_ID = "";
+    $IS_NEW = "Y";
+  }
+?>
+
+<script src="js/setSelectOption.js"></script>
+<script src="js/popup.js"></script>
+
+<body onload="onLoadRegistPopup()">
+<!-- 보상담당등록 -->
+<div class="modal-add" id="add-modal">
+         <!-- 수정시 파라메터로 넘어오는 데이터. 등록시에는 빈값 -->
+        <input type="hidden" id="REQ_MGG_ID" name="REQ_MGG_ID" value="<?php echo $MGG_ID?>"/> 
+        <input type="hidden" id="REQ_MGG_OFFICE_TEL" name="REQ_MGG_OFFICE_TEL" value="<?php echo $MGG_OFFICE_TEL?>"/> 
+        <input type="hidden" id="REQ_MGG_CLAIM_NM_AES" name="REQ_MGG_CLAIM_NM_AES" value="<?php echo $MGG_CLAIM_NM_AES?>"/> 
+        <input type="hidden" id="REQ_MGG_CLAIM_TEL_AES" name="REQ_MGG_CLAIM_TEL_AES" value="<?php echo $MGG_CLAIM_TEL_AES?>"/> 
+        <input type="hidden" id="REQ_MII_ID" name="REQ_MII_ID" value="<?php echo $MII_ID?>"/> 
+        <input type="hidden" id="REQ_NIC_NM_AES" name="REQ_NIC_NM_AES" value="<?php echo $NIC_NM_AES?>"/> 
+        <input type="hidden" id="REQ_NIC_FAX_AES" name="REQ_NIC_FAX_AES" value="<?php echo $NIC_FAX_AES?>"/> 
+        <input type="hidden" id="REQ_NIC_TEL1_AES" name="REQ_NIC_TEL1_AES" value="<?php echo $NIC_TEL1_AES?>"/> 
+        <input type="hidden" id="REQ_RICT_ID" name="REQ_RICT_ID" value="<?php echo $RICT_ID?>"/> 
+        <input type="hidden" id="REQ_TYPE" name="REQ_TYPE" value="<?php echo $IS_NEW?>"/> 
+
+        <div>
+            <form method="post" name="reward_form" id="reward_form">
+                <input type="hidden" class="form-control" id="REQ_MODE" name="REQ_MODE">
+
+                <!-- 수정모드에서 필요한 원래 공업사아이디 및 보상담당자 아이디 -->
+                <input type="hidden" id="ORI_MGG_ID" name="ORI_MGG_ID" value="<?php echo $MGG_ID?>"/> 
+                <input type="hidden" id="ORI_NIC_ID" name="ORI_NIC_ID" value="<?php echo $NIC_ID?>"/> 
+                <input type="hidden" id="ORI_RICT_ID" name="ORI_RICT_ID" value="<?php echo $RICT_ID?>"/> 
+
+                <!-- modal 상단 -->
+                <div class="modal-header">
+                    <h4 class="modal-title">보상담당등록</h4>  
+                </div>
+
+                <!-- modal 내용 -->
+                <div class="modal-body">         
+            
+                    <div>
+                        <h5>청구담당</h5>
+                    </div>
+
+                    <!-- 공업사명 -->
+                    <div class="row" >
+                        <div class="col-md-3"><label for="MGG_ID">공업사명</label></div>
+                        <div class="col-md-7 mggSelector">
+                            <input type="hidden" id="MGG_ID" name="MGG_ID"  value="<?php echo $MGG_ID?>" />
+                            <input type="text" onkeyup="onchangeGarage(event);"
+                                 class="form-control" name="MGG_NM" id="MGG_NM" value="<?php echo $MGG_NM?>" placeholder="공업사 입력">    
+
+                            <!-- <select id="MGG_ID"  name="MGG_ID" 
+                                        data-style="btn-default" title="=공업사="
+                                        class="form-control selectpicker" 
+                                        data-live-search="true" data-live-search-placeholder="Search" >
+                                
+                            </select>   -->
+                        </div>
+                    </div>
+
+                    <!-- 사무실번호 -->
+                    <div class="row">
+                        <div class="col-md-3"><label for="MGG_OFFICE_TEL">사무실번호</label></div>
+                        <div class="col-md-7">
+                            <input type="text" class="form-control" id="MGG_OFFICE_TEL" name="MGG_OFFICE_TEL" 
+                                value="<?php echo $MGG_OFFICE_TEL?>" readonly placeholder="">
+                        </div>
+                    </div>
+
+                    <!-- 청구담당자 성명 -->
+                    <div class="row">
+                        <div class="col-md-3"><label for="MGG_CLAIM_NM_AES">성명</label></div>
+                        <div class="col-md-7">
+                            <input type="text" class="form-control" id="MGG_CLAIM_NM_AES" name="MGG_CLAIM_NM_AES" 
+                            value="<?php echo $MGG_CLAIM_NM_AES?>"readonly placeholder="">
+                        </div>
+                    </div>
+                    
+                    <!-- 청구담당자 휴대폰번호 -->
+                    <div class="row">
+                        <div class="col-md-3"><label for="MGG_CLAIM_TEL_AES">휴대폰번호</label></div>
+                        <div class="col-md-7">
+                            <input type="text" class="form-control" id="MGG_CLAIM_TEL_AES" name="MGG_CLAIM_TEL_AES" 
+                                value="<?php echo $MGG_CLAIM_TEL_AES?>" readonly placeholder="">
+                        </div>
+                    </div>
+
+
+                    <div class="modal-subtitle">
+                    <h5>보상담당</h5>
+                    </div>
+
+                    <!-- 보험사 -->
+                    <div class="row ">
+                        <div class="col-md-3"><label for="MII_ID">보험사</label></div>
+                        <div class="col-md-7">
+                            <select class="form-control" name="MII_ID" id="MII_ID" required>
+                                <option value="">선택</option>
+                            </select>
+                        </div>
+                        
+                    </div>
+
+                    <!-- 보상담당자 -->
+                    <div class="row">
+                        <div class="col-md-3"><label for="NIC_NM_AES">보상담당자</label></div>
+                        <div class="col-md-6">
+                            <input type="text" class="form-control insuCharge" id="NIC_NM_AES" disabled 
+                              onkeyup="onChangeInsuNM();" value= "<?php echo $NIC_NM_AES?>"  name="NIC_NM_AES" placeholder=""/>
+                            <input type="hidden" id="NIC_ID" name="NIC_ID" value= "<?php echo $NIC_ID?>"/>
+                        </div>
+                        <button type="button" onclick="openNewPopup();" class="btn btn-default" data-toggle="modal" data-target="#add-new">신규등록</button>
+                    </div>
+                    
+                    <!-- 보상담당자 팩스 -->
+                    <div class="row">
+                        <div class="col-md-3"><label for="NIC_FAX_AES">보상담당자<br>팩스</label></div>
+                        <div class="col-md-7">
+                            <input type="text" class="form-control insuCharge" id="NIC_FAX_AES" disabled 
+                             value= "<?php echo $NIC_FAX_AES?>"  name="NIC_FAX_AES" placeholder="">
+                        </div>
+                    </div>
+
+                    <!-- 보상담당자 휴대폰번호 -->
+                    <div class="row">
+                        <div class="col-md-3"><label for="NIC_TEL1_AES">보상담당자<br>휴대폰번호</label></div>
+                        <div class="col-md-7">
+                            <input type="text" class="form-control insuCharge" id="NIC_TEL1_AES" disabled
+                             value= "<?php echo $NIC_TEL1_AES?>"  name="NIC_TEL1_AES" placeholder="">
+                        </div>
+                    </div>
+
+                    <div class="modal-subtitle">
+                        <h5></h5>
+                    </div>
+
+                    <!-- 담당구분 -->
+                    <div class="row">
+                        <div class="col-md-3"><label for="RICT_ID">담당구분</label></div>
+                        <div class="col-md-7">
+                            <select class="form-control" name="RICT_ID" id="RICT_ID">
+                            </select>
+                        </div>
+                    </div>
+                        
+                </div>
+
+
+                <!-- modal 하단 -->
+                <div class="modal-footer">
+                    <div class="text-left">
+                        
+                    </div>
+                    <div class="text-right">
+                        <!-- 등록btn -->
+                        <button type="submit" class="btn btn-primary" id="add-modal-btn">
+                           
+                        </button>
+                        <!-- 취소btn -->
+                        <button type="button" class="btn btn-default" data-dismiss="modal" onclick="window.close();">취소</button>
+                    </div>
+                </div>
+            
+            </form>
+        </div>
+
+</div>
+</body>
+<?php
+  require $_SERVER['DOCUMENT_ROOT']."/include/footerpopup.html";
+?>

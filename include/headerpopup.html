@@ -1,0 +1,77 @@
+<?php include $_SERVER['DOCUMENT_ROOT']."/common/common.php"; ?>
+<?php
+  $USER_AUTH_INFO = array();
+  $AUTH_CREATE = "";
+  $AUTH_READ = "";
+  $AUTH_UPDATE = "";
+  $AUTH_DELETE = "";
+  $AUTH_EXCEL = "";
+
+  if(!$_SESSION['USERID'] || $_SESSION['USERID']=="") {
+    echo "<HTML><SCRIPT>alert('로그인 하십시오'); location.href='/';</SCRIPT></HTML>";
+  }else{
+      include $_SERVER['DOCUMENT_ROOT']."/common/class/clsCommon.php"; 
+      $_REQUEST['ALLS_URI'] = $_SERVER["PHP_SELF"];
+      $USER_AUTH_INFO = $clsCommon->getUserAuthLevel($_REQUEST);
+
+      if(empty($USER_AUTH_INFO)){
+        header("Location: /000_login/error.html");
+      }else{
+        $AUTH_CREATE  = $USER_AUTH_INFO[0]['ALLS_CREATE_YN'];
+        $AUTH_READ  = $USER_AUTH_INFO[0]['ALLS_READ_YN'];
+        $AUTH_UPDATE  = $USER_AUTH_INFO[0]['ALLS_UPDATE_YN'];
+        $AUTH_DELETE  = $USER_AUTH_INFO[0]['ALLS_DELETE_YN'];
+        $AUTH_EXCEL  = $USER_AUTH_INFO[0]['ALLS_EXCEL_YN']; 
+        $params1 = "NUI_1ST=".iconv('utf-8','euc-kr',  $USER_AUTH_INFO[0]['NUI_1ST']);
+        $params2 = "&NUI_2ND=".iconv('utf-8','euc-kr', $USER_AUTH_INFO[0]['NUI_2ND']);
+        $params3 = "&NUI_3RD=".iconv('utf-8','euc-kr', $USER_AUTH_INFO[0]['NUI_3RD']);
+        $params4 = "&NUI_4TH=".iconv('utf-8','euc-kr', $USER_AUTH_INFO[0]['NUI_4TH']);
+        $params5 = "&TYPE=P";
+        if($AUTH_READ  == 'N'){
+          header("Location: /000_login/notRead.html?".$params1.$params2.$params3.$params4.$params5);
+        }
+      }      
+  }
+?>
+<!DOCTYPE html>
+  <html lang="ko">
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="cache-control" content="no-cache">
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv='Content-type' content='text/html; charset=utf-8'>
+    <meta http-equiv="cache-control" content="no-cache, must-revalidate">
+    <meta http-equiv="pragma" content="no-cache">
+    <title>NEWTECH - 관리자시스템</title>
+
+    
+    <!-- favicon -->
+    <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/images/favicon.ico" type="image/x-icon">
+
+
+    <!-- Bootstrap v3.3.7 스타일 -->
+    <link rel="stylesheet" href="/bootstrap/css/bootstrap-theme.css">
+    <link rel="stylesheet" href="/bootstrap/css/bootstrap.css">
+
+    <!-- multiselect.css -->
+    <link rel="stylesheet" href="/bootstrap/css/bootstrap-select.min.css">
+
+    <!-- 캘린더CSS -->
+    <link rel="stylesheet" href="/css/jquery-ui.css">
+    
+    <!-- editor CSS -->
+    <link rel="stylesheet" href="/summernote/summernote.css"> 
+
+    
+    <!-- 공통 스타일 -->
+    <link rel="stylesheet" href="/css/common.css">
+    <!-- 페이지별 스타일 -->
+    <link rel="stylesheet" href="css/app.css">
+    
+  </head>
+
+  <body>

@@ -1,0 +1,62 @@
+.nwt-search-form .search-glypicon{
+    position: relative;
+    top: 7px; /*insulist.html :2px , insulist2.html :7px*/
+    left: -20px;
+    width: 0;
+}
+
+
+.modal-content{
+    width: 650px;
+}
+
+.setting-table{
+    width: 95%;
+}
+
+.setting-table button{
+    width: 53px;
+    height: 25px;
+    padding: 3px 10px;
+    font-size: 13px;
+}
+
+.setting-table select, .setting-table input{
+    height: 20px;
+    font-size: 13px;
+}
+
+
+.setting-table thead{
+    border-top: 3px solid #ddd;
+    border-bottom: 3px solid #ddd;
+}
+.setting-table thead tr{
+    height: 45px;
+}
+
+.setting-table thead tr th{
+    padding: 10px 5px;
+}
+.setting-table thead tr:first-child th{
+    padding: 0px 5px;
+}
+
+.setting-table tbody tr{
+    border-bottom: 1px solid #ddd;
+}
+
+.setting-table tbody tr td{
+    padding: 10px 5px;
+}
+
+
+
+
+#delet-modal .modal-content{
+	width: 370px;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+    transform: translate(-50%,-50%);
+}

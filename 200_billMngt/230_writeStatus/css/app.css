@@ -1,0 +1,12 @@
+
+
+.nwt-search-form .search-glypicon{
+    position: relative;
+    top: 7px;
+    left: -20px;
+    width: 0;
+}
+
+.calenderInput {
+    cursor:pointer;
+}

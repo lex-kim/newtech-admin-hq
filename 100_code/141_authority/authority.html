@@ -1,0 +1,114 @@
+<!-- header.html -->
+<?php
+  require $_SERVER['DOCUMENT_ROOT']."/include/header.html"; 
+?>
+
+ 
+  <input type="hidden" id="authorityType" value="main"/>
+  <input type="hidden" id="AUTH_UPDATE" value="<?php echo $AUTH_UPDATE ?>"/>
+  
+  <!-- 페이지 카테고리 -->
+  <div class="container-fluid mb20px">
+    <h3 class="nwt-category"><small>코드관리&nbsp;&nbsp;></small>권한관리</h3>
+  </div>
+
+  <!-- 검색바(폼) 시작 -->
+  <div class="container-fluid nwt-search-form">
+      <div class="panel panel-default">
+          <div class="panel-body">
+              <form class="form-inline" id="searchForm" name="searchForm">
+                <legend>조건검색</legend>
+
+                <!-- 검색버튼 제외한 폼 wrap -->
+                <div class="frm-wrap">
+                  <!-- 1st row -->
+                  <div class="row">
+                    <!-- 권한명칭 -->
+                    <div class="col-md-1">
+                      <label for="ALLM_NM_SEARCH" class="sr-only">권한명칭</label>
+                      <input type="text" class="form-control" name="ALLM_NM_SEARCH" id="ALLM_NM_SEARCH" 
+                             placeholder="권한명칭 입력">                            
+                    </div>
+                  </div>
+                </div> 
+
+                <!-- 검색버튼 wrap -->
+                <div class="frm-search-wrap">
+                  <!-- 검색btn -->
+                  <div class="row">
+                      <div class="col-md-12 text-right">
+                        <button type="submit" class="btn btn-primary" id="frmSearch"><span class="glyphicon glyphicon-search"></span>&nbsp;검색</button>
+                   
+                      </div>
+                  </div> 
+                </div>
+              </form>
+          </div>
+      </div>
+  </div>
+  <!-- 검색바(폼) 끝 -->
+
+
+  <!-- 테이블 상단 #perPage, btn 영역 -->
+  <div class="container-fluid nwt-table-top mb20r">
+    <div class="row">
+      
+      <!-- 리스트개수 -->
+      <?php	require $_SERVER['DOCUMENT_ROOT']."/include/listCnt.html"; ?>
+      
+      <!-- 테이블 우측 상단 btn -->
+      <div class="col-lg-6 clearfix">
+        <div class="form-inline f-right">
+          <!-- 등록btn / modal handler -->
+          <?php if($AUTH_CREATE == YN_Y) :?>
+          <button type="button" class="btn btn-primary" onclick="showAddModal()">등록</button>
+          <?php endif; ?>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- 테이블 -->
+ 
+  <div class="container-fluid nwt-table" style="width: 100%;"> <!--overflow-x: scroll;-->
+    <table class="table table-bordered table-striped">
+      <colgroup>
+        <col width="5%"/>
+        <col width="30%"/>
+        <col width="13%"/>
+        <col width="13%"/>
+      </colgroup>
+      <thead>
+        <tr class="active">
+          <th class="text-center">순번</th>
+          <th class="text-center">권한명칭</th>
+          <th class="text-center">등록일시</th>
+          <th class="text-center">등록자</th>
+          <?php if($AUTH_UPDATE == YN_Y) :?>
+          <th class="text-center" id="UPDATE_TABLE">수정</th>
+          <?php endif; ?>
+        </tr>
+      </thead>
+      <tbody id="authorityTable">
+                                                         
+      </tbody>
+    </table>
+  </div>
+
+  <?php	require $_SERVER['DOCUMENT_ROOT']."/include/indicator.html"; ?>
+  
+  <!-- pagination -->
+  <div class="container-fluid">
+    <div class="text-center">
+      <ul class="pagination">
+      
+      </ul>
+    </div>
+  </div>
+
+  
+
+<?php
+  require $_SERVER['DOCUMENT_ROOT']."/include/footer.html";
+?>

@@ -1,0 +1,178 @@
+<!-- modal #add-new -->  
+<div class="modal fade" id="add-new" role="dialog">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <form id="editForm">
+           <!-- 출력순서가 존재한다면 업데이트를 진행할지.. 업데이트 여부 -->
+          <input type="hidden" name = "IS_EXIST_ORDER_NUM" id="IS_EXIST_ORDER_NUM"/>
+
+          <!-- 출력순서 업데이트 시 변동사항이 있는지.. -->
+          <input type="hidden"  name= "ORI_CPPS_ORDER_NUM" id="ORI_CPPS_ORDER_NUM"/>
+
+          <!-- 업데이트 시 오리지널 CPPS_ID -->
+          <input type="hidden"  name="ORI_CPPS_ID" id="ORI_CPPS_ID"/>
+          
+          <!-- modal 상단 -->
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button> 
+            <h4 class="modal-title">취급부품관리</h4>  
+          </div>
+
+
+          <!-- modal 내용 -->
+          <div class="modal-body">           
+              <!-- 출력순서 -->
+              <div class="row">
+                <div class="col-md-3"><label for="CPPS_ORDER_NUM">출력순서</label></div>
+                <div class="col-md-7">
+                    <input type="text" class="form-control" onkeyup="isNumber(event)"
+                    id="CPPS_ORDER_NUM" name="CPPS_ORDER_NUM" placeholder="입력">
+                  </div>
+              </div>
+
+
+              <!-- 기준부품 -->
+              <div class="row">
+                <div class="col-md-3"><label for="CPP_ID">기준부품</label></div>
+                <div class="col-md-7">
+                  <select class="form-control" name="CPP_ID" id="CPP_ID">
+                  
+                  </select>
+                </div>
+              </div>
+
+              <!-- 기준부품 용량/길이 -->
+              <div class="row">
+                <div class="col-md-3"><label for="CPP_UNIT">기준부품<br>용량/길이</label></div>
+                <div class="col-md-7">
+                  <input type="text" class="form-control" id="CPP_UNIT" name="CPP_UNIT" readonly placeholder="">
+                </div>
+              </div>
+
+              <!-- 취급부품번호 -->
+              <div class="row">
+                <div class="col-md-3"><label for="CPPS_ID">취급부품번호</label></div>
+                <div class="col-md-7">
+                  <input type="text" class="form-control" id="CPPS_ID" name="CPPS_ID" placeholder="입력">
+                </div>
+              </div>            
+
+              <!-- 취급부품명 -->
+              <div class="row">
+                <div class="col-md-3"><label for="CPPS_NM">취급부품명</label></div>
+                <div class="col-md-7">
+                  <input type="text" class="form-control" id="CPPS_NM" name="CPPS_NM" placeholder="입력">
+                </div>
+              </div> 
+
+              <!-- 취급부품약어 -->
+              <div class="row">
+                <div class="col-md-3"><label for="CPPS_NM_SHORT">취급부품약어</label></div>
+                <div class="col-md-7">
+                  <input type="text" class="form-control" id="CPPS_NM_SHORT" name="CPPS_NM_SHORT" placeholder="입력" >
+                </div>
+              </div>
+
+              <!-- 취급부품 용량/길이 -->
+              <div class="row">
+                <div class="col-md-3"><label for="CPPS_UNIT">취급부품<br>용량/길이</label></div>
+                <div class="col-md-7">
+                  <input type="text" class="form-control" id="CPPS_UNIT" name="CPPS_UNIT" 
+                        onkeyup="isNumber(event)"placeholder="">
+                </div>
+              </div>     
+
+              <!-- 환산사용량 -->
+              <div class="row">
+                <div class="col-md-3"><label for="CPPS_RATIO">환산사용량</label></div>
+                <div class="col-md-7">
+                  <input type="text" class="form-control"  onkeypress="return isFloat(event)" 
+                          id="CPPS_RATIO" name="CPPS_RATIO" placeholder="입력" >
+                  <span>*환산사용량 = 기준부품용량 / 취급부품용량</span>
+                </div>
+              </div> 
+
+              <!-- 순정여부 -->
+              <div class="row">
+                <div class="col-md-3"><label for="CPPS_GENUINE_YN">순정여부</label></div>
+                <div class="col-md-7">
+                  <select class="form-control" name="CPPS_GENUINE_YN" id="CPPS_GENUINE_YN">
+                    <option value="">선택</option>
+                    <option value="Y">순정</option>
+                    <option value="N">비순정</option>
+                  </select>
+                </div>
+              </div> 
+
+              <!-- 보험청구단가 -->
+              <div class="row">
+                <div class="col-md-3"><label for="CPPS_PRICE">보험청구단가</label></div>
+                <div class="col-md-7">
+                  <input type="text" class="form-control" id="CPPS_PRICE" name="CPPS_PRICE" 
+                          onkeyup="isNumber(event)" placeholder="입력">
+                </div>
+              </div>             
+
+              <!-- 변동적용일 -->
+              <div class="row">
+                <div class="col-md-3"><label for="CPPS_APPLY_DT">변동적용일</label></div>
+                <div class="col-md-7">
+                  <div class="calenderDiv">
+                      <input type="text" class="form-control calenderInput" id="CPPS_APPLY_DT" readonly 
+                          name="CPPS_APPLY_DT" autocomplete="off" placeholder="날짜선택">
+                      <div class="calenderIcon">
+                          <span class="glyphicon glyphicon-calendar search-glypicon"></span>
+                      </div>
+                  </div>
+                </div>
+              </div>  
+
+              <!-- 조견표적용여부 -->
+              <div class="row">
+                <div class="col-md-3"><label for="CPPS_RECKON_YN">조견표적용여부</label></div>
+                <div class="col-md-7">
+                    
+                  <select class="form-control" name="CPPS_RECKON_YN" id="CPPS_RECKON_YN">
+                    <option value="">선택</option>
+                    <option value="Y">적용</option>
+                    <option value="N">미적용</option>
+                  </select>
+                </div>
+              </div>      
+
+              <!-- 입출고연동사용여부 -->
+              <div class="row">
+                <div class="col-md-3"><label for="CPPS_INOUT_YN">입출고연동사용여부</label></div>
+                <div class="col-md-7">
+                  <select class="form-control" name="CPPS_INOUT_YN" id="CPPS_INOUT_YN">
+                    <option value="">선택</option>
+                    <option value="Y">사용</option>
+                    <option value="N">미사용</option>
+                  </select>
+                </div>
+              </div>             
+
+          
+          </div>
+
+
+          
+          <!-- modal 하단 -->
+          <div class="modal-footer">
+              <div class="text-left">
+                <?php if($AUTH_DELETE == YN_Y) :?>
+                  <button type="button" class="btn btn-danger" id="btnDelete" 
+                  onclick="confirmDelSwal()">삭제</button>
+                <?php endif; ?>
+              </div>
+              <div class="text-right">
+                  <!-- 등록btn -->
+                  <button type="submit" class="btn btn-primary" id="submitBtn">등록</button>
+                  <!-- 취소btn -->
+                  <button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
+              </div>
+          </div>
+      </form>
+      </div>
+    </div>
+</div>

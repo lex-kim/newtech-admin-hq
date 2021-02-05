@@ -1,0 +1,348 @@
+<!-- header.html -->
+<?php
+  require $_SERVER['DOCUMENT_ROOT']."/include/header.html";
+?>
+
+
+  <!-- 페이지 카테고리 -->
+  <div class="container-fluid mb20px">
+    <h3 class="nwt-category"><small>공업사관리&nbsp;&nbsp;></small>담당제외자 연락처 관리</h3>
+  </div>
+
+
+  <!-- 검색바(폼) 시작 -->
+  <div class="container-fluid nwt-search-form">
+      <div class="panel panel-default">
+          <div class="panel-body">
+              <form class="form-inline" action="#">
+                  <fieldset>
+                      <legend>조건검색</legend>
+
+                      <!-- 검색버튼 제외한 폼 wrap -->
+                      <div class="frm-wrap">
+                        <!-- 1st row -->
+                        <div class="row frm-last-row">
+                          
+                          <!-- 기간 -->
+                          <div class="col-md-2 frmGroup3">
+                            <label for="START_DT" class="sr-only">기간</label>
+                            <!-- 기간선택 -->
+                            <select class="form-control input-md" id="period " name="period">
+                              <option value="">=기간=</option>
+                              <option value="EDIT_DAY">수정일</option>
+                            </select>
+                            <!-- 날짜선택 -->
+                            <input type="text" class="form-control" name="START_DT" id="START_DT" autocomplete="off"  placeholder="입력" maxlength="10">
+                            <span class="glyphicon glyphicon-calendar search-glypicon"></span>
+                            <label for="END_DT" class="nwt-form-label">~</label>                            
+                            <input type="text" class="form-control" name="END_DT" id="END_DT" autocomplete="off"  placeholder="입력" maxlength="10">
+                            <span class="glyphicon glyphicon-calendar search-glypicon"></span>                            
+                          </div>
+                          
+                          <!-- 지역 -->
+                          <div class="col-md-1">
+                            <label for="area" class="sr-only">지역</label>
+                            <select class="form-control" id="area" name="area">
+                              <option value="">=지역=</option>
+                              <option value="1">1</option>
+                              <option value="2">2</option>
+                              <option value="3">3</option>
+                              <option value="4">4</option>
+                              <option value="5">5</option>
+                              <option value="6">6</option>
+                              <option value="7">7</option>
+                              <option value="8">8</option>
+                              <option value="9">9</option>
+                              <option value="10">10</option>
+                              <option value="11">11</option>
+                              <option value="12">12</option>
+                            </select>                            
+                          </div>
+
+                          <!-- 공업사 -->
+                          <div class="col-md-1"><!--select까지 있어야 한다면 classd에 'frmGroup2-2' 추가, col-md-1을 col-md-2로 변경 -->
+                            <label for="BIZ_SEARCH" class="sr-only">공업사</label>
+                            <!-- <select class="form-control" id="BIZ_SEARCH" name="BIZ_SEARCH">
+                              <option value="">=공업사=</option>
+                            </select> -->
+                            <input type="text" class="form-control" name="STANDARD_SEARCH_KEYWORD" id="STANDARD_SEARCH_KEYWORD" placeholder="공업사 입력">                            
+                          </div>
+                          
+                          <!-- 거래여부 -->
+                          <div class="col-md-1">
+                            <label for="DEAL_YN" class="sr-only">거래여부</label>
+                            <select class="form-control" id="DEAL_YN" name="DEAL_YN">
+                              <option value="">=거래여부=</option>
+                              <option value="Y">거래</option>
+                              <option value="N">미거래</option>
+                            </select>                            
+                          </div>
+
+                          <!-- 직책 -->
+                          <div class="col-md-1">
+                            <label for="role" class="sr-only">직책</label>
+                            <select class="form-control" id="role" name="role">
+                              <option value="">=직책=</option>
+                              <option value="1">1</option>
+                              <option value="2">2</option>
+                              <option value="3">3</option>
+                              <option value="4">4</option>
+                              <option value="5">5</option>
+                              <option value="6">6</option>
+                              <option value="7">7</option>
+                            </select>                            
+                          </div>
+
+                          <!-- 키필드 -->
+                          <div class="col-md-2 frmGroup2-2">
+                            <label for="STANDARD_SEARCH" class="sr-only">키필드</label>
+                            <select class="form-control" id="STANDARD_SEARCH" name="STANDARD_SEARCH">
+                              <option value="">=키필드=</option>
+                              <option value="CAR_NM">성명</option>
+                              <option value="CAR_NM">연락처</option>
+                            </select>
+                            <input type="text" class="form-control" name="STANDARD_SEARCH_KEYWORD" id="STANDARD_SEARCH_KEYWORD" placeholder="입력">                            
+                          </div>
+
+                        </div>
+                      </div> 
+                      
+                      <!-- 검색버튼 wrap -->
+                      <div class="frm-search-wrap">
+                        <!-- 검색btn -->
+                        <div class="row">
+
+                          <div class="col-md-12 text-right">
+                            <button type="button" class="btn btn-primary" id="frmSearch" style="margin-top: -10px"><span class="glyphicon glyphicon-search"></span>&nbsp;검색</button>
+                          </div>
+                        </div> 
+                      </div>
+
+                  </fieldset>
+              </form>
+          </div>
+      </div>
+  </div>
+  <!-- 검색바(폼) 끝 -->
+
+
+ 
+  <!-- 테이블 상단 #perPage, btn 영역 -->
+  <div class="container-fluid nwt-table-top mb20r">
+    <div class="row">
+      
+      <!-- 리스트개수 -->
+      <?php	require $_SERVER['DOCUMENT_ROOT']."/include/listCnt.html"; ?>
+      
+      <!-- 테이블 우측 상단 btn -->
+      <div class="col-lg-6 clearfix">
+        <div class="form-inline f-right">
+
+          <!-- 등록btn / modal handler -->
+          <button type="button" class="btn btn-success"><span class="glyphicon glyphicon-download-alt"></span>&nbsp;엑셀 다운로드</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+
+  <!-- 테이블 -->
+  <div class="container-fluid nwt-table" style="width: 100%;"> 
+    <table class="table table-bordered table-striped">
+      <thead>
+        <tr class="active">
+          <th class="text-center">순번</th>
+          <th class="text-center">지역</th>
+          <th class="text-center">공업사</th>
+          <th class="text-center">거래여부</th>
+          <th class="text-center">개시일</th>
+          <th class="text-center">종료일</th>
+          <th class="text-center">직책</th>
+          <th class="text-center">성명</th>
+          <th class="text-center">연락처</th>
+          <th class="text-center">최초등록일</th>
+          <th class="text-center">마지막수정일</th>
+          <th class="text-center">삭제</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="text-center">182</td>
+          <td class="text-center">서울 강남</td>
+          <td class="text-left">김제 신일공업사-ST</td>
+          <td class="text-center">거래</td>
+          <td class="text-center">2017-04-12</td>
+          <td class="text-center">2017-04-12</td>
+          <td class="text-center">대리</td>
+          <td class="text-center">김용규</td>
+          <td class="text-center">010-4447-1687</td>
+          <td class="text-center">2017-04-12</td>
+          <td class="text-center">2017-04-12</td>
+          <td class="text-center">
+              <button type="button" class="btn btn-danger" id="btnDelete" data-toggle="modal" data-target="#delet-modal">삭제</button>
+          </td>
+        </tr>                                                                   
+        <tr>
+          <td class="text-center">182</td>
+          <td class="text-center">서울 강남</td>
+          <td class="text-left">김제 신일공업사-ST</td>
+          <td class="text-center">거래</td>
+          <td class="text-center">2017-04-12</td>
+          <td class="text-center">2017-04-12</td>
+          <td class="text-center">대리</td>
+          <td class="text-center">김용규</td>
+          <td class="text-center">010-4447-1687</td>
+          <td class="text-center">2017-04-12</td>
+          <td class="text-center">2017-04-12</td>
+          <td class="text-center">
+              <button type="button" class="btn btn-danger" id="btnDelete" data-toggle="modal" data-target="#delet-modal">삭제</button>
+          </td>
+        </tr>                                                                   
+        <tr>
+          <td class="text-center">182</td>
+          <td class="text-center">서울 강남</td>
+          <td class="text-left">김제 신일공업사-ST</td>
+          <td class="text-center">거래</td>
+          <td class="text-center">2017-04-12</td>
+          <td class="text-center">2017-04-12</td>
+          <td class="text-center">대리</td>
+          <td class="text-center">김용규</td>
+          <td class="text-center">010-4447-1687</td>
+          <td class="text-center">2017-04-12</td>
+          <td class="text-center">2017-04-12</td>
+          <td class="text-center">
+              <button type="button" class="btn btn-danger" id="btnDelete" data-toggle="modal" data-target="#delet-modal">삭제</button>
+          </td>
+        </tr>                                                                   
+        <tr>
+          <td class="text-center">182</td>
+          <td class="text-center">서울 강남</td>
+          <td class="text-left">김제 신일공업사-ST</td>
+          <td class="text-center">거래</td>
+          <td class="text-center">2017-04-12</td>
+          <td class="text-center">2017-04-12</td>
+          <td class="text-center">대리</td>
+          <td class="text-center">김용규</td>
+          <td class="text-center">010-4447-1687</td>
+          <td class="text-center">2017-04-12</td>
+          <td class="text-center">2017-04-12</td>
+          <td class="text-center">
+              <button type="button" class="btn btn-danger" id="btnDelete" data-toggle="modal" data-target="#delet-modal">삭제</button>
+          </td>
+        </tr>                                                                   
+        <tr>
+          <td class="text-center">182</td>
+          <td class="text-center">서울 강남</td>
+          <td class="text-left">김제 신일공업사-ST</td>
+          <td class="text-center">거래</td>
+          <td class="text-center">2017-04-12</td>
+          <td class="text-center">2017-04-12</td>
+          <td class="text-center">대리</td>
+          <td class="text-center">김용규</td>
+          <td class="text-center">010-4447-1687</td>
+          <td class="text-center">2017-04-12</td>
+          <td class="text-center">2017-04-12</td>
+          <td class="text-center">
+              <button type="button" class="btn btn-danger" id="btnDelete" data-toggle="modal" data-target="#delet-modal">삭제</button>
+          </td>
+        </tr>                                                                   
+        <tr>
+          <td class="text-center">182</td>
+          <td class="text-center">서울 강남</td>
+          <td class="text-left">김제 신일공업사-ST</td>
+          <td class="text-center">거래</td>
+          <td class="text-center">2017-04-12</td>
+          <td class="text-center">2017-04-12</td>
+          <td class="text-center">대리</td>
+          <td class="text-center">김용규</td>
+          <td class="text-center">010-4447-1687</td>
+          <td class="text-center">2017-04-12</td>
+          <td class="text-center">2017-04-12</td>
+          <td class="text-center">
+              <button type="button" class="btn btn-danger" id="btnDelete" data-toggle="modal" data-target="#delet-modal">삭제</button>
+          </td>
+        </tr>                                                                   
+        <tr>
+          <td class="text-center">182</td>
+          <td class="text-center">서울 강남</td>
+          <td class="text-left">김제 신일공업사-ST</td>
+          <td class="text-center">거래</td>
+          <td class="text-center">2017-04-12</td>
+          <td class="text-center">2017-04-12</td>
+          <td class="text-center">대리</td>
+          <td class="text-center">김용규</td>
+          <td class="text-center">010-4447-1687</td>
+          <td class="text-center">2017-04-12</td>
+          <td class="text-center">2017-04-12</td>
+          <td class="text-center">
+              <button type="button" class="btn btn-danger" id="btnDelete" data-toggle="modal" data-target="#delet-modal">삭제</button>
+          </td>
+        </tr>                                                                   
+        <tr>
+          <td class="text-center">182</td>
+          <td class="text-center">서울 강남</td>
+          <td class="text-left">김제 신일공업사-ST</td>
+          <td class="text-center">거래</td>
+          <td class="text-center">2017-04-12</td>
+          <td class="text-center">2017-04-12</td>
+          <td class="text-center">대리</td>
+          <td class="text-center">김용규</td>
+          <td class="text-center">010-4447-1687</td>
+          <td class="text-center">2017-04-12</td>
+          <td class="text-center">2017-04-12</td>
+          <td class="text-center">
+              <button type="button" class="btn btn-danger" id="btnDelete" data-toggle="modal" data-target="#delet-modal">삭제</button>
+          </td>
+        </tr>                                                                   
+        <tr>
+          <td class="text-center">182</td>
+          <td class="text-center">서울 강남</td>
+          <td class="text-left">김제 신일공업사-ST</td>
+          <td class="text-center">거래</td>
+          <td class="text-center">2017-04-12</td>
+          <td class="text-center">2017-04-12</td>
+          <td class="text-center">대리</td>
+          <td class="text-center">김용규</td>
+          <td class="text-center">010-4447-1687</td>
+          <td class="text-center">2017-04-12</td>
+          <td class="text-center">2017-04-12</td>
+          <td class="text-center">
+              <button type="button" class="btn btn-danger" id="btnDelete" data-toggle="modal" data-target="#delet-modal">삭제</button>
+          </td>
+        </tr>                                                                   
+        <tr>
+          <td class="text-center">182</td>
+          <td class="text-center">서울 강남</td>
+          <td class="text-left">김제 신일공업사-ST</td>
+          <td class="text-center">거래</td>
+          <td class="text-center">2017-04-12</td>
+          <td class="text-center">2017-04-12</td>
+          <td class="text-center">대리</td>
+          <td class="text-center">김용규</td>
+          <td class="text-center">010-4447-1687</td>
+          <td class="text-center">2017-04-12</td>
+          <td class="text-center">2017-04-12</td>
+          <td class="text-center">
+              <button type="button" class="btn btn-danger" id="btnDelete" data-toggle="modal" data-target="#delet-modal">삭제</button>
+          </td>
+        </tr>                                                                   
+      </tbody>
+    </table>
+  </div>
+
+  <!-- indicator -->
+  <?php	require $_SERVER['DOCUMENT_ROOT']."/include/indicator.html"; ?>
+  
+  <!-- pagination -->
+  <div class="container-fluid">
+    <div class="text-center">
+      <ul class="pagination">
+      </ul>
+    </div>
+  </div>
+
+<!-- footer.html -->
+<?php
+  require $_SERVER['DOCUMENT_ROOT']."/include/footer.html";
+?>

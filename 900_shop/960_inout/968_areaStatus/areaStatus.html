@@ -1,0 +1,7 @@
+<?php
+  require $_SERVER['DOCUMENT_ROOT']."/include/headerShop.html";
+  require "controller/DivisionStatusController.php";
+ 
+  $cDivisionStatusController = new DivisionStatusController(['EC_MGMT_TYPE']);
+  $cDivisionStatusController->index();
+?>

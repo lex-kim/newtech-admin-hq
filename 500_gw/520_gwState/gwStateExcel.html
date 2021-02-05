@@ -1,0 +1,98 @@
+<?php
+
+    header("Content-Type: application/vnd.ms-excel");
+    date_default_timezone_set('Asia/Seoul');
+
+    header("Content-Disposition: attachment; filename=".date("YmdH", time())."_공업사현황.xls");
+    header("Content-Description:Newtech System");
+
+    require $_SERVER['DOCUMENT_ROOT']."/common/common.php";	
+    require $_SERVER['DOCUMENT_ROOT']."/common/class/clsGwReference.php";	
+    require "class/clsGwState.php";
+
+    $data =  $clsGwState->getList($_REQUEST);
+    $result = $data[0];
+
+    $_REQUEST['REF_TYPE'] = GET_REF_STOP_REASON_TYPE;
+    $stopArray = $clsGwReference->getRefOption($_REQUEST);
+
+    function getStopNM($dataArray){
+        foreach($dataArray as $item) { 
+            $excelHeader .= "
+                    <th style='text-align:center;'>".$item['NM']."</th>
+            ";
+        }
+        return $excelHeader;
+    }
+
+    $excelHtml = "
+        <table border='1'>
+            <tr>
+                <th style='text-align:center;' rowspan='2'>구분</th>
+                <th style='text-align:center;' rowspan='2'>지역</th>
+                <th style='text-align:center;' rowspan='2'>전체 업체수</th>
+                <th style='text-align:center;' colspan='3'>거래 업체수</th>
+                <th style='text-align:center;' colspan='".(count($stopArray)+1)."'>중단 업체수</th>
+                <th style='text-align:center;' colspan='3'>미거래 업체수</th>
+                <th style='text-align:center;' colspan='4'>현판 업체수</th>
+            </tr>
+    ";
+
+
+    $excelHtml .= "
+            <tr>
+                <th style='text-align:center;'>소계</th>
+                <th style='text-align:center;'>거래</th>
+                <th style='text-align:center;'>중단예정</th>
+                <th style='text-align:center;'>소계</th>
+                ".getStopNM($stopArray)."
+                <th style='text-align:center;'>소계</th>
+                <th style='text-align:center;'>미거래</th>
+                <th style='text-align:center;'>거래예정</th>
+                <th style='text-align:center;'>소계</th>
+                <th style='text-align:center;'>거래</th>
+                <th style='text-align:center;'>중단</th>
+                <th style='text-align:center;'>미거래</th>
+            </tr>
+            
+    ";
+
+    if(!empty($result)){
+        foreach($result as $item) { 
+            $excelHtml .= "<tr>
+                <td style='text-align:center;'>".$item['VMS_CSD_NM']."</td>
+                <td style='text-align:left;'>".$item['VMS_CRR_NM']."</td>
+                <td style='text-align:right;'>".$item['VMS_TOTAL']."</td>
+                <td style='text-align:right;'>".$item['VMS_DEAL_TOTAL']."</td>
+                <td style='text-align:right;'>".$item['VMS_10610']."</td>
+                <td style='text-align:right;'>".$item['VMS_10640']."</td>
+                <td style='text-align:right;'>".$item['VMS_10620']."</td>
+                <td style='text-align:right;'>".$item['VMS_STOP_10']."</td>
+                <td style='text-align:right;'>".$item['VMS_STOP_20']."</td>
+                <td style='text-align:right;'>".$item['VMS_STOP_30']."</td>
+                <td style='text-align:right;'>".$item['VMS_STOP_40']."</td>
+                <td style='text-align:right;'>".$item['VMS_STOP_50']."</td>
+                <td style='text-align:right;'>".$item['VMS_STOP_60']."</td>
+                <td style='text-align:right;'>".$item['VMS_STOP_70']."</td>
+                <td style='text-align:right;'>".$item['VMS_STOP_80']."</td>
+                <td style='text-align:right;'>".$item['VMS_STOP_90']."</td>
+                <td style='text-align:right;'>".$item['VMS_UNTRADED_TOTAL']."</td>
+                <td style='text-align:right;'>".$item['VMS_10650']."</td>
+                <td style='text-align:right;'>".$item['VMS_10630']."</td>
+                <td style='text-align:right;'></td>
+                <td style='text-align:center;'></td>
+                <td style='text-align:center;'></td>
+                <td style='text-align:center;'></td>
+                </tr>
+            ";
+        }
+    }else{
+        $excelHtml .= "<td style='text-align:center;' colspan='7'>조회한 데이터가 존재하지 않습니다.</td>";
+    }
+  
+    $excelHtml .= "</table>";
+
+    echo "<meta content=\"application/vnd.ms-excel;charset=UTF-8;\" name=\"Content-type\">";
+    echo $excelHtml ;
+
+?>

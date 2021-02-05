@@ -1,0 +1,94 @@
+<!-- 대체/체화 설정 모달 -->  
+  <div class="modal fade modal-add" id="replace-comp" role="dialog">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <form id="replaceForm">
+                <!-- modal 상단 -->
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button> 
+                    <h4 class="modal-title">대체/체화</h4>  
+                </div>
+        
+                <input type="hidden" id="REPLACE_NWP_ID" name="REPLACE_NWP_ID"/>
+                <input type="hidden" id="REPLACE_RRT_ID" name="REPLACE_RRT_ID"/>
+                <input type="hidden" id="REPLACE_RWPP_ID" name="REPLACE_RWPP_ID"/>
+                <input type="hidden" id="FROM_CPP_ID" name="FROM_CPP_ID"/>
+
+                <!-- modal 내용 -->
+                <div class="modal-body">         
+                    <span style="color:crimson; padding-bottom: 10px;">※ 왼쪽 부품항목을 클릭 후 오른쪽 테이블에서 설정하시고 저장버튼을 눌러주세요.</span>
+                    <div class="table-area">
+                        <div class="table-left">
+                            <table class="table table-bordered">
+                                <colgroup>
+                                    <col width="15%"/>
+                                    <col width="25%"/>
+                                </colgroup>
+                                <thead>
+                                    <tr class="active">
+                                        <th class="text-center">부품</th>
+                                        <th class="text-center">설정여부</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="replaceTable">
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <td class="text-right" colspan="2">
+                                            
+                                        </td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                        <div class="table-right">
+                            <table class="table table-bordered" id="replaceToTable" style="display: none;">
+                                <colgroup>
+                                    <col width="10%"/>
+                                    <col width="25%"/>
+                                    <col width="25%"/>
+                                </colgroup>
+                                <thead>
+                                    <tr style=" background-color: #E4F4FA;">
+                                        <th class="text-center">사용</th>
+                                        <th class="text-center">부품</th>
+                                        <th class="text-center">배율</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="replaceToTbody" >
+                                    
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <td class="text-right" colspan="3">
+                                            <span style="color:crimson; margin-right:10px">※ 데이터 변경 후 저장버튼을 눌러주셔야 됩니다.</span>
+                                            <!-- 등록btn -->
+                                            <?php if($AUTH_CREATE == YN_Y) :?>
+                                            <button type="submit" class="btn btn-primary">저장</button>
+                                            <?php endif; ?>
+                                        </td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="replace-info">
+                        체화될 기준부품 소요량 + [(체화할 기준부품 소요량x배율)x(체화할 기준부품 용량/체화될 기준부품 용량)]<br>
+                        대체부품의 경우 배율 및 환산량값은 1로 설정
+                    </div>
+        
+              </form>
+            </div>
+    
+    
+            <!-- modal 하단 -->
+            <div class="modal-footer">
+                <div class="text-right">
+                    
+                    <!-- 취소btn -->
+                    <button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
+                </div>
+            </div>
+          </div>
+        </div>
+      </div>

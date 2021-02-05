@@ -1,0 +1,162 @@
+<?php
+  require $_SERVER['DOCUMENT_ROOT']."/include/headerpopup.html";
+
+
+    $updateType = count($_REQUEST['NCP_ID']) == 1 ? true : false;
+    $NCP_ID = empty($_REQUEST['NCP_ID']) ? '' : $_REQUEST['NCP_ID'];
+    $NCPD_ID = empty($_REQUEST['NCPD_ID']) ? '' : $_REQUEST['NCPD_ID'];
+
+?>
+<script src="/js/consignOption.js"></script>
+<script src="js/consignAuto.js"></script>
+<body onload="onLoadPopupSetting(<?php echo $updateType ?>)">
+    <!-- modal #add-new -->  
+    <div class="modal-add" id="add-new">
+        <!-- <div class="modal-dialog">
+            <div class="modal-content"> -->
+                <form class="form-horizontal" name="addForm" id="addForm" method="post">
+                    <input type="hidden" name="REQ_MODE" id="REQ_MODE"/>
+            
+                    <!-- modal 상단 -->
+                    <div class="modal-header">
+                    <h4 class="modal-title">위탁관리 입출고관리</h4>  
+                    </div>
+            
+                    <!-- modal 내용 -->
+                    <div class="modal-body">
+            
+                        <?php if ($updateType) : ?>
+                        <!-- 입고일 -->
+                        <div class="row">
+                        <div class="col-md-3"><label for="NCPD_STOCK_DT">입고일</label></div>
+                        <div class="col-md-7">
+                            <input type="text" class="form-control" id="NCPD_STOCK_DT" name="NCPD_STOCK_DT" autocomplete="off" placeholder="자동완성" disabled>
+                            <span class="glyphicon glyphicon-calendar search-glypicon"></span> 
+                        </div>
+                        </div>
+                        <?php endif; ?> 
+            
+                        <!-- 공업사 자동완성 -->
+                        <div class="row">
+                        <div class="col-md-3"><label for="MGG_ID">공업사</label></div>
+                        <div class="col-md-7">
+                            <input type="text" onkeyup="onchangeGarage(event);" onblur="resetGarage()"
+                                 class="form-control" name="MGG_NM" id="MGG_NM" autocomplete="off" placeholder="공업사 입력" >
+                            <input type="hidden" class="form-control" id="MGG_ID" name="MGG_ID" placeholder="입력">
+                        </div>
+                        </div>
+    
+                        <!-- 영업담당 -->
+                        <div class="row">
+                        <div class="col-md-3"><label for="NCC_ID">영업담당</label></div>
+                        <div class="col-md-7">
+                            <input type="text" onkeyup="onchangeAUU(event);" onblur="resetAUU()"
+                                 class="form-control" name="AUU_NM" id="AUU_NM" autocomplete="off" placeholder="영업사원명 입력" >
+                            <input type="hidden" class="form-control" id="AUU_ID" name="AUU_ID" placeholder="입력">
+                        </div>
+                        </div>
+                        
+                        <?php if ($updateType) : ?>
+                        <!-- 장비구분 -->
+                        <div class="row">
+                        <div class="col-md-3"><label for="NCC_ID">장비구분</label></div>
+                        <div class="col-md-7">
+                            <select class="form-control" name="NCC_ID" id="NCC_ID" disabled>
+                            </select>
+                        </div>
+                        </div>
+    
+                        <!-- 장비명 -->
+                        <div class="row">
+                        <div class="col-md-3"><label for="NCP_NM">장비명</label></div>
+                        <div class="col-md-7">
+                            <select class="form-control" name="NCP_NM" id="NCP_NM" disabled>
+                            
+                            </select>
+                        </div>
+                        </div>
+    
+                        <!-- 장비번호 장비명 선택 시 자동완성-->
+                        <div class="row">
+                        <div class="col-md-3"><label for="NCP_ID">장비번호</label></div>
+                        <div class="col-md-7"><input type="text" class="form-control" id="NCP_ID" name="NCP_ID" value="<?php echo $NCP_ID[0]?>" readonly></div>
+                        </div>
+    
+                        <!-- 관리번호 -->
+                        <div class="row">
+                        <div class="col-md-3"><label for="NCPD_ID">관리번호</label></div>
+                        <div class="col-md-7"><input type="text" class="form-control" id="NCPD_ID" name="NCPD_ID" value="<?php echo $NCPD_ID[0]?>" readonly></div>
+                        </div>
+                        <?php endif; ?> 
+    
+                        <!-- 변동일 -->
+                        <div class="row">
+                        <div class="col-md-3"><label for="NCPD_CHANGE_DT">변동일</label></div>
+                        <div class="col-md-7">
+                            <input type="text" class="form-control" id="NCPD_CHANGE_DT" name="NCPD_CHANGE_DT" autocomplete="off" placeholder="입력" required>
+                            <span class="glyphicon glyphicon-calendar search-glypicon"></span> 
+                        </div>
+                        </div>
+    
+                        <!-- 상태 -->
+                        <div class="row">
+                        <div class="col-md-3"><label for="RCS_ID">상태</label></div>
+                        <div class="col-md-7">
+                            <select class="form-control" name="RCS_ID" id="RCS_ID">
+                            
+                            </select>
+                        </div>
+                        </div>
+    
+                        <!-- 장소 -->
+                        <div class="row">
+                        <div class="col-md-3"><label for="RCP_ID">장소</label></div>
+                        <div class="col-md-7">
+                            <select class="form-control" name="RCP_ID" id="RCP_ID">
+                            
+                            </select>
+                        </div>
+                        </div>
+            
+                        <!-- 출력순서 -->
+                        <!-- <div class="row">
+                        <div class="col-md-3"><label for="NCPD_ORDER_NUM">출력순서</label></div>
+                        <div class="col-md-7"><input type="text" class="form-control" id="NCPD_ORDER_NUM" name="NCPD_ORDER_NUM" placeholder="입력"></div>
+                        </div> -->
+            
+                        <!-- 메모 -->
+                        <div class="row">
+                        <div class="col-md-3"><label for="NCPD_MEMO_TXT">메모</label></div>
+                        <div class="col-md-7"><input type="text" class="form-control" id="NCPD_MEMO_TXT" name="NCPD_MEMO_TXT" placeholder="입력"></div>
+                        </div>
+                        
+                    </div>
+
+                    <!-- from Data -->
+                    <?php foreach($_REQUEST['NCP_ID'] as $index => $value): ?>
+                        <input type="hidden" id="NCP_ID_<?php echo $index?>" name="NCP_ID[]"  value="<?php echo $_REQUEST['NCP_ID'][$index] ?>">
+                        <input type="hidden" id="NCPD_ID_<?php echo $index?>" name="NCPD_ID[]"  value="<?php echo $_REQUEST['NCPD_ID'][$index] ?>">
+                    <?php endforeach; ?>
+                    <!-- To Data -->
+            
+                    <!-- modal 하단 -->
+                    <div class="modal-footer">
+                        <div class="text-left">
+
+                        </div>
+                        <div class="text-right">
+                            <!-- 등록btn -->
+                            <button type="submit" class="btn btn-primary" id="submitBtn">저장</button>
+                            <!-- 취소btn -->
+                            <button type="button" class="btn btn-default" onclick="self.close();">닫기</button>
+                        </div>
+                    </div>
+                </form>
+            <!-- </div>
+        </div> -->
+    </div>
+</body>
+        
+<?php
+  require $_SERVER['DOCUMENT_ROOT']."/include/footerpopup.html";
+?>

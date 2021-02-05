@@ -1,0 +1,178 @@
+@import '../../944_estimate/css/app.css';
+
+.nwt-table table{
+    width: 100%;
+    overflow-x: scroll; 
+    white-space: nowrap;
+    /* table-layout:fixed; */
+    /* word-break:break-all; */
+}
+
+.nwt-table table tr td {
+    height: 52px;
+}
+
+.col-lg-6{
+    width: 25%;
+}
+/* 확장하기 */
+.nwt-table-top{
+    position: relative;
+}
+.nwt-table-top .table-top-etc{
+    position: absolute;
+    top: 4px;
+    left: 120px;
+}
+.nwt-table-top .table-top-etc .totalbtn{
+    display: inline;
+    padding:6px 10px;
+    border:1px solid #dddddd;
+    border-radius: 4px;
+    margin-left: 20px;
+    cursor: pointer;
+}
+.nwt-table-top .table-top-etc .extend{
+    padding-left: 20px;
+}
+
+/* 확장하기 끝 */
+
+
+.nwt-total{
+    display: none;
+}
+
+.total-open{
+    display: block;
+}
+
+.nwt-total table tr td{
+    /* width: calc(100% / 20); */
+}
+
+.table tbody tr td a.sendstate{
+    margin-right: 10px;
+    width: 60px;
+    display: inline-block;
+}
+
+
+.modal-header .modal-title{
+    font-size: 20px;
+}
+
+.nwt-category{
+    margin-left: 20px;
+}
+
+/* 주문상세 */
+.borderTop{
+    border-top: 1px solid #ddd;
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+
+.gw-info{
+    overflow: hidden;
+}
+.gw-info>div{
+    float: left;
+    width: 50%;
+}
+
+
+.gw-info .gw-info-right .row{
+    margin-bottom: 10px;
+}
+.gw-info .gw-info-right .col-md-2{
+    font-weight: bold;
+}
+.gw-info .gw-info-right .col-md-8{}
+
+
+.point-area .point-input{
+    float: right;
+    /* width: 200px; */
+    display: inline;
+    overflow: hidden;
+}
+.point-area .point-input input{
+    /* display: inline-block; */
+}
+.point-area .point-input > div{
+    float: left;
+}
+.point-area .point-input div span{
+    width: 8px;
+    position: relative;
+    margin-left: 5px;
+    top: 9px;
+}
+.goods-option{
+    float: left;
+}
+.goods-option button{
+    height:30px;
+    margin-bottom: 3px;
+}
+.goods-option select{
+    display: inline-block !important;
+}
+
+
+/* 결제방법/결제금액 */
+.payment_area{
+    overflow: hidden;
+}
+.payment_area > div{
+    float: left;
+    width: 50%;
+}
+
+/* 942_order에서의 견적서, 주문서 가로너비설정  */
+.order-content{
+    width: 95%;
+}
+/* 선택 상품리스트 */
+.order-right{
+    /* width: 490px; */
+    /* height: 700px; */
+    overflow: hidden;
+    margin-left: 20px;
+    position: relative;
+    border-right:1px solid #eee;
+    border-left:1px solid #eee;
+    padding: 0px 10px;
+    /* position: fixed; */
+    /* right: 2%; */
+}
+
+.modal-add{
+    width: 97%;
+}
+
+
+
+/* radio input CSS */
+.modal-body label{
+    padding-right: 20px;
+}
+.modal-body label input[type="radio"]{
+    position: relative;
+    top: 2px;
+    margin-right: 3px;
+}
+
+
+
+
+.memo-textarea{
+    resize:  none;
+    height: 70px !important;
+}
+
+#estimate-info .modal-dialog{
+    width: 750px;
+}

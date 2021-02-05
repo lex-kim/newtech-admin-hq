@@ -1,0 +1,118 @@
+<div class="container-fluid popup-content">
+
+        <!-- 청구서 오른쪽 영역 -->
+        <div class="popup-left">
+          <div class="search-area">
+            <div class="search-top" id="DIV_REGION">
+                  <div class="search-top-left">
+                      <input id="SEARCH_REGION" class="form-control ui-autocomplete-input" placeholder="지역검색(띄어쓰기로 구분)" autocomplete="off">
+                      <input type="hidden" id="SELECT_CRR_ID" name="SELECT_CRR_ID" >
+                      <input id="MGG_NM_SEARCH" class="form-control ui-autocomplete-input" placeholder="공업사명" autocomplete="off">     
+                      <input type="hidden" id="SELECT_MGG_ID" name="SELECT_MGG_ID" >    
+                  </div>
+                  <div class="search-top-right">
+                      <button type="button" class="btn btn-primary" id="frmSearch" onClick="searchGW()"style="margin-left: 10px"><span class="glyphicon glyphicon-search"></span>&nbsp;검색</button>
+                  </div>
+                         
+             
+            </div>
+           
+            <div class="search-bottom">
+              <div id="DIV_MGG_NM">
+              </div>
+              <ul id="optionGw">
+              </ul>
+            </div>
+    
+          </div>
+          <div class="memo-area">
+            <div class="memo-title">공업사관리 메모</div>
+            <div class="memo-content">
+              <text class="form-control" name="" id="gwMemo" cols="30" rows="14" ></text>
+            </div>
+          </div>
+        </div>
+    
+        <!-- 청구서왼쪽영역 -->
+        <div class="popup-right">
+          <!-- popup 내용 -->
+          <div class="popup-body">  
+              <div>
+                <table class="table row-table">
+                  <colgroup>
+                    <col width="25%"/>
+                    <col width="10%"/>
+                    <col width="25%"/>
+                    <col width="18%"/>
+                    <col width="2%"/>
+                    <col width="8%"/>
+                    <col width="15%"/>
+                    <col width="8%"/>
+                  </colgroup>
+                  <thead>
+                    <tr class="row1">
+                      <input type="hidden" id="MGG_ID" name= "MGG_ID">
+                      <input type="hidden" id="MGG_NM" name= "MGG_NM">
+                      <td class="text-right">
+                        <button type="button" tabindex="-1" class="btn btn-default" onclick="setIndependent()">독립정산</button>
+                        <input type="hidden" id="NIE_INDEPENDENT_STOCK_RATIO" name= "NIE_INDEPENDENT_STOCK_RATIO">
+                      </td>
+                      <td class="text-center">
+                        <button type="button" tabindex="-1" class="btn btn-default" onclick="setSubstitution()">대채정산</button>
+                      </td>
+                      <td colspan="2">
+                          <!-- 대체정산식 -->
+                          <select class="form-control" tabindex="-1" id="SELECT_SUBSTITUTION" name="SELECT_SUBSTITUTION">
+                          </select>  
+                      </td>
+                      <td></td>
+                      <td class="text-center active borderR">변동일시</td>
+                      <td class="text-center borderR">
+                          <input type="text" tabindex="-1" class="form-control" name="NIH_DT" id="NIH_DT" maxlength="10" autocomplete="off">
+                      </td>
+                      <td class="text-center borderR">
+                          <!-- 출거/수거 -->
+                          <select class="form-control" tabindex="-1" id="RST_ID" name="RST_ID">
+                          </select>  
+                      </td>
+                    </tr>
+                  </thead>
+                </table>
+                        
+                <div>
+                  <table class="table table-bordered">
+                    <colgroup>
+                      <col width="8%"/>
+                      <col width="8%"/>
+                      <col width="8%"/>
+                      <col width="9%"/>
+                      <col width="9%"/>
+                      <col width="8%"/>
+                      <col width="17%"/>
+                      <col width="15%"/>
+                    </colgroup>
+                    <thead>
+                      <tr>
+                        <th class="text-center active" colspan="3">현재재고</th>
+                        <th class="text-center active" rowspan="2">공급부품 설정</th>
+                        <th class="text-center active" rowspan="2">사용부품 설정</th>
+                        <th class="text-center active" colspan="3">재고변동</th>
+                      </tr>
+                      <tr>
+                        <th class="text-center active">기준부품</th>
+                        <th class="text-center active">취급부품</th>
+                        <th class="text-center active">수량</th>
+                        <th class="text-center active">기준부품</th>
+                        <th class="text-center active">취급부품</th>
+                        <th class="text-center active">수량</th>
+                      </tr>
+                    </thead>
+                    <tbody id="dataTable">
+                      
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+          </div>
+        </div>
+</div>

@@ -1,0 +1,66 @@
+.nwt-policy-top > div {
+    float: left;
+}
+
+.nwt-policy-top > div:nth-child(2){
+    float: right;
+}
+
+
+
+.policy-body{
+    border-top:1px solid #ddd;
+    border-bottom:1px solid #ddd;
+    margin:15px 15px;
+    padding:30px 0px;
+}
+
+
+.policy-body .policy-title p:first-child{
+    font-size: 20px;
+}
+
+.policy-body .policy-title p:nth-child(2){
+    font-size: 14px;
+    margin-bottom: 30px;
+}
+
+
+
+.policy-body-content{
+    width: 700px;
+}
+
+.policy-body-content .row{
+    margin-bottom:15px;
+}
+
+.policy-body-content .row div label{
+    line-height: 35px;
+}
+
+
+
+.nwt-search-form .search-glypicon{
+    position: relative;
+    top: 7px;
+    left: -20px;
+    width: 0;
+}
+
+
+/* 모달 캘린더 아이콘 CSS */
+
+#add-new .modal-dialog{
+    width: 500px;
+}
+
+.modal-body .row .col-md-7{
+    position: relative;
+}
+.modal-body .row .col-md-7 .search-glypicon{
+    position: absolute;
+    top: 10px;
+    right: 25px;
+    cursor: pointer;
+}

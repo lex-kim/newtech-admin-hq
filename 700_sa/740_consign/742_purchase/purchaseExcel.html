@@ -1,0 +1,57 @@
+<?php
+
+    header("Content-Type: application/vnd.ms-excel");
+    date_default_timezone_set('Asia/Seoul');
+
+    header("Content-Disposition: attachment; filename=".date("YmdH", time())."_위탁장비_매입관리.xls");
+    header("Content-Description: Newtech System");
+
+    require $_SERVER['DOCUMENT_ROOT']."/common/common.php";	
+    require "class/clsPurchase.php";
+
+    $data =  $cPurchase->getList($_REQUEST);
+
+    $result = $data[0];
+
+    $excelHtml = "
+        <table border='1'>
+            <thead>
+                <tr>
+                    <th style='text-align:center;'>순번</th>
+                    <th style='text-align:center;'>출력순서</th>
+                    <th style='text-align:center;'>장비구분</th>
+                    <th style='text-align:center;'>장비명</th>
+                    <th style='text-align:center;'>장비번호</th>
+                    <th style='text-align:center;'>제조사</th>
+                    <th style='text-align:center;'>판매단가</th>
+                    <th style='text-align:center;'>입고수량</th>
+                    <th style='text-align:center;'>사용여부</th>
+                    <th style='text-align:center;'>등록자</th>
+                    <th style='text-align:center;'>등록일</th>
+                </tr>
+            </thead>
+    ";
+
+    foreach($result as $item) { 
+        $excelHtml .= "
+            <tr>
+                <td style='text-align:center;'>".$item['IDX']."</td>
+                <td style='text-align:center;'>".$item['NCP_ORDER_NUM']."</td>
+                <td style='text-align:left;'>".$item['NCC_NM']."</td>
+                <td style='text-align:left;'>".$item['NCP_NM']."</td>
+                <td style='text-align:center;'>".$item['NCP_ID']."</td>
+                <td style='text-align:left;'>".$item['NCP_MANUFACTURER']."</td>
+                <td style='text-align:right;mso-number-format:\#\,\#\#0\;'>".$item['NCP_PRICE']."</td>
+                <td style='text-align:right;mso-number-format:\#\,\#\#0\;'>".$item['NCP_CNT']."</td>
+                <td style='text-align:center;'>".($item['NCP_USE_YN'] == YN_Y ? '사용' : '미사용')."</td>
+                <td style='text-align:left;'>".($item['WRT_USERID'] == null ? '-' : $item['WRT_USER_NM'].'('.$item['WRT_USERID'].')')."</td>
+                <td style='text-align:center;'>".$item['WRT_DTHMS']."</td>
+            </tr>
+        ";
+    }
+    $excelHtml .= "</table>";
+
+    echo "<meta content=\"application/vnd.ms-excel;charset=UTF-8;\" name=\"Content-type\">";
+    echo $excelHtml ;
+
+?>

@@ -1,0 +1,52 @@
+<?php
+    header("Content-Type: application/vnd.ms-excel");
+    header( "Content-type: application/vnd.ms-excel; charset=utf-8");
+    date_default_timezone_set('Asia/Seoul');
+
+    header("Content-Disposition: attachment; filename=".date("Ymd_His", time())."_기준부품조견표.xls");
+    header("Content-Description: Newtech System");
+
+    require $_SERVER['DOCUMENT_ROOT']."/common/common.php";	
+    require "class/clsStdTable.php";
+    
+    $resWork = $cStandard->getWorkList();
+    $resCar = $cStandard->getCarList();
+
+    $excelHtml = "
+        <table border='1'>
+            <tr>
+                    <th class='text-center'>수리부위</th>
+                    <th class='text-center'>작업항목</th>
+    ";
+    foreach($resCar as $key=> $value){
+        $excelHtml .= "<th class='text-center'>".$value['RCT_NM']."</th>";
+    }
+     $excelHtml .= "</tr>";
+
+
+    foreach($resWork as $key=>$value) { 
+        $_REQUEST['RWP_ID']=$value['RWP_ID'];
+        $excelHtml .= "<tr>
+                <td>".$value['RWP_NM2']."</td>
+                <td>".$value['RWP_NM1']."</td>
+        ";
+        if($cStandard->getStandardExcel($_REQUEST) == HAVE_NO_DATA){
+            if($key == 0){
+                $excelHtml .= "<td rowspan='".count($resWork)."' colspan='".count($resCar)."'>저장된 데이터가 존재하지 않습니다.</td>";
+            }
+        }else {
+            foreach($cStandard->getStandardExcel($_REQUEST) as $item){
+        
+                $excelHtml .= "<td>".$item['NRP_RATIO']."</td>";
+                
+            }
+            
+        }
+        $excelHtml .= "</tr>";
+       
+    }
+    $excelHtml .= "</table>";
+
+    echo "<meta content=\"application/vnd.ms-excel;charset=UTF-8;\" name=\"Content-type\">";
+    echo $excelHtml ;
+?>

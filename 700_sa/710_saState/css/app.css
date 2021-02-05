@@ -1,0 +1,49 @@
+.nwt-search-form .search-glypicon{
+    position: relative;
+    top: 2px;
+    left: -20px;
+    width: 0;
+}
+
+
+.nwt-table th, td {
+	white-space: nowrap;
+}
+.nwt-table-top{
+    position: relative;
+}
+.nwt-table-top .table-top-etc{
+    position: absolute;
+    top: -2px;
+    left: 120px;
+}
+
+.nwt-table-top .table-top-etc .subtable-text{
+    margin-left: 30px;
+}
+
+.nwt-table-top .table-top-etc .extend{
+    padding-left: 30px;
+}
+
+
+.salestate-subtable{
+    margin-left: 130px;
+    width: 30%;
+    display: none;
+}
+/* .salestate-subtable .table tr th:last-child,
+.salestate-subtable .table tr td:last-child{
+    border-left : 3px double #aaa;
+} */
+
+.subtable-open{
+    display: block;
+}
+
+#table-hidden{
+    display: none;
+}
+#table-hidden1{
+    display: none;
+}

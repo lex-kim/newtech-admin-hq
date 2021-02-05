@@ -1,0 +1,112 @@
+<?php
+
+    header("Content-Type: application/vnd.ms-excel");
+    date_default_timezone_set('Asia/Seoul');
+
+    header("Content-Disposition: attachment; filename=".date("YmdH", time())."_사용부품관리.xls");
+    header("Content-Description:PHP4 Generated Data");
+
+    require $_SERVER['DOCUMENT_ROOT']."/common/common.php";	
+    require "class/clsUseComponent.php";
+
+    $data =  $clsUseComponent->getList($_REQUEST);
+
+    $result = $data[0];
+
+    $beforeId = '';
+    $stdPartsHtml = '';     
+    $usePartsHtml = '';     
+    $usePartsHtml_ = '';   
+    $partsArray = $clsUseComponent->getPartsType($_REQUEST);
+    $stdColspan = 0;
+    $excelHtml = "";
+
+    function getColspan($dataArray, $type){
+        $colspan = 0;
+        foreach($dataArray as $item) { 
+            if($type == $item['CCD_NM']){
+                $colspan++;
+            }     
+        }
+        return $colspan;
+    }
+
+    function getPartsInfo($dataArray){
+        $tdHtml = '';
+        foreach($dataArray as $iidx => $item) { 
+            $tdHtml .= "<td style='text-align:left;' name=".$index.">";
+            $tdHtml .= $item;
+            $tdHtml .= "</td>";
+        }
+       
+        return $tdHtml;
+    }
+
+
+    foreach($partsArray as $item) { 
+        if($beforeId != $item['CCD_NM']){
+            $stdPartsHtml .= "<td style='text-align:center;' colspan=".getColspan($partsArray , $item['CCD_NM']).">".$item['CCD_NM']."</td>";
+        }
+        $usePartsHtml .= "<th style='text-align:center;' name=USE_".$item['CPP_ORDER_NUM']."'>".$item['CPP_NM_SHORT']."</th>";
+        $usePartsHtml_ .= "<th style='text-align:center;' name=SUP_".$item['CPP_ORDER_NUM']."'>".$item['CPP_NM_SHORT']."</th>";
+        $stdColspan++;
+        $beforeId = $item['CCD_NM'];
+    }
+
+    $excelHtml .= "
+        <table border='1'>
+            <thead>
+                <tr class='active'>
+                    <th style='text-align:center;' rowspan='3'>순번</th>
+                    <th style='text-align:center;' rowspan='3'>구분</th>
+                    <th style='text-align:center;' rowspan='3'>지역</th>
+                    <th style='text-align:center;' rowspan='3'>공업사</th>
+                    <th style='text-align:center;' rowspan='3'>사업자번호</th>
+                    <th style='text-align:center;' rowspan='3'>개시일</th>
+                    <th style='text-align:center;' rowspan='3'>종료일</th>
+                    <th style='text-align:center;' rowspan='3'>당월청구건</th>
+                    <th style='text-align:center;' rowspan='3'>당월청구금액</th>
+                    <th style='text-align:center;' rowspan='3'>재고금액</th>
+                    <th style='text-align:center;' colspan='".$stdColspan."' >사용부품</th>
+                    <th style='text-align:center;' colspan='".$stdColspan."' >공급부품</th>
+                    <th style='text-align:center;' colspan='2' rowspan='2'>협력업체</th>
+                </tr>
+                <tr>
+                       ".$stdPartsHtml.$stdPartsHtml."
+                </tr>
+                <tr>
+                        ".$usePartsHtml.$usePartsHtml."<th style='text-align:center;'>보험사</th><th style='text-align:center;'>제조사</th>
+                </tr>
+            </thead>
+    ";
+
+    if(!empty($result)){
+        foreach($result as $index => $item) { 
+            $excelHtml .= "<tr>
+                    <td style='text-align:center;'>".$item['IDX']."</td>
+                    <td style='text-align:center;'>".$item['CSD_NM']."</td>
+                    <td style='text-align:left;'>".$item['CRR_NM']."</td>
+                    <td style='text-align:left;'>".$item['MGG_NM']."</td>
+                    <td style='text-align:center;'>".cUtil::biz_format($item['MGG_BIZ_ID'])."</td>
+                    <td style='text-align:center;'>".$item['MGG_BIZ_START_DT']."</td>
+                    <td style='text-align:center;'>".$item['MGG_BIZ_END_DT']."</td>
+                    <td style='text-align:right;'>".$item['CLAIM_CNT']."</td>
+                    <td style='text-align:right;'>".cUtil::nullChk($item['CLAIM_PRICE'],'0')."</td>
+                    <td style='text-align:right;'>".cUtil::nullChk($item['STOCK_PRICE'],'0')."</td>
+                    ".getPartsInfo($item['USE_PARTS_ARRAY'])."
+                    ".getPartsInfo($item['SUPP_PARTS_ARRAY'])."
+                    <td style='text-align:left;'>".$item['MGG_INSU_MEMO']."</td>
+                    <td style='text-align:left;'>".$item['MGG_MANUFACTURE_MEMO']."</td>
+                </tr>
+            ";
+        }
+    }else{
+        $excelHtml .= "<td style='text-align:center;' colspan='7'>조회한 데이터가 존재하지 않습니다.</td>";
+    }
+  
+    $excelHtml .= "</table>";
+
+    echo "<meta content=\"application/vnd.ms-excel;charset=UTF-8;\" name=\"Content-type\">";
+    echo $excelHtml ;
+
+?>

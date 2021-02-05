@@ -1,0 +1,313 @@
+<div class="modal-body"> 
+    <!-- 공업사담당 -->
+    <div class="gw-info">
+      <h5 class="modal-title" style="margin-bottom: 15px;">주문정보</h5>  
+
+       <!-- 주문번호 -->
+        <div class="row">
+          <div class="col-md-1"><label for="ORDER_NUM">주문번호</label></div>
+          <div class="col-md-2">
+            <input type="text" class="form-control insuCharge" id="ORDER_NUM" name="ORDER_NUM" placeholder="입력">
+          </div>
+        </div>
+
+        <!-- 배송지정보 -->
+        <div class="row">
+          <div class="col-md-1"><label for="DELIVERY">배송지정보</label></div>
+          <div class="form-inline col-md-8">
+            <label class="radio-inline" for="delivery-recent"><input type="radio" name="DELIVERY" id="delivery-recent" checked value="NOPOINT">최근사용</label>
+            <label class="radio-inline" for="delivery-biz-info"><input type="radio" name="DELIVERY" id="delivery-biz-info" value="POINT">사업자정보</label>
+            <label class="radio-inline" for="delivery-new"><input type="radio" name="DELIVERY" id="delivery-new" value="NEW">새로입력</label>
+          </div>
+        </div>
+
+        <!-- 성명 -->
+        <div class="row">
+        <div class="col-md-1"><label for="ORDER_NM">성명</label></div>
+        <div class="col-md-2">
+          <input type="text" class="form-control insuCharge" id="ORDER_NM" name="ORDER_NM" placeholder="입력">
+        </div>
+        </div>
+
+         <!-- 주소 -->
+        <div class="row">
+          <div class="col-md-1"><label for="ORDER_ADDRESS">주소</label></div>
+          <div class="col-md-2">
+            <input type="text" class="form-control" id="ORDER_ZIP" name="ORDER_ZIP" readonly >
+          </div>
+          <button type="button" class="btn btn-default" onclick="execNewPostCode('MIT')">주소검색</button>
+        </div>
+        <div class="row">  
+          <div class="col-md-1"><label for="ORDER_ADDRESS1"></label></div>
+          <div class="col-md-5">
+            <input type="text" class="form-control" id="ORDER_ADDRESS1_AES" name="ORDER_ADDRESS1_AES" readonly>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-1"><label for="ORDER_ADDRESS2"></label></div>
+          <div class="col-md-5">
+            <input type="text" class="form-control" id="ORDER_ADDRESS2_AES" name="ORDER_ADDRESS2_AES" placeholder="상세주소">
+          </div>
+        </div>
+
+        <!-- 휴대폰번호 -->
+        <div class="row">
+          <div class="col-md-1"><label for="ORDER_PHONE">휴대폰번호</label></div>
+          <div class="col-md-2">
+            <input type="text" class="form-control insuCharge" id="NIC_FAX_AES" name="NIC_FAX_AES" placeholder="입력">
+          </div>
+        </div>
+       
+
+       
+    </div>
+
+
+    <div class="borderTop"></div>   
+    
+    <h5 class="modal-title" style="margin-bottom: 15px;">주문상품</h5>
+
+      <div class="container-fluid row">
+        <table class="table table-bordered">
+          <thead>
+            <tr class="active">
+              <th class="text-center">순번</th>
+              <th class="text-center">매입구분</th>
+              <th class="text-center">매입처</th>
+              <th class="text-center">연락처<br>(대표번호전화)</th>
+              <th class="text-center">팩스번호</th>
+              <th class="text-center">담당자</th>
+              <th class="text-center">담당자휴대폰연락처</th>
+              <th class="text-center">품명</th>
+              <th class="text-center">규격</th>
+              <th class="text-center">단가</th>
+              <th class="text-center">수량</th>
+              <th class="text-center">공급가</th>
+              <th class="text-center">세액</th>
+              <th class="text-center">합계</th>
+              <th class="text-center">작성여부</th>
+              <th class="text-center">발주서<br>작성/조회</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="text-center">3</td>
+              <td class="text-center">본사</td>
+              <td class="text-center">뉴텍</td>
+              <td class="text-center">02-123-1234</td>
+              <td class="text-center">02-123-1235</td>
+              <td class="text-center">담당자</td>
+              <td class="text-center">010-1234-1235</td>
+              <td class="text-center">순정품 351</td>
+              <td class="text-center">351ml</td>
+              <td class="text-center">20,000</td>
+              <td class="text-center">10</td>
+              <td class="text-center">20,000</td>
+              <td class="text-center">2,000</td>
+              <td class="text-center">220,000</td>
+              <td class="text-center">작성여부</td>
+              <td class="text-center"></td>
+            </tr>
+            <tr>
+              <td class="text-center">3</td>
+              <td class="text-center">위탁</td>
+              <td class="text-center">뉴텍</td>
+              <td class="text-center">02-123-1234</td>
+              <td class="text-center">02-123-1235</td>
+              <td class="text-center">담당자</td>
+              <td class="text-center">010-1234-1235</td>
+              <td class="text-center">순정품 351</td>
+              <td class="text-center">351ml</td>
+              <td class="text-center">20,000</td>
+              <td class="text-center">10</td>
+              <td class="text-center">20,000</td>
+              <td class="text-center">2,000</td>
+              <td class="text-center">220,000</td>
+              <td class="text-center">작성여부</td>
+              <td class="text-center">
+                <button type="button" class="btn btn-default" id="add-new-btn" onclick="onClickConsigment()">작성</button>
+                <button type="button" class="btn btn-default" id="add-new-btn" onclick="onClickConsigment()">조회</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+     
+      <div class="borderTop"></div>   
+
+      <div class="payment_area">
+        <div class="payment_left">
+
+          <h5 class="modal-title" style="margin-bottom: 15px;">결제방법</h5>
+          <!-- 결제방법 -->
+          <div class="row">
+            <div class="col-md-2"><label for="PAYMENT">결제방법</label></div>
+            <div class="col-md-8">
+              <label class="radio-inline"><input type="radio" name="PAYMENT" checked value="CARD">신용카드</label>
+              <label class="radio-inline"><input type="radio" name="PAYMENT" value="BANK">계좌이체</label>
+            </div>
+          </div>
+          <!-- 배송지정보 -->
+          <div class="row">
+            <div class="col-md-2"><label for="EVIDENCE">지출증빙</label></div>
+            <div class="col-md-8">
+              <label class="radio-inline"><input type="radio" name="EVIDENCE" value="TAX">세금계산서 발행</label>
+              <label class="radio-inline"><input type="radio" name="EVIDENCE" value="CASH">현금영수증 발행</label>
+              <label class="radio-inline"><input type="radio" name="EVIDENCE" value="NOEVIDENCE">미발행</label>
+              <!-- <input type="text" class="form-control" name="END_DT_SEARCH" placeholder="세금계산서 입력"> -->
+              <table class="table table-bordered" id="EVIDENCE_CASH">
+                <colgroup>
+                  <col width="2%"/>
+                  <col width="8%"/>
+                </colgroup>
+                <tr>
+                  <td class="text-center active">구분</td>
+                  <td>
+                    <label class="radio-inline"><input type="radio" name="EVIDENCE_CASH" checked value="personal">개인</label>
+                    <label class="radio-inline"><input type="radio" name="EVIDENCE_CASH" value="ceo">사업자</label>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="text-center active" id="EVIDENCE_CASH_TITLE">핸드폰 번호</td>
+                  <td>
+                    <input type="text" class="form-control" name="EVIDENCE_CASH_PERSONAL" id="EVIDENCE_CASH_PERSONAL" placeholder="휴대폰번호 입력">
+                    <input type="text" class="form-control" name="EVIDENCE_CASH_CEO" id="EVIDENCE_CASH_CEO" placeholder="사업자번호 입력">
+                  </td>
+                </tr>
+              </table>
+              <div id="EVIDENCE_TAX" >
+                <table class="table table-bordered">
+                  <colgroup>
+                    <col width="2%"/>
+                    <col width="8%"/>
+                  </colgroup>
+                  <tr>
+                    <td class="text-center active">신청자 이름</td>
+                    <td>
+                      <input type="text" class="form-control" name="TAX_ORDER_NM" id="TAX_ORDER_NM" placeholder="입력">
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="text-center active">신청자 전화번호</td>
+                    <td>
+                      <input type="text" class="form-control" name="TAX_ORDER_PHONE" id="TAX_ORDER_PHONE" placeholder="- 없이 입력">
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="text-center active">신청자 이메일</td>
+                    <td>
+                      <input type="text" class="form-control" name="TAX_ORDER_EMAIL" id="TAX_ORDER_EMAIL" placeholder="입력">
+                    </td>
+                  </tr>
+                  <tr>
+                </table>
+                <table class="table table-bordered">
+                  <colgroup>
+                    <col width="2%"/>
+                    <col width="8%"/>
+                  </colgroup>
+                  <tr>
+                    <td class="text-center active">사업자 구분</td>
+                    <td>
+                      <input type="text" class="form-control" name="TAX_ORDER_BIZ" id="TAX_ORDER_BIZ" placeholder="입력">
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="text-center active">사업자등록번호</td>
+                    <td>
+                      <input type="text" class="form-control" name="TAX_ORDER_BIZ_NUM" id="TAX_ORDER_BIZ_NUM" placeholder="입력">
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="text-center active">상호(법인명)</td>
+                    <td>
+                      <input type="text" class="form-control" name="TAX_ORDER_BIZ_NM" id="TAX_ORDER_BIZ_NM" placeholder="입력">
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="text-center active">대표자명</td>
+                    <td>
+                      <input type="text" class="form-control" name="TAX_ORDER_BIZ_CEO_NM" id="TAX_ORDER_BIZ_CEO_NM" placeholder="입력">
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="text-center active">사업장 주소</td>
+                    <td>
+                      <input type="text" class="form-control" name="TAX_ORDER_BIZ_ADDRESS" id="TAX_ORDER_BIZ_ADDRESS" placeholder="입력">
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="text-center active">업태</td>
+                    <td>
+                      <input type="text" class="form-control" name="TAX_ORDER_BIZ_BIZ" id="TAX_ORDER_BIZ_BIZ" placeholder="입력">
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="text-center active">종목</td>
+                    <td>
+                      <input type="text" class="form-control" name="TAX_ORDER_BIZ_EVENT" id="TAX_ORDER_BIZ_EVENT" placeholder="입력">
+                    </td>
+                  </tr>
+                </table>
+              </div>
+              
+            </div>
+            
+          </div>
+
+        </div>
+        <div class="payment_right">
+          <h5 class="modal-title" style="margin-bottom: 15px;">결제금액</h5>
+            <div class="container-fluid row">
+              <table class="table table-bordered">
+                <colgroup>
+                  <col width="2%"/>
+                  <col width="8%"/>
+                </colgroup>
+                <tbody>
+                  <tr>
+                    <td class="text-center active">결제금액</td>
+                    <td class="text-right">66,000원</td>
+                  </tr>
+                  <tr>
+                    <td class="text-center active">배송비</td>
+                    <td class="text-right">2,500원</td>
+                  </tr>
+                  <tr>
+                    <td class="text-center active">할인금액</td>
+                    <td class="text-right">-3,000원</td>
+                  </tr>
+                  <tr>
+                    <td class="text-center active">포인트</td>
+                    <td class="text-right point-area">
+                      <div>사용가능 포인트 : 1000 P</div>
+                      <div>* ㅇㅇㅇ 이상부터 사용가능</div>
+                      <div class="point-input">
+                        <div>
+                          <input type="text" class="form-control text-right" placeholder="사용할 포인트">
+                        </div>
+                        <div>
+                          <span>P</span>
+                        </div>
+                      </div>
+                      
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="text-center active text-bold">최종결제금액</td>
+                    <td class="text-right text-bold">63,000원</td>
+                  </tr>
+                  <tr>
+                    <td class="text-center active">적립예정포인트</td>
+                    <td class="text-right">6,300 P</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+        </div>
+
+      </div>
+    
+    
+
+  </div>

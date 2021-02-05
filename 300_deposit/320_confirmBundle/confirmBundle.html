@@ -1,0 +1,80 @@
+<!-- header.html -->
+<?php
+  require $_SERVER['DOCUMENT_ROOT']."/include/header.html";
+?>
+
+
+  <!-- 페이지 카테고리 -->
+  <div class="container-fluid mb20px">
+    <h3 class="nwt-category"><small>입금관리&nbsp;&nbsp;></small>일괄 입금 확인</h3>
+  </div>
+
+  <!-- 테이블 상단 #perPage, btn 영역 -->
+  <div class="container-fluid nwt-table-top">
+    <div class="row">
+      
+      <!-- 리스트개수 -->
+      <?php	require $_SERVER['DOCUMENT_ROOT']."/include/listCnt.html"; ?>
+
+      <?php if($AUTH_CREATE == YN_Y) :?>
+      <!-- 테이블 우측 상단 btn -->
+      <div class="col-lg-6 clearfix" >
+        <form name="uploadForm" id="uploadForm" method="post" enctype="multipart/form-data">
+          <input type="hidden" name="REQ_MODE" id="REQ_MODE" />
+          <div class="form-inline f-right excel-down-btn">  
+              <div style="float: right; ">
+                <input id="UPLOAD_CONFIRM" name="UPLOAD_CONFIRM" type="file" class="form-control">
+                <button type="button" class="btn btn-success" onclick="upload()"><span class="glyphicon glyphicon-download-alt"></span>&nbsp;업로드</button>
+              </div>
+              <!-- 엑셀 다운로드 -->
+              <!-- <button type="button" class="btn btn-success" onclick="upload()"><span class="glyphicon glyphicon-download-alt"></span>&nbsp;업로드</button> -->
+              <!-- 엑셀파일 양식 다운로드 -->
+              <div class="excel-down-file ">
+                <div class="excel-down">
+                  * 아래 업로드파일 양식에 맞춰 <br>&nbsp;&nbsp;&nbsp;모든 서식을 제거한csv파일로 업로드 가능합니다.
+                  <a href="exampleCsv.html">
+                    <!-- <img src="/images/excelicon.png" alt=""> -->
+                    <div>* 업로드파일(CSV) 양식 다운로드</div>
+                  </a>
+                </div>
+              </div>
+              
+          </div>
+        </form>
+      </div>
+      <?php endif; ?>
+    </div>
+  </div>
+
+  <!-- 테이블 -->
+  <div class="container-fluid nwt-table" style="width: 100%;">
+    <table class="table table-bordered table-striped">
+      <thead>
+        <tr class="active">
+          <th class="text-center">순번</th>
+          <th class="text-center">업로드일시</th>
+          <th class="text-center">업로드</th>
+          <th class="text-center">처리</th>
+          <th class="text-center write-nm">이름(아이디)</th>
+        </tr>
+      </thead>
+      <tbody id="dataTable">
+      </tbody>
+    </table>
+  </div>
+
+  <!-- indicator -->
+  <?php	require $_SERVER['DOCUMENT_ROOT']."/include/indicator.html"; ?>
+  
+  <!-- pagination -->
+  <div class="container-fluid">
+    <div class="text-center">
+      <ul class="pagination">
+      </ul>
+    </div>
+  </div>
+
+<!-- footer.html -->
+<?php
+  require $_SERVER['DOCUMENT_ROOT']."/include/footer.html";
+?>

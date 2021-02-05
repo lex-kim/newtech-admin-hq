@@ -1,0 +1,42 @@
+<?php
+    header("Content-Type: application/vnd.ms-excel");
+    header( "Content-type: application/vnd.ms-excel; charset=utf-8");
+    date_default_timezone_set('Asia/Seoul');
+
+    header("Content-Disposition: attachment; filename=".date("Ymd_His", time())."_지역관리.xls");
+    header("Content-Description:PHP4 Generated Data");
+
+
+    require $_SERVER['DOCUMENT_ROOT']."/common/common.php";	
+    require "class/clsRegion.php";
+    
+    $result = $cRegion->getList($_REQUEST);
+
+    $excelHtml = "
+        <table border='1'>
+            <tr>
+                    <td>순번</td>
+                    <td>구분</td>
+                    <td>시도</td>
+                    <td>시군구</td>
+                    <td>읍면동</td>
+                    <td>거래업체수</td>
+            </tr>
+    ";
+
+    foreach($result[0] as $item) { 
+        $excelHtml .= "<tr>
+                <td>".$item['CSD_IDX']."</td>
+                <td>".$item['CSD_NM']."</td>
+                <td>".$item['CRR_1_NM']."</td>
+                <td>".$item['CRR_2_NM']."</td>
+                <td>".$item['CRR_3_NM']."</td>
+                <td>".$item['CO_CNT']."</td>
+            </tr>
+        ";
+    }
+    $excelHtml .= "</table>";
+
+    echo "<meta content=\"application/vnd.ms-excel;charset=UTF-8;\" name=\"Content-type\">";
+    echo $excelHtml ;
+?>

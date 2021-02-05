@@ -1,0 +1,77 @@
+<?php
+
+    header("Content-Type: application/vnd.ms-excel");
+    date_default_timezone_set('Asia/Seoul');
+
+    header("Content-Disposition: attachment; filename=".date("YmdH", time())."_위탁장비_입출고관리.xls");
+    header("Content-Description: Newtech System");
+
+    require $_SERVER['DOCUMENT_ROOT']."/common/common.php";	
+    require "class/clsReceipt.php";
+
+    $data =  $cReceipt->getList($_REQUEST);
+
+    $result = $data[0];
+
+    $excelHtml = "
+        <table border='1'>
+            <thead>
+                <tr>
+                    <th style='text-align:center;'>순번</th>
+                    <th style='text-align:center;'>구분</th>
+                    <th style='text-align:center;'>지역</th>
+                    <th style='text-align:center;'>공업사</th>
+                    <th style='text-align:center;'>영업담당</th>
+                    <th style='text-align:center;'>거래여부</th>
+                    <th style='text-align:center;'>개시일</th>
+                    <th style='text-align:center;'>종료일</th>
+                    <th style='text-align:center;'>입고일</th>
+                    <th style='text-align:center;'>장비구분</th>
+                    <th style='text-align:center;'>장비명</th>
+                    <th style='text-align:center;'>장비번호</th>
+                    <th style='text-align:center;'>관리번호</th>
+                    <th style='text-align:center;'>제조사</th>
+                    <th style='text-align:center;'>판매단가</th>
+                    <th style='text-align:center;'>상태</th>
+                    <th style='text-align:center;'>변동일</th>
+                    <th style='text-align:center;'>장소</th>
+                    <th style='text-align:center;'>메모</th>
+                    <th style='text-align:center;'>등록자</th>
+                    <th style='text-align:center;'>갱신일</th>
+                </tr>
+            </thead>
+    ";
+
+    foreach($result as $item) { 
+        $excelHtml .= "
+            <tr>
+                <td style='text-align:center;'>".$item['IDX']."</td>
+                <td style='text-align:center;'>".cUtil::nullChk($item['CSD_NM'],'-')."</td>
+                <td style='text-align:left;'>".cUtil::nullChk($item['CRR_NM'],'-')."</td>
+                <td style='text-align:left;'>".cUtil::nullChk($item['MGG_NM'],'-')."</td>
+                <td style='text-align:center;'>".cUtil::nullChk($item['AUU_NM'],'-')."</td>
+                <td style='text-align:center;'>".cUtil::nullChk($item['RCT_NM'],'-')."</td>
+                <td style='text-align:center;'>".cUtil::nullChk($item['MGG_BIZ_START_DT'],'-')."</td>
+                <td style='text-align:center;'>".cUtil::nullChk($item['MGG_BIZ_END_DT'],'-')."</td>
+                <td style='text-align:center;'>".$item['NCPD_STOCK_DT']."</td>
+                <td style='text-align:left;'>".$item['NCC_NM']."</td>
+                <td style='text-align:left;'>".$item['NCP_NM']."</td>
+                <td style='text-align:center;mso-number-format:\@;'>".$item['NCP_ID']."</td>
+                <td style='text-align:center;mso-number-format:\@;'>".$item['NCPD_ID']."</td>
+                <td style='text-align:left;'>".$item['NCP_MANUFACTURER']."</td>
+                <td style='text-align:right;'>".$item['NCP_PRICE']."</td>
+                <td style='text-align:center;'>".cUtil::nullChk($item['RCS_NM'],'-')."</td>
+                <td style='text-align:center;'>".cUtil::nullChk($item['NCPD_CHANGE_DT'],'-')."</td>
+                <td style='text-align:center;'>".cUtil::nullChk($item['RCP_NM'],'-')."</td>
+                <td style='text-align:left;'>".cUtil::nullChk($item['NCPD_MEMO_TXT'],'')."</td>
+                <td style='text-align:left;'>".($item['WRT_USERID'] == null ? '-' : $item['WRT_USER_NM'].'('.$item['WRT_USERID'].')')."</td>
+                <td style='text-align:center;'>".$item['LAST_DTHMS']."</td>
+            </tr>
+        ";
+    }
+    $excelHtml .= "</table>";
+
+    echo "<meta content=\"application/vnd.ms-excel;charset=UTF-8;\" name=\"Content-type\">";
+    echo $excelHtml ;
+
+?>

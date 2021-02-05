@@ -1,0 +1,137 @@
+<!-- header.html -->
+<?php
+  require $_SERVER['DOCUMENT_ROOT']."/include/header.html";
+?>
+
+
+  <!-- 페이지 카테고리 -->
+  <div class="container-fluid mb20px">
+    <h3 class="nwt-category">주소록</h3>
+  </div>
+
+
+  <!-- 검색바(폼) 시작 -->
+  <div class="container-fluid nwt-search-form">
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <form class="form-inline" id="searchForm" name="searchForm">
+              <legend>조건검색</legend>
+
+              <!-- 검색버튼 제외한 폼 wrap -->
+              <div class="frm-wrap">
+                <!-- 1st row -->
+                <div class="row">
+                  <!-- 성명 -->
+                  <div class="col-md-1">
+                    <label for="NAA_NM_SEARCH" class="sr-only">성명</label>
+                    <input type="text" class="form-control" name="NAA_NM_SEARCH" id="NAA_NM_SEARCH" placeholder="성명 입력">                            
+                  </div>
+
+                  <!-- 연락처 -->
+                  <div class="col-md-1">
+                    <label for="NAA_PHONE_SEARCH" class="sr-only">연락처</label>
+                    <input type="text" class="form-control" name="NAA_PHONE_SEARCH" id="NAA_PHONE_SEARCH" placeholder="연락처 입력">                            
+                  </div>
+
+                  <!-- 공업사 -->
+                  <div class="col-md-2">
+                    <label for="NAA_CPY_SEARCH" class="sr-only">공업사</label>
+                    <input type="text" class="form-control" name="NAA_CPY_SEARCH" id="NAA_CPY_SEARCH" placeholder="공업사 입력">                            
+                  </div>
+
+                  <!-- 역할 -->
+                  <div class="col-md-1">
+                    <label for="NAA_ROLE_SEARCH" class="sr-only">역할</label>
+                    <input type="text" class="form-control" name="NAA_ROLE_SEARCH" id="NAA_ROLE_SEARCH" placeholder="역할 입력">                            
+                  </div>
+
+                </div>
+              </div> 
+
+              <!-- 검색버튼 wrap -->
+              <div class="frm-search-wrap">
+                <!-- 검색btn -->
+                <div class="row">
+                    <div class="col-md-12 text-right">
+                      <button type="submit" class="btn btn-primary" id="frmSearch"><span class="glyphicon glyphicon-search"></span>&nbsp;검색</button>
+                 
+                    </div>
+                </div> 
+              </div>
+            </form>
+        </div>
+    </div>
+  </div>
+  <!-- 검색바(폼) 끝 -->
+
+
+
+ 
+  <!-- 테이블 상단 #perPage, btn 영역 -->
+  <div class="container-fluid nwt-table-top mb20r">
+    <div class="row">
+      
+      <!-- 리스트개수 -->
+      <?php	require $_SERVER['DOCUMENT_ROOT']."/include/listCnt.html"; ?>
+      
+      <!-- 테이블 우측 상단 btn -->
+      <div class="col-lg-6 clearfix">
+        <div class="form-inline f-right">
+
+          <!-- 엑셀 다운로드 -->
+          <?php if($AUTH_EXCEL == YN_Y) :?>
+          <button type="button" class="btn btn-success" onclick="excelDownload()"><span class="glyphicon glyphicon-download-alt"></span>&nbsp;엑셀 다운로드</button>
+          <?php endif; ?>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+
+  <!-- 테이블 -->
+  <div class="container-fluid nwt-table" style="width: 100%;"> <!--overflow-x: scroll;-->
+    <table class="table table-bordered table-striped">
+      <colgroup>
+        <col width="1%"/>
+        <col width="5%"/>
+        <col width="5%"/>
+        <col width="5%"/>
+        <col width="5%"/>
+        <col width="3%"/>
+        <col width="3%"/>
+      </colgroup>
+      <thead>
+        <tr class="active">
+          <th class="text-center">순번</th>
+          <th class="text-center">성명</th>
+          <th class="text-center">연락처</th>
+          <th class="text-center">소속공업사</th>
+          <th class="text-center">역할</th>
+          <th class="text-center">갱신일시</th>
+          <th class="text-center">최초등록일시</th>
+        </tr>
+      </thead>
+      <tbody id="dataTable">
+      </tbody>
+    </table>
+  </div>
+
+  <?php	require $_SERVER['DOCUMENT_ROOT']."/include/indicator.html"; ?>
+
+
+  <!-- pagination -->
+  <div class="container-fluid">
+    <div class="text-center">
+      <ul class="pagination">
+
+      </ul>
+    </div>
+  </div>
+
+
+<!-- footer.html -->
+<?php
+  require $_SERVER['DOCUMENT_ROOT']."/include/footer.html";
+?>

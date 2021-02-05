@@ -1,0 +1,95 @@
+<?php
+
+    header("Content-Type: application/vnd.ms-excel");
+    date_default_timezone_set('Asia/Seoul');
+
+    header("Content-Disposition: attachment; filename=".date("YmdH", time())."_지급제외관리.xls");
+    header("Content-Description: NewtechSystem");
+
+    require $_SERVER['DOCUMENT_ROOT']."/common/common.php";	
+    require "class/clsExceptMngt.php";
+
+    $data =  $cExcept->getList($_REQUEST);
+
+    $result = $data[0];
+
+
+    $excelHtml = "
+        <table border='1'>
+            <thead>
+                <tr >
+                    <th class='text-center'>순번</th>
+                    <th class='text-center'>공업사<br>고유코드</th>
+                    <th class='text-center'>청구일자</th>
+                    <th class='text-center'>보험사</th>
+                    <th class='text-center'>보험사팀</th>
+                    <th class='text-center'>보상담당</th>
+                    <th class='text-center'>휴대폰번호</th>
+                    <th class='text-center'>구분</th>
+                    <th class='text-center'>지역</th>
+                    <th class='text-center'>공업사</th>
+                    <th class='text-center'>사업자번호</th>
+                    <th class='text-center'>청구식</th>
+                    <th class='text-center'>접수번호</th>
+                    <th class='text-center'>담보</th>
+                    <th class='text-center'>차량번호</th>
+                    <th class='text-center'>차량명</th>
+                    <th class='text-center'>청구금액</th>
+                    <th class='text-center'>사유입력일</th>
+                    <th class='text-center'>사유입력(주체)</th>
+                    <th class='text-center'>지급제외<br>사유상세</th>
+                    <th class='text-center'>사유처리일</th>
+                    <th class='text-center'>사유처리자<br>(주체)</th>
+                    <th class='text-center'>본사<br>기타메모</th>
+                    <th class='text-center'>보험사<br>기타메모</th>
+                    <th class='text-center'>전송여부</th>
+                    <th class='text-center'>입금일</th>
+                    <th class='text-center'>입금여부</th>
+                </tr>
+            </thead>
+    ";
+
+    foreach($result as $item) { 
+       
+          if($item['NBI_INSU_DEPOSIT_YN'] == YN_Y){
+            $item['NBI_INSU_DEPOSIT_YN'] = "입금";
+          }else {
+            $item['NBI_INSU_DEPOSIT_YN'] = "미입금";
+          }
+        $excelHtml .= "
+            <tr>
+              <td style='text-align:center;'>".$item['IDX']."</td>
+              <td style='text-align:center;'>".$item['MGG_ID']."</td>
+              <td style='text-align:center;'>".$item['NB_CLAIM_DT']."</td>
+              <td style='text-align:left;'>".$item['MII_NM']."</td>
+              <td style='text-align:center;'>".cUtil::nullChk($item['MIT_NM'],'-')."</td>
+              <td style='text-align:left;'>".$item['NIC_NM']."</td>
+              <td style='text-align:center;mso-number-format:\@;'>".($item['NIC_TEL1_AES'] != null ? cUtil::phone_format($item['NIC_TEL1_AES']) : '-' )."</td>
+              <td style='text-align:center;'>".$item['CSD_NM']."</td>
+              <td style='text-align:left;'>".$item['CRR_NM']."</td>
+              <td style='text-align:left;'>".$item['MGG_NM']."</td>
+              <td style='text-align:center;mso-number-format:\@;'>".cUtil::biz_format($item['MGG_BIZ_ID'])."</td>
+              <td style='text-align:center;'>".$item['RET_NM']."</td>
+              <td style='text-align:center;mso-number-format:\@;'>".$item['NBI_REGI_NUM']."</td>
+              <td style='text-align:center;'>".$item['RLT_NM']."</td>
+              <td style='text-align:center;mso-number-format:\@;'>".$item['NB_CAR_NUM']."</td>
+              <td style='text-align:center;'>".$item['CCC_NM']."</td>
+              <td style='text-align:right;mso-number-format:\#\,\#\#0\;'>".$item['NB_TOTAL_PRICE']."</td>
+              <td style='text-align:center'>".cUtil::nullChk($item['NBI_REASON_DT'],'-')."</td>              
+              <td style='text-align:center;'>".cUtil::nullChk($item['REASON_RMT_NM'],'-')."</td>
+              <td style='text-align:left;'>".cUtil::nullChk($item['NBI_REASON_DTL_NM'],'-')."</td>
+              <td style='text-align:center'>".cUtil::nullChk($item['NBI_PROC_REASON_DT'],'-')."</td>
+              <td style='text-align:center;'>".($item['NBI_PROC_USERID'] != null ? $item['NBI_PROC_NM']."(".$item['NBI_PROC_USERID'].")": "-")."</td>
+              <td style='text-align:center;'>".cUtil::nullChk($item['HQ_MEMO'],'-')."</td>
+              <td style='text-align:center;'>".cUtil::nullChk($item['IW_MEMO'],'-')."</td>
+              <td style='text-align:center;'>".$item['RFS_NM']."</td>
+              <td style='text-align:center'>".cUtil::nullChk($item['NBI_INSU_DEPOSIT_DT'],'-')."</td>
+              <td style='text-align:center;'>".$item['NBI_INSU_DEPOSIT_YN']."</td>
+            </tr>       ";
+    }
+    $excelHtml .= "</table>";
+
+    echo "<meta content=\"application/vnd.ms-excel;charset=UTF-8;\" name=\"Content-type\">";
+    echo $excelHtml ;
+
+?>

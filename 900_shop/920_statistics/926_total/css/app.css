@@ -1,0 +1,15 @@
+
+/* modal CSS */
+.modal-dialog{
+    width: 500px;
+}
+
+#add-new .update-dthms{
+    position: relative;
+}
+#add-new .update-dthms .search-glypicon{
+    position: absolute;
+    top: 9px;
+    right: 25px;
+}
+

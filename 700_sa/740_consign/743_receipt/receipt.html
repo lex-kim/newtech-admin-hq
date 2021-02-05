@@ -1,0 +1,238 @@
+<!-- header.html -->
+<?php
+  require $_SERVER['DOCUMENT_ROOT']."/include/header.html";
+?>
+
+  <script src="/js/consignOption.js"></script>
+  <!-- 페이지 카테고리 -->
+  <div class="container-fluid mb20px">
+    <h3 class="nwt-category"><small>영업관리&nbsp;&nbsp;>&nbsp;&nbsp;위탁장비관리&nbsp;&nbsp;>&nbsp;</small>위탁장비 입출고관리</h3>
+  </div>
+  
+  <!-- 검색바(폼) 시작 -->
+  <div class="container-fluid nwt-search-form">
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <form class="form-inline" id="searchForm">
+                <fieldset>
+                    <legend>조건검색</legend>
+
+                    <!-- 검색버튼 제외한 폼 wrap -->
+                    <div class="frm-wrap">
+                        <!-- 1st row -->
+                        <div class="row frm-last-row">
+                          <!-- 기간 -->
+                          <div class="col-md-2 frmGroup3">
+                            <label for="START_DT" class="sr-only">기간</label>
+                            <!-- 기간선택 -->
+                            <select class="form-control input-md" id="DT_KEY_SEARCH" name="DT_KEY_SEARCH">
+                              <option value="">=기간=</option>
+                              <option value="NCPD_STOCK_DT">입고일</option>
+                              <option value="NCPD_CHANGE_DT">변동일</option>
+                            </select>
+                            <!-- 날짜선택 -->
+                            <input type="text" class="form-control calenderInput" name="START_DT_SEARCH" id="START_DT_SEARCH" placeholder="yyyy-mm-dd" autocomplete="off" maxlength="10">
+                            <span class="glyphicon glyphicon-calendar search-glypicon"></span>
+                            <label for="END_DT_SEARCH" class="nwt-form-label">~</label>                            
+                            <input type="text" class="form-control calenderInput" name="END_DT_SEARCH" id="END_DT_SEARCH" placeholder="yyyy-mm-dd" autocomplete="off" maxlength="10">
+                            <span class="glyphicon glyphicon-calendar search-glypicon"></span>                            
+                          </div>
+
+                          <!-- 구분 -->
+                          <div class="col-md-1">
+                            <label for="CSD_ID_SEARCH" class="sr-only">구분</label>
+                            <select id="CSD_ID_SEARCH"  name="CSD_ID_SEARCH[]" 
+                                    data-style="btn-default" title="=구분="
+                                    class="form-control selectpicker" multiple
+                                    data-live-search="true" data-live-search-placeholder="Search" >
+                            </select>                             
+                          </div>
+
+                          <!-- 지역 -->
+                          <div class="col-md-2">
+                              <label for="CRR_ID_SEARCH" class="sr-only mr10r">지역검색</label>
+                              <select id="CRR_ID_SEARCH"  name="CRR_ID_SEARCH[]" 
+                                        data-style="btn-default" title="지역검색(띄어쓰기로 시/도, 시/군/구 구분)"
+                                        class="form-control selectpicker" multiple
+                                        data-live-search="true" data-live-search-placeholder="Search" >
+                              </select>                          
+                          </div>
+                      
+
+                          <!-- 공업사 -->
+                          <div class="col-md-1">
+                              <label for="MGG_NM_SEARCH" class="sr-only">공업사명</label>
+                              <select  name="MGG_NM_SEARCH" id="MGG_NM_SEARCH" 
+                                      data-style="btn-default" title="=공업사명="
+                                      class="form-control selectpicker" 
+                                      data-live-search="true" data-live-search-placeholder="Search">   
+                              </select>                         
+                          </div>
+
+                          <!-- 영업담당 입력,키워드 -->
+                          <div class="col-md-1">
+                            <label for="WRT_USERID_SEARCH" class="sr-only">영업담당</label>
+                            <input type="text" class="form-control" name="WRT_USERID_SEARCH" id="WRT_USERID_SEARCH" 
+                                 placeholder="영업담당 입력">
+                          </div>
+
+                          <!-- 거래여부 -->
+                          <div class="col-md-1">
+                            <label for="RCT_ID_SEARCH" class="sr-only">거래여부</label>
+                            <select class="form-control" id="RCT_ID_SEARCH" name="RCT_ID_SEARCH">
+                              <option value="">=거래여부=</option>
+                            </select>                            
+                          </div>
+
+                          <!-- 장비구분 선택 -->
+                          <div class="col-md-1">
+                            <label for="NCC_ID_SEARCH" class="sr-only">장비구분</label>
+                            <select class="form-control" name="NCC_ID_SEARCH" id="NCC_ID_SEARCH">
+                              <option value="">=장비구분=</option>
+                            </select>
+                          </div>
+
+                          <!-- 장비명 직접입력 -->
+                          <div class="col-md-1">
+                            <label for="NCP_NM_SEARCH" class="sr-only">장비명</label>
+                              <select id="NCP_NM_SEARCH" name="NCP_NM_SEARCH"
+                              data-style="btn-default" title="=장비="
+                              class="form-control selectpicker" 
+                              data-live-search="true" data-live-search-placeholder="Search">
+                            </select>
+                          </div>
+
+                          <!-- 상태 미선택/공급/회수/분실/폐기 -->
+                          <div class="col-md-1">
+                            <label for="RCS_ID_SEARCH" class="sr-only">상태</label>
+                            <select class="form-control" name="RCS_ID_SEARCH" id="RCS_ID_SEARCH">
+                              <option value="">=상태=</option>
+                            </select>
+                          </div>
+
+                          <!-- 장소 창고/차량/공업사 -->
+                          <div class="col-md-1">
+                            <label for="RCP_ID_SEARCH" class="sr-only">장소</label>
+                            <select class="form-control" name="RCP_ID_SEARCH" id="RCP_ID_SEARCH">
+                              <option value="">=장소=</option>
+                            </select>
+                          </div>
+
+
+                        </div>
+
+                       
+                      </div> 
+
+                      <!-- 검색버튼 wrap -->
+                      <div class="frm-search-wrap">
+                        <!-- 검색btn -->
+                        <div class="row">
+                            <div class="col-md-12 text-right">
+                              <button type="submit" class="btn btn-primary" style="margin-top: -10px">
+                                <span class="glyphicon glyphicon-search"></span>&nbsp;검색
+                              </button>
+                            </div>
+                        </div> 
+                      </div>
+
+                </fieldset>
+            </form>
+        </div>
+    </div>
+  </div>
+  <!-- 검색바(폼) 끝 -->
+
+  <!-- 테이블 상단 #perPage, btn 영역 -->
+  <div class="container-fluid nwt-table-top mb20r">
+    <div class="row">
+      
+      <!-- 리스트개수 -->
+      <?php	require $_SERVER['DOCUMENT_ROOT']."/include/listCnt.html"; ?>
+      
+      <!-- 테이블 우측 상단 btn -->
+      <div class="col-lg-6 clearfix">
+        <div class="form-inline f-right">
+          <?php if($AUTH_EXCEL == YN_Y) :?>
+          <!-- 엑셀다운로드 -->
+          <button type="button" class="btn btn-success" onclick="excelDownload();"><span class="glyphicon glyphicon-download-alt"></span>&nbsp;엑셀 다운로드</button>
+          <?php endif; ?>
+          <!-- 등록btn / modal handler -->
+          <?php if($AUTH_CREATE == YN_Y) :?>
+          <button type="button" class="btn btn-default" onclick="openPopup()">일괄수정</button>
+          <?php endif; ?>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <?php	require $_SERVER['DOCUMENT_ROOT']."/include/indicator.html"; ?>
+
+
+  <!-- 테이블 -->
+  <div class="container-fluid nwt-table" style="width: 100%;"> <!--overflow-x: scroll;-->
+    <table class="table table-bordered">
+      <thead>
+        <tr class="active">
+            <th class="text-center" style="width:45px;">선택<br><input type="checkbox" id="allcheck" class="listcheck"></th>
+            <th class="text-center">순번</th>
+            <th class="text-center">구분</th>
+            <th class="text-center">지역</th>
+            <th class="text-center">공업사</th>
+            <th class="text-center">영업담당</th>
+            <th class="text-center">거래여부</th>
+            <th class="text-center">개시일</th>
+            <th class="text-center">종료일</th>
+            <th class="text-center">입고일</th>
+            <th class="text-center">장비구분</th>
+            <th class="text-center  table-array">장비명
+              <div class="arrayicon">
+                <span class="glyphicon glyphicon-chevron-up" onclick="getList(undefined, 'ASC', 'NCP.NCP_NM')"></span>
+                <span class="glyphicon glyphicon-chevron-down" onclick="getList(undefined, 'DESC', 'NCP.NCP_NM')"></span>
+              </div>
+            </th>
+            <th class="text-center">장비번호</th>
+            <th class="text-center">관리번호</th>
+            <th class="text-center">제조사</th>
+            <th class="text-center">판매단가</th>
+            <th class="text-center">상태</th>
+            <th class="text-center  table-array">변동일
+              <div class="arrayicon">
+                <span class="glyphicon glyphicon-chevron-up" onclick="getList(undefined, 'ASC', 'NCPD.NCPD_CHANGE_DT')"></span>
+                <span class="glyphicon glyphicon-chevron-down" onclick="getList(undefined, 'DESC', 'NCPD.NCPD_CHANGE_DT')"></span>
+              </div>
+            </th>
+            <th class="text-center">장소</th>
+            <th class="text-center">메모</th>
+            <th class="text-center">등록자</th>
+            <th class="text-center">갱신일</th>
+            <?php if($AUTH_UPDATE == YN_Y) :?>
+            <th class="text-center">수정</th>
+            <input type="hidden" class="form-control" name="AUTH_UPDATE" id="AUTH_UPDATE" value="<?php echo $AUTH_UPDATE; ?>">
+            <?php endif; ?>
+        </tr>
+      </thead>
+      <tbody id="dataTable">
+
+      </tbody>
+    </table>
+  </div>
+
+  <!-- pagination -->
+  <div class="container-fluid">
+    <div class="text-center">
+      <ul class="pagination">
+
+      </ul>
+    </div>
+  </div>
+  
+
+  <form id="sendForm" name="sendForm">
+  </form>
+
+<!-- footer.html -->
+<?php
+  require $_SERVER['DOCUMENT_ROOT']."/include/footer.html";
+?>

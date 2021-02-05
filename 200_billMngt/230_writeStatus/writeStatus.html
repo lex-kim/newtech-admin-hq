@@ -1,0 +1,181 @@
+<!-- header.html -->
+<?php
+  require $_SERVER['DOCUMENT_ROOT']."/include/header.html";
+?>
+
+<script src="js/setSelectOption.js"></script>
+<script src="js/setData.js"></script>
+<script src="js/setTable.js"></script>
+
+  <!-- 페이지 카테고리 -->
+  <div class="container-fluid mb20px">
+    <h3 class="nwt-category"><small>청구서관리&nbsp;&nbsp;></small>청구서 작성 현황</h3>
+  </div>
+
+
+  <!-- 검색바(폼) 시작 -->
+  <div class="container-fluid nwt-search-form">
+    <div class="panel panel-default">
+      <div class="panel-body">
+        <form class="form-inline" id="searchForm">
+          <fieldset>
+            <legend>조건검색</legend>
+
+            <!-- 검색버튼 제외한 폼 wrap -->
+            <div class="frm-wrap">
+              <!-- 1st row -->
+              <div class="row">
+                
+                <div class="col-md-2 frmGroup2">
+                  <label for="START_DT" class="sr-only">기간</label>
+                  <input type="text" class="form-control calenderInput" name="START_DT" id="START_DT" autocomplete="off" placeholder="yyyy-mm-dd">
+                  <span class="glyphicon glyphicon-calendar search-glypicon"></span>
+                  <label for="END_DT" class="nwt-form-label">~</label>                            
+                  <input type="text" class="form-control calenderInput" name="END_DT" id="END_DT" autocomplete="off" placeholder="yyyy-mm-dd">
+                  <span class="glyphicon glyphicon-calendar search-glypicon"></span>                            
+                </div>
+
+                <!-- 해당년 -->
+                <div class="col-md-1">
+                  <label for="CLAIM_YEAR" class="sr-only">해당년</label>
+                  <select class="form-control" id="CLAIM_YEAR" name="CLAIM_YEAR" onchange="onchangeYEAR();">
+                    <option value="">=해당년=</option>
+                  </select>                            
+                </div>
+
+                <!-- 해당월 -->
+                <div class="col-md-1">
+                  <label for="CLAIM_MONTH" class="sr-only">해당월</label>
+                  <select class="form-control" id="CLAIM_MONTH" name="CLAIM_MONTH" onchange="onchangeMONTH();">
+                    <option value="">=해당월=</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                    <option value="9">9</option>
+                    <option value="10">10</option>
+                    <option value="11">11</option>
+                    <option value="12">12</option>
+                  </select>                            
+                </div>
+                <div class="col-md-2">
+                  <label class="radio-inline"><input type="radio" name="DATE_FORMAT_SEARCH" checked value="DAY">일별</label>
+                  <label class="radio-inline"><input type="radio" name="DATE_FORMAT_SEARCH" value="MONTH">월별</label>
+                </div>
+
+              </div>
+            </div> 
+
+            <!-- 검색버튼 wrap -->
+            <div class="frm-search-wrap">
+              <!-- 검색btn -->
+              <div class="row">
+                <div class="col-md-12 text-right">
+                  <button type="submit" class="btn btn-primary" id="frmSearch" style="margin-top: -10px"><span class="glyphicon glyphicon-search"></span>&nbsp;검색</button>
+                </div>
+              </div> 
+            </div>
+
+          </fieldset>
+        </form>
+      </div>
+    </div>
+  </div>
+  <!-- 검색바(폼) 끝 -->
+
+
+  <!-- 테이블 상단 #perPage, btn 영역 -->
+  <div class="container-fluid nwt-table-top mb20r">
+    <div class="row">
+      
+      <!-- 리스트개수 -->
+      <?php	require $_SERVER['DOCUMENT_ROOT']."/include/listCnt.html"; ?>
+      
+      <!-- 테이블 우측 상단 btn -->
+      <div class="col-lg-6 clearfix">
+        <div class="form-inline f-right">
+          <?php if($AUTH_EXCEL == YN_Y) :?>
+          <!-- 엑셀 다운로드 -->
+          <button type="button" class="btn btn-success" onclick="excelDownload();"><span class="glyphicon glyphicon-download-alt"></span>&nbsp;엑셀 다운로드</button>
+          <?php endif; ?>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+
+  <!-- 테이블 -->
+  <div class="container-fluid nwt-table" style="width: 100%;">
+    <table class="table table-bordered table-striped">
+      <thead>
+        <tr class="active">
+          <th class="text-center" rowspan="2">청구일자</th>
+          <th class="text-center" colspan="4">청구업체수</th>
+          <th class="text-center" colspan="4">청구건수</th>
+          <th class="text-center" colspan="4">청구금액(원)</th>
+          <th class="text-center" colspan="4">건당청구액(원)</th>
+          <th class="text-center" colspan="3">청구업체 비율</th>
+          <th class="text-center" colspan="4">청구건수 비율</th>
+          <th class="text-center" colspan="4">청구금액 비율</th>
+        </tr>
+        <tr class="active">
+          <th class="text-center">계</th>
+          <th class="text-center">본사</th>
+          <th class="text-center">공업사</th>
+          <th class="text-center">보험사</th>
+          <th class="text-center">계</th>
+          <th class="text-center">본사</th>
+          <th class="text-center">공업사</th>
+          <th class="text-center">보험사</th>
+          <th class="text-center">계</th>
+          <th class="text-center">본사</th>
+          <th class="text-center">공업사</th>
+          <th class="text-center">보험사</th>
+          <th class="text-center">계</th>
+          <th class="text-center">본사</th>
+          <th class="text-center">공업사</th>
+          <th class="text-center">보험사</th>
+          <!-- <th class="text-center">계</th> -->
+          <th class="text-center">본사</th>
+          <th class="text-center">공업사</th>
+          <th class="text-center">보험사</th>
+          <th class="text-center">계</th>
+          <th class="text-center">본사</th>
+          <th class="text-center">공업사</th>
+          <th class="text-center">보험사</th>
+          <th class="text-center">계</th>
+          <th class="text-center">본사</th>
+          <th class="text-center">공업사</th>
+          <th class="text-center">보험사</th>
+        </tr>
+      </thead>
+      <tbody id="dataTable">
+                                                                          
+      </tbody>
+      <tr class="active" id="totalRow">
+
+      </tr>
+    </table>
+  </div>
+
+  <!-- indicator -->
+  <?php	require $_SERVER['DOCUMENT_ROOT']."/include/indicator.html"; ?>
+  
+  <!-- pagination -->
+  <div class="container-fluid">
+    <div class="text-center">
+      <ul class="pagination">
+      </ul>
+    </div>
+  </div>
+
+
+<!-- footer.html -->
+<?php
+  require $_SERVER['DOCUMENT_ROOT']."/include/footer.html";
+?>

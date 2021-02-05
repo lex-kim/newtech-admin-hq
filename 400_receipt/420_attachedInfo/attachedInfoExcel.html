@@ -1,0 +1,64 @@
+<?php
+
+    header("Content-Type: application/vnd.ms-excel");
+    date_default_timezone_set('Asia/Seoul');
+
+    header("Content-Disposition: attachment; filename=".date("YmdH", time())."_첨부정보.xls");
+    header("Content-Description:PHP4 Generated Data");
+
+    require $_SERVER['DOCUMENT_ROOT']."/common/common.php";	
+    require "class/clsAttachedInfo.php";
+
+    $data =  $cAttached->getList($_REQUEST);
+
+    $result = $data[0];
+
+    $excelHtml = "
+        <table border='1'>
+            <thead>
+                <tr class='active'>
+                    <th style='text-align:center;'>순번</th>
+                    <th style='text-align:center;'>구분</th>
+                    <th style='text-align:center;'>지역</th>
+                    <th style='text-align:center;'>공업사명</th>
+                    <th style='text-align:center;'>청구식</th>
+                    <th style='text-align:center;'>거래여부</th>
+                    <th style='text-align:center;'>등록일시</th>
+                    <th style='text-align:center;'>등록자</th>
+                    <th style='text-align:center;'>처리여부</th>
+                    <th style='text-align:center;'>처리자</th>
+                    <th style='text-align:center;'>첨부구분</th>
+                    <th style='text-align:center;'>처리일시</th>
+                </tr>
+            </thead>
+    ";
+
+    foreach($result as $item) { 
+        $resProc = "";
+        if($item['NSU_PROC_YN'] == YN_Y){
+            $resProc = "처리완료";
+        }else {
+            $resProc = "미처리";
+        }
+        $excelHtml .= "<tr>
+                <td style='text-align:center;'>".$item['IDX']."</td>
+                <td style='text-align:center;'>".$item['CSD_NM']."</td>
+                <td style='text-align:left;'>".$item['CRR_NM']."</td>
+                <td style='text-align:left;'>".$item['MGG_NM']."</td>
+                <td style='text-align:center;'>".$item['RET_NM']."</td>
+                <td style='text-align:center;'>".$item['RCT_NM']."</td>
+                <td style='text-align:center;'>".$item['NSU_TAKE_DTHMS']."</td>
+                <td style='text-align:center;'>".$item['TAKE_USER_NAME']." (".$item['NSU_TAKE_USERID'].")"."</td>
+                <td style='text-align:center;'>".$resProc."</td>
+                <td style='text-align:center;'>".$item['PROC_USER_NAME']." (".$item['NSU_PROC_USERID'].")"."</td>
+                <td style='text-align:center;'>".$item['RSF_ID']."</td>
+                <td style='text-align:center;'>".$item['NSU_PROC_DTHMS']."</td>
+            </tr>
+        ";
+    }
+    $excelHtml .= "</table>";
+
+    echo "<meta content=\"application/vnd.ms-excel;charset=UTF-8;\" name=\"Content-type\">";
+    echo $excelHtml ;
+
+?>

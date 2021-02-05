@@ -1,0 +1,10 @@
+.nwt-search-form .search-glypicon{
+    position: relative;
+    top: 7px; /*insulist.html :2px , insulist2.html :7px*/
+    left: -20px;
+    width: 0;
+}
+
+.calenderInput {
+    cursor:pointer;
+}

@@ -1,0 +1,234 @@
+<!-- header.html -->
+<?php
+  require $_SERVER['DOCUMENT_ROOT']."/include/header.html";
+?>
+
+
+  <!-- 페이지 카테고리 -->
+  <div class="container-fluid mb20px">
+    <h3 class="nwt-category"><small>입금관리&nbsp;&nbsp;></small>미지급 및 감액건 통계</h3>
+  </div>
+
+
+  <!-- 검색바(폼) 시작 -->
+  <div class="container-fluid nwt-search-form">
+      <div class="panel panel-default">
+          <div class="panel-body">
+              <form class="form-inline" id="searchForm">
+                  <fieldset>
+                      <legend>조건검색</legend>
+
+                      <!-- 검색버튼 제외한 폼 wrap -->
+                      <div class="frm-wrap">
+                        <!-- 1st row -->
+                        <div class="row frm-last-row">
+                          
+                          <!-- 보험사 -->
+                          <div class="col-md-1">
+                            <label for="SEARCH_INSU_NM" class="sr-only">보험사</label>
+                            <select id="SEARCH_INSU_NM" name="SEARCH_INSU_NM[]"
+                                    data-style="btn-default" title="=보험사="
+                                    class="form-control selectpicker" multiple
+                                    data-live-search="true" data-live-search-placeholder="Search">
+                            </select>                                     
+                          </div>
+
+                          <!-- 보험사팀명 -->
+                          <div class="col-md-1">
+                            <label for="SEARCH_INSU_TEAM" class="sr-only">보험사팀</label>
+                            <select id="SEARCH_INSU_TEAM" name="SEARCH_INSU_TEAM[]"
+                                    data-style="btn-default" title="=보험사팀="
+                                    class="form-control selectpicker" multiple
+                                    data-show-subtext="true" data-live-search="true">
+                            </select>                                     
+                          </div>
+
+                          <!-- 보상담당 -->
+                          <div class="col-md-1">
+                            <label for="INSU_FAO_SEARCH" class="sr-only">보상담당</label>
+                            <input type="text" class="form-control" name="INSU_FAO_SEARCH" id="INSU_FAO_SEARCH" placeholder="보상담당 입력">                                                  
+                          </div>
+
+                          <!-- 통계구분 -->
+                          <div class="col-md-1">
+                            <label for="RPT_ID_SEARCH" class="sr-only">통계구분</label>
+                            <select class="form-control" id="RPT_ID_SEARCH" name="RPT_ID_SEARCH">
+                              <option value="">=통계구분=</option>
+                            </select>                            
+                          </div>
+
+                          <!-- 감액률 -->
+                          <div class="col-md-3 frmGroup3">
+                            <label for="RATIO_KEY_SEARCH" class="sr-only">감액률</label>
+                            <!-- 감액률기준 -->
+                            <select class="form-control" id="RATIO_KEY_SEARCH" name="RATIO_KEY_SEARCH">
+                              <option value="">=감액률=</option>
+                              <option value="CNT">건별</option>
+                              <option value="TOTAL">전체</option>
+                              <option value="UNPAID">미지급률</option>
+                            </select>
+                            <!-- 감액률범위 -->
+                            <input type="text" class="form-control" name="START_RATIO_SEARCH" id="START_RATIO_SEARCH" placeholder="시작 감액률 입력">
+                            <label for="END_RATIO_SEARCH" class="nwt-form-label">~</label>                            
+                            <input type="text" class="form-control" name="END_RATIO_SEARCH" id="END_RATIO_SEARCH" placeholder="종료 감액률 입력">                     
+                          </div>
+
+                          <!-- 협조요청기간 -->
+                          <div class="col-md-2 frmGroup2">
+                            <label for="START_DT_SEARCH" class="sr-only">협조요청기간</label>
+                            <input type="text" class="form-control" name="START_DT_SEARCH" id="START_DT_SEARCH" placeholder="협조요청기간" autocomplete="off">
+                            <span class="glyphicon glyphicon-calendar search-glypicon"></span>
+                            <label for="END_DT" class="nwt-form-label">~</label>                            
+                            <input type="text" class="form-control" name="END_DT_SEARCH" id="END_DT_SEARCH" placeholder="협조요청기간" autocomplete="off">
+                            <span class="glyphicon glyphicon-calendar search-glypicon"></span>                            
+                          </div>
+
+                          <!-- 감액 협조반응 -->
+                          <div class="col-md-1">
+                            <label for="RPR_ID_SEARCH" class="sr-only">협조반응</label>
+                            <select class="form-control" id="RPR_ID_SEARCH" name="RPR_ID_SEARCH">
+                              <option value="">=협조반응=</option>
+                            </select>                          
+                          </div>
+                          <!-- 미지급 협조반응 -->
+                          <!-- <div class="col-md-1">
+                            <label for="NONPAY_REACTION" class="sr-only">미지급 협조반응</label>
+                            <select class="form-control" id="NONPAY_REACTION" name="NONPAY_REACTION">
+                              <option value="">=미지급조반응=</option>
+                            </select>                            
+                          </div> -->
+
+                        </div>
+
+
+                      </div>
+                      
+
+                      <!-- 검색버튼 wrap -->
+                      <div class="frm-search-wrap">
+                        <!-- 검색btn -->
+                        <div class="row">
+                            <div class="col-md-12 text-right">
+                              <button type="submit" class="btn btn-primary" id="frmSearch" style="margin-top: -10px"><span class="glyphicon glyphicon-search"></span>&nbsp;검색</button>
+                            </div>
+                        </div> 
+                      </div>
+
+                  </fieldset>
+              </form>
+          </div>
+      </div>
+  </div>
+  <!-- 검색바(폼) 끝 -->
+
+  
+  <!-- 테이블 상단 #perPage, btn 영역 -->
+  <div class="container-fluid nwt-table-top mb20r">
+    <div class="row">
+      
+      <!-- 리스트개수 -->
+      <?php	require $_SERVER['DOCUMENT_ROOT']."/include/listCnt.html"; ?>
+      
+       <!-- 테이블 우측 상단 btn -->
+       <div class="col-lg-6 clearfix">
+        <div class="form-inline f-right">
+          <?php if($AUTH_EXCEL == YN_Y) :?>
+          <button type="button" class="btn btn-success" onclick="excelDownload()"><span class="glyphicon glyphicon-download-alt"></span>&nbsp;엑셀 다운로드</button>
+          <?php endif; ?>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- indicator -->
+  <?php	require $_SERVER['DOCUMENT_ROOT']."/include/indicator.html"; ?>
+  
+
+  <!-- 테이블 -->
+  <div class="container-fluid nwt-table">
+    <table class="table table-bordered table-striped">
+      <thead>
+        <tr class="active">
+          <th class="text-center">순번</th>
+          <th class="text-center">보험사</th>
+          <th class="text-center">보험사팀</th>
+          <th class="text-center">보상담당</th>
+          <th class="text-center">휴대폰</th>
+          <th class="text-center table-array">
+            청구건수
+            <div class="arrayicon">
+              <span class="glyphicon glyphicon-chevron-up" onclick="getList(undefined, 'ASC', 'NB_TOTAL_CNT')"></span>
+              <span class="glyphicon glyphicon-chevron-down" onclick="getList(undefined, 'DESC', 'NB_TOTAL_CNT')"></span>
+            </div>
+          </th>
+          <th class="text-center">청구금액</th>
+          <th class="text-center">지급건수</th>
+          <th class="text-center">지급건<br>청구금액</th>
+          <th class="text-center">지급금액</th>
+          <th class="text-center">감액금액</th>
+          <th class="text-center table-array">
+            감액건<br>지급건수
+            <div class="arrayicon">
+              <span class="glyphicon glyphicon-chevron-up" onclick="getList(undefined, 'ASC', 'DECREMENT_CNT')"></span>
+              <span class="glyphicon glyphicon-chevron-down" onclick="getList(undefined, 'DESC', 'DECREMENT_CNT')"></span>
+            </div>
+          </th>
+          <th class="text-center">감액건<br>청구금액</th>
+          <th class="text-center">감액건<br>지급금액</th>
+          <th class="text-center">감액건<br>감액금액</th>
+          <th class="text-center">감액건<br>감액입금일</th>
+          <th class="text-center">감액건<br>추가입금액</th>
+          <th class="text-center table-array">
+            감액건<br>감액률
+            <div class="arrayicon">
+              <span class="glyphicon glyphicon-chevron-up" onclick="getList(undefined, 'ASC', 'DECREMENT_DC_RATIO')"></span>
+              <span class="glyphicon glyphicon-chevron-down" onclick="getList(undefined, 'DESC', 'DECREMENT_DC_RATIO')"></span>
+            </div>
+          </th>
+          <th class="text-center">미입금<br>종결건수</th>
+          <th class="text-center">미입금<br>종결금액</th>
+          <th class="text-center">지급률<br>(건수)</th>
+          <th class="text-center">지급률<br>(금액)</th>
+          <th class="text-center table-array">
+            전체<br>감액률
+            <div class="arrayicon">
+              <span class="glyphicon glyphicon-chevron-up" onclick="getList(undefined, 'ASC', 'TOTAL_DECREMENT_RATIO')"></span>
+              <span class="glyphicon glyphicon-chevron-down" onclick="getList(undefined, 'DESC', 'TOTAL_DECREMENT_RATIO')"></span>
+            </div>
+          </th>
+          <th class="text-center table-array">
+            미지급<br>건수
+            <div class="arrayicon">
+              <span class="glyphicon glyphicon-chevron-up" onclick="getList(undefined, 'ASC', 'UNPAID_CNT')"></span>
+              <span class="glyphicon glyphicon-chevron-down" onclick="getList(undefined, 'DESC', 'UNPAID_CNT')"></span>
+            </div>
+          </th>
+          <th class="text-center">미지급액</th>
+          <th class="text-center">미지급률<br>(건수)</th>
+          <th class="text-center">협조구분</th>
+          <th class="text-center">협조요청일</th>
+          <th class="text-center">협조반응</th>
+          <th class="text-center">협조요청</th>
+        </tr>
+      </thead>
+      <tbody id="dataTable">
+      </tbody>
+    </table>
+  </div>
+
+
+  <!-- pagination -->
+  <div class="container-fluid">
+    <div class="text-center">
+      <ul class="pagination">
+      </ul>
+    </div>
+  </div>
+
+  <form methode="POST" id="sendForm" >
+  </form>
+<!-- footer.html -->
+<?php
+  require $_SERVER['DOCUMENT_ROOT']."/include/footer.html";
+?>

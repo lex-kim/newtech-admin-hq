@@ -1,0 +1,81 @@
+<!-- header.html -->
+<?php
+  require $_SERVER['DOCUMENT_ROOT']."/include/header.html";
+?>
+
+
+  <!-- 페이지 카테고리 -->
+  <div class="container-fluid mb20px">
+    <div class="nwt-policy-top">
+        <div>
+            <h3 class="nwt-category"><small>코드관리&nbsp;&nbsp;>&nbsp;&nbsp;정책설정&nbsp;&nbsp;></small>감액사유 자동요청 설정</h3>
+        </div>
+        <div>
+            <ul class="nav nav-tabs f-right">
+              <li><a href="/100_code/180_policy/181_standard/standard.html">보상담당분류기준</a></li>
+              <li><a href="/100_code/180_policy/182_limit/limit.html">청구금액한도설정</a></li>
+              <li class="active"><a href="/100_code/180_policy/183_reduce/reduce.html">감액사유 자동요청 설정</a></li>
+              <li><a href="/100_code/180_policy/184_sales/sales.html">영업관리정책설정</a></li>
+            </ul>
+            
+        </div>
+    </div>
+  </div>
+    
+
+  <!-- 감액사유 자동요청 설정 -->
+  <div class="container-fluid policy-body mb20px">
+    <div class="policy-title">
+      <p>감액사유 자동요청 설정</p>
+      <p>설정된 감액률(%)을 기준으로 보험사 입금처리 시 자동으로 감액사유요청이 실행됩니다.</p>
+    </div>
+    <div class="policy-body-content">
+      <div class="row">
+        <div class="col-md-2"><label for="PIE_CUR_DECREMENT_RATIO">현재 감액률</label></div>
+        <div class="col-md-5">
+          <input type="text" class="form-control" id="PIE_CUR_DECREMENT_RATIO" name="PIE_CUR_DECREMENT_RATIO" onkeyup="isNumber(event)" placeholder="입력">
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-2"><label for="PIE_NEW_DECREMENT_RATIO">변경 감액률</label></div>
+        <div class="col-md-5">
+          <input type="text" class="form-control" id="PIE_NEW_DECREMENT_RATIO" name="PIE_NEW_DECREMENT_RATIO" onkeyup="isNumber(event)" placeholder="입력">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 테이블 상단 #perPage, btn 영역 -->
+  <div class="container-fluid mb20r">
+    <div class="row">
+      <!-- 리스트개수 -->
+      <div class="col-lg-6">
+        <div class="form-inline">
+          
+        </div>
+      </div>
+      <!-- 테이블 우측 상단 btn -->
+      <div class="col-lg-6 clearfix">
+        <div class="form-inline f-right">
+
+          <!-- 수정 btn -->
+          <?php if($AUTH_UPDATE== YN_Y) :?>
+          <button type="button" class="btn btn-primary btn-update">수정</button>
+          <?php endif; ?>	
+
+          <!-- 수정btn -->
+          <?php if($AUTH_CREATE == YN_Y) :?>
+          <button type="submit" class="btn btn-primary btn-save">저장</button>
+          <?php endif; ?>	
+          <!-- 취소btn -->
+          <button type="calcel" class="btn btn-default btn-back" onclick="getData()">취소</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+<!-- footer.html -->
+<?php
+  require $_SERVER['DOCUMENT_ROOT']."/include/footer.html";
+?>

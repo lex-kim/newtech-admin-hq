@@ -1,0 +1,78 @@
+
+      <!-- modal #add-new 
+          담당지정 기능
+      -->  
+      <div class="modal fade" id="add-new" role="dialog">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <form method="post" name="fao_form" id="fao_form">
+            <input type="hidden" class="form-control" id="REQ_MODE" name="REQ_MODE">
+                
+
+            <!-- modal 상단 -->
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal">&times;</button> 
+              <h4 class="modal-title">담당구분지정</h4>  
+            </div>
+
+
+            <!-- modal 내용 -->
+            <div class="modal-body">   
+
+                <!-- 담당구분 -->
+                <div class="row">
+                  <div class="col-md-3"><label for="RICT_ID">담당구분</label></div>
+                  <div class="col-md-5">
+                    <input type="hidden" class="form-control" id="NIC_ID" name="NIC_ID" readonly>
+                    <select class="form-control" name="RICT_ID" id="RICT_ID">
+                    </select>
+                  </div>
+                </div>  
+
+                <!-- 공업사 -->
+                <div class="row">
+                  <div class="col-md-3"><label for="MGG_ID">공업사</label></div>
+                  <div class="col-md-5">
+                    <input type="hidden" class="form-control" id="MGG_ID" name="MGG_ID" readonly>
+                    <input type="text" class="form-control" id="MGG_NM" name="MGG_NM" readonly>
+                  </div>
+                </div>         
+              
+            </div>
+
+            <!-- modal 하단 -->
+            <div class="modal-footer">
+              <div class="text-right">
+                <!-- 등록btn -->
+                <button type="button" class="btn btn-primary" id="btnConfirm" onclick="RICTConfirm()">등록</button>
+                <!-- 취소btn -->
+                <button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
+              </div>
+            </div>
+
+          </form>
+          </div>
+        </div>
+    </div>
+
+    
+    <!-- swal로 변경 후 삭제해 주세요~ 닫기모달과는 다른 내용이라 내용을 남겨두겠습니다 ! -->
+    <!-- modal #confirm-modal -->  
+    <!-- <div class="modal fade" id="confirm-modal" role="dialog">
+        <div class="col-md-2 modal-dialog">
+            <div class="modal-content"> -->
+
+                <!-- modal 내용 -->
+                <!-- <div class="modal-body">   
+                    <p>보상담당직원 변경 및 담당지정하시겠습니까?</p>
+                </div> -->
+                
+                <!-- modal 하단 -->
+                <!-- <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" id="btnConfirm" onclick="">확인</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
+                </div>
+            </div>
+        </div>
+    </div> -->
+

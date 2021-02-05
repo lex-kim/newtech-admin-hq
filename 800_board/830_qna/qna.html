@@ -1,0 +1,183 @@
+<!-- header.html -->
+<?php
+  require $_SERVER['DOCUMENT_ROOT']."/include/header.html";
+?>
+
+
+  <!-- 페이지 카테고리 -->
+  <div class="container-fluid mb20px">
+    <h3 class="nwt-category"><small>게시판관리&nbsp;&nbsp;></small>문의답변</h3>
+  </div>
+
+
+  <!-- 검색바(폼) 시작 -->
+  <div class="container-fluid nwt-search-form">
+      <div class="panel panel-default">
+          <div class="panel-body">
+              <form class="form-inline" action="#">
+                  <fieldset>
+                      <legend>조건검색</legend>
+
+                      <!-- 검색버튼 제외한 폼 wrap -->
+                      <div class="frm-wrap">
+                        <!-- 1st row -->
+                        <div class="row frm-last-row">
+                          
+                          <!-- 기간 -->
+                          <div class="col-md-2 frmGroup3">
+                            <label for="START_DT" class="sr-only">기간</label>
+                            <!-- 기간선택 -->
+                            <select class="form-control input-md" id="SELECT_DT" name="SELECT_DT">
+                              <option value="">=기간=</option>
+                              <option value="WRT_DTHMS">접수일</option>
+                              <option value="MVV_DONE_DTHMS">답변일</option>
+                            </select>
+                            <!-- 날짜선택 -->
+                            <input type="text" class="form-control input-md" name="START_DT" id="START_DT" autocomplete="off" placeholder="입력" maxlength="10">
+                            <span class="glyphicon glyphicon-calendar search-glypicon"></span>
+                            <label for="END_DT" class="nwt-form-label">~</label>                            
+                            <input type="text" class="form-control" name="END_DT" id="END_DT" autocomplete="off" placeholder="입력" maxlength="10">
+                            <span class="glyphicon glyphicon-calendar search-glypicon"></span>                            
+                          </div>
+
+                          <!-- 처리여부 -->
+                          <div class="col-md-1">
+                              <label for="SEARCH_MVV_PROC_STATUS_CD" class="sr-only">처리여부</label>
+                              <select class="form-control" id="SEARCH_MVV_PROC_STATUS_CD" name="SEARCH_MVV_PROC_STATUS_CD">
+                                <option value="">=처리여부=</option>
+                                <option value="90110">접수</option>
+                                <option value="90120">임시저장</option>
+                                <option value="90190">처리완료</option>
+                              </select>                            
+                          </div>
+
+
+                          <!-- 공업사 -->
+                          <div class="col-md-1">
+                                <input type="text" class="form-control" name="BIZ_NM_SEARCH" id="BIZ_NM_SEARCH" placeholder="공업사 입력">                            
+                          </div>
+
+                          <!-- 제목 -->
+                          <div class="col-md-1">
+                                <input type="text" class="form-control" name="BIZ_NUM_SEARCH" id="BIZ_NUM_SEARCH" placeholder="사업자번호 입력">                            
+                          </div>
+
+                          <!-- 작성자 -->
+                          <div class="col-md-2 frmGroup2-2">
+                            <label for="KEYWORD_SEARCH" class="sr-only">키필드</label>
+                            <select class="form-control" id="KEYWORD_SELECT" name="KEYWORD_SEARCH">
+                              <option value="">=키필드=</option>
+                              <option value="WRT_USERID">접수자명</option>
+                              <option value="MVV_QUESTION">문의내용</option>
+                              <option value="MVV_ANSWER">답변내용</option>
+                              <option value="MVV_ANSWER_USERID">담당자ID</option>
+                              <option value="MVV_ANSWER_USERNM">담당자성명</option>
+                            </select>
+                            <input type="text" class="form-control" name="KEYWORD_SEARCH" id="KEYWORD_SEARCH" placeholder="입력">                            
+                          </div>
+
+
+                        </div>
+                      </div> 
+                      
+                      <!-- 검색버튼 wrap -->
+                      <div class="frm-search-wrap">
+                        <!-- 검색btn -->
+                        <div class="row">
+
+                          <div class="col-md-12 text-right">
+                            <button type="button" class="btn btn-primary" id="frmSearch" style="margin-top: -10px" onclick="getList()"><span class="glyphicon glyphicon-search"></span>&nbsp;검색</button>
+                          </div>
+                        </div> 
+                      </div>
+
+                  </fieldset>
+              </form>
+          </div>
+      </div>
+  </div>
+  <!-- 검색바(폼) 끝 -->
+
+
+ 
+  <!-- 테이블 상단 #perPage, btn 영역 -->
+  <div class="container-fluid nwt-table-top mb20r">
+    <div class="row">
+      
+      <!-- 리스트개수 -->
+      <?php	require $_SERVER['DOCUMENT_ROOT']."/include/listCnt.html"; ?>
+      
+      <!-- 테이블 우측 상단 btn -->
+      <div class="col-lg-6 clearfix">
+        <div class="form-inline f-right">
+          <?php if($AUTH_UPDATE == YN_Y) :?>
+          <input type="hidden" class="form-control" name="AUTH_UPDATE" id="AUTH_UPDATE" value="<?php echo $AUTH_UPDATE; ?>">
+          <?php endif; ?>
+          <?php if($AUTH_DELETE == YN_Y) :?>
+          <input type="hidden" class="form-control" name="AUTH_DELETE" id="AUTH_DELETE" value="<?php echo $AUTH_DELETE; ?>">
+          <?php endif; ?>
+         
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+
+  <!-- 테이블 -->
+  <div class="container-fluid nwt-table"> 
+    <table class="table table-bordered table-striped">
+      <colgroup>
+        <col width="2%"/>
+        <col width="7%"/>
+        <col width="3%"/>
+        <col width="4%"/>
+        <col width="4%"/>
+        <col width="15%"/>
+        <col width="15%"/>
+        <col width="4%"/>
+        <col width="6%"/>
+        <col width="4%"/>
+        <col width="6%"/>
+        <col width="6%"/>
+      </colgroup>
+      <thead>
+        <tr class="active">
+          <th class="text-center" rowspan="2">순번</th>
+          <th class="text-center" rowspan="2">공업사 명</th>
+          <th class="text-center" rowspan="2">청구식</th>
+          <th class="text-center" rowspan="2">거래여부</th>
+          <th class="text-center" rowspan="2">질문구분</th>
+          <th class="text-center" rowspan="2">질문</th>
+          <th class="text-center" rowspan="2">답변</th>
+          <th class="text-center" rowspan="2">접수자</th>
+          <th class="text-center" rowspan="2">접수일시</th>
+          <th class="text-center" rowspan="2">처리여부</th>
+          <th class="text-center" rowspan="2">답변일시</th>
+          <th class="text-center" rowspan="2">담당자아이디</th>
+        </tr>
+      </thead>
+      <tbody id="dataTable">
+
+      </tbody>
+    </table>
+  </div>
+
+    <!-- indicator -->
+    <?php	require $_SERVER['DOCUMENT_ROOT']."/include/indicator.html"; ?>
+
+  <!-- pagination -->
+  <div class="container-fluid">
+    <div class="text-center">
+      <ul class="pagination">
+      </ul>
+    </div>
+  </div>
+    
+  <!-- 등록 Modal  -->
+  <?php  require "./qnaModal.html";?>
+
+<!-- footer.html -->
+<?php
+  require $_SERVER['DOCUMENT_ROOT']."/include/footer.html";
+?>

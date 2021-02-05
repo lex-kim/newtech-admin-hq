@@ -1,0 +1,105 @@
+<?php
+
+    header("Content-Type: application/vnd.ms-excel");
+    date_default_timezone_set('Asia/Seoul');
+
+    header("Content-Disposition: attachment; filename=".date("YmdH", time())."_보상담당현황판.xls");
+    header("Content-Description: Newtech System");
+
+    require $_SERVER['DOCUMENT_ROOT']."/common/common.php";	
+    require "class/clsCpstState.php";
+
+    $headerData =  $cCpst->getHeaderCnt($_REQUEST);   // 헤더 셋팅할 데이터 
+
+    $normalCnt = 0;
+    $cooperCnt = 0;
+    $rentCnt = 0;
+
+    $normalHtml = "";
+    $cooperHtml = "";
+    $rentHtml = "";
+
+    foreach($headerData as $item){
+        if($item['RIT_ID'] == INSU_TYPE_NORMAL){
+          $normalCnt++;
+        }else if($item['RIT_ID'] == INSU_TYPE_COOPER){
+          $cooperCnt++;
+        }else if($item['RIT_ID'] == INSU_TYPE_RENT){
+          $rentCnt++;
+        }
+    }
+    $normalCnt = $normalCnt*2;
+    $cooperCnt = $cooperCnt*2;
+    $rentCnt = $rentCnt*2;  
+
+    if($normalCnt > 0){
+      $normalHtml = "<th style='text-align:center;' colspan='".$normalCnt."'>일반</th>";
+    }
+    if($cooperCnt > 0){
+      $cooperHtml = "<th style='text-align:center;' colspan='".$cooperCnt."'>공제</th>";
+    }
+    if($rentCnt > 0){
+      $rentHtml = "<th style='text-align:center;' colspan='".$rentCnt."'>렌트</th>";
+    }
+
+    $insuHtml = ""; //보험사 정렬
+    $insuSubHtml = ""; //보험사 하부의 성명,등록일자 셀
+    foreach($headerData as $hInsu){
+      $insuHtml .= "<th style='text-align:center;' colspan='2'>".$hInsu['MII_NM']."</th>";
+      $insuSubHtml .= "<th style='text-align:center;'>성명</th><th style='text-align:center;'>등록일자</th>";
+    }  
+
+    $data =  $cCpst->getList($_REQUEST); // 공업사 일반정보 조회
+    $result = $data[0];
+
+    $excelHtml = "
+        <table border='1'>
+            <thead>
+              <tr>
+                <th style='text-align:center;' rowspan='3'>순번</th>
+                <th style='text-align:center;' rowspan='3'>구분</th>
+                <th style='text-align:center;' rowspan='3'>지역</th>
+                <th style='text-align:center;' rowspan='3'>공업사</th>
+                <th style='text-align:center;' rowspan='3'>사업자번호</th>
+                <th style='text-align:center;' rowspan='3'>거래여부</th>
+                $normalHtml
+                $cooperHtml
+                $rentHtml 
+              </tr>
+              <tr>
+                  $insuHtml
+              </tr>
+              <tr> 
+                  $insuSubHtml
+              </tr>
+            </thead>
+    ";
+
+    foreach($result as $item) { 
+      $excelHtml .= "
+                    <tr>
+                    <td style='text-align:center;'>".$item['IDX']."</td>
+                    <td style='text-align:center;'>".$item['CSD_NM']."</td>
+                    <td style='text-align:left;'>".$item['CRR_NM']."</td>
+                    <td style='text-align:left;'>".$item['MGG_NM']."</td>
+                    <td style='text-align:center;'>".cUtil::biz_format($item['MGG_BIZ_ID'])."</td>
+                    <td style='text-align:center;'>".$item['RCT_NM']."</td>
+ 
+      ";
+      foreach($item['INSU_ARRAY'] as $insuItem){
+            if(empty($insuItem['DATA'])){
+                  $excelHtml .= "<td style='text-align:center;' colspan='2'>등록</td>";
+            }else{
+                  $excelHtml .= "
+                            <td style='text-align:center;'>".explode('||', $insuItem['DATA'])[0]."</td>
+                            <td style='text-align:center;mso-number-format:\@;'>".explode('||', $insuItem['DATA'])[1]."</td>
+                  ";
+            }
+          }
+    }
+    $excelHtml .= "</table>";
+
+    echo "<meta content=\"application/vnd.ms-excel;charset=UTF-8;\" name=\"Content-type\">";
+    echo $excelHtml ;
+
+?>

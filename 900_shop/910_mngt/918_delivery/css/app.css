@@ -1,0 +1,74 @@
+#BANK_FILE_NM{
+    width: 200px;
+    height: 33px;
+}
+
+/* 라디오 상단패딩 빼기 */
+.radio-inline{
+    padding-top: 0 !important;
+}
+
+
+/* modal CSS */
+
+.modal-table{
+    width: 100%;
+}
+.modal-table .text-right > div{
+    float: left;
+}
+.optionInput{
+    width: 71%;
+    margin-right: 3px;
+}
+
+/* 수량선택 */
+.modal-table .num-select{
+    overflow: hidden;
+}
+.modal-table .num-select > *{
+    float: left;
+}
+.modal-table .num-select input[type="text"]{
+    width: calc(50% - 10px);
+}
+.modal-table .num-select input[type="text"]:nth-child(1){
+    width: 40%;
+}
+/* 이상 checkbox CSS */
+.modal-table .num-select input[type="checkbox"]{
+    margin: 8px 5px 0px 5px;
+}
+.modal-table .num-select label{
+    padding-top: 6px;
+}
+
+
+.modal-table .num-select div{
+    width: 20px;
+    text-align: center;
+    margin-top: 6px;
+}
+
+
+
+/* option_add_btn */
+.option_add_btn{
+    margin-bottom: 10px;
+}
+
+/* 통합배송정책 CSS */
+.integrated-setting .col-md-7{
+    overflow: hidden;
+}
+.integrated-setting .col-md-7 > *{
+    float: left;
+}
+.integrated-setting .col-md-7 input{
+    width: 60%;
+}
+
+.integrated-setting .col-md-7 span{
+    color: #000 !important;
+    margin: 8px 0px 0px 8px;
+}

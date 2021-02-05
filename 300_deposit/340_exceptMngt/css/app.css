@@ -1,0 +1,66 @@
+
+
+.excel-down-file{
+    margin-top: 5px;
+    height: 25px;
+}
+
+.excel-down{
+    float: right;
+}
+.excel-down-file a img{
+    height: 20px;
+}
+
+.excel-down-btn button{
+    height: 28px;
+    padding: 3px 6px;
+}
+.excel-down-btn input{
+    padding: 10px 10px;
+}
+
+/* 입금처리 CSS */
+
+#add-new .modal-dialog{
+    width: 1000px;
+}
+
+
+.modal-table .table tbody tr td.firsttd{
+    width: 11.5%;
+}
+
+.modal-table .table tbody tr td.secondtd{
+    width: 38%;
+}
+
+.modal-table .table tbody tr td.pricetd{
+    width: 17%;
+}
+.modal-table .table tbody tr td.datetd{
+    width: 15%;
+    position: relative;
+}
+
+
+.modal-table .table tbody tr td label.radio-inline{
+    padding-left: 35px;
+   
+}
+#add-new .modal-content .modal-table .table tbody tr td label input{
+    position: relative;
+    top: -1px;
+    margin-right: 3px;
+}
+
+
+.date-input{
+    width: 14%;
+}
+
+.search-glypicon{
+    position: absolute;
+    top: 17px;
+    right: 15px;
+}

@@ -1,0 +1,73 @@
+<?php
+
+    header("Content-Type: application/vnd.ms-excel");
+    date_default_timezone_set('Asia/Seoul');
+
+    header("Content-Disposition: attachment; filename=".date("YmdH", time())."_포인트관리.xls");
+    header("Content-Description: Newtech System");
+
+    require $_SERVER['DOCUMENT_ROOT']."/common/common.php";	
+    require "class/clsPointMngt.php";
+
+    $data =  $cPointMngt->getList($_REQUEST);
+
+    $result = $data[0];
+
+    $excelHtml = "
+        <table border='1'>
+            <thead>
+                <tr>
+                    <th style='text-align:center;'>순번</th>
+                    <th style='text-align:center;'>거래여부</th>
+                    <th style='text-align:center;'>구분</th>
+                    <th style='text-align:center;'>지역</th>
+                    <th style='text-align:center;'>사업자번호</th>
+                    <th style='text-align:center;'>업체명</th>
+                    <th style='text-align:center;'>청구식</th>
+                    <th style='text-align:center;'>주소</th>
+                    <th style='text-align:center;'>사무실 연락처</th>
+                    <th style='text-align:center;'>사무실 FAX</th>
+                    <th style='text-align:center;'>포인트종류</th>
+                    <th style='text-align:center;'>포인트구분</th>
+                    <th style='text-align:center;'>품명</th>
+                    <th style='text-align:center;'>변동포인트</th>
+                    <th style='text-align:center;'>잔여포인트</th>
+                    <th style='text-align:center;'>메모</th>
+                    <th style='text-align:center;'>처리자</th>
+                    <th style='text-align:center;'>변동일</th>
+                    <th style='text-align:center;'>최종변동일</th>
+                </tr>
+            </thead>
+    ";
+
+    foreach($result as $item) { 
+        $excelHtml .= "
+            <tr>
+                <td style='text-align:center;'>".$item['IDX']."</td>
+                <td style='text-align:center;'>".cUtil::nullChk($item['RCT_NM'],'-')."</td>
+                <td style='text-align:center;'>".cUtil::nullChk($item['CSD_NM'],'-')."</td>
+                <td style='text-align:left;'>".cUtil::nullChk($item['CRR_NM'],'-')."</td>
+                <td style='text-align:center;mso-number-format:\@;'>".cUtil::biz_format($item['MGG_BIZ_ID'])."</td>
+                <td style='text-align:left;'>".$item['MGG_NM']."</td>
+                <td style='text-align:left;'>".cUtil::nullChk($item['RET_NM'],'-')."</td>
+                <td style='text-align:left;'>".$item['MGGS_ADDR']."</td>
+                <td style='text-align:center;mso-number-format:\"\@\";'>".cUtil::phone_format($item['MGG_OFFICE_TEL'])."</td>
+                <td style='text-align:center;mso-number-format:\"\@\";'>".cUtil::phone_format($item['MGG_OFFICE_FAX'])."</td>
+                <td style='text-align:center;mso-number-format:\@;'>".cUtil::nullChk($item['RPT_NM'],'-')."</td>
+                <td style='text-align:center;mso-number-format:\@;'>".cUtil::nullChk($item['RPS_NM'],'-').($item['NPH_CANCEL_YN'] == YN_Y ? "(취소)" : "" )."</td>
+                <td style='text-align:left;'>".cUtil::nullChk($item['NPH_PARTS_MEMO'],'-')."</td>
+                <td style='text-align:right;'>".$item['NPH_POINT']."</td>
+                <td style='text-align:right;'>".cUtil::nullChk($item['BALANCE'],'0')."</td>
+                <td style='text-align:left;'>".($item['NPH_CANCEL_MEMO'] != null ? "취소: ".$item['NPH_CANCEL_MEMO'] : "").($item['NPH_MEMO'] != null  && $item['NPH_MEMO'] != ''? "<br>".$item['NPH_MEMO'] : "")."</td>
+                <td style='text-align:left;'>".($item['WRT_USER_NM'] == null ? '-' : $item['WRT_USER_NM'].'('.$item['WRT_USERID'].')')."</td>
+                <td style='text-align:center;mso-number-format:\@;'>".cUtil::nullChk($item['NPH_ISSUE_DT'],'-')."</td>
+                <td style='text-align:center;mso-number-format:\@;'>".cUtil::nullChk($item['LAST_DTHMS'],'-')."</td>
+            </tr>
+        ";
+    }
+    $excelHtml .= "</table>";
+
+    echo "<meta content=\"application/vnd.ms-excel;charset=UTF-8;\" name=\"Content-type\">";
+    echo $excelHtml ;
+
+?>

@@ -1,0 +1,187 @@
+<!-- 모달이 담당지역관리, 담당지역관리 지역선택 2개가 있습니다.
+필요에 따라 이 페이지에서 둘다 써도되고 페이지를 나누어도 됩니다.-->
+
+
+  <!-- 담당지역관리 -->
+  <div class="modal fade modal-add" id="area-modal" role="dialog">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <form method="post" name="area_form" id="area_form">
+        <input type="hidden" class="form-control" id="REQ_MODE" name="REQ_MODE">
+
+        <!-- modal 상단 -->
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button> 
+          <h4 class="modal-title">담당지역관리</h4>  
+        </div>
+
+        <!-- modal 내용 -->
+        <div class="modal-body">  
+          
+            <!-- 검색바(폼) 시작 -->
+            <div class="container-fluid nwt-search-form">
+              <div class="panel panel-default">
+                <div class="panel-body">
+                  <form class="form-inline" action="#">
+                    <fieldset>
+                      <legend>조건검색</legend>
+
+                      <!-- 검색버튼 제외한 폼 wrap -->
+                      <div class="frm-wrap">
+                        <!-- 1st row -->
+                        <div class="row">
+                          <!-- 보험사팀 -->
+                          <div class="col-md-3">
+                            <label for="SEARCH_INSU_TEAM" class="sr-only">보험사팀</label>
+                            <select id="SEARCH_INSU_TEAM" name="SEARCH_INSU_TEAM[]"
+                                    data-style="btn-default" title="=보험사팀="
+                                    class="form-control selectpicker" multiple
+                                    data-show-subtext="true" data-live-search="true">
+                            </select>                                     
+                          </div>
+
+                          <!-- 담당지역메모 -->
+                          <div class="col-md-9">
+                            <label for="SEARCH_REGION_MEMO" class="sr-only">담당지역메모</label>
+                            <input type="text" class="form-control" name="SEARCH_REGION_MEMO" id="SEARCH_REGION_MEMO" placeholder="담당지역메모 입력">
+                          </div>
+
+                        </div>
+
+                      </div>
+                      
+                      <!-- 검색버튼 wrap -->
+                      <div class="frm-search-wrap">
+                        <!-- 검색btn -->
+                        <div class="row">
+                            <div class="col-md-12 text-right">
+                              <button type="button" class="btn btn-primary" onclick="getTeamList()" style="margin-top: -10px"><span class="glyphicon glyphicon-search"></span>&nbsp;검색</button>
+                            </div>
+                        </div> 
+                      </div>
+
+                    </fieldset>
+
+                </div>
+              </div>
+            </div>
+          <!-- 검색바(폼) 끝 -->
+            <!-- 담당지역이 지정된 리스트의 선택 버튼은 class가 btn-success 변경.  -->
+          <div class="modal-table">
+            <table class="table table-bordered">
+              <thead>
+                <tr class="active">
+                  <th class="text-center">팀명</th>
+                  <th class="text-center">담당지역메모</th>
+                  <th class="text-center">팀장명</th>
+                  <th class="text-center">대표전화</th>
+                  <th class="text-center">선택</th>
+                </tr>
+              </thead>
+              <tbody id="iwTeamContents">
+                <!-- <tr>
+                  <td class="text-left">강동</td>
+                  <td class="text-left">경기(하남), 서울(강동,송파)</td>
+                  <td class="text-center">김용규</td>
+                  <td class="text-center">010-5099-1687</td>
+                  <td class="text-center"><button type="button" class="btn btn-default" data-toggle="modal" data-target="#area-select-modal">선택</button></td>
+                </tr>
+                -->
+              </tbody>
+            </table>
+          </div>
+          <div class="container-fluid">
+            <div class="text-center">
+              <ul class="pagination" id="areaPagination">
+              </ul>
+            </div>
+          </div>
+        <!-- </div> -->
+
+          </form>
+        </div>
+
+
+        <!-- modal 하단 -->
+        <div class="modal-footer">
+          <div class="text-right">
+            <!-- 취소btn -->
+            <button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
+          </div>
+        </div>
+
+        </form>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- 담당지역관리 지역선택 -->
+  <div class="modal fade modal-add" id="area-select-modal" role="dialog">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <form method="post" name="regionForm" id="regionForm">
+          <input type="hidden" class="form-control" id="MIT_ID" name="MIT_ID" >
+          <input type="hidden" class="form-control" id="MIT_NM" name="MIT_NM" >
+          
+          
+          <!-- modal 상단 -->
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button> 
+            <h4 class="modal-title">담당지역선택</h4>  
+          </div>
+          
+          <div id="indicatorArea" style="display:flex ; flex:1 ; width:100%; align-items: center; justify-content: center; ">
+            <div class="lds-ring">
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+            </div> 
+          </div>
+          
+          <!-- modal 내용 -->
+          <div class="modal-body container-fluid">
+            <!-- 할당된 팀 지역 -->
+            <div>   
+              <h5>담당지역</h5>
+              <ul id="ulTeamRegion"></ul>
+            </div>
+            
+            <!-- 지역검색 -->
+            <div class="ulRegion-area">  
+              <!-- 지역검색 -->
+              <div class="row">
+                <div class="col-md-8">
+                  <input type="text" class="form-control" name="SEARCH_AREA_KEYWORD" id="SEARCH_AREA_KEYWORD" placeholder="지역명 입력">
+                </div>
+                <div class="col-md-2">
+                  <button type="button" class="btn btn-primary" id="area-search-btn" onclick="getMiiRegion()"><span class="glyphicon glyphicon-search"></span>&nbsp;검색</button>
+                </div>
+              </div>
+              <!-- 검색지역리스트 -->
+              <div>
+                <ul id="ulRegion">
+                </ul>
+              </div>
+            </div>
+            
+          </div>
+          
+          <!-- modal 하단 -->
+          <div class="modal-footer">
+            <div class="text-left">
+              
+            </div>
+            <div class="text-right">
+              <!-- 등록btn -->
+              <button type="button" class="btn btn-primary" onClick="setRegion()">확인</button>
+              <!-- 취소btn -->
+              <button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+

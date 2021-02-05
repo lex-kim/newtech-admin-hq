@@ -1,0 +1,51 @@
+<!-- modal #add-new -->  
+<div class="modal fade" id="stock-modal" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form class="form-horizontal" name="stockForm" id="stockForm" method="post">
+                <!-- modal 상단 -->
+                <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button> 
+                <h4 class="modal-title">위탁장비 입고</h4>  
+                </div>
+        
+                <!-- modal 내용 -->
+                <div class="modal-body">
+                    <input type="hidden" id="STOCK_NCP_ID" name="STOCK_NCP_ID">
+                    <input type="hidden" id="STOCK_NCP_CNT" name="STOCK_NCP_CNT">
+                    <!-- 입고일 -->
+                    <div class="row">
+                        <div class="col-md-3"><label for="NCPD_STOCK_DT">입고일</label></div>
+                        <div class="col-md-7">
+                            <input type="text" class="form-control" id="NCPD_STOCK_DT" name="NCPD_STOCK_DT" autocomplete="off" placeholder="입력" required>
+                            <span class="glyphicon glyphicon-calendar search-glypicon"></span> 
+                        </div>
+                    
+                    </div>
+        
+                    <!-- 수량 -->
+                    <div class="row">
+                        <div class="col-md-3"><label for="NCPD_CNT">수량</label></div>
+                        <div class="col-md-7"><input type="text" class="form-control" id="NCPD_CNT" name="NCPD_CNT" onkeyup="isNumber(event)" autocomplete="off" placeholder="입력" required></div>
+                    </div>
+    
+                    
+                </div>
+        
+                <!-- modal 하단 -->
+                <div class="modal-footer">
+                    <div class="text-left">
+                       
+                    </div>
+                    <div class="text-right">
+                        <!-- 등록btn -->
+                        <button type="submit" class="btn btn-primary" id="addStockBtn" >등록</button>
+                        <!-- 취소btn -->
+                        <button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+        

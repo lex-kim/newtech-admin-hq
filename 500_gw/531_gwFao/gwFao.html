@@ -1,0 +1,221 @@
+<!-- header.html -->
+<?php
+  require $_SERVER['DOCUMENT_ROOT']."/include/header.html";
+?>
+
+
+  <script src="js/setTable.js"></script>
+
+  <!-- 페이지 카테고리 -->
+  <div class="container-fluid mb20px">
+    <h3 class="nwt-category"><small>공업사관리&nbsp;&nbsp;></small>공업사 담당자관리</h3>
+  </div>
+
+
+  <!-- 검색바(폼) 시작 -->
+  <div class="container-fluid nwt-search-form">
+      <div class="panel panel-default">
+          <div class="panel-body">
+              <form class="form-inline" id="searchForm">
+                  <fieldset>
+                      <legend>조건검색</legend>
+
+                      <!-- 검색버튼 제외한 폼 wrap -->
+                      <div class="frm-wrap">
+                        <!-- 1st row -->
+                        <div class="row frm-last-row">
+                          
+
+                           <!-- 구분 -->
+                           <div class="col-md-1">
+                              <label for="CSD_ID_SEARCH" class="sr-only">구분</label>
+                              <select id="CSD_ID_SEARCH"  name="CSD_ID_SEARCH[]" 
+                                    data-style="btn-default" title="=구분="
+                                    class="form-control selectpicker" multiple
+                                    data-live-search="true" data-live-search-placeholder="Search" >
+                              
+                           </select>                           
+                          </div>
+
+                          <!-- 지역 -->
+                          <div class="col-md-2">
+                              <label for="CRR_ID_SEARCH" class="sr-only">지역 시/군/구</label>
+                              <select id="CRR_ID_SEARCH"  name="CRR_ID_SEARCH[]" 
+                                        data-style="btn-default" title="지역검색(띄어쓰기로 시/도, 시/군/구 구분)"
+                                        class="form-control selectpicker" multiple
+                                        data-live-search="true" data-live-search-placeholder="Search" >
+                                  
+                              </select> 
+                          </div>
+
+                          <div class="col-md-1">
+                            <label for="MGG_ID_SEARCH" class="sr-only">공업사</label>
+                            <input type="text" class="form-control" name="MGG_ID_SEARCH" id="MGG_ID_SEARCH" placeholder="공업사 입력">                            
+                          </div>
+                          
+                          <!-- 거래여부 -->
+                          <div class="col-md-1">
+                              <label for="RCT_ID_SERACH" class="sr-only">거래여부</label>
+                              <select class="form-control" id="RCT_ID_SERACH" name="RCT_ID_SERACH">
+                                  <option value="">=거래여부=</option>
+                              </select>                            
+                          </div>
+
+                          <!-- 직원 -->
+                          <div class="col-md-2 frmGroup2-2">
+                              <label for="MGG_NM_TEL_SERACH" class="sr-only">직원</label>
+                              <select class="form-control" id="MGG_NM_TEL_SERACH" name="MGG_NM_TEL_SERACH">
+                                  <option value="">=직원=</option>
+                                  <option value="NM">성명</option>
+                                  <option value="TEL">연락처</option>
+                              </select>                            
+                              <!-- 직원 입력 -->
+                              <label for="MGG_NM_TEL_INPUT" class="sr-only">입력</label>
+                              <input type="text" class="form-control"
+                                  name="MGG_NM_TEL_INPUT" id="MGG_NM_TEL_INPUT" placeholder="성명 또는 연락처를 선택해주세요."> 
+                          </div>
+ 
+
+                        </div>
+                      </div> 
+                      
+                      <!-- 검색버튼 wrap -->
+                      <div class="frm-search-wrap">
+                        <!-- 검색btn -->
+                        <div class="row">
+
+                          <div class="col-md-12 text-right">
+                            <button type="submit" class="btn btn-primary" id="frmSearch" style="margin-top: -10px"><span class="glyphicon glyphicon-search"></span>&nbsp;검색</button>
+                          </div>
+                        </div> 
+                      </div>
+
+                  </fieldset>
+              </form>
+          </div>
+      </div>
+  </div>
+  <!-- 검색바(폼) 끝 -->
+
+
+ 
+  <!-- 테이블 상단 #perPage, btn 영역 -->
+  <div class="container-fluid nwt-table-top mb20r">
+    <div class="row">
+      
+      <!-- 리스트개수 -->
+      <?php	require $_SERVER['DOCUMENT_ROOT']."/include/listCnt.html"; ?>
+      
+      <!-- 테이블 우측 상단 btn -->
+      <div class="col-lg-6 clearfix">
+        <div class="form-inline f-right">
+          <?php if($AUTH_EXCEL == YN_Y) :?>
+          <!-- 등록btn / modal handler -->
+          <button type="button" class="btn btn-success" onclick="excelDownload();"><span class="glyphicon glyphicon-download-alt"></span>&nbsp;엑셀 다운로드</button>
+          <?php endif; ?>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+
+  <!-- 테이블 -->
+  <div class="container-fluid nwt-table" style="width: 100%;"> 
+    <table class="table table-bordered table-striped">
+      <colgroup>
+        <col width="2%"/>
+        <col width="3%"/>
+        <col width="5%"/>
+        <col width="7%"/>
+        <col width="5%"/>
+        <col width="3.5%"/>
+        <col width="3.9%"/>
+        <col width="3.9%"/>
+        <col width="3%"/>
+        <col width="3%"/>
+        <col width="3.9%"/>
+        <col width="5%"/>
+        <col width="5%"/>
+        <col width="2.5%"/>
+        <col width="5.2%"/>
+        <col width="2.5%"/>
+        <col width="5.2%"/>
+        <col width="2.5%"/>
+        <col width="5.2%"/>
+        <col width="2.5%"/>
+        <col width="5.2%"/>
+        <col width="2.5%"/>
+        <col width="5.2%"/>
+        <col width="2.5%"/>
+        <col width="5.2%"/>
+        <?php if($AUTH_UPDATE == YN_Y) :?>
+        <col width="3%"/>
+        <?php endif; ?>
+      </colgroup>
+      <thead>
+        <tr class="active">
+          <th class="text-center" rowspan="2">순번</th>
+          <th class="text-center" rowspan="2">구분</th>
+          <th class="text-center" rowspan="2">지역</th>
+          <th class="text-center" rowspan="2">공업사</th>
+          <th class="text-center" rowspan="2">사업자번호</th>
+          <th class="text-center" rowspan="2">거래여부</th>
+          <th class="text-center" rowspan="2">개시일</th>
+          <th class="text-center" rowspan="2">종료일</th>
+          <th class="text-center" colspan="2">최근 3개월<br>평균청구</th>
+          <th class="text-center" rowspan="2">수정일</th>
+          <th class="text-center" colspan="2">사무실</th>
+          <th class="text-center" colspan="2">대표자</th>
+          <th class="text-center" colspan="2">Key-man</th>
+          <th class="text-center" colspan="2">공장장</th>
+          <th class="text-center" colspan="2">청구담당자</th>
+          <th class="text-center" colspan="2">도장반장</th>
+          <th class="text-center" colspan="2">판금반장</th>
+          <?php if($AUTH_UPDATE == YN_Y) :?>
+          <th class="text-center" rowspan="2">수정</th>
+          <input type="hidden" class="form-control" name="AUTH_UPDATE" id="AUTH_UPDATE" value="<?php echo $AUTH_UPDATE; ?>">
+          <?php endif; ?>
+        </tr>
+        <tr class="active">
+          <th class="text-center">건수</th>
+          <th class="text-center">금액</th>
+          <th class="text-center">연락처</th>
+          <th class="text-center">팩스번호</th>
+          <th class="text-center">성명</th>
+          <th class="text-center">연락처</th>
+          <th class="text-center">성명</th>
+          <th class="text-center">연락처</th>
+          <th class="text-center">성명</th>
+          <th class="text-center">연락처</th>
+          <th class="text-center">성명</th>
+          <th class="text-center">연락처</th>
+          <th class="text-center">성명</th>
+          <th class="text-center">연락처</th>
+          <th class="text-center">성명</th>
+          <th class="text-center">연락처</th>
+        </tr>
+      </thead>
+      <tbody id="dataTable">                                                    
+      </tbody>
+    </table>
+  </div>
+
+  <!-- indicator -->
+  <?php	require $_SERVER['DOCUMENT_ROOT']."/include/indicator.html"; ?>
+  
+  <!-- pagination -->
+  <div class="container-fluid">
+    <div class="text-center">
+      <ul class="pagination">
+      </ul>
+    </div>
+  </div>
+
+  <!-- 등록/수정 모달  -->
+  <?php	require "./gwFaoModal.html"; ?>
+    
+<!-- footer.html -->
+<?php
+  require $_SERVER['DOCUMENT_ROOT']."/include/footer.html";
+?>

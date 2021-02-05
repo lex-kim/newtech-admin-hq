@@ -1,0 +1,60 @@
+<?php
+
+    header("Content-Type: application/vnd.ms-excel");
+    date_default_timezone_set('Asia/Seoul');
+
+    header("Content-Disposition: attachment; filename=".date("YmdH", time())."_보험사보상담당관리.xls");
+    header("Content-Description: Newtech System");
+
+    require $_SERVER['DOCUMENT_ROOT']."/common/common.php";	
+    require "class/clsIwFaoManagement.php";
+
+    $data =  $clsIwFaoManagement->getList($_REQUEST);
+
+    $result = $data[0];
+
+    $excelHtml = "
+        <table border='1'>
+                <thead>
+                        <th class='text-center'>순번</th>
+                        <th class='text-center'>보험사</th>
+                        <th class='text-center'>보험사팀</th>
+                        <th class='text-center'>등록일자</th>
+                        <th class='text-center'>보상담당</th>
+                        <th class='text-center'>팩스번호</th>
+                        <th class='text-center'>휴대폰</th>
+                        <th class='text-center'>일반전화</th>
+                        <th class='text-center'>이메일</th>
+                        <th class='text-center'>미사용사유</th>
+                        <th class='text-center'>메모</th>
+                </thead>
+    ";
+
+    
+    if(!empty($result)){
+        foreach($result as $item) { 
+            $excelHtml .= "<tr>
+                    <td style='text-align:center;'>".$item['IDX']."</td>
+                    <td style='text-align:left;'>".$item['MII_NM']."</td>
+                    <td style='text-align:left;'>".$item['MIT_NM']."</td>
+                    <td style='text-align:center;'>".$item['WRT_DTHMS']."</td>
+                    <td style='text-align:center;'>".$item['NIC_NM_AES']."</td>
+                    <td style='text-align:center;mso-number-format:\"\@\";'>".cUtil::phone_format($item['NIC_FAX_AES'])."</td>
+                    <td style='text-align:center;mso-number-format:\"\@\";'>".cUtil::phone_format($item['NIC_TEL1_AES'])."</td>
+                    <td style='text-align:center;mso-number-format:\"\@\";'>".cUtil::phone_format($item['NIC_TEL2_AES'])."</td>
+                    <td style='text-align:left;'>".$item['NIC_EMAIL_AES']."</td>
+                    <td style='text-align:left;'>".$item['NIC_NOUSE_REASON']."</td>
+                    <td style='text-align:left;'>".$item['NIC_MEMO']."</td>
+                </tr>
+            ";
+        }
+    }else{
+        $excelHtml .= "<td colspan='11'>조회한 데이터가 존재하지 않습니다.</td>";
+    }
+  
+    $excelHtml .= "</table>";
+
+    echo "<meta content=\"application/vnd.ms-excel;charset=UTF-8;\" name=\"Content-type\">";
+    echo $excelHtml ;
+
+?>

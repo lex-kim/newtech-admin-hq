@@ -1,0 +1,847 @@
+@charset "utf-8";
+
+
+/* reset */
+* {
+	margin: 0;
+	padding: 0;
+	font-size: 12px;
+	/* font-family: '맑은 고딕', 'malgun gothic', 'AppleGothicNeoSD', 'Apple SD 산돌고딕 Neo', 'Microsoft NeoGothic',  'Droid sans', sans-serif; */
+	color: #333;
+	list-style: none;
+	border: 0;
+}
+a {
+	color: #333;
+	text-decoration: none;
+}
+
+table a{
+	color: #337ab7;
+	text-decoration: underline;
+}
+
+legend {
+	display:none;
+}
+
+
+
+/* margin, width 지정 */
+.ui-autocomplete { position: absolute; cursor: default;z-index:30 !important;}
+
+
+
+.mb20px{
+	margin-bottom: 20px;
+}
+
+.mb15px{
+	margin-bottom: 15px;
+}
+.mb0px{
+	margin-bottom: 0px;
+}
+
+
+.mr90px {
+	margin-right: 90px;
+}
+.mr100px {
+	margin-right: 100px;
+}
+
+.mt0px {
+	margin-top: 0px;
+}
+
+.mt5px {
+	margin-top:5px;
+}
+
+.mt20px {
+	margin-top:20px;
+}
+
+.mt50px {
+	margin-top:50px;
+}
+.mt100px {
+	margin-top:100px;
+}
+
+
+.wd100px {
+	width: 100px;
+}
+
+.wd120px {
+	width: 120px;
+}
+.wd130px {
+	width: 130px;
+}
+
+.wd140px {
+	width: 140px;
+}
+
+.wd150px {
+	width: 140px;
+}
+
+.wd200px {
+	width: 200px;
+}
+.wd220px {
+	width: 220px;
+}
+.wd280px {
+	width: 280px;
+}
+
+.wd300px {
+	width: 300px;
+}
+
+
+
+/* responsive */
+/* @media all and (min-width:768px){ */
+	.mt10r {
+		margin-top: 10px !important;
+	}
+	.mr10r {
+		margin-right: 10px !important;
+	}	
+	.mb20r {
+		margin-bottom: 20px !important;
+	}
+
+	.f-right {
+		float: right !important;
+	}
+
+	/* 검색바 왼쪽 버튼 제외 영역 */  
+	.nwt-search-form .panel-body{
+		padding: 15px 15px 13px 15px;
+	}
+	.nwt-search-form .frm-wrap {
+		display: inline-block; 
+		width: calc(100% - 100px);
+	}
+
+	/* 검색바 오른쪽 버튼 영억 */
+	.nwt-search-form .frm-search-wrap {
+		display: inline-block; 
+		width: 90px;
+	}
+
+	/* 검색바 '기간' 항목 */
+
+	/* 하나의 col에 균등한 1개의 폼요소가 들어있어 width 지정하기위함 */
+
+	.nwt-search-form .frmGroup1 * {
+		font-size: 14px;
+	}
+
+	.nwt-search-form .frmGroup1 input {
+		width: 90%;
+	}	
+
+
+	/* 하나의 col에 균등한 2개의 폼요소가 들어있어 width 지정하기위함 */
+	.nwt-search-form .frmGroup2  {
+		font-size:	0;
+	}
+	.nwt-search-form .frmGroup2 * {
+		font-size: 14px;
+	}
+	.nwt-search-form .frmGroup2 select {
+		margin-right: 8px;
+		width: calc(50% - 9.5px);
+	}
+	.nwt-search-form .frmGroup2 label[for="frmDtEnd"] {
+		width: 16px;
+		text-align: center;
+	}	
+	.nwt-search-form .frmGroup2 input {
+		width: calc(50% - 9.5px);
+	}	
+
+	/* 하나의 col에 균등한 2개의 폼요소가 들어있어 width 지정하기위함 select */
+	.nwt-search-form .frmGroup2-3  {
+		font-size:	0;
+	}
+	.nwt-search-form .frmGroup2-3 * {
+		font-size: 14px;
+	}
+	.nwt-search-form .frmGroup2-3 label[for="frmDtEnd"] {
+		width: 15px;
+		text-align: center;
+	}	
+	.nwt-search-form .frmGroup2-3 select {
+		width: calc(50% - 15px);
+	}	
+
+
+
+	/* 하나의 col에 선택/입력 2개의 폼요소가 들어있어 width 지정하기위함 */
+	.nwt-search-form .frmGroup2-2  {
+		font-size:	0;
+	}
+	.nwt-search-form .frmGroup2-2 * {
+		font-size: 14px;
+	}
+	.nwt-search-form .frmGroup2-2 select {
+		margin-right: 7px;
+		width: calc(45% - 7px);
+	}
+	.nwt-search-form .frmGroup2-2 label[for="frmDtEnd"] {
+		width: 15px;
+		text-align: center;
+	}	
+	.nwt-search-form .frmGroup2-2 input {
+		width: 55%;
+	}	
+
+
+
+	/* 하나의 col에 3개의 폼요소가 들어있어 width 지정하기위함 */
+	.nwt-search-form .frmGroup3  {
+		font-size:	0;
+	}
+	.nwt-search-form .frmGroup3 * {
+		font-size: 14px;
+	}
+	.nwt-search-form .frmGroup3 select {
+		margin-right: 8px;
+		width: calc(33% - 23px);
+	}
+	.nwt-search-form .frmGroup3 label[for="frmDtEnd"] {
+		width: 15px;
+		text-align: center;
+	}	
+	.nwt-search-form .frmGroup3 input {
+		width: 33%;
+	}
+
+
+	/* 다중검색 multiselect 지금안씀
+	Searchable-Multi-select-jQuery-Dropdown ver일때 사용함*/
+	.nwt-multselect{
+		display: none;
+		border-radius: 4px;
+		height: 30px !important;
+	}
+
+	
+	
+/* } */
+
+
+/* input type style */
+label.radio-inline{
+	line-height: 28px;
+	padding-right: 20px;
+}
+label.radio-inline input[type="radio"]{
+	position: relative;
+	top: 3px;
+	margin-right: 5px;
+}
+
+/* checkbox */
+label.checkbox-inline{
+	line-height: 20px;
+	margin-right: 5px;
+
+	/* background-color: blue; */
+}
+label.checkbox-inline:nth-of-type(1){
+	/* margin-left: -10px; */
+}
+
+label.radio-inline input[type="checkbox"]{
+	position: relative;
+	top: 3px;
+	margin-right: 5px;	
+	padding-left: 10px;
+}
+label.radio-inline input[type="checkbox"]:nth-child(1+n){
+
+	padding-left: 0;
+}
+
+
+/*=================
+	header.html 
+================*/
+
+/* navbar 상단 안내버튼 */
+.navTop,.navbar {
+	background-color: #f2f2f2;
+}
+
+
+.navTop ul{
+	float: right;
+}
+
+.navTop li {
+	float: left;
+	margin-right: 5px;
+}
+
+.navTop li a {
+	display: block;
+	padding: 5px 10px;
+	color: #fff;
+	font-size: 13px;
+	text-decoration: none;
+	border-bottom-left-radius: 3px;
+	border-bottom-right-radius: 3px;
+	background-color: #a0a0a0;
+}
+.navTop li:nth-child(2) a {
+	color: #c1e2ff;
+}
+
+li.claimbtn a{
+	display: block;
+	padding: 0px;
+	margin: 0px;
+}
+
+
+/* navbar 시작 */
+.navbar-brand {
+	margin-right: 20px;
+	padding-right: 28px;
+	font-weight: bold;
+	background: url('/images/logo.png') no-repeat;
+	background-position: calc(100% - 3px) center;
+	background-size: 22px auto;
+}
+
+.navbar-brand:hover {
+	color: #333;
+}
+
+.nwt-navbar-btn-list {
+	padding: 0 15px;
+}
+
+
+
+
+/*===========================
+    scroll시 header 이벤트
+==========================*/
+
+header{
+	position: fixed;
+	top: 0;
+	width: 100%;
+	z-index: 1000;
+	transition: all 0.3s;
+}
+.hScrolling{
+	top: -38px;
+}
+
+.h-height{
+	height: 100px;
+}
+
+.h-height-scroll{
+	height: 100px;
+}
+
+.shop-height{
+	height: 80px;
+}
+
+
+/*================
+	페이지 카테고리
+================*/
+.nwt-category small {
+	margin-right: 10px;
+}
+
+
+
+
+/*================
+	검색바(폼)
+================*/
+.nwt-search-form .form-control  {
+	margin-bottom: 10px;
+	height: 28px;
+	width: 100%;
+	font-size: 12px;
+}
+
+.nwt-search-form .frm-search-wrap .btn{
+	height: 28px;
+	box-sizing: border-box;
+	padding: 5px 9px;
+}
+
+.frm-search-wrap .glyphicon {
+	color: #fff;
+}
+
+.frm-wrap .row:last-child .form-control {
+	margin-bottom: 0;
+}
+
+.nwt-search-form .nwt-form-label{
+	font-size: 11px;
+	line-height: 20px;
+	color: #aaa;
+	margin: 0px 4px;
+}
+
+.nwt-search-form .search-glypicon{
+	color: #777;
+	cursor: pointer;
+}
+
+.nwt-search-form .search-glypicon{
+    position: relative;
+    top: 2px; 
+    left: -20px;
+    width: 0;
+}
+
+.nwt-search-form .frm-last-row .search-glypicon{
+    top: 7px;
+}
+
+
+/* 검색바 내 멀티셀렉터 CSS */
+
+.nwt-search-form .bootstrap-select.btn-group:not(.input-group-btn), .bootstrap-select.btn-group[class*=col-] {
+    height: 28px;
+}
+.nwt-search-form .bootstrap-select>.dropdown-toggle.bs-placeholder, .bootstrap-select>.dropdown-toggle.bs-placeholder:active, .bootstrap-select>.dropdown-toggle.bs-placeholder:focus, .bootstrap-select>.dropdown-toggle.bs-placeholder:hover {
+    height: 28px;
+}
+.nwt-search-form .btn-group > .btn:first-child {
+    height: 28px;
+}
+.nwt-search-form .bootstrap-select.btn-group .dropdown-toggle .filter-option {
+    font-size: 12px !important;
+    padding: 0px !important;
+    margin: 0 !important;
+  
+}
+.nwt-search-form .bootstrap-select button {
+	padding-bottom: 0;
+	padding-top: 2px;
+}
+.nwt-search-form .multiSelectOption{
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+/* 입력 검색 시 하단 위젯 높이 조절 */
+.ui-menu{
+    max-height: 300px;
+    overflow: hidden;
+    overflow-y: scroll;
+}
+
+
+
+/*=======================================
+	테이블 상단 #perPage, 각종 btn 영역
+======================================*/
+.nwt-table{
+	width: 100%;
+	/* overflow-x: scroll; 표가 긴 경우 가로 스크롤이 생기도록 */
+	/* white-space: nowrap; x-scroll이 안생김 */
+	text-align: center;
+	margin: 0 auto;
+}
+
+
+.nwt-table-top .form-control {
+	height: 28px;
+
+}
+
+.nwt-table-top .glyphicon {
+	color: #fff;
+}
+
+
+
+/*================
+	테이블
+================*/
+.nwt-table .form-control {
+	height: 30px;
+}
+
+.nwt-table th, td {
+	/* white-space: nowrap; : 글씨가 안떨어지게 해줌*/
+	vertical-align: middle !important;
+}
+
+.nwt-table th {
+	background-color: #f0f0f0 !important;
+}
+
+.nwt-table tbody tr:hover td {
+	background-color: #dff0d8;
+}
+
+/* 테이블 길이 고정을 원하면 단, 이메일의 경우 글씨가 떨어지지않음 */
+.table{
+    /* table-layout: fixed; */
+}
+
+
+
+/* 리스트 내에 있는 버튼 style */
+
+.table tr td button{
+	float: center;
+	font-size: 13px;
+	padding: 3px 5px;
+	margin-right: 3px;
+}
+.table tr td button:last-child{
+	margin-right: 0;
+}
+.table tr td > a {
+	float: center;
+	font-size: 13px;
+	/* padding: 3px 5px; */
+	margin-right: 3px;
+}
+.table tr td > a:last-child {
+	margin-right: 0;
+}
+
+
+/* 표 내 정렬 아이콘 */
+.table-array{
+	position: relative;
+	cursor: pointer;
+	padding-right: 20px !important;
+}
+.table-array .arrayicon{
+	position: absolute;
+	top: 50%;
+	right: 5%;
+	transform: translateY(-50%);
+}
+.table-array .arrayicon > span{
+	display: block;
+	font-size: 9px;
+	color: #777;
+}
+
+/* 테이블내 폰트볼드 */
+.text-bold{
+    font-weight: bold;
+}
+.text-red{
+    color:red;
+}
+.text-fz16{
+    font-size: 16px;
+}
+
+
+/* 테이블 상단 라인 2줄 */
+.border-double-top{
+	border-top: 3px double #aaa;
+	border-width: 3px;
+}
+.border-double-bottom{
+	border-bottom: 3px double #aaa;
+	border-width: 3px;
+}
+
+
+
+/*======================
+	modal #add-new
+======================*/
+#add-new .modal-dialog{
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%,-50%)
+}
+
+#add-new .row {
+	padding-bottom: 15px;
+}
+
+#add-new .form-control {
+	height: 32px;
+}
+
+#add-new label {
+	display: table-cell;
+	height: 32px;
+	vertical-align: middle;
+}
+
+#add-new .form-control + span {
+	color: 14px;
+	color: #aaa;
+}
+
+
+	/* 모달 class로 적용 시 */
+
+.modal-add .modal-dialog{
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%,-50%) !important;
+}
+
+.modal-add .row {
+	padding-bottom: 15px;
+}
+
+.modal-add .form-control {
+	height: 32px;
+}
+
+.modal-add label {
+	display: table-cell;
+	height: 32px;
+	vertical-align: middle;
+}
+
+.modal-add .form-control + span {
+	color: 14px;
+	color: #aaa;
+}
+
+
+.modal-footer > div {
+	float: left;
+}
+.modal-footer .text-right{
+	float: right;
+}
+
+span.necessary{
+	color: #23acff;
+	position: relative;
+	top: 2px;
+}
+
+
+/*======================
+	modal #delet-modal
+======================*/
+#delet-modal{
+	
+}
+#delet-modal .modal-dialog .modal-content .modal-body form p{
+	text-align: center;
+	height: 80px;
+	line-height: 90px;
+}
+
+#delet-modal .modal-dialog .modal-content .modal-footer .btn{
+	width: 163px;
+}
+
+#delet-modal .modal-dialog{
+	width: 400px;
+	position: relative;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%,-50%)
+}
+
+#delet-modal .modal-dialog .modal-content{
+	
+	
+}
+
+
+/*======================
+	modal #confirm-modal
+======================*/
+#confirm-modal{
+	
+}
+#confirm-modal .modal-dialog .modal-content .modal-body form p{
+	text-align: center;
+	height: 80px;
+	line-height: 90px;
+}
+
+#confirm-modal .modal-dialog .modal-content .modal-footer .btn{
+	width: 163px;
+}
+
+#confirm-modal .modal-dialog{
+	width: 400px;
+	position: relative;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%,-50%)
+}
+
+#confirm-modal .modal-dialog .modal-content{
+	
+	
+}
+
+
+/*======================
+	문서 공통 CSS
+======================*/
+
+/* 합계금액 CSS */
+.all-total-price{
+    position: relative;
+}
+.all-total-price span{
+    position: absolute;
+    right: 10px;
+    top: 50%;
+	transform: translateY(-50%);
+	color: #888;
+}
+
+
+/* 영역 반틈으로 나눔 */
+.half-area{
+    overflow: hidden;
+}
+.half-area > div{
+    float: left;
+    width: calc(50% - 5px);
+}
+.half-area .half-right{
+    margin-left: 10px;
+}
+
+
+/* 하단 버튼 영역 */
+.bill-footer{
+    overflow: hidden;
+}
+.bill-footer > div{
+    float: left;
+	width: 33%;
+	margin-bottom: 30px;
+}
+
+/* 문서 품명 내 옵션 */
+.bill-goods-option{
+	color: #999;
+	font-size: 11px;
+}
+
+
+/* //////////////////////// */
+
+/* footerInfo CSS */
+
+
+/* 로그인 페이지 footer */
+footer {
+    padding: 30px 0 20px;
+    width: 100%;
+    /* position: absolute; */
+    /* left: 0; */
+    /* bottom: 0; */
+    background-color: #F3F3F3;
+}
+
+footer .f-inner {
+    margin: 0 auto;
+    width: 630px;
+}
+
+footer ul{
+	overflow: hidden;
+}
+
+footer li {
+    float: left;
+    padding: 0 5px;
+    line-height: 1;
+    border-right: 1px solid #333;
+    font-size: 13px;
+    letter-spacing: -1px;
+}
+
+footer li:last-child {
+    border-right: none;
+}
+
+
+
+
+
+
+
+/* 인디케이터 css */
+.lds-ring {
+	display: inline-block;
+	position: relative;
+	width: 40px;
+	height: 40px;
+  }
+  .lds-ring div {
+	box-sizing: border-box;
+	display: block;
+	position: absolute;
+	width: 40px;
+	height: 40px;
+	margin: 6px;
+	border: 6px solid red;
+	border-radius: 50%;
+	animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+	border-color: rgb(70, 69, 71) transparent transparent transparent;
+	/* border-color: #fff transparent transparent transparent; */
+  }
+  .lds-ring div:nth-child(1) {
+	animation-delay: -0.45s;
+  }
+  .lds-ring div:nth-child(2) {
+	animation-delay: -0.3s;
+  }
+  .lds-ring div:nth-child(3) {
+	animation-delay: -0.15s;
+  }
+  @keyframes lds-ring {
+	0% {
+	  transform: rotate(0deg);
+	}
+	100% {
+	  transform: rotate(360deg);
+	}
+  }
+  
+
+  /* tab CSS */
+.nav-tabs{
+    margin-bottom: 10px;
+}
+.nav-tabs li a{
+    font-size: 1.2rem;
+}
+.nav-tabs li.active a{
+    color: #337ab7 !important;
+    font-weight: bold;
+}
+
+  

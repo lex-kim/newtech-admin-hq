@@ -1,0 +1,60 @@
+<?php
+  require $_SERVER['DOCUMENT_ROOT']."/include/headerpopup.html";
+  $MGG_ID = $_POST['TRANS_MGG_ID'];
+  $MGG_NM = $_POST['TRANS_MGG_NM'];
+  $IMG = $_POST['TRANS_IMG'];
+?>
+<script src="../../500_gw/510_gwMngt/js/setSelectOption.js"></script>
+
+<!-- <script src="../401_enrolReceipt/js/app.js"></script> -->
+<div class="container-fluid main-popup-dialog">
+  <div class="main-popup-header">
+    <button type="button" class="close" onclick="window.close();">&times;</button> 
+    <h3 class="main-popup-title">거래명세서 조회</h3>
+  </div>
+  <input type="hidden" class="form-control" id="REQ_MODE" name="REQ_MODE">
+      
+    <div class="main-popup-content">
+
+
+      <!-- 청구서 오른쪽 영역 -->
+      <div class="main-popup-left">
+
+        <div>
+          <div>
+              <h4>영업사원 입력 거래명세서 세부내역</h4>
+          </div>
+          <div>
+              <img id="receipt-img" onclick="imgZoomPopup()" src="<?php echo $IMG?>"/>
+          </div>
+
+          <form method="POST" action="specificationImg.html" id="transImgForm" target="newwindowImg">
+            <input type="hidden" id="POPUP_MGG_ID_" name="POPUP_MGG_ID"/>
+            <input type="hidden" id="POPUP_MGG_NM" name="POPUP_MGG_NM"/>
+            <input type="hidden" id="POPUP_IMG" name="POPUP_IMG"/>
+          </form>
+
+        </div>
+
+      </div>
+
+      <!-- 청구서왼쪽영역 -->
+      <div class="main-popup-right">
+         
+        <iframe src="/400_receipt/401_enrolReceipt/enrolReceipt.html?type=trans&MGG_ID=<?php echo $MGG_ID?>&MGG_NM=<?php echo $MGG_NM?>"></iframe>
+             
+      </div>
+
+
+    </div>
+    
+
+</div>
+
+
+
+
+
+<?php
+  require $_SERVER['DOCUMENT_ROOT']."/include/footerpopup.html";
+?>

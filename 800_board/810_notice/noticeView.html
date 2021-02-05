@@ -1,0 +1,94 @@
+
+  <!-- modal #notice-view -->  
+  <div class="modal fade" id="notice-view" role="dialog">
+        <div class="modal-dialog">
+          <div class="modal-content">
+    
+            <!-- modal 상단 -->
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal">&times;</button> 
+              <h4 class="modal-title">공지사항</h4>  
+            </div>
+    
+    
+            <!-- modal 내용 -->
+            <div class="modal-body">         
+                <form action="#">
+        
+                    <!-- 제목 -->
+                    <div class="row">
+                        <div class="col-md-2"><label for="TITLE">제목</label></div>
+                        <div class="col-md-8" id="NOTICE_TITLE" name="NOTICE_TITLE"></div>
+                    </div>
+  
+                    <hr>
+        
+                    <div class="margin-bottom">
+                      <!-- 글권한 -->
+                      <div class="row">
+                          <div class="col-md-2"><label for="NOTICE_MODE">글권한</label></div>
+                          <div class="col-md-8"id="NOTICE_MODE" name="NOTICE_MODE"></div>
+                          <input type="hidden" id="MNN_ID" name="MNN_ID">
+                      </div>
+                      
+                      <!-- 보험사/공업사 -->
+                      <div class="row" id="DIV_NOTICE_TGT">
+                          <div class="col-md-2"><label for="NOTICE_TGT" id="NOTICE_TGT_NM_LABEL">보험사</label></div>
+                          <div class="col-md-8"><span  id="NOTICE_TGT_NM" name="NOTICE_TGT_NM" ></span></div>
+                      </div>
+  
+  
+                      <!-- 게시글고정 -->
+                      <div class="row" id="DIV_NOTICE_FIX">
+                          <div class="col-md-3"><label for="NOTICE_FIX">게시글고정</label></div>
+                          <div class="col-md-1"><input type="checkbox" disabled value="exception" name="NOTICE_FIX" id="NOTICE_FIX"></div>
+                          <div class="col-md-2"><label for="NOTICE_ORDER_NUM">출력순서</label></div>
+                          <div class="col-md-3"><input type="number" readonly class="form-control" id="NOTICE_ORDER_NUM" name="NOTICE_ORDER_NUM" placeholder="숫자입력"></div>
+                      </div>
+  
+                    </div>
+                   
+  
+                    <hr>
+  
+                    <!-- 내용 -->
+                    <div class="row">
+                        <label class="col-md-2" for="NOTICE_CONTENTS">내용</label>
+                        <div class="col-md-9" id="NOTICE_CONTENTS" name="NOTICE_CONTENTS">
+                        </div>
+                    </div>
+                    <hr>
+                    <!-- 첨부파일 -->
+                    <div class="row">
+                        <label class="col-md-2" for="NOTICE_FILE">첨부파일</label>
+                        <div class="col-md-8" id="NOTICE_FILE" name="NOTICE_FILE">
+                            
+                        </div>
+                    </div>
+                    
+        
+                </form>
+            </div>
+    
+            <!-- modal 하단 -->
+            <div class="modal-footer">
+                <div class="text-left">
+                    <?php if($AUTH_DELETE == YN_Y) :?>
+                    <!-- 삭제btn -->
+                    <button type="button" class="btn btn-danger" id="btnDelete" onclick="confirmDelSwal()">삭제</button>
+                    <?php endif; ?>
+
+                </div>
+                <div class="text-right">
+                    <?php if($AUTH_UPDATE == YN_Y) :?>
+                    <!-- 등록btn -->
+                    <button type="button" class="btn btn-default" onclick="openPopup(CASE_UPDATE,$('#MNN_ID').val())">수정</button>
+                    <?php endif; ?>
+
+                    <!-- 취소btn -->
+                    <button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
+                </div>
+            </div>
+          </div>
+        </div>
+      </div>

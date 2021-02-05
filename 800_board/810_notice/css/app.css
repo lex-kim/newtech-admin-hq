@@ -1,0 +1,70 @@
+
+.modal-dialog {
+    width: 900px;
+    height: 100%;
+}
+
+.borderBottom {
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+    border-bottom-color: #999;
+}
+
+#data-update .margin-bottom input {
+    margin-bottom: 15px;
+}
+
+#notice-view .margin-bottom input {
+    margin-bottom: 15px;
+}
+
+.row .col-md-1 #fix {
+    height: 23px;
+}
+
+#deleteFile {
+    float: none;
+    font-size: 15px;
+    margin-left: 3px;
+    margin-top: 3px;
+}
+
+#FILE_DOWN_NM {
+    vertical-align: middle;
+}
+
+#notice-view #NOTICE_FILE span {
+    cursor: pointer;
+    background-color: white; 
+}
+
+
+.col-md-1 .bootstrap-select .btn {
+    height: 28px;
+    font-size: 12px;
+}
+
+.modal-content .col-md-3 .btn {
+    height: 32px;
+}
+
+
+#add-new .frmGroup2 .col-md-3 {
+    position: relative;
+}
+#add-new .frmGroup2 .col-md-3 .search-glypicon{
+    position: absolute;
+    top: 8px;
+    right: 22px;
+}
+
+
+/* 리스트 질문답변 내용 길어질경우 */
+.table{
+    table-layout: fixed;
+}
+.overText{
+    overflow:hidden; 
+    text-overflow:ellipsis; 
+    white-space:nowrap;
+}

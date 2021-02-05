@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+  <html lang="ko">
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="cache-control" content="no-cache">
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv='Content-type' content='text/html; charset=utf-8'>
+    <meta http-equiv="cache-control" content="no-cache, must-revalidate">
+    <meta http-equiv="pragma" content="no-cache">
+    <title>NEWTECH - 관리자시스템</title>
+
+    
+    <!-- favicon -->
+    <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/images/favicon.ico" type="image/x-icon">
+
+
+    <!-- Bootstrap v3.3.7 스타일 -->
+    <link rel="stylesheet" href="/bootstrap/css/bootstrap-theme.css">
+    <link rel="stylesheet" href="/bootstrap/css/bootstrap.css">
+
+    <!-- 공통 스타일 -->
+    <link rel="stylesheet" href="/css/common.css">
+    <!-- 페이지별 스타일 -->
+    <link rel="stylesheet" href="css/app.css">
+
+  </head>
+
+  <body>
+    <div class="modal-add" id="add-sms" >
+        <!-- <div class="modal-dialog"> -->
+            <!-- <div class="modal-content"> -->
+            <form method="post" name="smsForm" id="smsForm">
+
+                <!-- modal 상단 -->
+                <div class="modal-header">
+                    <h4 class="modal-title">SMS/LMS 발송</h4>  
+                       * 메시지 길이에 따라 자동으로 SMS/LMS로 나뉘어 발송됩니다.
+                </div>
+
+
+                <!-- modal 내용 -->
+                <div class="modal-body"> 
+                    <label class="col-md-2" for="NS_CONTENT">메시지</label>
+                    <div class="col-md-8">
+                        <textarea id="NS_CONTENT" name="NS_CONTENT" class="form-control" style="height:100px;"  placeholder="발송할 내용을 입력해주세요." required=""></textarea>
+                    </div>
+                    <label class="col-md-2"for="NS_SENDER">발신번호</label>
+                    <div class="col-md-8">
+
+                        <input class="form-control" type="text" id="NS_SENDER" name="NS_SENDER" onkeyup="isNumber(event)" value="025218688" placeholder="'-'제외 전화번호 입력" required="">
+                    </div>
+                    <label class="col-md-2"for="NS_RECEIVER">수신번호</label>
+                    <div class="col-md-8">
+                        <input class="form-control" type="text" id="NS_RECEIVER" name="NS_RECEIVER" onkeyup="isNumber(event)" value="<?php echo $_REQUEST['NUM'];?>" placeholder="'-'제외 전화번호 입력" required="">
+                    </div>
+                      
+                    </div>
+                    <!-- 뉴텍의 기존 SMS기능을 붙여주시면됩니다.
+                    굳이 모달이 아닌 새 창 팝업으로 되어도 됩니다. -->
+                    
+                    
+                </div>
+
+                <!-- modal 하단 -->
+                <div class="modal-footer">
+                    <div class="text-right">
+                    <!-- 등록btn -->
+                    <button type="submit" class="btn btn-primary" id="btnConfirm">발송</button>
+                    <!-- 취소btn -->
+                    <button type="button" class="btn btn-default" onclick="window.close()">취소</button>
+                    </div>
+                </div>
+
+            </form>
+            <!-- </div> -->
+        <!-- </div> -->
+    </div>
+  </body>
+
+
+  <!-- jQuery v1.12.4 -->
+<script src="/js/jquery-1.12.4.min.js"></script>
+
+<script>
+    $(document).ready(function() {
+          $('#smsForm').submit(function(e){
+              e.preventDefault();
+              confirmSwalTwoButton(phoneFormat($('#NS_RECEIVER').val())+' 발송하시겠습니까?',OK_MSG, CANCEL_MSG, false ,()=>setData());
+          });
+    });
+
+    setData = () => {
+       
+        let form = $("#smsForm")[0];
+        let formData = new FormData(form);
+        formData.append('REQ_MODE', CASE_UPDATE);
+        formData.append('SEND_ID',  getSendID());
+        formData.append('SEND_TYPE', XMS);
+        
+
+        console.log('setData param>>>',form);
+        callFormAjax('act/exceptMngt_act.php', 'POST', formData).then((result)=>{
+            console.log('setData SQL>>', result);
+            if(isJson(result)){
+                confirmSwalOneButton('발송이 완료되었습니다.',OK_MSG,()=>{window.close();});
+            }else{
+                confirmSwalOneButton('발송에 실패하였습니다.\n 재시도 바랍니다.',OK_MSG,()=>{console.log('UMS SEND FAIL');});
+            }
+        }); 
+
+        }
+
+</script>
+<!-- Bootstrap v3.3.7 -->
+<script src="/bootstrap/js/bootstrap.min.js"></script>
+<!-- editor js -->
+<script type="text/javascript" src="/summernote/summernote.js"></script>
+<!-- multiselect.js -->
+
+
+<!-- 상수 js -->
+<script src="/js/const.js"></script>
+
+<!-- 에러 js -->
+<script src="/js/error.js"></script>
+
+<!-- 공통 js -->
+<script src="/js/common.js"></script>
+
+
+<!-- jquery-ui calendar 때문? -->
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous"></script>
+ 
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.form/4.2.0/jquery.form.min.js" integrity="sha384-E4RHdVZeKSwHURtFU54q6xQyOpwAhqHxy2xl9NLW9TQIqdNrNh60QVClBRBkjeB8" crossorigin="anonymous"></script>
+<!-- sweetalert -->
+<script src="/js/sweetalert.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/js/bootstrap-select.min.js"></script>
+
+
+</html>

@@ -1,0 +1,184 @@
+<!-- header.html -->
+<?php
+  require $_SERVER['DOCUMENT_ROOT']."/include/header.html";
+?>
+
+
+  <!-- 페이지 카테고리 -->
+  <div class="container-fluid mb20px">
+    <h3 class="nwt-category"><small>입금관리&nbsp;&nbsp;></small>보험사 청구 및 입금 현황</h3>
+  </div>
+
+
+  <!-- 검색바(폼) 시작 -->
+  <div class="container-fluid nwt-search-form">
+    <div class="panel panel-default">
+      <div class="panel-body">
+        <form class="form-inline" id="searchForm">
+          <fieldset>
+            <legend>조건검색</legend>
+
+            <!-- 검색버튼 제외한 폼 wrap -->
+            <div class="frm-wrap">
+              <!-- 1st row -->
+              <div class="row frm-last-row">
+                
+
+                <!-- 기간 -->
+                <div class="col-md-2 frmGroup3">
+                  <label for="DT_KEY_SEARCH" class="sr-only">기간</label>
+                  <!-- 기간선택 -->
+                  <select class="form-control" id="DT_KEY_SEARCH" name="DT_KEY_SEARCH">
+                    <option value="">=기간=</option>
+                    <option value="NB_CLAIM_DT" selected>청구일</option>
+                    <option value="NBI_INSU_DEPOSIT_DT">입금일</option>
+                  </select>
+                  <!-- 날짜선택 -->
+                  <input type="text" class="form-control" name="START_DT_SEARCH" id="START_DT_SEARCH" autocomplete="off" placeholder="입력">
+                  <span class="glyphicon glyphicon-calendar search-glypicon"></span>
+                  <label for="END_DT_SEARCH" class="nwt-form-label">~</label>                            
+                  <input type="text" class="form-control" name="END_DT_SEARCH" id="END_DT_SEARCH" autocomplete="off" placeholder="입력">
+                  <span class="glyphicon glyphicon-calendar search-glypicon"></span>
+                </div>
+
+
+                <!-- 해당년 -->
+                <div class="col-md-1">
+                  <label for="YEAR_SEARCH" class="sr-only">해당년</label>
+                  <select class="form-control" id="YEAR_SEARCH" name="YEAR_SEARCH" >
+                    <option value="">=해당년=</option>
+                  </select>                            
+                </div>
+
+                <!-- 해당월 -->
+                <div class="col-md-1">
+                  <label for="MONTH_SEARCH" class="sr-only">해당월</label>
+                  <select class="form-control" id="MONTH_SEARCH" name="MONTH_SEARCH" >
+                    <option value="">=해당월=</option>
+                    <option value="01">1</option>
+                    <option value="02">2</option>
+                    <option value="03">3</option>
+                    <option value="04">4</option>
+                    <option value="05">5</option>
+                    <option value="06">6</option>
+                    <option value="07">7</option>
+                    <option value="08">8</option>
+                    <option value="09">9</option>
+                    <option value="10">10</option>
+                    <option value="11">11</option>
+                    <option value="12">12</option>
+                  </select>                            
+                </div>
+
+                <!-- 쌍방여부 -->
+                <div class="col-md-1">
+                  <label for="BOTH_YN" class="sr-only">쌍방여부</label>
+                  <select class="form-control" id="BOTH_YN" name="BOTH_YN">
+                    <option value="">=쌍방여부=</option>
+                    <option value="Y">Y</option>
+                    <option value="N">N</option>
+                  </select>                            
+                </div>
+
+              </div>
+            </div> 
+
+            <!-- 검색버튼 wrap -->
+            <div class="frm-search-wrap">
+              <!-- 검색btn -->
+              <div class="row">
+                <div class="col-md-12 text-right">
+                  <button type="submit" class="btn btn-primary" id="frmSearch" style="margin-top: -10px"><span class="glyphicon glyphicon-search"></span>&nbsp;검색</button>
+                </div>
+              </div> 
+            </div>
+
+          </fieldset>
+        </form>
+      </div>
+    </div>
+  </div>
+  <!-- 검색바(폼) 끝 -->
+
+  
+  <!-- 테이블 상단 #perPage, btn 영역 -->
+  <div class="container-fluid nwt-table-top mb20r">
+    <div class="row">
+      
+      <!-- 리스트개수 -->
+      <?php	require $_SERVER['DOCUMENT_ROOT']."/include/listCnt.html"; ?>
+      
+      <!-- 테이블 우측 상단 btn -->
+      <div class="col-lg-6 clearfix">
+        <div class="form-inline f-right">
+          <?php if($AUTH_EXCEL == YN_Y) :?>
+          <!-- 엑셀 다운로드 -->
+          <button type="button" class="btn btn-success" onclick="excelDownload()"><span class="glyphicon glyphicon-download-alt"></span>&nbsp;엑셀 다운로드</button>
+          <?php endif; ?>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- indicator -->
+  <?php	require $_SERVER['DOCUMENT_ROOT']."/include/indicator.html"; ?>
+  
+  <!-- 테이블 -->
+  <div class="container-fluid nwt-table" style="width: 100%;">
+    <table class="table table-bordered table-striped">
+      <thead>
+        <tr class="active">
+          <th class="text-center" rowspan="2">순번</th>
+          <th class="text-center" rowspan="2">구분</th>
+          <th class="text-center" rowspan="2">보험사</th>
+          <th class="text-center" rowspan="2">총청구건수</th>
+          <th class="text-center" rowspan="2">총청구금액</th>
+          <th class="text-center" rowspan="2">입금건수</th>
+          <th class="text-center" rowspan="2">입금청구액</th>
+          <th class="text-center" rowspan="2">입금금액</th>
+          <th class="text-center" rowspan="2">감액금액</th>
+          <th class="text-center" rowspan="2">미입금<br>종결건수</th>
+          <th class="text-center" rowspan="2">미입금<br>종결청구액</th>
+          <th class="text-center" rowspan="2">미입금건수</th>
+          <th class="text-center" rowspan="2">미입금액</th>
+          <th class="text-center" colspan="2">입금률</th>
+          <th class="text-center" colspan="2">감액률</th>
+          <th class="text-center" colspan="2">미입금 종결률</th>
+          <th class="text-center" colspan="2">미입금률</th>
+          <th class="text-center" rowspan="2">입금<br>종결건수</th>
+          <th class="text-center" rowspan="2">입금총결<br>청구액</th>
+          <th class="text-center" rowspan="2">입금종결<br>입금액</th>
+          <th class="text-center" colspan="2">입금종결률</th>
+        </tr>
+        <tr class="active">
+          <th class="text-center">건수</th>
+          <th class="text-center">금액</th>
+          <th class="text-center">건수</th>
+          <th class="text-center">금액</th>
+          <th class="text-center">건수</th>
+          <th class="text-center">금액</th>
+          <th class="text-center">건수</th>
+          <th class="text-center">금액</th>
+          <th class="text-center">건수</th>
+          <th class="text-center">금액</th>
+        </tr>
+      </thead>
+      <tbody id="dataTable">
+      </tbody>
+    </table>
+  </div>
+
+  <!-- pagination -->
+  <div class="container-fluid">
+    <div class="text-center">
+      <ul class="pagination">
+      </ul>
+    </div>
+  </div>
+  
+
+<!-- footer.html -->
+<?php
+  require $_SERVER['DOCUMENT_ROOT']."/include/footer.html";
+?>

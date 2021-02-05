@@ -1,0 +1,100 @@
+<?php
+
+    header("Content-Type: application/vnd.ms-excel");
+    date_default_timezone_set('Asia/Seoul');
+
+    header("Content-Disposition: attachment; filename=".date("YmdH", time())."_미지급및감액건통계.xls");
+    header("Content-Description: NewtechSystem");
+
+    require $_SERVER['DOCUMENT_ROOT']."/common/common.php";	
+    require "class/clsStatistics.php";
+
+    $data =  $cStat->getList($_REQUEST);
+
+    $result = $data[0];
+
+
+    $excelHtml = "
+        <table border='1'>
+            <thead>
+                <tr>
+                  <th style='text-align:center;'>순번</th>
+                  <th style='text-align:center;'>보험사</th>
+                  <th style='text-align:center;'>보험사팀</th>
+                  <th style='text-align:center;'>보상담당</th>
+                  <th style='text-align:center;'>휴대폰</th>
+                  <th style='text-align:center;'>청구건수</th>
+                  <th style='text-align:center;'>청구금액</th>
+                  <th style='text-align:center;'>지급건수</th>
+                  <th style='text-align:center;'>지급건<br>청구금액</th>
+                  <th style='text-align:center;'>지급금액</th>
+                  <th style='text-align:center;'>감액금액</th>
+                  <th style='text-align:center;'>감액건<br>지급건수</th>
+                  <th style='text-align:center;'>감액건<br>청구금액</th>
+                  <th style='text-align:center;'>감액건<br>지급금액</th>
+                  <th style='text-align:center;'>감액건<br>감액금액</th>
+                  <th style='text-align:center;'>감액건<br>감액입금일</th>
+                  <th style='text-align:center;'>감액건<br>추가입금액</th>
+                  <th style='text-align:center;'>감액건<br>감액률</th>
+                  <th style='text-align:center;'>미입금<br>종결건수</th>
+                  <th style='text-align:center;'>미입금<br>종결금액</th>
+                  <th style='text-align:center;'>지급률<br>건수</th>
+                  <th style='text-align:center;'>지급률<br>금액</th>
+                  <th style='text-align:center;'>전체<br>감액률</th>
+                  <th style='text-align:center;'>미지급<br>건수</th>
+                  <th style='text-align:center;'>미지급액</th>
+                  <th style='text-align:center;'>미지급률<br>(건수)</th>
+                  <th style='text-align:center;'>협조구분</th>
+                  <th style='text-align:center;'>협조요청일</th>
+                  <th style='text-align:center;'>협조반응</th>
+                </tr>
+               
+            </thead>
+    ";
+
+    foreach($result as $item) { 
+      
+      $item['COOP_INFO'] = explode('|',$item['COOP_INFO']);
+        $excelHtml .= "
+            <tr>
+              <td style='text-align:center;'>".$item['IDX']."</td>
+              <td style='text-align:left;'>".$item['MII_NM']."</td>
+              <td style='text-align:left;'>".cUtil::nullChk($item['MIT_NM'],'-')."</td>
+              <td style='text-align:center;'>".cUtil::nullChk($item['NIC_NM'],'-')."</td>
+              <td style='text-align:center;'>".($item['NIC_PHONE'] != null ? cUtil::phone_format($item['NIC_PHONE']):'-')."</td>
+              
+              <td style='text-align:right;mso-number-format:\#\,\#\#0\;'>".$item['NB_TOTAL_CNT']."</td>
+              <td style='text-align:right;mso-number-format:\#\,\#\#0\;'>".$item['NB_TOTAL_PRICE']."</td>
+              <td style='text-align:right;mso-number-format:\#\,\#\#0\;'>".$item['NBI_TOTAL_DEPOSIT_CNT']."</td>
+              <td style='text-align:right;mso-number-format:\#\,\#\#0\;'>".$item['NBI_TOTAL_DEPOSIT_BILL_PRICE']."</td>
+              <td style='text-align:right;mso-number-format:\#\,\#\#0\;'>".$item['NBI_TOTAL_DEPOSIT_PRICE']."</td>
+              <td style='text-align:right;mso-number-format:\#\,\#\#0\;'>".$item['DECREMENT_PRICE']."</td>
+              
+              <td style='text-align:right;mso-number-format:\#\,\#\#0\;'>".$item['DECREMENT_CNT']."</td>
+              <td style='text-align:right;mso-number-format:\#\,\#\#0\;'>".$item['DECREMENT_BILL_PRICE']."</td>
+              <td style='text-align:right;mso-number-format:\#\,\#\#0\;'>".$item['DECREMENT_DEPOSIT_PRICE']."</td>
+              <td style='text-align:right;mso-number-format:\#\,\#\#0\;'>".$item['DECREMENT_DECREMENT_PRICE']."</td>
+              <td style='text-align:right;'>".$item['DECREMENT_DEPOSIT_DT']."</td>
+              <td style='text-align:right;mso-number-format:\#\,\#\#0\;'>".$item['DECREMENT_ADD_DEPOSIT_PRICE']."</td>
+              <td style='text-align:right;'>".$item['DECREMENT_DC_RATIO']."%</td>
+              
+              <td style='text-align:right;mso-number-format:\#\,\#\#0\;'>".$item['UNPAID_DONE_CNT']."</td>
+              <td style='text-align:right;mso-number-format:\#\,\#\#0\;'>".$item['UNPAID_DONE_PRICE']."</td>
+              <td style='text-align:right;'>".$item['DEPOSIT_CNT_RATIO']."%</td>
+              <td style='text-align:right;'>".$item['DEPOSIT_PRICE_RATIO']."%</td>
+              <td style='text-align:right;'>".$item['TOTAL_DECREMENT_RATIO']."%</td>
+              <td style='text-align:right;mso-number-format:\#\,\#\#0\;'>".$item['UNPAID_CNT']."</td>
+              <td style='text-align:right;mso-number-format:\#\,\#\#0\;'>".$item['UNPAID_PRICE']."</td>
+              <td style='text-align:right;'>".$item['UNPAID_CNT_RATIO']."%</td>
+              
+              <td style='text-align:center;'>".($item['COOP_INFO'] != null ? $item['COOP_INFO'][0]: '-')."</td>
+              <td style='text-align:center;'>".($item['COOP_INFO'] != null ? $item['COOP_INFO'][1]: '-')."</td>
+              <td style='text-align:center;'>".($item['COOP_INFO'] != null ? $item['COOP_INFO'][2]: '-')."</td>
+            </tr>       ";
+    }
+    $excelHtml .= "</table>";
+
+    echo "<meta content=\"application/vnd.ms-excel;charset=UTF-8;\" name=\"Content-type\">";
+    echo $excelHtml ;
+
+?>

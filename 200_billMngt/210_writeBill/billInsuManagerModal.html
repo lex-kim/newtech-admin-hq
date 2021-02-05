@@ -1,0 +1,44 @@
+<!-- 보상담당지정 modal #add-new -->  
+<div class="modal fade modal-add" id="cpst-select" role="dialog">
+<div class="modal-dialog">
+    <div class="modal-content">
+
+    <!-- modal 상단 -->
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button> 
+        <h4 class="modal-title">보상담당지정</h4>  
+    </div>
+
+
+    <!-- modal 내용 -->
+    <div class="modal-body">         
+        <form action="#">
+            <!-- 담당구분 지정 -->
+            <div class="row">
+                <div class="col-md-3" style="width:110px;"><label for="stdComSize">담당구분 지정</label></div>
+                <div class="col-md-3" id="insuManagerCheckTable">
+                </div>
+                <div class="col-md-5">
+                    <select class="form-control" name="RLT_ID_SELECT" id="RLT_ID_SELECT">
+                    </select>
+                </div>
+             </div>
+
+        </form>
+    </div>
+
+    <!-- modal 하단 -->
+    <div class="modal-footer">
+            <div class="text-left">
+                <!-- <button type="button" class="btn btn-danger" id="btnDelete" data-toggle="modal" data-target="#delet-modal">삭제</button> -->
+            </div>
+            <div class="text-right">
+                <!-- 등록btn -->
+                <button type="button" class="btn btn-primary" onclick="setInsuManageData();">담당지정 등록</button>
+                <!-- 취소btn -->
+                <button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
+            </div>
+        </div>
+        </div>
+    </div>
+</div>

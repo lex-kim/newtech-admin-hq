@@ -1,0 +1,359 @@
+<!-- header.html -->
+<?php
+  require $_SERVER['DOCUMENT_ROOT']."/include/headerpopup.html";
+?>
+<body>
+<!-- 뉴텍몰 nav -->
+
+
+  <!-- 페이지 카테고리 -->
+  <div class="container-fluid mb20px">
+   
+  </div>
+
+  <!-- 테이블 -->
+  
+  <div class="container-fluid shop-estimate" style="width: 21cm">
+    <div class="estimate-top">
+      <h2 class="text-center bill-title consignment-bill-title">위탁발주서</h2>
+      <div class="estimate-top-left">발주번호 : 2020-QT-0214-0001</div>
+      <!-- <div class="estimate-top-right">작성일 : 2020-02-22</div> -->
+    </div>
+
+
+    <!-- 견적사업자정보 -->
+    <table class="table table-bordered" id="estimate-bizinfo">
+      <colgroup>
+        <col width="1%"/>
+        <col width="3%"/>
+        <col width="11%"/>
+        <col width="1%"/>
+        <col width="3%"/>
+        <col width="6%"/>
+        <col width="3%"/>
+        <col width="6%"/>
+      </colgroup>
+      <tbody>
+        <tr>
+          <td class="text-center recipient-info active" rowspan="5">수<br>신</td>
+          <td class="text-center active">매입처<br>상호</td>
+          <td class="text-center">
+            <input type="text" class="form-control" id="PURCHASE_NM" name="PURCHASE_NM" placeholder="입력" >
+          </td>
+          <td class="text-center active" rowspan="5">발<br>주<br>처</td>
+          <td class="text-center active">상호</td>
+          <td class="text-center" colspan="3">
+            <input type="text" class="form-control" id="ORDER_NM" name="ORDER_NM" placeholder="입력" >
+          </td>
+        </tr>
+        <tr>
+          <td class="text-center active">매입처<br>전화번호</td>
+          <td class="text-center">
+            <input type="text" class="form-control" id="PURCHASE_PHONE" name="PURCHASE_PHONE" placeholder="입력" >
+          </td>
+          <td class="text-center active">주 소</td>
+          <td class="text-center address_area" colspan="3">
+            <div class="row">
+                <div class="col-md-6">
+                  <input type="text" class="form-control" id="ORDER_ZIP" name="ORDER_ZIP" readonly >
+                </div>
+                <button type="button" class="btn btn-default">주소검색</button>
+            </div>
+            <div class="row">  
+                <div class="col-md-12">
+                <input type="text" class="form-control" id="ORDER_ADDRESS1_AES" name="ORDER_ADDRESS1_AES" readonly>
+            </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                <input type="text" class="form-control" id="ORDER_ADDRESS2_AES" name="ORDER_ADDRESS2_AES" placeholder="상세주소">
+            </div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td class="text-center active" rowspan="2">매입처<br>팩스번호</td>
+          <td class="text-center" rowspan="2">
+            <input type="text" class="form-control" id="PURCHASE_FAX" name="PURCHASE_FAX" placeholder="입력" >
+          </td>
+          <td class="text-center active">연락처</td>
+          <td class="text-center">
+            <input type="text" class="form-control" id="ORDER_PHONE" name="ORDER_PHONE" placeholder="입력" >
+          </td>
+          <td class="text-center active">팩스번호</td>
+          <td class="text-center">
+            <input type="text" class="form-control" id="ORDER_FAX" name="ORDER_FAX" placeholder="입력" >
+          </td>
+        </tr>
+        <tr>
+          <td class="text-center active">담당자</td>
+          <td class="text-center">
+            <input type="text" class="form-control" id="ORDER_FAO_NM" name="ORDER_FAO_NM" placeholder="입력" >
+          </td>
+          <td class="text-center active">담당자<br>휴대폰</td>
+          <td class="text-center">
+            <input type="text" class="form-control" id="ORDER_FAO_PHONE" name="ORDER_FAO_PHONE" placeholder="입력" >
+          </td>
+        </tr>
+        <!-- <tr>
+          <td class="text-center active">주소</td>
+          <td class="text-center">202-1234부산시 동래구 수안동 삼운빌딩 4층</td>
+          <td class="text-center active">전화번호</td>
+          <td class="text-center">02)553-4911</td>
+          <td class="text-center active">팩  스</td>
+          <td class="text-center">02)553-4912</td>
+        </tr> -->
+      </tbody>
+    </table>
+     
+    <table class="table table-bordered" id="estimate-product">
+        <colgroup>
+            <col width="1.5%"/>
+            <col width="4%"/>
+            <col width="1.5%"/>
+            <col width="4%"/>
+          </colgroup>
+        <tr>
+            <td class="text-center active">발주일자</td>
+            <td class="text-center calendar-icon">
+                <input type="text" class="form-control" id="ORDER_DT" name="ORDER_DT" autocomplete="off" placeholder="입력" required>
+                <span class="glyphicon glyphicon-calendar search-glypicon"></span> 
+               
+            </td>
+            <td class="text-center active">납기일자</td>
+            <td class="text-center calendar-icon">
+                <input type="text" class="form-control" id="DELIVERY_DT" name="DELIVERY_DT" autocomplete="off" placeholder="입력" required>
+                <span class="glyphicon glyphicon-calendar search-glypicon"></span> 
+                
+            </td>
+        </tr>
+    </table>
+
+    <!-- 상품정보 -->
+    <table class="table table-bordered" id="estimate-product">
+      <colgroup>
+        <!-- <col width="1%"/>
+        <col width="10%"/>
+        <col width="5%"/>
+        <col width="3%"/>
+        <col width="5%"/> -->
+      </colgroup>
+      <thead>
+        
+      </thead>
+      <tbody>
+        <tr class="active">
+          <td class="text-center">#</td>
+          <td class="text-center">품명</td>
+          <td class="text-center">규격</td>
+          <td class="text-center">단가</td>
+          <td class="text-center">수량</td>
+          <td class="text-center">공급가액</td>
+          <td class="text-center">세액</td>
+          <td class="text-center">합계</td>
+          <td class="text-center">비고</td>
+        </tr>
+        <tr>
+          <td class="text-center">1</td>
+          <td class="text-left">순정품731(310ml)</td>
+          <td class="text-center">310ml</td>
+          <td class="text-right">20,000</td>
+          <td class="text-right">10</td>
+          <td class="text-right">200,000</td>
+          <td class="text-right">2,000</td>
+          <td class="text-right">202,000</td>
+          <td class="text-left"></td>
+        </tr>
+        <tr>
+          <td class="text-center">2</td>
+          <td class="text-left">순정품731(310ml)</td>
+          <td class="text-center">310ml</td>
+          <td class="text-right">20,000</td>
+          <td class="text-right">10</td>
+          <td class="text-right">200,000</td>
+          <td class="text-right">2,000</td>
+          <td class="text-right">202,000</td>
+          <td class="text-left"></td>
+        </tr>
+        <tr>
+          <td class="text-center">3</td>
+          <td class="text-left">순정품731(310ml)</td>
+          <td class="text-center">310ml</td>
+          <td class="text-right">20,000</td>
+          <td class="text-right">10</td>
+          <td class="text-right">200,000</td>
+          <td class="text-right">2,000</td>
+          <td class="text-right">202,000</td>
+          <td class="text-left"></td>
+        </tr>
+        <tr>
+          <td class="text-center"></td>
+          <td class="text-left"></td>
+          <td class="text-center"></td>
+          <td class="text-right"></td>
+          <td class="text-right"></td>
+          <td class="text-right"></td>
+          <td class="text-right"></td>
+          <td class="text-right"></td>
+          <td class="text-left"></td>
+        </tr>
+        </tr>
+        <tr>
+          <td class="text-center"></td>
+          <td class="text-left" style="color:red;">주문내역 중 동일한 위탁업체의 상품 리스트를 보여줌<br>요건 삭제해주세용</td>
+          <td class="text-center"></td>
+          <td class="text-right"></td>
+          <td class="text-right"></td>
+          <td class="text-right"></td>
+          <td class="text-right"></td>
+          <td class="text-right"></td>
+          <td class="text-left"></td>
+        </tr>
+        </tr>
+        <tr>
+          <td class="text-center"></td>
+          <td class="text-left"></td>
+          <td class="text-center"></td>
+          <td class="text-right"></td>
+          <td class="text-right"></td>
+          <td class="text-right"></td>
+          <td class="text-right"></td>
+          <td class="text-right"></td>
+          <td class="text-left"></td>
+        </tr>
+      </tbody>
+      <tfoot>
+        <tr>
+          <td class="text-center active text-bold" colspan="4">합계</td>
+          <td class="text-right text-bold">30</td>
+          <td class="text-right text-bold">600,000</td>
+          <td class="text-right text-bold">6,000</td>
+          <td class="text-right text-bold">606,000</td>
+          <td class="text-right"></td>
+        </tr>
+        <!-- <tr>
+          <td class="text-center active" colspan="6">특 이 사 항</td>
+        </tr>
+        <tr>
+          <td class="text-left" colspan="6" id="etcarea">본 견적서는 견적일로부터 30일간 유효합니다.</td>
+        </tr> -->
+      </tfoot>
+    </table>
+
+    <table class="table table-bordered" id="estimate-etc">
+      <colgroup>
+        <col width="1%"/>
+        <col width="4%"/>
+        <col width="10%"/>
+        <col width="4%"/>
+        <col width="10%"/>
+      </colgroup>
+      <tbody>
+        <tr>
+            <td class="text-center active" rowspan="6">입<br>고<br>처</td>
+            <td class="text-center active">입고처 상호</td>
+            <td class="text-center" colspan="3">
+                <input type="text" class="form-control" id="IN_BILL_DT" name="IN_BILL_DT" placeholder="입력" >
+            </td>
+        </tr>
+        <tr>
+            <td class="text-center active">주소</td>
+            <td class="text-center address_area" colspan="3">
+                <div class="row">
+                    <div class="col-md-6">
+                      <input type="text" class="form-control" id="IN_ZIP" name="IN_ZIP" readonly >
+                    </div>
+                    <button type="button" class="btn btn-default">주소검색</button>
+                </div>
+                <div class="row">  
+                    <div class="col-md-12">
+                    <input type="text" class="form-control" id="IN_ADDRESS1_AES" name="IN_ADDRESS1_AES" readonly>
+                </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                    <input type="text" class="form-control" id="IN_ADDRESS2_AES" name="IN_ADDRESS2_AES" placeholder="상세주소">
+                </div>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td class="text-center active">연락처</td>
+            <td class="text-center">
+                <input type="text" class="form-control" id="IN_PHONE" name="IN_PHONE" placeholder="입력" >
+            </td>
+            <td class="text-center active">팩스번호</td>
+            <td class="text-center">
+                <input type="text" class="form-control" id="IN_FAX" name="IN_FAX" placeholder="입력" >
+            </td>
+        </tr>
+        <tr>
+            <td class="text-center active">담당자</td>
+            <td class="text-center">
+                <input type="text" class="form-control" id="IN_FAO_NM" name="IN_FAO_NM" placeholder="입력" >
+            </td>
+            <td class="text-center active">담당자 휴대폰</td>
+            <td class="text-center">
+                <input type="text" class="form-control" id="IN_FAO_PHONE" name="IN_FAO_PHONE" placeholder="입력" >
+            </td>
+        </tr>
+        <tr>
+            <td class="text-center active">배송방법</td>
+            <td class="text-center">
+                <select class="form-control" id="IN_DELIVERY_WAY" name="IN_DELIVERY_WAY">
+                    <option value="">=선택=</option>
+                    <option value="">택배</option>
+                    <option value="">용차</option>
+                    <option value="">납품</option>
+                    <option value="">자차인수</option>
+                </select> 
+            </td>
+            <td class="text-center active">운임여부</td>
+            <td class="text-center">
+                <select class="form-control" id="IN_FARE_YN" name="IN_FARE_YN">
+                    <option value="">=선택=</option>
+                    
+                </select> 
+            </td>
+        </tr>
+        <tr>
+            <td class="text-center active">비고</td>
+            <td class="text-center" colspan="3">
+                <input type="text" class="form-control" id="IN_ETC" name="IN_ETC" placeholder="입력" >
+            </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- 하단 -->
+    <div class="bill-footer">
+        <div class="text-left">
+        </div>
+        <div class="text-right order-total">
+            <!-- 저장btn -->
+            <!-- <button type="submit" id="submitBtn" class="btn btn-primary">출력</button>
+            <button type="submit" id="submitBtn" class="btn btn-default">PDF다운로드</button> -->
+            <!-- 취소btn -->
+            <!-- <button type="button" class="btn btn-default" onclick="window.close();">취소</button> -->
+            <div class="order-btn-area">
+                <ul>
+                  <li><button type="button" class="btn btn-default estimate-btn" id="consignment-save">저장</button></li>
+                  <li><button type="button" class="btn btn-default estimate-btn" id="consignment-print">출력</button></li>
+                  <li><button type="button" class="btn btn-default estimate-btn" id="consignment-print">PDF 다운</button></li>
+                  <li><button type="button" class="btn btn-success estimate-btn" id="consignment-sendFax">발송 (팩스)</button></li>
+                  <li><button type="button" class="btn btn-success estimate-btn" id="consignment-sendSMS">발송 (문자)</button></li>
+                  <li><button type="button" class="btn btn-warning estimate-btn" id="consignment-sendSMS">발송 (카카오톡)</button></li>
+                  <li><button type="button" class="btn btn-default estimate-btn" id="consignment-cancel" onclick="window.close();">취소</button></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+  </div>
+  
+
+</body>
+<!-- footer.html -->
+<?php
+  require $_SERVER['DOCUMENT_ROOT']."/include/footerpopup.html";
+?>

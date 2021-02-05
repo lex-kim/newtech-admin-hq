@@ -1,0 +1,510 @@
+<html>
+<head>
+		<meta http-equiv="content-type" content="text/html;charset=utf-8">
+	<style type="text/css">
+		ul {padding: 0px;}
+		li {list-style:none;}
+		.ft11imp {font-size:11px !important;}
+		.ft10 {font-size:10px;}
+		.ft12 {font-size:12px;}
+		.ft12imp {font-size:12px !important;}
+		.ft13 {font-size:13px;}
+		.ft13imp {font-size:13px !important;}
+		.ft14 {font-size:14px;}
+		.ft14imp {font-size:14px !important;}
+		.ft16 {font-size:16px;}
+		.ft18 {font-size:18px;}
+		.ftred {color:red;}
+		.ftblu {color:#206fc9 !important;}
+		.ftgry {color:#666;}
+		.ftblk {color:#000;}
+		.ftbold{font-weight:bold;}
+		.fl {float:left;}
+		.fr {float:right;}
+		.wd100 {width:100px;} 
+		.wd150 {width:150px;} 
+		.wd200 {width:200px;} 
+		.wd100per {width:100%;} 
+		.wd98perimp {width:98% !important;}
+		.wd95per {width:95%; }
+		.wd95perimp {width:95% !important;}
+		.wd90per {width:90%; }
+		.wd90perimp {width:90% !important;}
+		.wd10per {width:10% !important;}
+		.wd12per {width:12% !important;}
+		.wd13per {width:13% !important;}
+		.hei2e {height: 4em;}
+		.hi1 {height: 0px; margin:0px;}
+		.cb {clear:both;}
+		.ta {text-align:center;}
+		.tl {text-align:left !important;}
+		.vt {vertical-align:top;}
+		.mgt10 {margin-top:10px;}
+		.mgb20 {margin-bottom:20px;}
+		.nobo {border:none;}
+		.pd05 {padding: 0 5px;}
+		.pd04 {padding:4px;}
+		.pd03 {padding:3px;}
+		.pd53 {padding: 5px 3px;}
+		
+		body {margin: 0px; padding: 0px;}
+		*+html body .iemargin {height:10px;}
+		.iemargin {height:0px;}
+		
+		table td,table th{border-top:1px solid #111; border-left:1px solid #111; text-align:center; padding: 4px;}
+		table {width:100%; border:none; border-bottom: 3px solid #111 !important; border-right: 3px solid #111 !important;}
+		table th {background:#E9FCFF;color:#111; font-size: 12px;}
+		
+		#rRenewal {width:700px;letter-spacing:0px;font-size:12px; margin: 0px auto; padding:0px;}
+		
+		.r_title  {padding-top:5px;padding-bottom:5px;text-align:center;}
+		.r_title h1 {color:#0066DD;margin-bottom:5px;font-size:200%;}
+		.r_title .r_date {height:7px;margin-top:5px; margin-bottom:0px; font-size:14px;}
+		.r_date input {font-size: 14px;}
+		
+		.r_cont02 table th {background:#E9FCFF; font-size:10px;} 
+		
+		.r_cont02 {padding-top:0px;}
+		.r_cont02 table {margin-top:5px;}
+		.r_cont02 table td {padding: 2px 2px;}
+		
+		.r_cont02 .input_r02 {width:80px; height:24px;}
+		.r_cont02 .cb {text-align:center;padding-top:10px;font-weight:bold;}
+		.r_carinfo {margin: 0px; padding:0px;}
+		*+html body .r_carinfo {margin:0px;}
+		.r_carinfo li{width:49%; padding: 0px; margin: 0px;}
+		.r_carinfo li table {margin-top:5px;}
+		.r_carinfo .fl table {height:180px;}
+		.r_carinfo .fr table {height:180px;}
+		
+		.r_cont03 {padding-top:0px;}
+		.r_cont03 ul {margin: 0px; padding:0px;}
+		 *+html body .r_cont03 ul {margin:0px;}
+		.r_cont03 span {margin-top:15px;margin-bottom:0px;text-align:center;}
+		.r_cont03 li{width:49%;}
+		.r_cont03 li table {margin-top:5px;}
+		.r_cont03 td {padding:2px; height: 26px; }
+		.r_cont03 th {padding:2px; height: 26px; font-size:12px;}
+		.r_cont03 td input {height: 24px; font-size: 12px;}
+		*+html body .r_cont03 td input {padding-top: 8px;}
+		.r_cont03 .bottom_btn {height:30px;margin-top:15px;}
+		.r_cont03 .bottom_btn input {vertical-align:middle;}
+		
+		.r_cont04 {margin-top:0px; padding-top:5px; position:relative;}
+		.r_cont04 li{width:100%;}
+		.r_cont04 table td {font-weight:normal;letter-spacing:-1px;color:#111;padding: 5px 2px;}
+		.r_cont04 table {border-right:3px solid #111;}
+		
+		/*.bggr {background:#c5dc94;font-weight:bold;color:#111;}*/
+		.bggr {background:#A2E6FF;font-weight:bold;color:#111;}
+		/*.bggreen {background:#22DD22;font-weight:bold;}*/
+		.bggreen {background:#84BC01;font-weight:bold;}
+		.bgyellow {background:#FFDD44;font-weight:bold;}
+		.bgblu {background:#b0e0e6;}
+		.bgblu2 {background:#A2E6FF;}
+		.bgpt1 {background:#E9FCFF;}
+		.bgpt2 {background:#FFEDFC;}
+		.bgpt1_select {background:#64D6FF;}
+		.bgpt2_select {background:#FF7E9D;}
+		.bgwt {background: #FFFFFF;}
+		
+		.table_guide {font-size:11px;position:absolute;left:900px;top:1120px;width:400px}
+		.table_guide td,.table_guide th{padding:1px;}
+		
+		.bo2 {border: 2px solid #111;}
+		.bo1 {border: 1px solid #111;}
+	
+		.bontop {border-top: none !important;}
+		.bonleft {border-left: none !important;}
+		.bonright {border-right: none !important;}
+		.bonbottom {border-bottom: none !important;}
+		.bobottom {border-bottom: 1px solid #111 !important;}
+		.bobottom3 {border-bottom: 3px solid #111 !important;}
+		.borbottom3 {border-bottom: 3px solid #111 !important; border-right: 3px solid #111 !important;}
+		.boright {border-right: 1px solid #111 !important;}
+		.borbottom {border-bottom: 1px solid #111 !important;border-right: 1px solid #111 !important;}
+		.boonright {border-right: 1px solid #111 !important;border-top: none !important; border-left: none !important;}
+		.boonleft {border-left: 3px solid #111 !important;border-top: none !important; border-right: none !important;}
+		
+		.nb {border: none !important; padding: 0px !important;}
+		.nb th{border: none !important; padding: 0px !important;}
+		.nb td{border: none !important; padding: 0px !important;}
+		.bdside {border-left:1px solid #111; border-right:1px solid #111; border-top:none; border-bottom:none;}
+		
+		.disblock {display:block;}
+	
+		
+		#MEMO_TABLE th { background : #E9FCFF !important;}
+		#print_table th { background : #E9FCFF !important;}
+		#r_carinfo_div {margin-bottom: 10px;}
+		#Memo_table_div {margin-top : 5px;}
+		.npd {padding:0px !important;}
+		@page a4sheet { size:  21.0cm 29.7cm } 
+		.a4 { page: a4sheet;}  
+		
+		.ft10 {font-size:10px;}
+		.ft14 {font-size:14px;}
+
+		img {
+			-webkit-print-color-adjust: exact;
+		}
+	</style>	
+</head>
+<body>
+<div class="content" style="height: 100%;">
+		<form name="frmBILL" method="post">
+		<input type="hidden" name="mode" value="" />
+		<input type="hidden" name="url" value="" />
+		<input type="hidden" name="IL_cUserID_1" value="&nbsp;" />
+		<input type="hidden" name="IL_cUserID_2" value="&nbsp;" />
+		<input type="hidden" name="BL_APPLY_YN" value="N" />
+		<input type="hidden" name="BL_CARLVL" id="BL_CARLVL" value="TMP" />
+		<input type="hidden" name="BL_MUSERID" id="BL_MUSERID" value="1370713825" />
+		<input type="hidden" name="IS_MANUAL_CHANGE" id="IS_MANUAL_CHANGE" value="NO" />
+		<input type="hidden" name="IS_MUSER_YN" value="N" />
+		<input type="hidden" name="OLD_BL_CODE" value="1f988b96-8588-11df-ad63-00241d8fb950" />
+		<input type="hidden" name="IL_IDX_1" id="IL_IDX_1" value="32" />
+		<input type="hidden" name="IL_IDX_2" id="IL_IDX_2" value="&nbsp;" />	
+		<input type="hidden" name="TOTAL_SUM" value="62,500" />
+		<input type="hidden" name="BL_PRICE_SLF" value="0" />
+		<input type="hidden" name="BL_BOTH_RAITO" id="BL_BOTH_RAITO" value="0.00" />
+		<input type="hidden" name="BL_PRICE_BOTH" value="0" />
+		<div id="rRenewal">
+			 <div class="r_title" style="margin-bottom: 5px;">
+			 	<h1>�ڵ�����ǰ ��ǰ �� ���û����</h1>
+
+				<span>(���ؽý��ۿ��� "<strong class="ftred">�ڵ��� ���� ������</strong>"<strong class="ftred">�� �ۼ�</strong>�ϸ� "���ؽý��� �� ����� �ѽ�"���� <strong class="ftred">û���� ��� ����</strong>)</span>
+				<div class="r_date">
+			 	 <span class="fl">û������ : <input type="text" name="PURC_DATE" style="border:none;" value="2019-12-30" /></span>
+				<span class="ftred ft11 fr">(�����̳� �߸��� û���� ���� ��� ���ػ��� �����ٶ��ϴ�.)</span>
+			 	</div>
+			 </div>
+			<div id="r_cont02">
+				<table cellpadding="0" cellspacing="0" border="0" >
+			 		<tbody>
+                                                    <tr>
+                                <th class="r02_th01">����</th>
+                                <th >����<br />��ȣ</th>
+                                <td class="ft14">11223334445</td>
+                                <th>�����</th>
+                                <td class="ft14">�Ե�(����)</td>
+                                <th>���</th>
+                                <td class="ft14">����</td>
+                                <th>�ѽ�</th>
+                                <td class="ft14">01283728372</td>
+                                <th class="ftblu">���Ƿ�</th>
+                                <td class="ft14" style="width: 65px;">
+                                        40%
+                                                                        </td>
+                            </tr>
+                                                    <tr>
+                                <th class="r02_th01">�빰</th>
+                                <th >����<br />��ȣ</th>
+                                <td class="ft14">22113344555</td>
+                                <th>�����</th>
+                                <td class="ft14">DB�պ�</td>
+                                <th>���</th>
+                                <td class="ft14">��ġ��</td>
+                                <th>�ѽ�</th>
+                                <td class="ft14">02834385838</td>
+                                <th class="ftblu">���Ƿ�</th>
+                                <td class="ft14" style="width: 65px;">
+                                        60%
+                                                                        </td>
+                            </tr>
+                         			
+			 		</tbody>
+			 	</table>
+				
+			 	<!-- �ϴ� -->
+				<div id="r_carinfo_div" style="margin: 0 0 5px 0;">
+			 		<ul class="r_carinfo">
+			 		<li class="fl">
+			 			<table cellpadding="0" cellspacing="0" border="0" style="height:180px;">
+			 				<tbody>
+			 					<tr>
+			 						<th colspan="4" class="r02_th01">�������� ����</th>
+			 					</tr>
+			 					<tr>
+			 						<th>������ȣ</th>
+			 						<td id="IL_BCODE" colspan="3" class="ft14">
+                                                                                            ���� : 11223334445                                                                                                  <br>
+                                                                                                                                            �빰 : 22113344555                                                                                                                                </td>
+			 					</tr>
+			 					
+			 					<tr>
+			 						<th>������ȣ</th>
+			 						<td colspan="3" class="ft14">19��1120</td>
+			 					</tr>
+			 					
+			 					<tr>
+			 						<th>�� �� ��</th>
+			 						<td colspan="3" class="ft14">�ҳ�Ÿ</td>
+			 					</tr>
+			 					<tr>
+			 						<th>��������</th>
+			 						<td colspan="3" class="ft14">������1ȣ��</td>
+			 					</tr>
+			 				</tbody>
+			 			</table>
+		 			</li>
+			 		<li class="fr">
+			 			<table cellpadding="0" cellspacing="0" border="0" style="height:180px;">
+			 				<tbody>
+			 					<tr>
+			 						<th colspan="3" class="r02_th01">����������</th>
+			 					</tr>
+			 					<tr>
+			 						<th width="70">��� ��ȣ</th> 
+			 						<td style="width:200px;">379-87-00095</td>
+									<td rowspan="3"  style="padding:3px; width:70px;" >
+										<img src="/images/sign.png" align="absmiddle" border="0" style="width:64px; height:64px;"/>
+									</td>
+			 					</tr>
+			 					<tr>
+			 						<th width="70">��&nbsp;&nbsp;&nbsp;&nbsp;ȣ</th>
+			 						<td>�ֽ�ȸ�� ���ػ��</td> 
+								 </tr>
+								 <tr>
+										<th width="70">�� ǥ ��</th>
+										<td>�� �� ��</td>
+									</tr>  
+								 <tr>
+										<th width="70">��&nbsp;&nbsp;&nbsp;&nbsp;��</th>
+										<td class="ft14" colspan="2">��⵵ ��õ�� �⳪��1�� 18(��õ��)</td>
+								</tr>
+								
+			 					<tr>
+			 						<th width="70">��ȭ / �ѽ�</th>
+			 						<td class="ft14"  colspan="2">��ȭ:02-521-8688/�ѽ�:02-587-8488</td>
+			 					</tr>
+			 				</tbody>
+			 			</table>
+			 		</li>
+			 		</ul>
+			 	</div>
+			</div>
+
+			<div class="cb wd100per npd">
+			<span class="disblock ftblu ta" style="font-size: 11px;padding-top: 15px;padding-bottom: 8px;">��� ������ �����ǰ���� �ͻ�(�������)���� �ֹ��� �Ʒ� ��ǰ�� ǥ�� ���� �ҿ䷮�� �ǰ��Ͽ� ����� û���մϴ�.<br/>(<span class="ftred">������޽� ����</span>: �Ʒ� <span class = "ftred">������ǰ�� ������</span>�� ���غ�ǰ�� �뷮�� �ٸ� ��� ȯ����� ������ <span class = "ftred">�����غ�ǰ�� ǥ�� �ҿ䷮���� �ٸ� �� ����</span>)</span>
+			<div class="r_cont03">
+			 	<ul>
+			 		<li class="fl">
+			 			<table cellpadding="0" cellspacing="0" border="0" style="height: 100px;" class="ft12">
+			 				<colgroup>
+			 					<col width="20%" />
+			 					<col width="20%" />
+			 					<col width="4%" />
+			 					<col width="4%" />
+			 					<col width="4%" />
+			 				</colgroup>
+			 				<tbody>
+                                
+			 					<tr>
+			 						<th colspan="5" class="r02_th01 ft12">
+                                         <span class="ftred"style="vertical-align:middle">����ǰ A</span>&nbsp;<span class="ft12" >( ī,&nbsp;��,&nbsp;��,&nbsp;��,&nbsp;��,&nbsp;�� )</span></th>
+			 					</tr>
+			 					<tr>
+			 						<th>���غ�ǰ<br/>(�뷮)</th>
+			 						<th>����ǰ����</th>
+			 						<th>����</th>
+			 						<th>�ܰ�</th>
+			 						<th>�ݾ�</th>
+                                </tr>
+                                                                <tr>
+                                    <td style="font-size: 11px;">īƮ�����Ƿ�Ʈ</td>
+                                    <td style="font-size: 11px;">����ǰ731(310ml)</td>
+                                    <td style="font-size: 11px;">1</td>
+                                    <td style="font-size: 11px;">11,800</td>
+                                    <td style="font-size: 11px;">11,800</td>
+                                </tr>
+                                                                <tr>
+                                    <td style="font-size: 11px;">���������Ƿ�Ʈ</td>
+                                    <td style="font-size: 11px;">�ź�ǰ(4M)</td>
+                                    <td style="font-size: 11px;">1.71</td>
+                                    <td style="font-size: 11px;">20,500</td>
+                                    <td style="font-size: 11px;">35,055</td>
+                                </tr>
+                                                                <tr>
+                                    <td style="font-size: 11px;">�������̽Ƿ�Ʈ</td>
+                                    <td style="font-size: 11px;">�̻��</td>
+                                    <td style="font-size: 11px;">0.00</td>
+                                    <td style="font-size: 11px;">0</td>
+                                    <td style="font-size: 11px;">0</td>
+                                </tr>
+                                                                <tr>
+                                    <td style="font-size: 11px;">�������</td>
+                                    <td style="font-size: 11px;">�̻��</td>
+                                    <td style="font-size: 11px;">0.00</td>
+                                    <td style="font-size: 11px;">0</td>
+                                    <td style="font-size: 11px;">0</td>
+                                </tr>
+                                                                <tr>
+                                    <td style="font-size: 11px;">�Ŀ����Ƿ�Ʈ</td>
+                                    <td style="font-size: 11px;">�̻��</td>
+                                    <td style="font-size: 11px;">0.00</td>
+                                    <td style="font-size: 11px;">0</td>
+                                    <td style="font-size: 11px;">0</td>
+                                </tr>
+                                                                <tr>
+                                    <td style="font-size: 11px;">��Ƽ���Ƿ�Ʈ</td>
+                                    <td style="font-size: 11px;">�̻��</td>
+                                    <td style="font-size: 11px;">0.00</td>
+                                    <td style="font-size: 11px;">0</td>
+                                    <td style="font-size: 11px;">0</td>
+                                </tr>
+                                			 				</tbody>
+			 			</table>
+			 		</li>
+			 		<li class="fr">
+			 			<table cellpadding="0" cellspacing="0" border="0" style="height: 100px;" class="ft12">
+			 				<colgroup>
+			 					<col width="20%" />
+			 					<col width="20%" />
+			 					<col width="4%" />
+			 					<col width="4%" />
+			 					<col width="4%" />
+			 				</colgroup>
+			 				<tbody>
+			 					<tr> 
+			 						<th colspan="5" class="r02_th01 ft12"><span class="ftred"style="vertical-align:middle">����ǰ B</span>&nbsp;<span class="ft12">( ��,&nbsp;�ο�,&nbsp;��,&nbsp;�� )</span></th>
+			 					</tr>
+			 					<tr>
+			 						<th>���غ�ǰ<br/>(�뷮)</th>
+			 						<th>����ǰ����</th>
+			 						<th>����</th>
+			 						<th>�ܰ�</th>
+			 						<th>�ݾ�</th>
+			 					</tr>
+			 					                                <tr>
+                                    <td style="font-size: 11px;">�˷�̴���������</td>
+                                    <td style="font-size: 11px;">�̻��</td>
+                                    <td style="font-size: 11px;">0.00</td>
+                                    <td style="font-size: 11px;">0</td>
+                                    <td style="font-size: 11px;">0</td>
+                                </tr>
+                                                                <tr>
+                                    <td style="font-size: 11px;">�γʿν�</td>
+                                    <td style="font-size: 11px;">3M-PN8852(530ml)</td>
+                                    <td style="font-size: 11px;">0.38</td>
+                                    <td style="font-size: 11px;">25,000</td>
+                                    <td style="font-size: 11px;">9,500</td>
+                                </tr>
+                                                                <tr>
+                                    <td style="font-size: 11px;">�г�������</td>
+                                    <td style="font-size: 11px;">�̻��</td>
+                                    <td style="font-size: 11px;">0.00</td>
+                                    <td style="font-size: 11px;">0</td>
+                                    <td style="font-size: 11px;">0</td>
+                                </tr>
+                                                                <tr>
+                                    <td style="font-size: 11px;">������</td>
+                                    <td style="font-size: 11px;">�̻��</td>
+                                    <td style="font-size: 11px;">0.00</td>
+                                    <td style="font-size: 11px;">0</td>
+                                    <td style="font-size: 11px;">0</td>
+                                </tr>
+                                			 				</tbody>
+			 			</table>
+			 		</li>
+			 	</ul>
+				 <div id = "etcPartContainer" class="cb r_cont03" style="padding-top:10px;font-size:14px">
+						
+			 	</div>			 	
+			 	<div class="cb" style="padding-top:3px; padding-bottom: 6px;">
+			 		<table cellpadding="0" cellspacing="0" border="0">
+				 		<colgroup>
+				 			<col width="9%" />
+				 			<col width="5%" />
+				 			<col width="11%" />
+				 			<col width="5%" />
+				 			<col width="16%" />
+				 			<col width="5%" />
+				 		</colgroup>
+				 		<tbody>
+				 			<tr>
+								
+								<th>��ǰ�ݾ� ��</th>
+				 				<td class="ta" id="PARTS_TOTAL_PRICE" style="background:#fff;color:#111;font-weight:bold;">142,140</td>
+								
+				 				<th>�ΰ���ġ��</th>
+				 				<td class="ta" id="PARTS_TOTAL_TAX" style="background:#fff;color:#111;font-weight:bold;">14,215</td>
+								
+								<th class="ft16">û���ݾ�(�ΰ��� ����)</th>
+								
+				 				<td class="ta ft18" id="TOTAL_SUM" style="font-weight:bold;color:#000;">156,360</td>
+				 			</tr>
+				 			<tr> 
+				 				<th>���� �δ�ݾ�(20%)</th>
+				 				<td class="ta" id="BL_PRICE_SLF" style="color:#000;">0</td>
+				 				<th>�ֹ���� ��������(%)</th>
+                                 <td class="ta" id="BL_BOTH_RAITO" style="color:#000;">
+                                                                    </td>
+				 				<th class="ft11">�ֹ���� ���ֺδ�ݾ�<br />(���ֺδ�ݾ�20%+��������)</th>
+                                 <td class="ta" id="BL_PRICE_BOTH" style="color:#000;">
+                                                                        </td>
+				 			</tr>
+				 		</tbody>
+			 		</table>
+			 	</div>
+			 </div>
+			 <!-- ����ǰ ���� -->
+			 <!-- ��ǰ ��� ���� -->
+			<div class="r_cont04">		
+                <table width="100%" cellpadding="0" cellspacing="0" class="fl" style="width:49.5%;font-size:14px;">
+                    <tr>
+                        <td colspan="6" style="text-align:center;" class="ft_strong01">
+                            <b>����ǰ A <span class="ft10">(��� : ī,&nbsp;��,&nbsp;��,&nbsp;��,&nbsp;��,&nbsp;��)</span></b>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="6" style="text-align:left;padding:10px;line-height:1.2em;font-size:11px">
+                            <b>��ȯ���� :</b> �ĵ�(����)&nbsp;,&nbsp;&nbsp;&nbsp;����Ʈ�ʷ�(A�ʷ�)-��<br/>
+                            <b>�Ǳݺ��� :</b> ����.<br/>
+                        </td>
+                    </tr>
+                </table>
+                <table width="100%" cellpadding="0" cellspacing="0" class="fr" style="width:49.5%;font-size:14px;">
+                    <tr>
+                        <td colspan="6" style="text-align:center;" class="ft_strong01">
+                            <b>����ǰ B <span class="ft10">(��� : ��,&nbsp;�ο�,&nbsp;��,&nbsp;��)</span></b>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="6" style="text-align:left;padding:10px;line-height:1.2em;font-size:11px">
+                            <b>��ȯ���� :</b> �ĵ�(����)&nbsp;,&nbsp;&nbsp;&nbsp;����Ʈ�ʷ�(A�ʷ�)-��<br/>
+                            <b>�Ǳݺ��� :</b> ����Ʈ�Ҵ�(���Ҵ�)-��<br/>
+                        </td>
+                    </tr>
+                </table>
+
+
+			</div>
+
+		<div class="cb" id="Memo_table_div" style="padding-top: 7px;">
+			<table cellpadding="0" cellspacing="0" border="0" id="MEMO_TABLE">
+				<tbody>
+					<tr>
+						<th style="width:9%;">
+							��Ÿ����<br />�޸� 
+						</th>
+						<td style="height:95px; vertical-align:top; padding: 0px;" >
+                            <textarea class="textarea01"style="width:99%;border:none;background:none;font-size:12px;vertical-align:top;height:95%;overflow:hidden;" name="MEMO_TXT">
+                                                                </textarea>
+						</td>
+					</tr>
+					<tr>
+						<!-- <td colspan="2" class="ft10" style="height:20px;padding:0px;">
+							������(25�ν� �̻�) �� ȭ����(4.5�� �̻�)�� ���������� ������ǰ �̿� �ٸ���ǰ ��� ��� �۾������� ��� ���� ���� �Է� / ��Ÿ���� �Է�
+						</td> -->
+					</tr>
+				</tbody>
+			</table>
+		 </div>
+		</div>
+	</div>
+	</form>
+
+</div>
+</body>
+</html>

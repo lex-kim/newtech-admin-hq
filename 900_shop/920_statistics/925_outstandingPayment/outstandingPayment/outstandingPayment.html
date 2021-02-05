@@ -1,0 +1,7 @@
+<?php
+  require $_SERVER['DOCUMENT_ROOT']."/include/headerShop.html";
+  require "controller/OutstandingPaymentStatusController.php";
+ 
+  $cOutstandingPaymentStatusController = new OutstandingPaymentStatusController(['EC_BIZ_TYPE', 'EC_PARTNER_TYPE' , 'EC_BUYER_TYPE']);
+  $cOutstandingPaymentStatusController->index();
+?>

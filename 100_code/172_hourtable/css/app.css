@@ -1,0 +1,12 @@
+.nwt-table-top .row .col-lg-6 .form-inline span{
+    margin-right: 10px;
+}
+
+
+
+table > thead > tr > th:first-child{
+    width:5%;
+}
+table > thead > tr > th.part-nm:nth-child(2){
+    width:10%;
+}
